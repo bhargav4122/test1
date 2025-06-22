@@ -1,0 +1,510 @@
+"use client";
+import React from "react";
+
+function Main() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      const sections = document.querySelectorAll(".reveal-section");
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight * 0.9;
+        setIsVisible((prev) => ({ ...prev, [index]: isVisible }));
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#000000] text-white">
+      <style jsx global>{`
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+          100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse {
+          0% { opacity: 0.4; }
+          50% { opacity: 0.8; }
+          100% { opacity: 0.4; }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .digital-grid {
+          background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url('https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&q=80');
+          background-size: cover;
+          background-position: center;
+          position: relative;
+        }
+
+        .digital-grid::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: 
+            linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px),
+            linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px);
+          background-size: 50px 50px;
+          animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+          0% { transform: translateX(0) translateY(0); }
+          100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .reveal-text {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeIn 0.8s ease forwards;
+        }
+      `}</style>
+
+      <nav className="fixed w-full z-50 bg-[#000000]/80 backdrop-blur-md">
+        <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-8">
+            <h1 className="text-2xl font-bold">Framer</h1>
+            <div className="hidden md:flex space-x-6">
+              <a href="#" className="hover:text-gray-300">
+                Features
+              </a>
+              <a href="#" className="hover:text-gray-300">
+                Pricing
+              </a>
+              <a href="#" className="hover:text-gray-300">
+                Enterprise
+              </a>
+              <a href="#" className="hover:text-gray-300">
+                Customers
+              </a>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center space-x-4">
+            <button className="px-4 py-2 hover:text-gray-300">Sign in</button>
+            <button className="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200">
+              Get started — free
+            </button>
+          </div>
+
+          <button
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <i className={`fas ${isMenuOpen ? "fa-times" : "fa-bars"}`}></i>
+          </button>
+        </div>
+
+        {isMenuOpen && (
+          <div className="md:hidden bg-black">
+            <div className="px-4 py-2 space-y-4">
+              <a href="#" className="block py-2">
+                Features
+              </a>
+              <a href="#" className="block py-2">
+                Pricing
+              </a>
+              <a href="#" className="block py-2">
+                Enterprise
+              </a>
+              <a href="#" className="block py-2">
+                Customers
+              </a>
+              <a href="#" className="block py-2">
+                Sign in
+              </a>
+              <button className="w-full bg-white text-black px-4 py-2 rounded-full">
+                Get started — free
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      <div className="relative min-h-[150vh] overflow-hidden">
+        <div
+          className="digital-grid fixed w-full h-screen"
+          style={{
+            transform: `translateX(${-scrollY * 0.5}px)`,
+          }}
+        >
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-[#000000]/80 via-transparent to-transparent"
+            style={{
+              transform: `translateX(${scrollY * 0.3}px)`,
+            }}
+          />
+        </div>
+
+        <div className="relative min-h-screen flex items-center">
+          <div className="w-full max-w-[1400px] mx-auto px-6">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div
+                className="relative z-10"
+                style={{
+                  transform: `translateX(${-scrollY * 0.2}px)`,
+                  opacity: Math.max(0, 1 - scrollY / 500),
+                }}
+              >
+                <h1 className="text-6xl md:text-8xl font-bold mb-6 gradient-text">
+                  Future of Design
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-300 mb-8">
+                  Revolutionizing the way you create and build for the web
+                </p>
+                <button className="bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:scale-105 transition-transform duration-300">
+                  Start your journey
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative min-h-screen flex items-center">
+          <div className="w-full max-w-[1400px] mx-auto px-6">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div></div>
+              <div
+                className="relative z-10 space-y-12"
+                style={{
+                  transform: `translateX(${Math.max(
+                    0,
+                    (scrollY - 400) * 0.3
+                  )}px)`,
+                  opacity: Math.min(1, Math.max(0, (scrollY - 400) / 400)),
+                }}
+              >
+                <div
+                  className="bg-[#111111]/80 backdrop-blur-md p-8 rounded-2xl reveal-text"
+                  style={{ animationDelay: "0.2s" }}
+                >
+                  <h3 className="text-2xl font-bold mb-4 text-[#4ECDC4]">
+                    Visual Design
+                  </h3>
+                  <p className="text-gray-300">
+                    Create stunning interfaces with our advanced design tools
+                    and components.
+                  </p>
+                </div>
+
+                <div
+                  className="bg-[#111111]/80 backdrop-blur-md p-8 rounded-2xl reveal-text"
+                  style={{ animationDelay: "0.4s" }}
+                >
+                  <h3 className="text-2xl font-bold mb-4 text-[#FF6B6B]">
+                    Smart Automation
+                  </h3>
+                  <p className="text-gray-300">
+                    Streamline your workflow with AI-powered tools and
+                    intelligent features.
+                  </p>
+                </div>
+
+                <div
+                  className="bg-[#111111]/80 backdrop-blur-md p-8 rounded-2xl reveal-text"
+                  style={{ animationDelay: "0.6s" }}
+                >
+                  <h3 className="text-2xl font-bold mb-4 text-[#45B7D1]">
+                    Collaboration
+                  </h3>
+                  <p className="text-gray-300">
+                    Work together in real-time with your team, anywhere in the
+                    world.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative py-32 bg-[#111111]">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center reveal-section">
+            <div className="relative">
+              <div
+                className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-gradient-to-r from-[#FF6B6B]/20 to-[#4ECDC4]/20 rounded-full blur-3xl"
+                style={{
+                  transform: `translate3d(${mousePosition.x * -20}px, ${
+                    mousePosition.y * -20
+                  }px, 0px)`,
+                }}
+              />
+              <div className="relative z-10 space-y-6">
+                <h2 className="text-5xl md:text-6xl font-bold gradient-text">
+                  Transform Your Vision
+                </h2>
+                <p className="text-xl text-gray-400">
+                  Create stunning designs with our powerful suite of tools and
+                  bring your ideas to life.
+                </p>
+                <button className="bg-white text-black px-8 py-4 rounded-full text-lg hover:bg-gray-200 transform hover:scale-105 transition-all duration-300">
+                  Start Creating
+                </button>
+              </div>
+            </div>
+            <div className="relative h-[500px]">
+              {[...Array.from({ length: 5 })].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-[200px] h-[200px] rounded-2xl bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]"
+                  style={{
+                    left: `${i * 10}%`,
+                    top: `${i * 10}%`,
+                    transform: `rotate3d(1, 1, 1, ${
+                      scrollY * 0.1
+                    }deg) translateZ(${i * 50}px)`,
+                    opacity: 0.8 - i * 0.1,
+                    transition: "all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)",
+                    animationDelay: `${i * 0.2}s`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative px-6 py-32 bg-[#0a0a0a]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold gradient-text mb-6">
+              Powerful Features
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Everything you need to create stunning designs and bring your
+              vision to life.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Design",
+                description: "Create beautiful designs with powerful tools",
+                icon: "fa-paint-brush",
+                color: "#FF6B6B",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=300",
+              },
+              {
+                title: "Prototype",
+                description: "Add smooth animations and interactions",
+                icon: "fa-layer-group",
+                color: "#4ECDC4",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=300",
+              },
+              {
+                title: "Collaborate",
+                description: "Work together in real-time with your team",
+                icon: "fa-users",
+                color: "#45B7D1",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-764f9ff2b7f1?auto=format&fit=crop&w=300",
+              },
+              {
+                title: "Deploy",
+                description: "Publish your site with one click",
+                icon: "fa-rocket",
+                color: "#96CEB4",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-6c2e28996412?auto=format&fit=crop&w=300",
+              },
+              {
+                title: "Components",
+                description: "Build reusable elements for your designs",
+                icon: "fa-cube",
+                color: "#D4A5A5",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-7c2e28996412?auto=format&fit=crop&w=300",
+              },
+              {
+                title: "Responsive",
+                description: "Create designs that work on any device",
+                icon: "fa-mobile-alt",
+                color: "#9FA4C4",
+                image:
+                  "https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=300",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="bg-[#222222] p-8 rounded-2xl hover:scale-105 transition-all duration-500"
+              >
+                <div className="relative overflow-hidden rounded-lg mb-6">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-[200px] object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: `linear-gradient(45deg, ${feature.color}66, transparent)`,
+                    }}
+                  />
+                </div>
+                <i
+                  className={`fas ${feature.icon} text-4xl mb-4`}
+                  style={{ color: feature.color }}
+                />
+                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                <p className="text-gray-400">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="relative px-6 py-32 bg-[#111111]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="relative rounded-2xl overflow-hidden bg-[#222222] p-20">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF6B6B]/20 to-[#4ECDC4]/20" />
+            <div className="relative z-10 flex items-center justify-center">
+              <div className="text-center">
+                <h2 className="text-6xl md:text-7xl font-bold gradient-text mb-8">
+                  Ready to Create?
+                </h2>
+                <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                  Join thousands of designers and creators who are already
+                  building the future.
+                </p>
+                <button className="bg-white text-black px-8 py-4 rounded-full text-lg hover:bg-gray-200 hover:scale-105 transition-all duration-300">
+                  Get Started Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative px-6 py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#111111] to-[#000000]">
+          <div
+            className="bg-element"
+            style={{
+              width: "300px",
+              height: "300px",
+              top: "20%",
+              left: "10%",
+              animationDelay: "0.5s",
+            }}
+          />
+          <div
+            className="bg-element"
+            style={{
+              width: "250px",
+              height: "250px",
+              bottom: "20%",
+              right: "10%",
+              animationDelay: "1.5s",
+            }}
+          />
+        </div>
+        <div className="relative z-10 max-w-[800px] mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 gradient-text subtle-float">
+            Ready to create something amazing?
+          </h2>
+          <p className="text-xl text-gray-400 mb-12">
+            Join millions of designers and developers who use Framer to create
+            the future of the web.
+          </p>
+          <button className="bg-white text-black px-8 py-4 rounded-full text-lg hover:bg-gray-200 transition-all duration-300">
+            Get started for free
+          </button>
+        </div>
+      </div>
+
+      <footer className="bg-[#111111] px-6 py-12">
+        <div className="max-w-[1400px] mx-auto grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="font-bold mb-4">Product</h3>
+            <div className="space-y-2 text-gray-400">
+              <a href="#" className="block hover:text-white">
+                Features
+              </a>
+              <a href="#" className="block hover:text-white">
+                Pricing
+              </a>
+              <a href="#" className="block hover:text-white">
+                Enterprise
+              </a>
+              <a href="#" className="block hover:text-white">
+                Updates
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="font-bold mb-4">Resources</h3>
+            <div className="space-y-2 text-gray-400">
+              <a href="#" className="block hover:text-white">
+                Blog
+              </a>
+              <a href="#" className="block hover:text-white">
+                Customers
+              </a>
+              <a href="#" className="block hover:text-white">
+                Support
+              </a>
+              <a href="#" className="block hover:text-white">
+                Documentation
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="font-bold mb-4">Company</h3>
+            <div className="space-y-2 text-gray-400">
+              <a href="#" className="block hover:text-white">
+                About
+              </a>
+              <a href="#" className="block hover:text-white">
+                Careers
+              </a>
+              <a href="#" className="block hover:text-white">
+                Contact
+              </a>
+              <a href="#" className="block hover:text-white">
+                Legal
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="font-bold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a href="#" className="text-2xl hover:text-white">
+                <i className="fab fa-twitter"></i>
+              </a>
+              <a href="#" className="text-2xl hover:text-white">
+                <i className="fab fa-linkedin"></i>
+              </a>
+              <a href="#" className="text-2xl hover:text-white">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="#" className="text-2xl hover:text-white">
+                <i className="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default Main;

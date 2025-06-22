@@ -1,0 +1,84 @@
+# =================================
+# Project-Specific Git Ignore Rules
+# =================================
+
+# -----------------
+# Dependency Directories
+# -----------------
+node_modules/
+.cache/
+.temp/
+.jest/
+.functions/
+.firebase/
+.cursor/
+.bolt/
+
+# -----------------
+# Environment & Secrets
+# -----------------
+.env
+.env.*
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+*.key
+*.pem
+*.cert
+
+# -----------------
+# Build Outputs
+# -----------------
+dist/
+.next/
+out/
+build/
+.serverless/
+.vscode/
+.idea/
+
+# -----------------
+# System Files
+# -----------------
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.sublime-workspace
+*.sublime-project
+
+# -----------------
+# Testing & Coverage
+# -----------------
+coverage/
+.nyc_output/
+jest.config.js
+__snapshots__/
+
+# -----------------
+# Editor Files
+# -----------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# -----------------
+# Firebase Specific
+# -----------------
+functions/lib/
+functions/node_modules/
+.runtimeconfig.json
+
+# -----------------
+# Optional: Large Media Files
+# ----------------- (uncomment if needed)
+# public/Final logo/
+# public/videos/
+# *.mov
+# *.mp4
+# *.psd
+# *.zip

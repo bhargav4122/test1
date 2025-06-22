@@ -1,0 +1,446 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Viga:wght@400;700&family=Poppins:wght@300&display=swap');
+
+
+
+@layer base {
+  :root {
+    --background: 220 33% 98%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    --primary: 210 100% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 220 14% 96%;
+    --accent-foreground: 215 25% 27%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 32% 92%;
+    --input: 215 32% 92%;
+    --ring: 215 32% 92%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 36% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 215 28% 17%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 215 28% 17%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 210 100% 53%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 215 28% 17%;
+    --muted-foreground: 215 16% 65%;
+
+    --accent: 215 28% 17%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 215 28% 25%;
+    --input: 215 28% 25%;
+    --ring: 215 28% 25%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg;
+  }
+  
+  .glass-dark {
+    @apply backdrop-blur-lg bg-black/10 border border-white/10 shadow-lg;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .section-padding {
+    @apply py-16 md:py-24 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .hover-translate {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+  
+  .premium-card {
+    @apply rounded-2xl bg-card shadow-md border border-border p-6 hover:shadow-lg transition-all duration-300 ease-in-out;
+  }
+  
+  .premium-button {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .premium-input {
+    @apply block w-full rounded-xl border border-input bg-background px-4 py-3 text-sm transition-colors duration-200 placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+  }
+
+  /* Premium UI effects */
+  .text-gradient {
+    @apply bg-gradient-to-br from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-subtle {
+    @apply bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent;
+  }
+  
+  .card-shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .card-shimmer::after {
+    @apply absolute inset-0;
+    content: "";
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
+
+  .dark .card-shimmer::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+  }
+  
+  .floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+  
+  .pulse-subtle {
+    animation: pulse-subtle 4s ease-in-out infinite;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow:hover {
+    @apply shadow-[0_0_15px_rgba(59,130,246,0.5)];
+  }
+  
+  .dark .hover-glow:hover {
+    @apply shadow-[0_0_15px_rgba(59,130,246,0.3)];
+  }
+  
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes floating {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  /* Add fade-in animation */
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+    
+   /* Optional: Custom Scrollbar for dropdowns */
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: hsl(var(--muted-foreground) / 0.5) transparent; /* Adjust color/opacity */
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: hsl(var(--muted-foreground) / 0.5); /* Adjust color/opacity */
+        border-radius: 3px;
+        border: none;
+    }
+    
+}
+
+  .perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* In your CSS file */
+.navbar .nav-dropdown button {
+  color: inherit !important;
+}
+
+[data-theme="light"] .navbar .nav-dropdown button {
+  color: rgb(17 24 39 / var(--tw-text-opacity)) !important; /* gray-900 */
+}
+
+[data-theme="dark"] .navbar .nav-dropdown button {
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+
+
+
+/* 3D Grid pattern */
+.bg-grid-pattern {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Premium text shadow effect */
+.text-shadow-glow {
+  text-shadow: 0 0 10px rgba(110, 89, 165, 0.5),
+               0 0 30px rgba(51, 195, 240, 0.3);
+}
+
+/* Shimmer effect animation */
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 4s linear infinite;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.2) 25%, 
+    rgba(255,255,255,0.2) 50%, 
+    rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+}
+
+/* Enhanced scroll animation */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-float-y {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+/* Glow pulse for elements */
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 5px rgba(110, 89, 165, 0.5),
+                0 0 15px rgba(51, 195, 240, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 15px rgba(110, 89, 165, 0.8),
+                0 0 30px rgba(51, 195, 240, 0.6);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Advanced 3D layering */
+@keyframes depth-shift {
+  0%, 100% { transform: translateZ(0px); }
+  50% { transform: translateZ(20px); }
+}
+
+.animate-depth {
+  animation: depth-shift 8s ease-in-out infinite;
+}
+
+/* Data flow animation */
+@keyframes data-flow {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-data-flow {
+  animation: data-flow 20s linear infinite;
+}
+
+/* Particle float animation */
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-15px) translateX(10px); }
+  50% { transform: translateY(0) translateX(20px); }
+  75% { transform: translateY(15px) translateX(10px); }
+}
+
+.animate-particle {
+  animation: particle-float 15s ease-in-out infinite;
+}
+
+/* Premium hover effect */
+@keyframes premium-hover {
+  0% { box-shadow: 0 0 0 rgba(110, 89, 165, 0); }
+  50% { box-shadow: 0 0 30px rgba(110, 89, 165, 0.7); }
+  100% { box-shadow: 0 0 0 rgba(110, 89, 165, 0); }
+}
+
+.hover-premium:hover {
+  animation: premium-hover 2s ease-in-out infinite;
+}
+
+/* 3D rotation animation */
+@keyframes rotate-3d {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  50% { transform: rotateX(10deg) rotateY(10deg); }
+  100% { transform: rotateX(0deg) rotateY(0deg); }
+}
+
+.animate-rotate-3d {
+  animation: rotate-3d 8s ease-in-out infinite;
+}
+
+/* Digital wave animation */
+@keyframes digital-wave {
+  0%, 100% { 
+    d: path("M0,64 Q80,50 160,64 T320,64 T480,64 T640,64 T800,64 V128 H0 Z"); 
+  }
+  50% { 
+    d: path("M0,70 Q80,45 160,70 T320,70 T480,70 T640,70 T800,70 V128 H0 Z"); 
+  }
+}
+
+/* Glitch effect */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.hover-glitch:hover {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+/* Ultra premium text animation */
+@keyframes text-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-text-gradient {
+  background: linear-gradient(90deg, #9b87f5, #33C3F0, #ffffff, #9b87f5);
+  background-size: 300% 100%;
+  animation: text-gradient-shift 8s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Data visualization animation */
+@keyframes data-viz-glow {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(51, 195, 240, 0.2)); }
+  50% { filter: drop-shadow(0 0 10px rgba(51, 195, 240, 0.7)); }
+}
+
+.data-viz {
+  animation: data-viz-glow 3s ease-in-out infinite;
+}
+
+@layer base {
+  .font-viga {
+    font-family: 'Viga', sans-serif;
+  }
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
+  }
+}
