@@ -1,0 +1,143 @@
+/* Enhanced content styling */
+.prose {
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.prose h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  color: hsl(var(--primary));
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.prose h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(90deg, hsl(var(--primary)), transparent);
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.75rem;
+  color: hsl(var(--foreground)/0.9);
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+  color: hsl(var(--foreground)/0.85);
+}
+
+.prose ul, 
+.prose ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.75rem;
+}
+
+.prose ul {
+  list-style-type: none;
+}
+
+.prose ul li::before {
+  content: '•';
+  color: hsl(var(--primary));
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.prose ol {
+  list-style-type: none;
+  counter-reset: item;
+}
+
+.prose ol li {
+  counter-increment: item;
+  margin-bottom: 0.75rem;
+}
+
+.prose ol li::before {
+  content: counter(item) ".";
+  color: hsl(var(--primary));
+  font-weight: bold;
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+.prose blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: hsl(var(--foreground)/0.8);
+  background: hsl(var(--background)/0.5);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.prose a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  background-image: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
+  background-size: 0% 2px;
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease, color 0.3s ease;
+  padding-bottom: 2px;
+}
+
+.prose a:hover {
+  color: hsl(var(--primary)/0.8);
+  background-size: 100% 2px;
+}
+
+ .prose pre {
+      background: hsl(var(--background)) !important;
+      border: 1px solid hsl(var(--border)) !important;
+      border-radius: 0.5rem !important;
+      padding: 1.25rem !important;
+      overflow-x: auto !important;
+      margin: 1.5rem 0 !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    }
+    
+    .prose code {
+      background: hsl(var(--primary)/0.1) !important;
+      color: hsl(var(--primary)) !important;
+      padding: 0.2rem 0.4rem !important;
+      border-radius: 0.25rem !important;
+      font-size: 0.9em !important;
+    }
+
+/* Fancy first letter for first paragraph */
+.prose > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.65;
+  margin: 0.1em 0.2em 0 0;
+  color: hsl(var(--primary));
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .prose {
+    font-size: 1rem;
+  }
+  
+  .prose h2 {
+    font-size: 1.5rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.25rem;
+  }
+}

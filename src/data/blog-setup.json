@@ -1,0 +1,52 @@
+{
+  "blogPosts": {
+    "post1": {
+      "title": "Getting Started with Firebase Blog",
+      "content": "<p>This is a sample blog post using Firebase Realtime Database.</p>",
+      "author": "Bhargav",
+      "timestamp": 1720000000,
+      "likeCount": 1,
+      "bookmarkCount": 1,
+      "commentCount": 1,
+      "likes": {
+        "userId123": true
+      },
+      "comments": {
+        "comment1": {
+          "text": "Great post!",
+          "author": "Bhargav",
+          "userId": "userId123",
+          "timestamp": 1720000050
+        }
+      }
+    }
+  },
+  "users": {
+    "userId123": {
+      "bookmarks": {
+        "post1": true
+      }
+    }
+  },
+  "blogPostInteractions": {
+    "post1": {
+      "likes": {
+        "userId123": true
+      },
+      "bookmarks": {
+        "userId123": true
+      },
+      "comments": {
+        "comment1": {
+          "text": "Great post!",
+          "author": "Bhargav",
+          "userId": "userId123",
+          "timestamp": 1720000050
+        }
+      },
+      "likeCount": 1,
+      "bookmarkCount": 1,
+      "commentCount": 1
+    }
+  }
+}

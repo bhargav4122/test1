@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
-import { submitForm } from "@/firebase";
+import { submitCallToAction } from "@/firebase";
+import EmailValidation from "./EmailValidation";
 
 export default function CallToAction() {
   const { ref, inView } = useInView({
@@ -13,66 +14,136 @@ export default function CallToAction() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: ""
+    company: "",
+    phone: "",
+    country: "UK" // Default to UK
   });
 
+  const [emailValid, setEmailValid] = useState(true);
+  const [phoneValid, setPhoneValid] = useState(true);
   const [submissionState, setSubmissionState] = useState<{
     status: "idle" | "loading" | "success" | "error";
     message?: string;
   }>({ status: "idle" });
 
-  // New state for showing popup
-  const [showPopup, setShowPopup] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+
+    // Validate phone number when country changes
+    if (name === "country") {
+      validatePhoneNumber(formData.phone, value);
+    }
+  };
+
+  const validatePhoneNumber = (phone: string, country: string): boolean => {
+    if (!phone) {
+      setPhoneValid(true); // Don't show error if empty
+      return true;
+    }
+
+    // Remove all non-digit characters
+    const digitsOnly = phone.replace(/\D/g, '');
+
+    let isValid = false;
+    let minLength = 10;
+    let maxLength = 12;
+
+    switch (country) {
+      case "GB": // UK
+        isValid = /^(0|44)\d{9,10}$/.test(digitsOnly);
+        minLength = 10;
+        maxLength = 11; // 0 + 10 digits or 44 + 10 digits
+        break;
+      case "IN": // India
+        isValid = /^[6-9]\d{9}$/.test(digitsOnly);
+        minLength = 10;
+        maxLength = 10;
+        break;
+      case "US": // USA
+        isValid = /^\d{10}$/.test(digitsOnly);
+        minLength = 10;
+        maxLength = 10;
+        break;
+      default:
+        isValid = digitsOnly.length >= 10 && digitsOnly.length <= 12;
+    }
+
+    setPhoneValid(isValid);
+    return isValid;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      phone: value
+    }));
+    validatePhoneNumber(value, formData.country);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmissionState({ status: "loading" });
-
-    try {
-      // Basic validation
-      if (!formData.name.trim()) {
-        throw new Error("Name is required");
-      }
-      if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        throw new Error("Please enter a valid email");
-      }
-
-      const success = await submitForm("cta-demo-request", {
-        ...formData,
-        source: window.location.pathname
-      });
-
-      if (!success) throw new Error("Submission failed at Firebase level");
-
-      setSubmissionState({
-        status: "success",
-        message: "Thank you! We'll contact you shortly."
-      });
-
-      setFormData({ name: "", email: "", company: "" });
-      
-      // Show the popup confirmation here
-      setShowPopup(true);
-
-    } catch (error: any) {
+    
+    // Validate form
+    if (!formData.name.trim()) {
       setSubmissionState({
         status: "error",
-        message: error.message || "Submission failed. Please try again."
+        message: "Name is required"
+      });
+      return;
+    }
+    
+    if (!emailValid) {
+      setSubmissionState({
+        status: "error",
+        message: "Please provide a valid email address"
+      });
+      return;
+    }
+
+    if (formData.phone && !validatePhoneNumber(formData.phone, formData.country)) {
+      setSubmissionState({
+        status: "error",
+        message: "Please provide a valid phone number"
+      });
+      return;
+    }
+
+    setSubmissionState({ status: "loading" });
+
+    const { success, message } = await submitCallToAction(formData);
+
+    if (success) {
+      setSubmissionState({
+        status: "success",
+        message: message || "Thank you! We'll get back to you soon."
+      });
+      setFormData({ 
+        name: "", 
+        email: "", 
+        company: "",
+        phone: "",
+        country: "UK"
+      });
+    } else {
+      setSubmissionState({
+        status: "error",
+        message: message || "Submission failed. Please try again."
       });
     }
   };
 
-  const closePopup = () => {
-    setShowPopup(false);
-    setSubmissionState({ status: "idle" }); // reset submission state
+  const getPhonePlaceholder = () => {
+    switch (formData.country) {
+      case "GB": return "e.g., 07400 123456 or +447400123456";
+      case "IN": return "e.g., 9876543210";
+      case "US": return "e.g., 5551234567";
+      default: return "Enter your phone number";
+    }
   };
 
   return (
@@ -121,22 +192,57 @@ export default function CallToAction() {
                   <input
                     type="email"
                     name="email"
-                    placeholder="Email Address"
+                    placeholder="Work Email"
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent bg-white/80 dark:bg-white/80 text-gray-900 dark:text-gray-900 placeholder-gray-500"
                     required
                     value={formData.email}
                     onChange={handleChange}
+                  />
+                  <EmailValidation 
+                    email={formData.email} 
+                    onValid={setEmailValid} 
                   />
                 </div>
                 <div>
                   <input
                     type="text"
                     name="company"
-                    placeholder="Company"
+                    placeholder="Company (Optional)"
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent bg-white/80 dark:bg-white/80 text-gray-900 dark:text-gray-900 placeholder-gray-500"
                     value={formData.company}
                     onChange={handleChange}
                   />
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="col-span-1">
+                    <select
+                      name="country"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent bg-white/80 dark:bg-white/80 text-gray-900 dark:text-gray-900"
+                      value={formData.country}
+                      onChange={handleChange}
+                    >
+                      <option value="US">US</option>
+                      <option value="GB">UK</option>
+                      <option value="IN">India</option>
+                    </select>
+                  </div>
+                  <div className="col-span-2">
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder={getPhonePlaceholder()}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent bg-white/80 dark:bg-white/80 text-gray-900 dark:text-gray-900 placeholder-gray-500"
+                      value={formData.phone}
+                      onChange={handlePhoneChange}
+                    />
+                    {!phoneValid && formData.phone && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {formData.country === "GB" && "UK numbers should start with 0 or +44 (e.g., 07400 123456)"}
+                        {formData.country === "IN" && "Indian numbers should be 10 digits starting with 6-9"}
+                        {formData.country === "US" && "US numbers should be 10 digits (e.g., 5551234567)"}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <Button
                   type="submit"
@@ -157,6 +263,11 @@ export default function CallToAction() {
                     {submissionState.message}
                   </p>
                 )}
+                {submissionState.status === "success" && (
+                  <p className="text-center text-sm text-green-200 dark:text-green-300">
+                    {submissionState.message}
+                  </p>
+                )}
                 <p className="text-center text-xs text-white/70 dark:text-white/70">
                   By requesting, you agree to our Terms and Privacy Policy.
                 </p>
@@ -165,23 +276,6 @@ export default function CallToAction() {
           </div>
         </div>
       </div>
-
-      {/* Popup Modal */}
-    {showPopup && (
-  <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-    <div className="bg-gray-900 rounded-lg p-8 max-w-sm mx-4 text-center shadow-lg border border-gray-700">
-      <h3 className="text-2xl font-bold mb-4 text-white">Thank you!</h3>
-      <p className="mb-6 text-gray-300">{submissionState.message}</p>
-      <button
-        onClick={closePopup}
-        className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-colors"
-      >
-        Close
-      </button>
-    </div>
-  </div>
-)}
-
     </section>
   );
 }

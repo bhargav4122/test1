@@ -1,0 +1,10 @@
+
+# cloudinary
+
+Cloud name: dsf4d41i8
+
+API Key:855464858818149
+
+API Secret: QO3lmtoVPOfpOlVTwWYH8iZcf_I
+
+CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dsf4d41i8

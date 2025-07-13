@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { submitContactForm } from "@/firebase"; // Update path as needed
+import EmailValidation from '@/components/EmailValidation';
 
 // Services List
 const ALL_SERVICES = [
@@ -32,6 +33,7 @@ interface FormData {
   businessName: string;
   services: string[];
   message: string;
+  country: string;
 }
 
 const ContactForm = () => {
@@ -43,11 +45,44 @@ const ContactForm = () => {
     businessName: '',
     services: [],
     message: '',
+    country: 'US'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [phoneValid, setPhoneValid] = useState(true); // Assume valid by default when empty
+
+  const validatePhoneNumber = (phone: string, country: string): boolean => {
+    if (!phone) return true; // Empty is considered valid
+    
+    // Remove all non-digit characters
+    const digitsOnly = phone.replace(/\D/g, '');
+    
+    switch (country) {
+      case 'US':
+        // US numbers should be 10 digits
+        return /^\d{10}$/.test(digitsOnly);
+      case 'GB':
+        // UK numbers should start with 0 or +44 (converted to 0) and be 10-11 digits total
+        return /^(0\d{9,10})$/.test(digitsOnly);
+      case 'IN':
+        // Indian numbers should be 10 digits starting with 6-9
+        return /^[6-9]\d{9}$/.test(digitsOnly);
+      default:
+        return true;
+    }
+  };
+
+  const getPhonePlaceholder = (): string => {
+    switch (formData.country) {
+      case 'US': return 'e.g. 5551234567';
+      case 'GB': return 'e.g. 07400 123456';
+      case 'IN': return 'e.g. 9876543210';
+      default: return 'Your phone number';
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -55,6 +90,25 @@ const ContactForm = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCountry = e.target.value as 'US' | 'GB' | 'IN';
+    setFormData(prev => ({
+      ...prev,
+      country: newCountry,
+      phone: '' // Reset phone when country changes
+    }));
+    setPhoneValid(true); // Reset validation
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      phone: value
+    }));
+    setPhoneValid(validatePhoneNumber(value, formData.country));
   };
 
   const toggleService = (serviceValue: string) => {
@@ -79,10 +133,42 @@ const ContactForm = () => {
       return;
     }
 
+    // Email validation
+    if (!emailValid) {
+      setDialogMessage('Please enter a valid email address');
+      setIsSuccess(false);
+      setShowDialog(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Phone validation (only if phone is provided)
+    if (formData.phone && !phoneValid) {
+      setDialogMessage('Please enter a valid phone number');
+      setIsSuccess(false);
+      setShowDialog(true);
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      const success = await submitContactForm(formData);
+      const submissionData = {
+        ...formData,
+        timestamp: Date.now(),
+        metadata: {
+          userAgent: navigator.userAgent.substring(0, 120),
+          screenResolution: `${window.screen.width}x${window.screen.height}`,
+          page: window.location.pathname,
+          referrer: document.referrer || 'direct'
+        }
+      };
+
+      const { success, message } = await submitContactForm(submissionData);
+      setDialogMessage(message || 'Thank you!');
+      setIsSuccess(success);
+    
       if (success) {
-        setDialogMessage('Thank you for your message! We will get back to you soon.');
+        setDialogMessage('Thank you for your interest! We will get back to you soon.');
         setIsSuccess(true);
         // Reset form
         setFormData({
@@ -92,6 +178,7 @@ const ContactForm = () => {
           businessName: '',
           services: [],
           message: '',
+          country: 'US'
         });
       } else {
         setDialogMessage('There was an error submitting your form. Please try again.');
@@ -186,8 +273,6 @@ const ContactForm = () => {
         </div>
       )}
       
-     
-      
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
@@ -265,46 +350,31 @@ const ContactForm = () => {
                 />
               </div>
               <div>
-                <label className={cn(
-                  "block text-sm font-medium mb-2",
-                  theme === "dark" ? "text-gray-300" : "text-gray-700"
-                )}>Email *</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
-                    theme === "dark" 
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-                  )}
-                  placeholder="your.email@example.com"
-                />
-              </div>
+  <label className={cn(
+    "block text-sm font-medium mb-2",
+    theme === "dark" ? "text-gray-300" : "text-gray-700"
+  )}>Email *</label>
+  <input
+    type="email"
+    name="email"
+    value={formData.email}
+    onChange={handleInputChange}
+    className={cn(
+      "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
+      theme === "dark" 
+        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+    )}
+    placeholder="your.email@example.com"
+  />
+  <EmailValidation 
+    email={formData.email} 
+    onValid={(isValid) => setEmailValid(isValid)} 
+  />
+</div>
             </motion.div>
 
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className={cn(
-                  "block text-sm font-medium mb-2",
-                  theme === "dark" ? "text-gray-300" : "text-gray-700"
-                )}>Phone Number</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
-                    theme === "dark" 
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-                  )}
-                  placeholder="+1 (123) 456-7890"
-                />
-              </div>
               <div>
                 <label className={cn(
                   "block text-sm font-medium mb-2",
@@ -323,6 +393,56 @@ const ContactForm = () => {
                   )}
                   placeholder="Your company name"
                 />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-1">
+                  <label className={cn(
+                    "block text-sm font-medium mb-2",
+                    theme === "dark" ? "text-gray-300" : "text-gray-700"
+                  )}>Country</label>
+                  <select
+                    name="country"
+                    value={formData.country}
+                    onChange={handleCountryChange}
+                    className={cn(
+                      "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
+                      theme === "dark" 
+                        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                    )}
+                  >
+                    <option value="US">US</option>
+                    <option value="GB">UK</option>
+                    <option value="IN">India</option>
+                  </select>
+                </div>
+                <div className="col-span-2">
+                  <label className={cn(
+                    "block text-sm font-medium mb-2",
+                    theme === "dark" ? "text-gray-300" : "text-gray-700"
+                  )}>Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder={getPhonePlaceholder()}
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
+                    className={cn(
+                      "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
+                      theme === "dark" 
+                        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500",
+                      !phoneValid && formData.phone ? "border-red-500" : ""
+                    )}
+                  />
+                  {!phoneValid && formData.phone && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {formData.country === "GB" && "UK numbers should start with 0 or +44 (e.g., 07400 123456)"}
+                      {formData.country === "IN" && "Indian numbers should be 10 digits starting with 6-9"}
+                      {formData.country === "US" && "US numbers should be 10 digits (e.g., 5551234567)"}
+                    </p>
+                  )}
+                </div>
               </div>
             </motion.div>
 
@@ -457,7 +577,7 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Call Us</h3>
             <p className="mb-4">Mon-Fri, 9am-5pm EST</p>
             <a href="tel:+1234567890" className="text-blue-500 hover:underline">
-              +1 (234) 567-890
+              +44 (023) 456-7890
             </a>
           </motion.div>
           
@@ -474,14 +594,12 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Visit Us</h3>
             <p className="mb-4">Our headquarters</p>
             <address className="not-italic">
-              123 Business Ave<br />
-              New York, NY 10001
+             London<br />
+              Newham, E7 8LS
             </address>
           </motion.div>
         </div>
       </div>
-
-     
     </div>
   );
 };

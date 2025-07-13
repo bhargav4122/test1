@@ -1,30 +1,22 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+import { onRequest } from "firebase-functions/v2/https";
 import * as functions from "firebase-functions";
-import * as nodemailer from "nodemailer";
+// import * as logger from "firebase-functions/logger";
 
-// Use Firebase config to store credentials securely
+import * as nodemailer from "nodemailer";
+import * as express from "express";
+import * as cors from "cors";
+import * as AWS from "aws-sdk";
+import * as dotenv from "dotenv";
+
+// Load environment variables from .env file in functions folder
+dotenv.config();
+
+// ─────────────────────────────────────────────────────────
+// 📩 EMAIL CONFIRMATION FUNCTION (Gmail SMTP)
+// ─────────────────────────────────────────────────────────
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
 
-// Create transporter object using Gmail SMTP
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -33,34 +25,80 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Callable function to send confirmation email
-export const sendConfirmationEmail = functions.https.onCall(async (data, context) => {
-  const { email, name, company } = data;
+export const sendConfirmationEmail = functions.https.onCall(
+  async (data) => {
+    const { email, name, company } = data;
 
-  const mailOptions = {
-    from: `"Your Company" <${gmailEmail}>`,
-    to: email,
-    subject: "Thanks for contacting us!",
-    html: `
-      <p>Hi ${name || "there"},</p>
-      <p>Thank you for reaching out to us.</p>
-      <p>We received the following details:</p>
-      <ul>
-        <li><strong>Name:</strong> ${name}</li>
-        <li><strong>Email:</strong> ${email}</li>
-        <li><strong>Company:</strong> ${company || "N/A"}</li>
-      </ul>
-      <p>We'll get back to you shortly.</p>
-      <br/>
-      <p>— Your Company Team</p>
-    `,
+    const mailOptions = {
+      from: `"Your Company" <${gmailEmail}>`,
+      to: email,
+      subject: "Thanks for contacting us!",
+      html: `
+        <p>Hi ${name || "there"},</p>
+        <p>Thank you for reaching out to us.</p>
+        <p>We received the following details:</p>
+        <ul>
+          <li><strong>Name:</strong> ${name}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Company:</strong> ${company || "N/A"}</li>
+        </ul>
+        <p>We'll get back to you shortly.</p>
+        <br/>
+        <p>— Your Company Team</p>
+      `,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      return { success: true };
+    } catch (error) {
+      console.error("Email Error:", error);
+      throw new functions.https.HttpsError(
+        "internal",
+        "Email failed to send."
+      );
+    }
+  }
+);
+
+// ─────────────────────────────────────────────────────────
+// ☁️ CLOUDFLARE R2: GENERATE SIGNED UPLOAD URL
+// ─────────────────────────────────────────────────────────
+const app = express();
+app.use(cors({ origin: true }));
+app.use(express.json());
+
+const s3 = new AWS.S3({
+  endpoint: process.env.R2_ENDPOINT!,
+  accessKeyId: process.env.R2_ACCESS_KEY_ID!,
+  secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+  region: "auto",
+  signatureVersion: "v4",
+});
+
+const BUCKET_NAME = process.env.R2_BUCKET_NAME!;
+
+app.post("/get-upload-url", async (req, res) => {
+  const { fileName, fileType } = req.body;
+
+  if (!fileName || !fileType) {
+    return res.status(400).json({ error: "Missing fileName or fileType" });
+  }
+
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: fileName,
+    ContentType: fileType,
+    Expires: 300, // 5 minutes
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    return { success: true };
+    const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
+    return res.status(200).json({ uploadUrl });
   } catch (error) {
-    console.error("Email Error:", error);
-    throw new functions.https.HttpsError("internal", "Email failed to send.");
+    console.error("Error generating signed URL:", error);
+    return res.status(500).json({ error: "Failed to generate signed URL" });
   }
 });
+
+export const api = onRequest(app);

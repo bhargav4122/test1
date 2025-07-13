@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button"; 
-import { Menu, X, Sun, Moon, Search, Building2, Home as HomeIcon, Wrench, Shield, Zap, Brain, Mail, Cpu } from "lucide-react";
+import { Menu, X, Sun, Moon, Search, Building2, Home as HomeIcon, Wrench, Shield, Zap, Brain, Mail, NewspaperIcon } from "lucide-react";
 import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
@@ -25,72 +24,82 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Create array of mobile menu items with proper typing
+  // Toggle body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const mobileMenuItems = [
     {name: 'Home', path: '/', icon: <HomeIcon className="h-5 w-5" />},
     {name: 'Services', path: '/services', icon: <Wrench className="h-5 w-5" />},
     {name: 'Industries', path: '/industries', icon: <Building2 className="h-5 w-5" />},
     {name: 'Team', path: '/team', icon: <Shield className="h-5 w-5" />},
-    {name: 'Careers', path: '/careers', icon: <Zap className="h-5 w-5" />},
+    {name: 'TeamAndCareersPage', path: '/teamAndCareersPage', icon: <Zap className="h-5 w-5" />},
     {name: 'About', path: '/about', icon: <Brain className="h-5 w-5" />},
     {name: 'Contact', path: '/contact', icon: <Mail className="h-5 w-5" />},
-    {name: 'Tools', path: '/tools', icon: <Cpu className="h-5 w-5" />}
-    
+    {name: 'Blog', path: '/blog', icon: <NewspaperIcon className="h-5 w-5" />}
   ];
 
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
+          "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
           isScrolled
             ? theme === "dark" 
-              ? "bg-black backdrop-blur-xl border-b border-gray-800 shadow-lg shadow-black/20" 
-              : "bg-white/95 backdrop-blur-xl shadow-lg shadow-black/5 border-b border-gray-200"
+              ? "bg-black/90 backdrop-blur-md border-b border-gray-800 shadow-lg" 
+              : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200"
             : "bg-transparent"
         )}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 md:h-20 items-center justify-between">
 
-<Link to="/" className="flex items-center space-x-3 group">
-  {/* Dual-theme Logo Container - Now Larger */}
-<div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
-    {/* Light Mode Logo */}
-    <img 
-      src="/BDS Logo - Original with Transparent Background (1).svg" 
-      alt="BDS Light Logo" 
-      className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
-        theme === 'light' ? 'opacity-100' : 'opacity-0'
-      }`}
+            {/* Logo - Keeping original large size */}
+            <Link to="/" className="flex items-center space-x-3 group">
+              <div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
+                {/* Light Mode Logo */}
+                <img 
+                  src="/BDS Logo - Original with Transparent Background (1).svg" 
+                  alt="BDS Light Logo" 
+                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
+                    theme === 'light' ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    display: theme === 'light' ? 'block' : 'none',
+                    marginLeft: -50,
+                    lineHeight: 0,
+                    clipPath: 'inset(30px 0 0 0)'
+                  }}
+                />
+                
+                {/* Dark Mode Logo */}
+                <img 
+                  src="/BDS Logo - Original with Transparent Background.svg" 
+                  alt="BDS Dark Logo" 
+                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
+                    theme === 'dark' ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    display: theme === 'dark' ? 'block' : 'none',
+                    marginLeft: -50,
+                    lineHeight: 0,
+                    clipPath: 'inset(30px 0 0 0)'
+                  }}
+                />
+              </div>
+            </Link>
 
-       style={{
-            display: theme === 'light' ? 'block' : 'none',
-            marginLeft:-50,
-            lineHeight: 0,
-            clipPath: 'inset(30px 0 0 0)' // Crop 30px from top
-          }}
-    />
-    
-    {/* Dark Mode Logo */}
-    <img 
-      src="/BDS Logo - Original with Transparent Background.svg" 
-      alt="BDS Dark Logo" 
-      className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
-        theme === 'dark' ? 'opacity-100' : 'opacity-0'
-      }`}
-
-        style={{
-            display: theme === 'dark' ? 'block' : 'none',
-            marginLeft:-50,
-            lineHeight: 0,
-            clipPath: 'inset(30px 0 0 0)' // Crop 30px from top
-          }}
-    />
-  </div>
-</Link>
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+            <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
               <Link 
                 to="/" 
                 className={cn(
@@ -108,36 +117,35 @@ const Navbar = () => {
                 Home
               </Link>
 
+              <NavDropdown 
+                title="Services"
+                items={servicesDropdown as DropdownItem[]}
+                titleClassName={cn(
+                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
+                  theme === "dark" 
+                    ? "text-gray-300 hover:text-white hover:bg-white/5" 
+                    : "text-gray-900 hover:text-primary hover:bg-primary/5"
+                )}
+              />
 
-
-              {/* Use NavDropdown Component */}
- <NavDropdown 
-  title="Services"
-  items={servicesDropdown as DropdownItem[]}
-  titleClassName={cn(
-    "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-    theme === "dark" 
-      ? "text-gray-300 hover:text-white hover:bg-white/5" 
-      : "text-gray-900 hover:text-primary hover:bg-primary/5"
-  )}
-/>
-
-<NavDropdown 
-  title="Industries" 
-  items={industriesDropdown as DropdownItem[]}
-  titleClassName={cn(
-    "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-    theme === "dark" 
-      ? "text-gray-300 hover:text-white hover:bg-white/5" 
-      : "text-gray-900 hover:text-primary hover:bg-primary/5"
-  )}
-/>
+              <NavDropdown 
+                title="Industries" 
+                items={industriesDropdown as DropdownItem[]}
+                titleClassName={cn(
+                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
+                  theme === "dark" 
+                    ? "text-gray-300 hover:text-white hover:bg-white/5" 
+                    : "text-gray-900 hover:text-primary hover:bg-primary/5"
+                )}
+              />
+              
+           
               
               <Link 
-                to="/team" 
+                to="/teamandcareerspage" 
                 className={cn(
                   "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-                  location.pathname === "/team"
+                  location.pathname === "/teamandcareerspage"
                     ? theme === "dark" 
                       ? "bg-white/10 text-white" 
                       : "bg-primary/10 text-primary"
@@ -146,23 +154,7 @@ const Navbar = () => {
                       : "text-gray-700 hover:text-primary hover:bg-primary/5"
                 )}
               >
-                Team
-              </Link>
-              
-              <Link 
-                to="/careers" 
-                className={cn(
-                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-                  location.pathname === "/careers"
-                    ? theme === "dark" 
-                      ? "bg-white/10 text-white" 
-                      : "bg-primary/10 text-primary"
-                    : theme === "dark" 
-                      ? "text-gray-300 hover:text-white hover:bg-white/5" 
-                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                )}
-              >
-                Careers
+                Team & Careers
               </Link>
               
               <Link 
@@ -197,13 +189,51 @@ const Navbar = () => {
                 Contact
               </Link>
 
+              <Link 
+                to="/blog" 
+                className={cn(
+                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
+                  location.pathname === "/blog"
+                    ? theme === "dark" 
+                      ? "bg-white/10 text-white" 
+                      : "bg-primary/10 text-primary"
+                    : theme === "dark" 
+                      ? "text-gray-300 hover:text-white hover:bg-white/5" 
+                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                )}
+              >
+                Blog
+              </Link>
+
+              {/* Consultation Button - Desktop */}
+              <div className="relative ml-2">
+                <Button
+                  asChild
+                  className={cn(
+                    "relative rounded-lg font-bold transition-all duration-300",
+                    "hover:scale-[1.03] transform-gpu",
+                    "px-4 py-2 h-auto",
+                    theme === "dark" 
+                      ? "bg-gradient-to-br from-blue-600 to-blue-800 text-white hover:from-blue-500 hover:to-blue-700" 
+                      : "bg-gradient-to-br from-blue-500 to-blue-600 text-white hover:from-blue-400 hover:to-blue-500"
+                  )}
+                >
+                  <Link to="/consultation" className="flex items-center justify-center gap-1">
+                    <span className="text-sm font-medium">Consultation</span>
+                    <span className="absolute -top-2 -right-2 rounded-full px-2 py-0.5 text-xs font-bold bg-yellow-500 text-white">
+                      FREE!
+                    </span>
+                  </Link>
+                </Button>
+              </div>
+
               {/* Theme Toggle */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
                 className={cn(
-                  "rounded-full w-9 h-9 flex items-center justify-center",
+                  "rounded-full w-9 h-9 flex items-center justify-center ml-1",
                   theme === "dark" 
                     ? "hover:bg-white/10 text-yellow-300" 
                     : "hover:bg-primary/10 text-primary"
@@ -216,30 +246,6 @@ const Navbar = () => {
                   <Moon className="h-5 w-5" />
                 )}
               </Button>
- <Button size="sm" asChild>
-                <Link to="/consultation"> Book Free  <br/> Consultation </Link>
-              </Button>
-
-              
-              {/* Search Input (Optional - like reference) 
-              <div className="relative hidden lg:block">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={cn(
-                    "border rounded-full py-1.5 px-4 pl-10 text-sm w-40 focus:w-56 focus:outline-none transition-all duration-300",
-                    theme === "dark" 
-                      ? "bg-gray-800/80 border-gray-700 text-white placeholder:text-gray-400 focus:border-white/30" 
-                      : "bg-gray-100/80 border-gray-200 text-gray-900 placeholder:text-gray-500 focus:border-primary/50"
-                  )}
-                />
-                <Search className={cn(
-                  "absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4",
-                  theme === "dark" ? "text-gray-400" : "text-gray-500"
-                )} />
-              </div>*/}
             </nav>
 
             {/* Mobile Menu Button */}
@@ -258,26 +264,34 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-40 flex items-start justify-center md:hidden pt-20">
+        <div className="fixed inset-0 z-40 md:hidden">
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm" 
             onClick={() => setIsMenuOpen(false)}
           />
           
-          {/* Dropdown Content */}
+          {/* Mobile Menu Content */}
           <div className={cn(
-            "relative z-50 rounded-2xl p-6 w-full max-w-sm mx-4 transform transition-all duration-300 scale-95 animate-fade-in-up mt-4",
+            "absolute top-0 right-0 h-full w-4/5 max-w-sm overflow-y-auto",
+            "transform transition-transform duration-300 ease-in-out",
+            isMenuOpen ? "translate-x-0" : "translate-x-full",
             theme === "dark" 
-              ? "bg-gray-900/95 border border-white/10" 
-              : "bg-white/95 border border-gray-200 shadow-lg"
+              ? "bg-gray-900/95 border-l border-white/10" 
+              : "bg-white/95 border-l border-gray-200 shadow-xl"
           )}>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className={theme === "dark" ? "text-white" : "text-gray-900"}>Menu</h3>
+            <div className="flex justify-between items-center p-4 border-b">
+              <h3 className={cn(
+                "text-lg font-semibold",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}>
+                Menu
+              </h3>
               <button 
-                className={`transition-opacity duration-300 ${
-                  theme === "dark" ? "text-white hover:text-blue-400" : "text-gray-800 hover:text-blue-600"
-                }`}
+                className={cn(
+                  "p-2 rounded-full",
+                  theme === "dark" ? "text-white hover:bg-white/10" : "text-gray-800 hover:bg-gray-100"
+                )}
                 onClick={() => setIsMenuOpen(false)}
                 aria-label="Close menu"
               >
@@ -285,13 +299,13 @@ const Navbar = () => {
               </button>
             </div>
 
-            <div className="flex flex-col items-center space-y-4">
+            <div className="p-4 space-y-2">
               {mobileMenuItems.map((item) => (
                 <Link 
                   key={item.path}
                   to={item.path} 
                   className={cn(
-                    "text-lg w-full text-center py-3 rounded-xl transition-all flex items-center justify-center gap-2",
+                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
                     location.pathname === item.path
                       ? theme === "dark"
                         ? "bg-white/10 text-white"
@@ -303,9 +317,53 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.icon}
-                  {item.name}
+                  <span className="text-base font-medium">{item.name}</span>
                 </Link>
               ))}
+
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className={cn(
+                  "flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all",
+                  theme === "dark"
+                    ? "text-white hover:bg-white/5"
+                    : "text-gray-800 hover:bg-gray-100"
+                )}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+                <span className="text-base font-medium">Toggle Theme</span>
+              </button>
+
+              {/* Consultation Button - Mobile */}
+              <div className="pt-4">
+                <Button 
+                  size="lg" 
+                  className={cn(
+                    "w-full transition-all duration-300",
+                    "flex flex-col items-center justify-center py-3",
+                    theme === "dark" 
+                      ? "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white" 
+                      : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white"
+                  )}
+                  asChild
+                >
+                  <Link 
+                    to="/consultation" 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="relative"
+                  >
+                    <span className="font-semibold">Free Consultation</span>
+                    <span className="absolute -top-2 -right-2 rounded-full px-2 py-0.5 text-xs font-bold bg-yellow-500 text-white">
+                      FREE!
+                    </span>
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

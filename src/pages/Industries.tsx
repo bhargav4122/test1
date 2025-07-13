@@ -80,7 +80,7 @@ export default function Industries() {
   const categories = getCategories();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen py-5 md:py-10">
    
       <div className="container mx-auto px-4 py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
         {/* Header Section */}

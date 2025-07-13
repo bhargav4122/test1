@@ -220,36 +220,26 @@ const Consultation = () => {
     return true;
   }, [formData, toast]);
 
-  const handleBooking = useCallback(async () => {
-    if (!validateForm()) return;
 
-    setIsSubmitting(true);
-    
-    
-     try {
-    const formattedDate = formData.date ? format(formData.date, "yyyy-MM-dd") : "";
-    const submissionData = {
+
+  
+const handleBooking = useCallback(async () => {
+  if (!validateForm()) return;
+
+  setIsSubmitting(true);
+  
+  try {
+    const { success, message } = await submitConsultationForm({
       ...formData,
-      date: formattedDate,
-      industry: formData.industry,
-      services: formData.services
-    };
+      date: formData.date ? format(formData.date, 'yyyy-MM-dd') : '',
+    });
 
-
-const success = await submitConsultationForm(submissionData);
-    
     if (success) {
       toast({
-        title: "Consultation Booked Successfully!",
-        description: (
-          <div className="mt-2 space-y-2">
-            <p>Date: {format(formData.date!, "PPP")}</p>
-            <p>Time: {formData.timeSlot}</p>
-            <p>Confirmation sent to: {formData.email}</p>
-          </div>
-        ),
+        title: "Success!",
+        description: message || "Your consultation has been scheduled.",
       });
-
+      
       // Reset form
       setFormData({
         firstName: "",
@@ -263,20 +253,18 @@ const success = await submitConsultationForm(submissionData);
         date: undefined,
         timeSlot: ""
       });
+    } else {
+      toast({
+        title: "Error",
+        description: message || "Please check your information and try again.",
+        variant: "destructive"
+      });
     }
   } catch (error) {
-    console.error("Submission error:", error);
-    
-    let errorMessage = "There was an error submitting your request. Please try again.";
-    if (error instanceof Error) {
-      errorMessage = error.message || errorMessage;
-    }
-
     toast({
-      title: "Submission Failed",
-      description: errorMessage,
-      variant: "destructive",
-      duration: 5000
+      title: "Error",
+      description: "An unexpected error occurred. Please try again later.",
+      variant: "destructive"
     });
   } finally {
     setIsSubmitting(false);
