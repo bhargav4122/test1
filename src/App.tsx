@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
-   BrowserRouter,
+  BrowserRouter,
   Routes, 
   Route, 
   useLocation, 
-  Navigate ,
-   unstable_HistoryRouter as HistoryRouter
+  Navigate,
+  useParams
 } from 'react-router-dom';
-import { Search, Menu, X, Building2, Mail, Phone, MapPin, ChevronRight, Wrench, Zap, Brain, Shield, Cloud, Database, Cpu, Home } from 'lucide-react';
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,7 +14,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import ChatBot from "@/components/ChatBot";
 import Index from "./pages/Index";
-
 import Industries from "./pages/Industries";
 import IndustryPage from './pages/IndustryPage';
 import NotFound from "./pages/NotFound";
@@ -37,34 +34,35 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Cookies from "./pages/Cookies";
 import CookieConsent from "@/components/CookieConsent";
-import BlogPage from './pages/BlogPage.jsx';
-import BlogPostPage from  "./pages/BlogPostPage";
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from "./pages/BlogPostPage";
 import './index.css'
-
-
-//import CoreDataCloudPage from '@/pages/services/Active/core-data-cloud/CoreDataCloudPage';
 import { servicesDropdown, industriesDropdown } from './data/navigationData';
 import ServicesOverview from "./pages/ServicesOverview";
 import ServiceDetail from "./pages/ServiceDetail";
 import serviceCategories from "@/data/serviceCategories";
 import { serviceDetails } from "@/data/serviceDetails";
 
-
 const queryClient = new QueryClient();
-const CustomRouter = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <BrowserRouter
-      window={window}
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
-      {children}
-    </BrowserRouter>
-  );
-};
 
+const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const errorHandler = (error: ErrorEvent) => {
+      console.error('Error caught by boundary:', error.error);
+      setHasError(true);
+    };
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
+  if (hasError) {
+    return <div className="p-4 text-center">Failed to load this page. Please try navigating from the homepage.</div>;
+  }
+
+  return <>{children}</>;
+};
 
 const ServiceRedirect = () => {
   const location = useLocation();
@@ -81,8 +79,12 @@ const getAllServiceIds = () => {
 };
 
 const AppContent = () => {
+  const location = useLocation();
   const allServiceIds = getAllServiceIds();
- // console.log("All available service IDs:", allServiceIds);
+
+  useEffect(() => {
+    console.log('Route changed to:', location.pathname);
+  }, [location]);
 
   return (
     <HelmetProvider>
@@ -94,31 +96,40 @@ const AppContent = () => {
               <FloatingShapes />
               <Toaster />
               <Sonner />
-               <CustomRouter>
-                <Navbar />
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/services" element={<ServicesOverview />} />
-                  
-                  <Route path="/service/:serviceId" element={<ServiceRedirect />} />
-                  <Route path="/service-detail/:serviceId" element={<ServiceDetail />} />
-                  <Route path="/industries" element={<Industries />} />
-                  <Route path="/industries/:industryId" element={<IndustryPage />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/teamandcareerspage" element={<TeamAndCareersPage />} />
-            
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/consultation" element={<Consultation />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/blog/:id" element={<BlogPostPage />} />
-                  <Route path="/terms" element={<Terms />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/cookies" element={<Cookies />} />
-                  <Route path="*" element={<NotFound />} />
-                 
-                </Routes>
-                <Footer />
-              </CustomRouter>
+              <ChatBot />
+              <Navbar />
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Index />} />
+                <Route path="/services" element={<ServicesOverview />} />
+                <Route path="/service/:serviceId" element={<ServiceRedirect />} />
+                <Route path="/service-detail/:serviceId" element={
+                  <ErrorBoundary>
+                    <ServiceDetail />
+                  </ErrorBoundary>
+                } />
+                <Route path="/industries" element={<Industries />} />
+                <Route path="/industries/:industryId" element={
+                  <ErrorBoundary>
+                    <IndustryPage />
+                  </ErrorBoundary>
+                } />
+                <Route path="/about" element={<About />} />
+                <Route path="/teamandcareerspage" element={<TeamAndCareersPage />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/consultation" element={<Consultation />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:id" element={
+                  <ErrorBoundary>
+                    <BlogPostPage />
+                  </ErrorBoundary>
+                } />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/cookies" element={<Cookies />} />
+                <Route path="/canvas" element={<BDSCanvas />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Footer />
               <CookieConsent />
             </TooltipProvider>
           </ThemeProvider>
@@ -137,7 +148,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AnimatePresence mode='wait'>
         {isLoading ? (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
@@ -147,6 +158,6 @@ export default function App() {
           <AppContent />
         )}
       </AnimatePresence>
-    </>
+    </BrowserRouter>
   );
 }
