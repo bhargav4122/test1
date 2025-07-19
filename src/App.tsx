@@ -8,12 +8,10 @@ import {
   useParams
 } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import ChatBot from "@/components/ChatBot";
 import Index from "./pages/Index";
+<<<<<<< HEAD
 import Industries from "./pages/Industries";
 import IndustryPage from './pages/IndustryPage';
 import NotFound from "./pages/NotFound";
@@ -42,11 +40,37 @@ import ServicesOverview from "./pages/ServicesOverview";
 import ServiceDetail from "./pages/ServiceDetail";
 import serviceCategories from "@/data/serviceCategories";
 import { serviceDetails } from "@/data/serviceDetails";
+=======
+import ServicesOverview from "./pages/ServicesOverview";
+import ServiceDetail from "./pages/ServiceDetail";
+import NotFound from "./pages/NotFound";
+import { HelmetProvider } from 'react-helmet-async';
+import { AnimatePresence } from 'framer-motion';
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
 
 const queryClient = new QueryClient();
 
 const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   const [hasError, setHasError] = useState(false);
+<<<<<<< HEAD
+
+  useEffect(() => {
+    const errorHandler = (error: ErrorEvent) => {
+      console.error('Error caught by boundary:', error.error);
+      setHasError(true);
+    };
+    window.addEventListener('error', errorHandler);
+    return () => window.removeEventListener('error', errorHandler);
+  }, []);
+
+  if (hasError) {
+    return <div className="p-4 text-center">Failed to load this page. Please try navigating from the homepage.</div>;
+  }
+
+  return <>{children}</>;
+};
+=======
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
 
   useEffect(() => {
     const errorHandler = (error: ErrorEvent) => {
@@ -64,33 +88,24 @@ const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const ServiceRedirect = () => {
-  const location = useLocation();
-  const path = location.pathname;
-  const serviceId = path.split('/service/')[1];
-  console.log(`Redirecting from old URL pattern: ${path} to new URL pattern: /service-detail/${serviceId}`);
-  return <Navigate to={`/service-detail/${serviceId}`} replace />;
-};
-
-const getAllServiceIds = () => {
-  const categoryIds = serviceCategories.map(category => category.id);
-  const detailIds = Object.keys(serviceDetails);
-  return [...new Set([...categoryIds, ...detailIds])];
-};
-
 const AppContent = () => {
   const location = useLocation();
+<<<<<<< HEAD
   const allServiceIds = getAllServiceIds();
 
+=======
+  
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
   useEffect(() => {
     console.log('Route changed to:', location.pathname);
   }, [location]);
 
   return (
     <HelmetProvider>
-      <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
+      <div className="min-h-screen flex flex-col bg-white dark:bg-black">
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
+<<<<<<< HEAD
             <TooltipProvider>
               <ParticleBackground />
               <FloatingShapes />
@@ -132,6 +147,21 @@ const AppContent = () => {
               <Footer />
               <CookieConsent />
             </TooltipProvider>
+=======
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Index />} />
+              <Route path="/services" element={<ServicesOverview />} />
+              <Route 
+                path="/service-detail/:serviceId" 
+                element={
+                  <ErrorBoundary>
+                    <ServiceDetail />
+                  </ErrorBoundary>
+                } 
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
           </ThemeProvider>
         </QueryClientProvider>
       </div>
@@ -140,15 +170,9 @@ const AppContent = () => {
 };
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+<<<<<<< HEAD
       <AnimatePresence mode='wait'>
         {isLoading ? (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
@@ -157,6 +181,11 @@ export default function App() {
         ) : (
           <AppContent />
         )}
+=======
+      <Toaster />
+      <AnimatePresence mode="wait">
+        <AppContent />
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
       </AnimatePresence>
     </BrowserRouter>
   );

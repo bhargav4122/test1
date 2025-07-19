@@ -24,4 +24,8 @@ export default defineConfig({
     host: "::",
     port: 8080,
   }
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
