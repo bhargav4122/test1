@@ -11,6 +11,8 @@ import {
   increment,
 } from "firebase/database";
 
+import { blogPosts as localPosts } from '@/data/blogPosts';
+
 // Base path for blog interactions
 const getInteractionPath = (postId) => `blogPostInteractions/${postId}`;
 
@@ -165,6 +167,10 @@ export const fetchBlogPosts = async () => {
     console.log('Fetching all blog posts');
     const snapshot = await get(ref(db, "blogPosts"));
     
+
+        let firebasePosts = [];
+
+
     if (!snapshot.exists()) {
       console.warn('No blog posts found');
       return [];

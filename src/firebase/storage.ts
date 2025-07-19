@@ -1,33 +1,37 @@
-// lib/storage.ts
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/firebase'; // Your existing firebase config
+import { auth } from '@/firebase';
 
-// Define a proper return type
-type UploadResult = {
-  success: boolean;
-  downloadURL?: string;
-  filePath?: string;
-  fileName?: string;
-  error?: string;
-};
-
-export const uploadFileToStorage = async (file: File, path: string): Promise<UploadResult> => {
+export const uploadResume = async (file: File): Promise<{ 
+  success: boolean; 
+  url?: string; 
+  error?: string 
+}> => {
   try {
-    const storageRef = ref(storage, path);
-    const snapshot = await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(snapshot.ref);
+    if (!auth.currentUser) throw new Error('Not authenticated');
     
-    return {
-      success: true,
-      downloadURL,
-      filePath: snapshot.ref.fullPath, // Now properly included in return type
-      fileName: file.name
-    };
+    const userId = auth.currentUser.uid;
+    const timestamp = Date.now();
+    const extension = file.name.split('.').pop();
+    const fileName = `resume_${timestamp}.${extension}`;
+    const filePath = `resumes/${userId}/${fileName}`;
+
+    const fileRef = ref(storage, filePath);
+    await uploadBytesResumable(fileRef, file, {
+      contentType: file.type,
+      customMetadata: {
+        originalName: file.name,
+        uploader: userId,
+        uploadedAt: timestamp.toString()
+      }
+    });
+
+    const downloadURL = await getDownloadURL(fileRef);
+    return { success: true, url: downloadURL };
   } catch (error: any) {
-    console.error('Upload error:', error);
     return {
       success: false,
-      error: error.message || 'Failed to upload file'
+      error: error.message || 'File upload failed'
     };
   }
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { useEffect, useState } from "react";
 
@@ -43,7 +43,7 @@ export const AnimatedTestimonials = ({
     return Math.floor(Math.random() * 21) - 10;
   };
   return (
-    <section className="bg-gray-50 py-20 dark:bg-neutral-900">
+    <section className="bg-gray-50 py-20 flex flex-col overflow-x-hidden bg-white dark:bg-black">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mb-16 text-center">
           <h2 className="text-3xl font-bold text-black dark:text-white md:text-4xl">

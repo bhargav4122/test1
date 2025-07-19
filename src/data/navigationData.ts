@@ -97,26 +97,18 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Code,
     stage: 'active',
     subService: [
-      "Website & App Development",
-      "SEO & Digital Marketing",
-      "UI/UX Design",
-      "Website Redesigning",
-      "Hosting & Maintenance",
-      "CRM/ERP Integration",
-      "Digital Channel Optimization",
-      "Data-Driven Digital Roadmaps",
-      "Automation of Customer Journeys",
-      "Digital Asset Management",
-      "Web Application Development",
-      "Mobile App Development",
-      "Custom ERP/CRM Solutions",
-      "API Integration & Development",
-      "Cloud-Native Apps",
-      "SaaS Product Design",
-      "Platform Modernization",
-      "Backend & Frontend Architecture",
-      "MVP & Prototype Development",
-      "QA & Testing Services"
+    // Software & Apps
+    "Web/Mobile App Development",
+    "Legacy System Modernization",
+    "Cloud-Native Architecture",
+    "API Integration",
+    // Process Optimization
+    "Workflow Automation",
+    "CRM/ERP Implementation",
+    "Digital Process Re-engineering",
+    // Strategy
+    "Digital Roadmap Planning",
+    "Change Management Consulting"
     ],
     image:"/photos/digital5.jpg",
     stats: [
@@ -124,10 +116,7 @@ export const servicesDropdown: DropdownItem[] = [
       { value: '3x', label: 'Faster Deployment' },
       { value: '200+', label: 'Projects Completed' }
     ]
-
-
-},
-
+  },
 
    {
     title: 'Business Consulting',
@@ -361,18 +350,6 @@ export const servicesDropdown: DropdownItem[] = [
       { value: '100+', label: 'Clients Served' }
     ]
   }
-  
-  /*,
-   {
-    title: 'Digital Twin Consulting',
-    path: '/service-detail/digital-twin',
-    description: 'AI-powered digital twin solutions for simulation and optimization',
-    icon: Cpu,
-    stage: 'upcoming',
-    developmentPhase: 'Beta testing',
-    estimatedLaunch: 'Q3 2025'
-  }*/
- 
 ];
 
 export const industriesDropdown: DropdownItem[] = [
@@ -496,32 +473,6 @@ export const serviceIndustries = {
 };
 
 export const serviceIndustriesDetailed = {
-
-  'cybersecurity': {
-    current: [
-      {
-        name: 'Healthcare',
-        challenges: ['Patient data protection', 'HIPAA compliance', 'IoT device security'],
-        solutions: ['Healthcare-specific security assessments', 'Compliance frameworks', 'Secure healthcare IoT'],
-        caseStudy: 'Implemented comprehensive security framework for a hospital network that prevented data breaches and ensured HIPAA compliance'
-      },
-      {
-        name: 'Financial Services',
-        challenges: ['Fraud prevention', 'Transaction security', 'Customer data protection'],
-        solutions: ['Fraud detection systems', 'Secure transaction processing', 'Data encryption'],
-        caseStudy: 'Deployed advanced threat protection system that reduced fraud attempts by 85% for an online payment provider'
-      }
-    ],
-    potential: [
-      {
-        name: 'IT & Cloud Services',
-        challenges: ['Cloud security posture', 'Identity management', 'DevSecOps integration'],
-        solutions: ['Cloud security assessment', 'IAM solutions', 'Security automation'],
-        caseStudy: 'Integrated security automation into the CI/CD pipeline of a cloud service provider, reducing vulnerability exposure by 75%'
-      }
-    ]
-  },
-  
   'bi-digital-transformation': {
     current: [
       {
@@ -708,31 +659,6 @@ export const serviceIndustriesDetailed = {
     ]
   },
 
-
- 'cybersecurity': {
-    current: [
-      {
-        name: 'Healthcare',
-        challenges: ['Patient data protection', 'HIPAA compliance', 'IoT device security'],
-        solutions: ['Healthcare-specific security assessments', 'Compliance frameworks', 'Secure healthcare IoT'],
-        caseStudy: 'Implemented comprehensive security framework for a hospital network that prevented data breaches and ensured HIPAA compliance'
-      },
-      {
-        name: 'Financial Services',
-        challenges: ['Fraud prevention', 'Transaction security', 'Customer data protection'],
-        solutions: ['Fraud detection systems', 'Secure transaction processing', 'Data encryption'],
-        caseStudy: 'Deployed advanced threat protection system that reduced fraud attempts by 85% for an online payment provider'
-      }
-    ],
-    potential: [
-      {
-        name: 'IT & Cloud Services',
-        challenges: ['Cloud security posture', 'Identity management', 'DevSecOps integration'],
-        solutions: ['Cloud security assessment', 'IAM solutions', 'Security automation'],
-        caseStudy: 'Integrated security automation into the CI/CD pipeline of a cloud service provider, reducing vulnerability exposure by 75%'
-      }
-    ]
-  },
   'ai-ml': {
     current: [
       {
@@ -763,199 +689,35 @@ export const serviceIndustriesDetailed = {
       }
     ]
   },
-  'business-consulting': {
-    current: [
-      {
-        name: 'Financial Services',
-        challenges: ['Digital transformation', 'Operational efficiency', 'Market positioning'],
-        solutions: ['Digital strategy development', 'Process optimization', 'Competitive analysis'],
-        caseStudy: 'Guided a mid-sized financial firm through digital transformation, resulting in 35% increased efficiency and 28% revenue growth'
-      },
-      {
-        name: 'Healthcare',
-        challenges: ['Operational efficiency', 'Patient experience', 'Cost reduction'],
-        solutions: ['Healthcare operations analysis', 'Patient journey mapping', 'Cost optimization strategies'],
-        caseStudy: 'Redesigned patient intake process for a clinic network, reducing wait times by 45% and improving patient satisfaction scores'
-      }
-    ],
-    potential: [
-      {
-        name: 'Manufacturing',
-        challenges: ['Supply chain optimization', 'Digital transformation', 'Market expansion'],
-        solutions: ['Supply chain analysis', 'Industry 4.0 roadmaps', 'Market entry strategies'],
-        caseStudy: 'Developed a digital transformation roadmap for a manufacturer that led to 22% efficiency gain and new market opportunities'
-      }
-    ]
-  },
-  'market-research': {
-    current: [
-      {
-        name: 'Retail',
-        challenges: ['Customer preferences', 'Competitive landscape', 'Market trends'],
-        solutions: ['Consumer behavior analysis', 'Competitor research', 'Trend forecasting'],
-        caseStudy: 'Conducted comprehensive market analysis for a retailer entering new territory, resulting in successful market entry and 20% above-projected sales'
-      },
-      {
-        name: 'Financial Services',
-        challenges: ['Product development', 'Customer segmentation', 'Market positioning'],
-        solutions: ['Financial product research', 'Customer segment analysis', 'Brand positioning studies'],
-        caseStudy: 'Performed detailed customer segmentation that guided development of new financial products with 40% higher adoption rates'
-      }
-    ],
-    potential: [
-      {
-        name: 'Healthcare',
-        challenges: ['Patient needs assessment', 'Service offering optimization', 'Regional market analysis'],
-        solutions: ['Patient needs research', 'Service portfolio analysis', 'Geographic expansion studies'],
-        caseStudy: 'Researched patient needs in underserved communities, informing a clinic network expansion that addressed critical healthcare gaps'
-      }
-    ]
-  },
-  'consumer-voice': {
-    current: [
-      {
-        name: 'Retail',
-        challenges: ['Customer feedback collection', 'Brand perception', 'Service improvement'],
-        solutions: ['Voice of customer programs', 'Brand perception analysis', 'Experience improvement'],
-        caseStudy: 'Implemented a comprehensive VoC program for a retail chain that led to specific improvements increasing customer satisfaction by 32%'
-      },
-      {
-        name: 'Restaurants',
-        challenges: ['Dining experience optimization', 'Menu development', 'Service quality'],
-        solutions: ['Dining experience analysis', 'Menu testing and optimization', 'Service quality monitoring'],
-        caseStudy: 'Gathered customer insights that guided menu redesign for a restaurant chain, increasing average check size by 18% and customer satisfaction by 25%'
-      }
-    ],
-    potential: [
-      {
-        name: 'Healthcare',
-        challenges: ['Patient experience', 'Service quality perception', 'Loyalty drivers'],
-        solutions: ['Patient experience monitoring', 'Healthcare service evaluation', 'Loyalty program development'],
-        caseStudy: 'Designed patient feedback system that identified key drivers of satisfaction, guiding improvements that reduced patient churn by 35%'
-      }
-    ]
-  },
-  'workforce-solutions': {
-    current: [
-      {
-        name: 'Manufacturing',
-        challenges: ['Skills gaps', 'Workforce efficiency', 'Knowledge transfer'],
-        solutions: ['Skills assessment and training', 'Workflow optimization', 'Knowledge management systems'],
-        caseStudy: 'Implemented comprehensive workforce development program for a manufacturer that increased productivity by 23% and reduced errors by 40%'
-      },
-      {
-        name: 'Healthcare',
-        challenges: ['Staff shortages', 'Burnout prevention', 'Specialized training'],
-        solutions: ['Healthcare workforce planning', 'Wellbeing programs', 'Clinical training solutions'],
-        caseStudy: 'Developed specialized training and wellbeing program that reduced staff turnover by 28% at a large hospital network'
-      }
-    ],
-    potential: [
-      {
-        name: 'IT & Cloud Services',
-        challenges: ['Technical talent acquisition', 'Skills development', 'Remote work optimization'],
-        solutions: ['Tech talent strategies', 'Continuous learning programs', 'Remote work frameworks'],
-        caseStudy: 'Created technical upskilling program that enabled a tech company to fill 65% of senior positions through internal promotion'
-      }
-    ]
-  },
 
-
-
-  
-  'software-development': {
+  'cybersecurity': {
     current: [
-      {
-        name: 'IT & Cloud Services',
-        challenges: ['Legacy system integration', 'Rapid digital transformation', 'Scalable architecture design'],
-        solutions: ['Custom software development', 'API integration services', 'Microservices architecture'],
-        caseStudy: 'Developed a custom CRM solution for a tech firm that improved customer tracking by 45% and reduced response times by 30%'
-      },
       {
         name: 'Healthcare',
-        challenges: ['Patient data security', 'Interoperability between systems', 'Regulatory compliance'],
-        solutions: ['HIPAA-compliant applications', 'Healthcare systems integration', 'Patient management software'],
-        caseStudy: 'Built integrated EMR system that reduced administrative workload by 35% and improved patient data accessibility'
-      }
-    ],
-    potential: [
-      {
-        name: 'Financial Services',
-        challenges: ['Regulatory compliance', 'Legacy system modernization', 'Digital customer experience'],
-        solutions: ['Financial reporting systems', 'Digital banking platforms', 'Compliance monitoring tools'],
-        caseStudy: 'Modernized legacy banking platform reducing transaction processing time by 65% while ensuring full compliance'
-      }
-    ]
-  },
-  'cloud-infrastructure': {
-    current: [
-      {
-        name: 'IT & Cloud Services',
-        challenges: ['Scalability issues', 'Security concerns', 'Cost optimization'],
-        solutions: ['Cloud architecture design', 'Migration services', 'Managed cloud services'],
-        caseStudy: 'Migrated on-premise infrastructure to AWS for a SaaS provider, reducing operational costs by 40% and improving uptime to 99.99%'
+        challenges: ['Patient data protection', 'HIPAA compliance', 'IoT device security'],
+        solutions: ['Healthcare-specific security assessments', 'Compliance frameworks', 'Secure healthcare IoT'],
+        caseStudy: 'Implemented comprehensive security framework for a hospital network that prevented data breaches and ensured HIPAA compliance'
       },
       {
         name: 'Financial Services',
-        challenges: ['Data security', 'Compliance requirements', 'High availability needs'],
-        solutions: ['Secure cloud infrastructure', 'Compliance-ready deployments', 'Disaster recovery solutions'],
-        caseStudy: 'Implemented secure cloud environment for a financial institution that passed all regulatory audits while improving performance'
-      }
-    ]
-  },
- 
-  'training-development': {
-    current: [
-      {
-        name: 'Education',
-        challenges: ['Curriculum relevance', 'Learning engagement', 'Outcomes measurement'],
-        solutions: ['Curriculum design services', 'Interactive learning development', 'Learning analytics'],
-        caseStudy: 'Redesigned online learning curriculum for a university that improved completion rates by 45% and student satisfaction by 60%'
-      },
-      {
-        name: 'Healthcare',
-        challenges: ['Clinical skills development', 'Compliance training', 'Continuous education'],
-        solutions: ['Clinical simulation programs', 'Compliance learning systems', 'Professional development frameworks'],
-        caseStudy: 'Developed specialized clinical training program that reduced procedural errors by 35% and improved patient outcomes'
+        challenges: ['Fraud prevention', 'Transaction security', 'Customer data protection'],
+        solutions: ['Fraud detection systems', 'Secure transaction processing', 'Data encryption'],
+        caseStudy: 'Deployed advanced threat protection system that reduced fraud attempts by 85% for an online payment provider'
       }
     ],
     potential: [
       {
         name: 'IT & Cloud Services',
-        challenges: ['Technical skills gaps', 'Rapid technology changes', 'Knowledge retention'],
-        solutions: ['Technical training programs', 'Technology adoption training', 'Knowledge base development'],
-        caseStudy: 'Created comprehensive cloud certification program that increased team capabilities and customer satisfaction with implementations'
-      }
-    ]
-  },
-  'iot-solutions': {
-    future: [
-      {
-        name: 'Manufacturing',
-        challenges: ['Equipment monitoring', 'Production optimization', 'Quality assurance'],
-        solutions: ['Connected factory solutions', 'Real-time monitoring systems', 'IoT-enabled quality control'],
-        futureOutlook: 'Smart manufacturing with fully connected production lines that self-optimize and predict maintenance needs'
-      },
-      {
-        name: 'Agriculture',
-        challenges: ['Crop monitoring', 'Resource optimization', 'Yield prediction'],
-        solutions: ['Smart farming systems', 'Precision agriculture', 'Harvest optimization'],
-        futureOutlook: 'Precision farming enabled by IoT sensors and analytics, optimizing resource use and maximizing yields sustainably'
-      }
-    ],
-    potential: [
-      {
-        name: 'Retail',
-        challenges: ['Inventory management', 'Customer experience', 'Supply chain visibility'],
-        solutions: ['Smart inventory systems', 'Connected retail experiences', 'End-to-end supply tracking'],
-        futureOutlook: 'Fully connected retail environments that personalize shopping experiences and optimize operations in real-time'
+        challenges: ['Cloud security posture', 'Identity management', 'DevSecOps integration'],
+        solutions: ['Cloud security assessment', 'IAM solutions', 'Security automation'],
+        caseStudy: 'Integrated security automation into the CI/CD pipeline of a cloud service provider, reducing vulnerability exposure by 75%'
       }
     ]
   }
 };
 
 export const serviceNamesToIds = {
-// Active
+  // Active
   'Business Intelligence & Digital Transformation': 'bi-digital-transformation',
   'Core Data and Cloud Services': 'core-data-cloud',
   'Business Consulting': 'business-consulting',

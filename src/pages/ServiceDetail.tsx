@@ -49,12 +49,20 @@ import { PhaseTimeline, Timeline } from "@/components/PhaseTimeline"; // Assumin
 import { motion, AnimatePresence } from "framer-motion";
 
 
+
+
+
 // --- Type Definitions (Ensure these match your actual data structures) ---
 interface Technology {
   name: string;
   description: string;
-  icon?: string; // Based on usage in Section 5
+  icon?: keyof typeof techIcons;
 }
+
+interface ServiceDetails {
+  technologies?: Technology[];
+}
+
 
 interface ProjectPhase {
   name: string;
@@ -167,6 +175,7 @@ const ServiceDetail: React.FC = () => {
 
   // State for tracking expanded sub-service cards
   const [expandedSubServiceCards, setExpandedSubServiceCards] = useState<Set<string>>(new Set());
+
 
   // --- Data Fetching Effect ---
   useEffect(() => {
@@ -292,19 +301,19 @@ const ServiceDetail: React.FC = () => {
 
   if (isLoading) {
     return ( // Ensure TSX is valid here
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
+      <div className="min-h-screen flex flex-col dark:bg-black border dark:text-gray-100">
+      
         <div className="flex-1 flex items-center justify-center">Loading service details...</div>
-        <Footer />
+      
       </div>
     ); // Semicolon added for clarity, though often optional here
   }
 
   if (error) {
     return ( // Ensure TSX is valid here
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col dark:bg-black border dark:text-gray-100 ">
       
-        <main className="flex-grow flex items-center justify-center py-16">
+        <main className="flex-grow flex items-center justify-center py-10">
           <Card className="w-full max-w-lg mx-auto border-destructive bg-destructive/5">
             <CardHeader>
               <CardTitle className="text-destructive flex items-center gap-2">
@@ -331,7 +340,7 @@ const ServiceDetail: React.FC = () => {
 
   if (!details) {
     return ( // Ensure TSX is valid here
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col dark:bg-black border dark:text-gray-100">
         <Navbar />
         <main className="flex-grow flex items-center justify-center py-16">
           <div className="text-center max-w-md px-4">
@@ -352,41 +361,37 @@ const ServiceDetail: React.FC = () => {
   // ===========================
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+   
 
-      <main className="flex-grow pt-20 md:pt-32">
+      <main className="flex-grow pt-10 md:pt-20">
 
         {/* --- Section 1: Header --- */}
-        <section className="bg-gradient-to-b from-background to-background/50 py-8 md:py-12">
+        <section className="bg-gradient-to-b  py-8 md:py-2">
           <div className="container mx-auto px-4 max-w-5xl">
              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
                 <Button
                   variant="ghost"
                   onClick={() => navigate("/services")}
-                  className="mb-4 pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary"
+                  className="mb-4 pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary p-1"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Services Overview
                 </Button>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">{displayTitle}</h1>
-                {details.overview && (
-                  <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-                    {details.overview.split('.')[0]}.
-                  </p>
-                )}
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary">{displayTitle}</h1>
+               
               </div>
             </div>
           </div>
         </section>
 
         {/* --- Section 2: Service Overview & Benefits --- */}
-        <section className="py-12 bg-background">
+        <section className="py-1">
           <div className="container mx-auto px-4 max-w-5xl">
-             <h2 className="text-2xl md:text-3xl font-bold mb-8">Service Overview</h2>
+             <h2 className="text-2xl md:text-3xl font-bold mb-8 pt-5 ">Service Overview</h2>
              <div className="prose dark:prose-invert max-w-none">
                {details.overview ? (
-                 <p className="text-lg text-muted-foreground">{details.overview}</p>
+                 <p className="text-lg text-justify">{details.overview}</p>
                ) : (
                  <p className="text-lg text-muted-foreground italic">Detailed overview not available.</p>
                )}
@@ -394,7 +399,7 @@ const ServiceDetail: React.FC = () => {
                  <div>
                    {details.benefits && details.benefits.length > 0 && (
                      <>
-                       <h3 className="text-xl font-semibold mb-4">Key Benefits</h3>
+                       <h3 className="text-xl font-semibold mb-4 ">Key Benefits</h3>
                        <ul className="space-y-2 list-none pl-0"> {/* Adjusted list styling */}
                          {details.benefits.map((benefit, index) => (
                            <li key={index} className="flex items-start">
@@ -421,10 +426,10 @@ const ServiceDetail: React.FC = () => {
         </section>
 
        {/* --- Section 3: Core Components --- */}
-{details.subServices && details.subServices.length > 0 && (
-  <section className="py-12 bg-muted/30 border-t border-b border-border">
-    <div className="container mx-auto px-4 max-w-5xl">
-      <div className="text-center mb-10">
+      {details.subServices && details.subServices.length > 0 && (
+        <section className="">
+        <div className="container mx-auto px-4 max-w-5xl pt-10">
+        <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-2">Core Components</h2>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
           Comprehensive solutions tailored to your specific needs
@@ -438,17 +443,17 @@ const ServiceDetail: React.FC = () => {
           return (
             <Card 
               key={subService.id} 
-              className="flex flex-col bg-background hover:shadow-lg transition-shadow duration-300 border border-border overflow-hidden hover:border-primary/20"
+              className="flex flex-col   hover:shadow-lg transition-shadow duration-300 border border-border overflow-hidden hover:border-primary/20"
             >
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-medium">{subService.title}</CardTitle>
+              <CardHeader className="pb-3 bg-cyan-300">
+                <CardTitle className="text-lg font-medium text-black">{subService.title}</CardTitle>
                 <CardDescription className="text-sm">{subService.description}</CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 pb-4 flex-grow flex flex-col">
+              <CardContent className="pt-0 pb-4 flex-grow flex flex-col bg-cyan-100">
                 {subService.features && subService.features.length > 0 && (
-                  <div className="mt-2">
+                  <div className="mt-2 ">
                     <h4 className="text-xs font-semibold uppercase tracking-wider mb-2 text-muted-foreground">Features:</h4>
-                    <ul className="space-y-1.5 list-none pl-0">
+                    <ul className="space-y-1.5 list-none pl-0 text-black">
                       {subService.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
                           <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
@@ -494,28 +499,7 @@ const ServiceDetail: React.FC = () => {
                   )}
                 </AnimatePresence>
               </CardContent>
-              
-             {/* {hasDetails && (
-                <CardFooter className="pt-2 pb-4 border-t border-border mt-auto">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-center text-sm text-primary hover:bg-primary/5 data-[state=open]:text-primary/80"
-                    onClick={() => handleToggleSubServiceExpand(subService.id)}
-                    aria-expanded={isExpanded} 
-                    data-state={isExpanded ? 'open' : 'closed'}
-                  >
-                    {isExpanded ? 'Show Less' : 'Learn More'}
-                    <motion.div 
-                      animate={{ rotate: isExpanded ? 180 : 0 }} 
-                      transition={{ duration: 0.2 }} 
-                      className="ml-1.5"
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </motion.div>
-                  </Button>
-                </CardFooter>
-              )}*/}
+         
             </Card>
           );
         })}
@@ -525,39 +509,35 @@ const ServiceDetail: React.FC = () => {
 )}
 
 
-        {/* --- Section 4: Service Workflow (Optional) --- */}
-        {/* Uncomment if needed and ServiceWorkflow component exists
-        {workflowSteps.length > 0 && (
-          <section className="py-12 bg-muted/30">
-             <div className="container mx-auto px-4 max-w-5xl">
-               <h2 className="text-2xl md:text-3xl font-bold mb-8">Service Workflow</h2>
-               <ServiceWorkflow steps={workflowSteps} />
-             </div>
-          </section>
-        )}
-        */}
+{/* --- Section 5: Technologies We Use --- */}
+{details.technologies && details.technologies.length > 0 && (
+  <section className="py-12">
+    <div className="container mx-auto px-4 max-w-5xl">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">Technologies We Use</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {details.technologies.map((tech, index) => (
+          <Card key={index} className="border border-border hover:shadow-md transition-shadow">
+            <CardHeader className="p-4 flex flex-col items-center text-center">
+              {tech.logo && (
+                <img
+                  src={tech.logo}
+                  alt={`${tech.name} logo`}
+                  className="w-12 h-12 object-contain mb-2"
+                  loading="lazy"
+                />
+              )}
+              <CardTitle className="text-lg">{tech.name}</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <CardDescription>{tech.description}</CardDescription>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
-
-        {/* --- Section 5: Technologies We Use --- */}
-        {details.technologies && details.technologies.length > 0 && (
-          <section className="py-12 bg-background">
-             <div className="container mx-auto px-4 max-w-5xl">
-               <h2 className="text-2xl md:text-3xl font-bold mb-8">Technologies We Use</h2>
-               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                 {details.technologies.map((tech, index) => (
-                   <Card key={index} className="border border-border bg-background hover:shadow-md transition-shadow">
-                     <CardHeader className="p-4">
-                       <CardTitle className="text-lg">{tech.icon} {tech.name}</CardTitle>
-                     </CardHeader>
-                     <CardContent className="p-4 pt-0">
-                       <CardDescription>{tech.description}</CardDescription>
-                     </CardContent>
-                   </Card>
-                 ))}
-               </div>
-             </div>
-          </section>
-        )}
 
         {/* --- Section: Key Features / Components (Using details.services) --- */}
         {details.services && details.services.length > 0 && (
@@ -566,7 +546,7 @@ const ServiceDetail: React.FC = () => {
                <h2 className="text-2xl md:text-3xl font-bold mb-8">Key Features / Components</h2>
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                  {details.services.map((feature, index) => (
-                   <div key={index} className="bg-background p-6 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow duration-200">
+                   <div key={index} className="  p-6 rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow duration-200">
                      <h3 className="text-lg font-medium mb-2">{feature}</h3>
                      <p className="text-sm text-muted-foreground">Tailored solutions focused on {feature.toLowerCase()} to meet specific business needs.</p>
                    </div>
@@ -579,7 +559,7 @@ const ServiceDetail: React.FC = () => {
  {/* Section 6: Our Work & Projects */}
         
         {details.projects && (details.projects.completed || details.projects.ongoing || details.projects.upcoming) && (
-           <section className="py-12 bg-background border-t border-border">
+           <section className="py-12   border-t border-border">
             <div className="container mx-auto px-4 max-w-5xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-8">Our Work & Projects</h2>
 
@@ -607,10 +587,10 @@ const ServiceDetail: React.FC = () => {
                 {details.projects.completed && (
                   <TabsContent value="completed" className="space-y-6">
                     {details.projects.completed.map((project, index) => (
-                      <Card key={index} className="overflow-hidden border border-border bg-background">
+                      <Card key={index} className="overflow-hidden border border-border  ">
                         <div className="md:flex">
                           {project.image && (
-                            <div className="md:w-1/3 flex-shrink-0">
+                            <div className="md:w-1/3 flex-shrink-0 relative aspect-[5/3] overflow-hidden">
                               <img
                                 src={project.image}
                                 alt={project.title}
@@ -672,11 +652,11 @@ const ServiceDetail: React.FC = () => {
 {details.projects.ongoing && (
   <TabsContent value="ongoing" className="space-y-6">
     {details.projects.ongoing.map((project, index) => (
-      <Card key={index} className="bg-background overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <Card key={index} className="  overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="flex flex-col md:flex-row">
           {/* Image Section (30%) */}
           {project.image && (
-            <div className="md:w-[30%] flex-shrink-0">
+            <div className="md:w-[30%] flex-shrink-0 relative aspect-[5/3] overflow-hidden">
               <img
                 src={project.image}
                 alt={project.title}
@@ -831,7 +811,7 @@ const ServiceDetail: React.FC = () => {
                 {details.projects.upcoming && (
                   <TabsContent value="upcoming" className="space-y-6">
                     {details.projects.upcoming.map((project, index) => (
-                      <Card key={index} className="border border-border bg-background">
+                      <Card key={index} className="border border-border  ">
                         <CardHeader>
                           <div className="flex justify-between items-start">
                             <CardTitle>{project.title}</CardTitle>
@@ -862,7 +842,7 @@ const ServiceDetail: React.FC = () => {
 {/* Section 7: Industry Applications */}
         
         {industries && Object.keys(industries).length > 0 && (
-          <section className="py-12 bg-background">
+          <section className="py-12  ">
             <div className="container mx-auto px-4 max-w-5xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-8">Industry Applications</h2>
 
@@ -917,7 +897,7 @@ const ServiceDetail: React.FC = () => {
 
   {/* Industry Details Card */}
                 
-                <div className="bg-background border border-border rounded-lg p-6 shadow-sm min-h-[200px]">
+                <div className="  border border-border rounded-lg p-6 shadow-sm min-h-[200px]">
                   {industryData ? (
                     <div className="space-y-6">
                       <h3 className="text-xl font-bold mb-2">{selectedIndustry}</h3>
@@ -969,12 +949,12 @@ const ServiceDetail: React.FC = () => {
  {/* Section 8: Insights & Resources */}
         
         {details.blogPosts && details.blogPosts.length > 0 && (
-          <section className="py-12 bg-muted/30">
+          <section className="p-5">
             <div className="container mx-auto px-4 max-w-5xl">
               <h2 className="text-2xl md:text-3xl font-bold mb-8">Insights & Resources</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
                 {details.blogPosts.map((post, index) => (
-                  <Card key={index} className="overflow-hidden flex flex-col border border-border bg-card hover:shadow-lg transition-shadow">
+                  <Card key={index} className="overflow-hidden flex flex-col hover:shadow-lg transition-shadow bg-white shadow-lg rounded-xl dark:bg-black  dark:text-gray-100">
                     {post.image && (
                       <div className="h-48 overflow-hidden">
                         <img
@@ -984,14 +964,14 @@ const ServiceDetail: React.FC = () => {
                         />
                       </div>
                     )}
-                    <CardHeader className="flex-grow">
+                    <CardHeader className="flex-grow " >
                       <CardTitle className="text-lg leading-snug">{post.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <CardDescription className="text-sm line-clamp-3">{post.excerpt}</CardDescription>
                     </CardContent>
-                    <div className="p-4 pt-0 mt-auto border-t border-border">
-                      <Button variant="link" className="w-full justify-start px-0 text-primary">
+                    <div className="p-4 pt-0 mt-auto border-border">
+                      <Button variant="link" className="w-full justify-start px-0 text-primary" onClick={() => navigate('/blog')}>
                         Read More
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
@@ -1009,17 +989,21 @@ const ServiceDetail: React.FC = () => {
 
  {/* Section 9: Call to Action */}
         
-         <section className="py-16 bg-gradient-to-t from-primary/10 to-background border-t border-border">
+         <section className="py-5 from-primary/10 to-background border-border">
           <div className="container mx-auto px-4 max-w-5xl text-center">
             <div className="max-w-2xl mx-auto">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to leverage {displayTitle}?</h2>
               <p className="mb-8 text-muted-foreground">
                 Our experts are ready to discuss how this service can address your specific business challenges and drive results.
               </p>
-              <Button size="lg" className="rounded-full px-8 py-3 h-auto">
-                Schedule a Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <Button 
+  size="lg" 
+  className="rounded-full px-8 py-3 h-auto"
+  onClick={() => navigate('/consultation')}
+>
+  Schedule a Free Consultation
+  <ArrowRight className="ml-2 h-5 w-5" />
+</Button>
             </div>
           </div>
         </section>

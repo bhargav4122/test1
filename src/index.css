@@ -1,8 +1,7 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Viga:wght@400;700&family=Poppins:wght@300&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Viga:wght@400;700&family=Poppins:wght@300&display=swap');
 
 
 
@@ -95,6 +94,11 @@
 }
 
 @layer utilities {
+
+   .with-border {
+    @apply border-border;
+  }
+
   .glass {
     @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg;
   }
@@ -442,5 +446,112 @@
   }
   .font-poppins {
     font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* date picker */
+.rdp-weekdays {
+  display: flex !important;
+  justify-content: space-around !important;
+  width: 100% !important;
+}
+
+.rdp-weekday {
+  width: var(--rdp-cell-size) !important;
+  text-align: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+@layer utilities {
+  .no-shrink {
+    flex-shrink: 0;
+  }
+}
+
+
+/* Add these to your existing index.css file */
+
+/* Global Glass Effect */
+.glass-container {
+  position: relative;
+}
+
+.glass-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15); /* Light mode glass */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: -1;
+}
+
+.dark .glass-overlay {
+  background: rgba(0, 0, 0, 0.15); /* Dark mode glass */
+}
+
+/* Enhanced Glass Card Styles */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Ensure content appears above glass overlay */
+.content-layer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Update body styles */
+body {
+  @apply bg-white dark:bg-black;
+  min-height: 100vh;
+}
+
+/* Add to your existing utilities */
+@layer utilities {
+  .glass-effect {
+    @apply bg-white/70 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+  
+  .glass-effect-strong {
+    @apply bg-white/50 dark:bg-black/50 backdrop-blur-lg;
+  }
+}
+
+/* Add to your existing utilities */
+@layer utilities {
+  /* Base glass styles */
+  .glass-panel {
+    @apply bg-white/70 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+  
+  /* Stronger glass effect */
+  .glass-panel-strong {
+    @apply bg-white/50 dark:bg-black/50 backdrop-blur-lg;
+  }
+  
+  /* Glass overlay for full-page effects */
+  .glass-overlay {
+    @apply fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10;
+  }
+  
+  /* Content layer to appear above glass */
+  .content-layer {
+    @apply relative z-10;
   }
 }

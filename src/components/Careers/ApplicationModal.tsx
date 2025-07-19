@@ -102,51 +102,40 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   try {
     let cvUrl = '';
+    let cvMetadata = null;
 
     // File upload logic
     if (formData.file) {
-      const sanitizedFileName = formData.file.name
-        .replace(/[^\w.-]/g, '_') // Replace special chars with underscore
-        .toLowerCase();
-
-      console.log('File selected, starting upload', formData.file);
       const uploadToast = toast({
         title: 'Uploading CV...',
         description: 'Please wait while we upload your file',
-        duration: 30000,
+        duration: 45000,
       });
 
       try {
-        // Create FormData and append file
-        const blobFormData = new FormData();
-        blobFormData.append('file', formData.file);
-
-        // Upload to Vercel Blob
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: blobFormData,
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to upload CV');
-        }
-
-        const { url } = await response.json();
-        cvUrl = url;
+        // Use sanitized email as user identifier
+        const sanitizedEmail = formData.email.replace(/[^a-zA-Z0-9]/g, '_');
+        const uploadResult = await uploadFileToStorage(formData.file, sanitizedEmail);
         
+        if (!uploadResult.success) {
+          throw new Error(uploadResult.error || 'File upload failed');
+        }
+        
+        cvUrl = uploadResult.downloadURL || '';
         uploadToast.dismiss();
-        console.log('File uploaded successfully, URL:', cvUrl);
+        
+        toast({
+          title: 'CV Uploaded',
+          description: 'Your resume has been successfully uploaded',
+          duration: 3000
+        });
       } catch (error: any) {
         uploadToast.dismiss();
-        console.error('File upload failed:', error);
-        throw new Error(`File upload failed: ${error.message}`);
+        throw new Error(`CV upload failed: ${error.message}`);
       }
-    } else {
-      console.log('No file selected, skipping upload');
     }
 
     // Form submission
-    console.log('Submitting application form...');
     const applicationResult = await submitJobApplicationForm({
       name: formData.name,
       email: formData.email,
@@ -158,21 +147,27 @@ const handleSubmit = async (e: React.FormEvent) => {
       portfolio: formData.portfolio,
       salaryExpectation: formData.salaryExpectation,
       theme,
-      cvUrl
+      cvUrl,
+      userId: user?.uid || generateUserId(formData.email)
     });
-
-    console.log('Application result:', applicationResult);
 
     if (!applicationResult.success) {
       throw new Error(applicationResult.message || 'Failed to submit application');
     }
 
+    // Send notification (add your notification logic here)
+    await sendApplicationNotification({
+      applicationId: applicationResult.applicationId,
+      applicantName: formData.name,
+      applicantEmail: formData.email,
+      jobTitle: job.title,
+      resumeUrl: cvUrl
+    });
+
     toast({
       title: 'Application Submitted',
       description: 'Your application has been successfully submitted!',
     });
-    console.log('Form submitted successfully');
-
     onClose();
   } catch (error: any) {
     console.error('Submission error:', error);
@@ -183,8 +178,23 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
   } finally {
     setIsSubmitting(false);
-    console.log('Submission process completed');
   }
+};
+
+// Add this helper function (implement according to your notification system)
+const sendApplicationNotification = async (data: {
+  applicationId: string;
+  applicantName: string;
+  applicantEmail: string;
+  jobTitle: string;
+  resumeUrl?: string;
+}) => {
+  // Implementation for Zapier/webhook/email notification
+  // Example:
+  await fetch('https://hooks.zapier.com/hooks/catch/...', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 };
   return (
     <Dialog open={open} onOpenChange={onClose}>

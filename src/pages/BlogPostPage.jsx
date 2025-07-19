@@ -212,14 +212,14 @@ const BlogPostPage = () => {
 
   // Main render
   return (
-    <div className="bg-background min-h-screen">
+    <div className=" min-h-screen">
       {/* Hero section */}
-      <div className="relative bg-gradient-to-r from-primary/10 to-secondary/10 py-16">
+      <div className="pt-20">
   
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
   
-        <div className="relative z-50 mb-6"> {/* Increased z-index and relative positioning */}
+        <div className=" mb-6 pt-10"> {/* Increased z-index and relative positioning */}
         <button
           onClick={() => navigate('/blog', { replace: true })}
           className="flex items-center text-primary hover:text-primary/80 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm"
@@ -259,12 +259,13 @@ const BlogPostPage = () => {
 
       </div>
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Article */}
-          <article className="lg:w-2/3">
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 1rem" }}>
+  <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+    {/* Article */}
+    <article style={{ flex: 2 }}>
+
             <Card>
-              <div className="p-6">
+              <div className="p-6 dark:bg-black dark:text-gray-100">
                 <img
                   src={post.image}
                   alt={post.title}
@@ -356,7 +357,7 @@ const BlogPostPage = () => {
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Write your comment..."
-                      className="w-full p-3 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full p-3 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-black border dark:text-gray-100"
                       rows={3}
                     />
                     <div className="flex justify-end gap-2 mt-2">
@@ -422,38 +423,39 @@ const BlogPostPage = () => {
 
 
             
-            {/* Related Articles */}
-            {relatedPosts.length > 0 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-semibold mb-6 text-primary">Related Articles</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {relatedPosts.map((post) => (
-                    <Card key={post.id}>
-                      <Link to={`/blog/${post.id}`} className="block">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-48 object-cover"
-                        />
-                        <div className="p-6">
-                          <span className="inline-block px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full mb-3">
-                            {post.category}
-                          </span>
-                          <h3 className="text-xl font-semibold mb-2 text-foreground">
-                            {post.title}
-                          </h3>
-                          <p className="text-muted-foreground">{post.excerpt}</p>
-                        </div>
-                      </Link>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
+           {/* Related Articles */}
+{relatedPosts.length > 0 && (
+  <div className="mt-12">
+    <h3 className="text-2xl font-semibold mb-6 text-primary">Related Articles</h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {relatedPosts.map((post) => (
+        <Card key={post.id}>
+          <Link to={`/blog/${post.id}`} className="block">
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-6">
+              <span className="inline-block px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full mb-3">
+                {post.category}
+              </span>
+              <h3 className="text-xl font-semibold mb-2 text-foreground">
+                {post.title}
+              </h3>
+              <p className="text-muted-foreground">{post.excerpt}</p>
+            </div>
+          </Link>
+        </Card>
+      ))}
+    </div>
+  </div>
+)}
           </article>
 
           {/* Sidebar */}
-          <div className="lg:w-1/3">
+          <div style={{ flex: 1 }}>
+
             <BlogFilterSidebar
               onSearch={handleSearch}
               selectedCategory={selectedCategory}

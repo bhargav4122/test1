@@ -446,6 +446,8 @@ export const submitBlogPostWithZapier = async (blogData: {
   }
 };
 
+
+//news subscription
 export const submitNewsletterEmail = async (email: string): Promise<{ success: boolean; message?: string }> => {
   try {
     if (!validateEmail(email)) {
@@ -648,6 +650,7 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
   theme?: string;
   cvUrl?:string;
   userId?: string; 
+  
  }): Promise<{ success: boolean; message?: string; applicationId?: string }> => {
   try {
     const userId = data.userId || generateUserId(data.email);
@@ -677,6 +680,35 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
 
     await set(applicationRef, applicationData);
 
+
+// Send to Zapier with all required fields
+    const formData = new URLSearchParams();
+    formData.append('name', data.name.trim());
+    formData.append('email', data.email.trim().toLowerCase());
+    formData.append('phone', data.phone.trim() || 'Not provided');
+    formData.append('message', data.message.trim());
+    formData.append('jobTitle', data.jobTitle.trim());
+    formData.append('jobId', String(data.jobId).trim());
+    formData.append('linkedIn', data.linkedIn?.trim() || null);
+    formData.append('portfolio', data.portfolio?.trim() || null);
+    formData.append('salaryExpectation', data.salaryExpectation?.trim() || null);
+    formData.append('theme', data.theme || null);
+    formData.append(' cvUrl', data.cvUrl || null);
+    formData.append('userId', userId);
+    formData.append('firebaseId', applicationRef.key || '');
+    formData.append('timestamp', new Date().toLocaleString());
+
+    const response = await fetch('https://hooks.zapier.com/hooks/catch/23697085/u2h6hla/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData
+    });
+
+    if (!response.ok) throw new Error('Zapier submission failed');
+
+
+
+
     return { 
       success: true,
       message: "Application submitted successfully",
@@ -693,60 +725,105 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
 
 
    
-
 export const uploadFileToStorage = async (
   file: File,
-  path: string
+  userId: string
 ): Promise<{ success: boolean; downloadURL?: string; error?: string }> => {
-  console.log('Starting upload...', { file, path });
-  
   try {
-    // 1. Create storage reference
-    const fileRef = storageRef(storage, path);
-    console.log('Storage reference created');
+    // Validate file type
+    const validTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    
+    if (!validTypes.includes(file.type)) {
+      throw new Error('Invalid file type. Only PDF, DOC, and DOCX files are allowed');
+    }
 
-    // 2. Create upload task
-    const uploadTask = uploadBytesResumable(fileRef, file);
-    console.log('Upload task created');
+    // Validate file size
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error('File size exceeds 5MB limit');
+    }
 
-    // 3. Set up promise with timeout
-    return new Promise((resolve, reject) => {
-      // Timeout after 30 seconds
-      const timeout = setTimeout(() => {
-        uploadTask.cancel();
-        reject(new Error('Upload timed out after 30 seconds'));
-      }, 30000);
+    // Create standardized filename
+    const timestamp = Date.now();
+    const fileExtension = file.name.split('.').pop();
+    const fileName = `resume_${timestamp}.${fileExtension}`;
+    const filePath = `resumes/${userId}/${fileName}`;
 
-      // Upload progress (optional)
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload progress: ${progress}%`);
-        },
-        (error) => {
-          clearTimeout(timeout);
-          console.error('Upload error:', error);
-          reject(error);
-        },
-        async () => {
-          try {
-            clearTimeout(timeout);
-            console.log('Upload complete, getting download URL');
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log('Download URL obtained');
-            resolve({ success: true, downloadURL });
-          } catch (error) {
-            console.error('Error getting download URL:', error);
-            reject(error);
-          }
-        }
-      );
-    });
+    // Prepare metadata
+    const metadata = {
+      contentType: file.type,
+      customMetadata: {
+        originalName: encodeURIComponent(file.name),
+        uploader: userId,
+        uploaderEmail: auth.currentUser?.email || 'unknown',
+        uploadedAt: new Date().toISOString(),
+        fileSize: file.size.toString()
+      }
+    };
+
+    // Upload file
+    const fileRef = storageRef(storage, filePath);
+    const uploadTask = uploadBytesResumable(fileRef, file, metadata);
+
+    // Wait for upload to complete
+    await uploadTask;
+
+    // Get download URL
+    const downloadURL = await getDownloadURL(fileRef);
+
+    return { 
+      success: true, 
+      downloadURL 
+    };
   } catch (error: any) {
-    console.error('Upload catch error:', error);
+    console.error('Upload error:', {
+      code: error.code,
+      message: error.message,
+      fileName: file?.name,
+      fileSize: file?.size
+    });
+    
     return {
       success: false,
-      error: error.message || "Failed to upload file"
+      error: error.message || "File upload failed"
     };
+  }
+};
+
+export const uploadResume = async (
+  file: File, 
+  userId: string,
+  applicationId: string
+) => {
+  try {
+    // Validate
+    if (!file || !userId || !applicationId) {
+      throw new Error('Missing required parameters');
+    }
+
+    // Create filename
+    const extension = file.name.split('.').pop();
+    const fileName = `resume_${Date.now()}.${extension}`;
+    const path = `applications/${userId}/${applicationId}/${fileName}`;
+
+    // Upload with metadata
+    const fileRef = ref(storage, path);
+    await uploadBytes(fileRef, file, {
+      contentType: file.type,
+      customMetadata: {
+        originalName: file.name,
+        uploader: userId,
+        appId: applicationId
+      }
+    });
+
+    // Return public URL
+    return await getDownloadURL(fileRef);
+  } catch (error: any) {
+    console.error('Upload failed:', error);
+    throw new Error(`Upload failed: ${error.message}`);
   }
 };

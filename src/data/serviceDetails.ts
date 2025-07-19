@@ -9,12 +9,10 @@ export const serviceDetails = {
     
     "core-data-cloud": {
     
-    title: "Data & Cloud Solutions That Scale With Your Business",
+    title: "Core Data and Cloud Services",
     subtitle: "Enterprise-grade data engineering, AI-ready infrastructure, and cloud innovation—built for growth.",  
     overview: "Our Cloud Infrastructure services provide scalable, secure, and flexible cloud solutions that help businesses optimize their operations, reduce costs, and increase agility. We offer comprehensive cloud architecture design, migration strategies, and ongoing management to ensure your cloud environment meets your specific business requirements.",
-   
-      
-      "description": "At Business and Data Solutions Ltd., we help businesses unlock the full potential of their data with scalable, secure, and future-proof cloud solutions. Whether you need real-time analytics, AI integration, or seamless cloud migration, we design systems that reduce costs, boost efficiency, and drive smarter decisions.",
+    description: "At Business and Data Solutions Ltd., we help businesses unlock the full potential of their data with scalable, secure, and future-proof cloud solutions. Whether you need real-time analytics, AI integration, or seamless cloud migration, we design systems that reduce costs, boost efficiency, and drive smarter decisions.",
    
     benefits: [
       "📈 Trusted by companies scaling their data infrastructure",
@@ -98,27 +96,36 @@ export const serviceDetails = {
     technologies: [
       {
         name: "AWS",
-        description: "Full suite of Amazon Web Services including EC2, S3, Lambda, and more"
+        description: "Full suite of Amazon Web Services including EC2, S3, Lambda, and more",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+          
       },
       {
         name: "Microsoft Azure",
-        description: "Azure Virtual Machines, Azure Storage, Azure Functions, and more"
+        description: "Azure Virtual Machines, Azure Storage, Azure Functions, and more",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg"
       },
       {
         name: "Google Cloud Platform",
-        description: "GCP Compute Engine, Cloud Storage, BigQuery, and more"
+        description: "GCP Compute Engine, Cloud Storage, BigQuery, and more",
+        logo:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original-wordmark.svg"
       },
       {
         name: "Kubernetes",
-        description: "Container orchestration for automated deployment and scaling"
+        description: "Container orchestration for automated deployment and scaling",
+        logo:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-original-wordmark.svg"
+          
+
       },
       {
         name: "Docker",
-        description: "Containerization platform for consistent deployments"
+        description: "Containerization platform for consistent deployments",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
       },
       {
         name: "Terraform",
-        description: "Infrastructure as Code for automated provisioning"
+        description: "Infrastructure as Code for automated provisioning",
+        logo:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original-wordmark.svg"
       }
     ],
     projects: {
@@ -150,7 +157,7 @@ export const serviceDetails = {
               "Reduced reporting latency from days → minutes",
               "Enabled predictive maintenance"
           ],
-          "image": "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80",
+          "image": "/public/photos/website-hosting-concept-with-circuits.jpg",
           "tags": ["Data Lake", "SCD", "Semantic Layer"]
       },
       {
@@ -167,7 +174,7 @@ export const serviceDetails = {
               "Improved query performance 18x",
               "Achieved PCI DSS compliance"
           ],
-          "image": "https://images.unsplash.com/photo-1556741536508-17f38d3702be?auto=format&fit=crop&q=80",
+          "image": "/public/photos/migration_10404445.png",
           "tags": ["Snowflake", "Data Vault", "Migration"]
       }
       ],
@@ -254,9 +261,6 @@ export const serviceDetails = {
       }
     ]
   },
-
-  
-  
 
   //'Business Intelligence & Digital Transformation': 'bi-digital-transformation'
   "bi-digital-transformation": {
@@ -3645,7 +3649,7 @@ subServices: [
           "use_case": "Global e-commerce compliance"
         }
       ],
-      "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80",
+     
 
     "client_stories": [
       {

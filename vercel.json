@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "vite.config.js",
+      "use": "@vitejs/plugin-react",
+      "config": {
+        "distDir": "dist",
+        "nodeVersion": "18.x"
+      }
+    }
+  ],
+ 
+ "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ],
+  "env": {
+    
+    "NODE_ENV": "production"
+  },
+  "installCommand": "npm install --legacy-peer-deps --prefer-offline",
+  "framework": "vite"
+}

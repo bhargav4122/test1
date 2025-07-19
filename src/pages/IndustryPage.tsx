@@ -16,7 +16,7 @@ export default function IndustryPage() {
 
   if (!industry) {
     return (
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-10">
         <Navbar />
         <div className="text-center mt-24">
           <h1 className="text-4xl font-bold text-red-500">Industry not found</h1>
@@ -28,11 +28,11 @@ export default function IndustryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen dark:bg-black  dark:text-gray-100">
      
       {/* Hero Section */}
-      <div className="relative h-[400px] overflow-hidden mt-20">
-        <div className="absolute inset-0">
+      <div className="relative h-[400px] overflow-hidden">
+        <div className="absolute">
           <img
             src={industry.heroImage}
             alt={industry.title}
@@ -41,14 +41,14 @@ export default function IndustryPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40" />
         </div>
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
+        <div className="container mx-auto h-full flex items-center relative ">
           <div>
             <Button 
               variant="ghost" 
               onClick={() => navigate('/industries')}
               className="mb-6 text-white hover:bg-white/10 flex items-center gap-2"
             >
-              <ArrowLeft className="h-4 w-4" /> Back to All Industries
+              <ArrowLeft className="" /> Back to All Industries
             </Button>
             <h1 className="text-5xl text-white font-bold gradient-text mb-4">{industry.title}</h1>
             <p className="text-xl text-gray-300 max-w-2xl">{industry.description}</p>
@@ -107,19 +107,24 @@ export default function IndustryPage() {
         </section>
 
         {/* CTA Section */}
-        <CTASection
-          theme="purple"
-          layout="split"
-          title={`Transform Your ${industry.title}`}
-          description="Let's discuss how our industry-specific solutions can help you overcome challenges and achieve your goals."
-          primaryButtonText="Schedule Consultation"
-          secondaryButtonText="Learn More"
-          benefits={[
-            'Industry-specific expertise',
-            'Proven implementation methodology',
-            'Continuous optimization'
-          ]}
-        />
+       <section className="py-16 px-4 sm:px-6 lg:px-8 ">
+  <div className="max-w-4xl mx-auto">
+    <CTASection 
+      title={`Transform Your ${industry.title}`}
+      description="Let's discuss how our industry-specific solutions can help you overcome challenges and achieve your goals."
+      primaryButtonText="Schedule Consultation"
+      secondaryButtonText="Learn More"
+      benefits={[
+        'Industry-specific expertise',
+        'Proven implementation methodology',
+        'Continuous optimization',
+        'Free 45-minute consultation',
+        'Custom solution blueprint',
+        'ROI assessment'
+      ]}
+    />
+  </div>
+</section>
       </div>
       
     </div>

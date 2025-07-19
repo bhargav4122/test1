@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, MapPin, Phone, Mail } from "lucide-react";
-import { submitFooterForm } from "@/firebase";
+import { submitNewsletterEmail } from "@/firebase";
+import { validateEmail } from '@/utils/emailValidation';
 
 export default function Footer() {
   const quickLinks = [
@@ -18,79 +19,44 @@ export default function Footer() {
     { name: 'Cookie Policy', path: '/cookies' }
   ];
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-
-  const [submissionState, setSubmissionState] = useState<{
-    status: "idle" | "loading" | "success" | "error";
-    message?: string;
-  }>({ status: "idle" });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
- // Update the handleSubmit function in your Footer component
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setSubmissionState({ status: "loading" });
-
-  try {
-    // Basic validation
-    if (!formData.name.trim()) {
-      throw new Error("Name is required");
-    }
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      throw new Error("Please enter a valid email");
-    }
-    if (!formData.message.trim()) {
-      throw new Error("Message is required");
-    }
-
-    const { success, message } = await submitFooterForm({
-      ...formData,
-      source: window.location.pathname
-    });
-
-    if (!success) throw new Error("Submission failed");
-
-    setSubmissionState({
-      status: "success",
-      message: message || "Thank you! We'll get back to you soon."
-    });
-
-    setFormData({ name: "", email: "", message: "" });
-
-  } catch (error: any) {
-    setSubmissionState({
-      status: "error",
-      message: error.message || "Submission failed. Please try again."
-    });
-  }
-};
+ const [email, setEmail] = useState("");
+   const [subscribed, setSubscribed] = useState(false);
+   const [error, setError] = useState("");
+ 
+     const handleSubscribe = async (e) => {
+     e.preventDefault();
+     setSubscribed(false);
+     setError("");
+ 
+     if (!validateEmail(email)) {
+     setError("Please provide a valid business/work email address");
+     return;
+      }
+ 
+     const success = await submitNewsletterEmail(email);
+     if (success) {
+       setSubscribed(true);
+       setEmail("");
+     } else {
+       setError("Something went wrong. Try again later.");
+     }
+   };
 
   return (
-    <footer className="bg-background border-t border-border mt-20">
-      <div className="container mx-auto px-4 py-12">
+    <footer className=" pt-2 flex flex-col overflow-x-hidden bg-white dark:bg-black">
+      <div className="container mx-auto px-4 pt-5">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Quick Links - 3D Card */}
           <div className="group relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            <div className="relative bg-background rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+           <div className="absolute inset-0.5 from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+            <div className="relative  rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary">Quick Links</h3>
               <ul className="space-y-2">
                 {quickLinks.map((link) => (
                   <li key={link.path}>
                     <Link
                       to={link.path}
-                      className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-300"
+                      className="flex items-center hover:text-primary transition-colors duration-300"
                     >
                       <ChevronRight className="h-4 w-4 mr-2" />
                       {link.name}
@@ -103,8 +69,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           {/* Legal Links - 3D Card */}
           <div className="group relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            <div className="relative bg-background rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+           <div className="absolute inset-0.5 from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+            <div className="relative  rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary">Legal</h3>
               <ul className="space-y-2">
                 {legalLinks.map((link) => (
@@ -124,17 +90,18 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           {/* Contact Info - 3D Card */}
           <div className="group relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            <div className="relative bg-background rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+         <div className="absolute -inset-0.5 from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+            <div className="relative  rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-primary">Contact Info</h3>
               <div className="space-y-4">
                 <p className="flex items-center text-muted-foreground">
                   <MapPin className="h-5 w-5 mr-3 text-primary" />
-                  123 Business Street, Tech City, TC 12345
+                 LONDON, UK
                 </p>
                 <p className="flex items-center text-muted-foreground">
                   <Phone className="h-5 w-5 mr-3 text-primary" />
-                  +1 (555) 123-4567
+                  +44 7487871919,<br/>
+                  +91 6304472055
                 </p>
                 <p className="flex items-center text-muted-foreground">
                   <Mail className="h-5 w-5 mr-3 text-primary" />
@@ -144,62 +111,44 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
           </div>
 
-          {/* Contact Form - 3D Card */}
+          {/* Newsletter Subscription - 3D Card */}
           <div className="group relative">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            <div className="relative bg-background rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
-              <h3 className="text-xl font-semibold mb-4 text-primary">Get In Touch</h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  rows={4}
-                  className="w-full px-4 py-2 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-                <button
-                  type="submit"
-                  className="w-full px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-300 transform hover:-translate-y-0.5 hover:shadow-md"
-                  disabled={submissionState.status === "loading"}
-                >
-                  {submissionState.status === "loading" ? "Sending..." : "Send Message"}
-                </button>
-                {submissionState.status === "error" && (
-                  <p className="text-red-500 text-sm text-center">
-                    {submissionState.message}
-                  </p>
-                )}
-                {submissionState.status === "success" && (
-                  <p className="text-green-500 text-sm text-center">
-                    {submissionState.message}
-                  </p>
-                )}
-              </form>
+           <div className="absolute -inset-0.5 from-primary/30 to-secondary/30 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+            <div className="relative  rounded-lg border border-border p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+              <h3 className="text-xl font-semibold mb-4 text-primary">Newsletter</h3>
+              <p className="text-muted-foreground mb-4">
+                Subscribe to our newsletter for the latest updates and insights.
+              </p>
+             
+      
+        <form onSubmit={handleSubscribe} className="space-y-3">
+          <input
+            type="email"
+            placeholder="Your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 rounded border bg-background"
+            required
+          />
+          <button
+            type="submit"
+            disabled={!email || subscribed}
+            className="w-full py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50"
+          >
+            {subscribed ? "Subscribed!" : "Subscribe"}
+          </button>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {subscribed && (
+            <p className="text-green-500 text-sm">Thanks for subscribing!</p>
+          )}
+        </form>
+      
+  
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center text-muted-foreground">
+        <div className="mt-2 pt-2 border-border text-center text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} BDS. All rights reserved.</p>
         </div>
       </div>

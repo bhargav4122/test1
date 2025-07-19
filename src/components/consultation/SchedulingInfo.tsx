@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -9,6 +8,9 @@ import { Label } from "@/components/ui/label";
 import { format, addDays, isBefore } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar as CalendarIcon } from "lucide-react";
+import 'react-day-picker/dist/style.css';
+import { enUS } from 'date-fns/locale';
+
 
 interface SchedulingInfoProps {
   formData: {
@@ -50,37 +52,47 @@ export const SchedulingInfo = ({ formData, handleInputChange, timeSlots, theme }
         >
           <Label className={theme === "dark" ? "text-gray-300" : ""}>Select Date *</Label>
           <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !formData.date && "text-muted-foreground",
-                  theme === "dark" ? "border-gray-600 hover:bg-gray-600" : "",
-                  "hover:scale-[1.01] transition-transform duration-200"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {formData.date ? format(formData.date, "PPP") : "Pick a date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent 
-              className="w-auto p-0" 
-              align="start"
-              sideOffset={5}
-            >
-              <Calendar
-                mode="single"
-                selected={formData.date}
-                onSelect={(date) => handleInputChange("date", date)}
-                disabled={(date) => {
-                  const twoDaysFromNow = addDays(new Date(), 2);
-                  return isBefore(date!, twoDaysFromNow);
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className={cn(
+        "w-full justify-start text-left font-normal",
+        !formData.date && "text-muted-foreground",
+        theme === "dark" ? "border-gray-600 hover:bg-gray-600" : "",
+        "hover:scale-[1.01] transition-transform duration-200"
+      )}
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+      {formData.date ? format(formData.date, "PPP") : "Pick a date"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent 
+    className="w-auto p-0" 
+    align="start"
+    sideOffset={5}
+  >
+    <Calendar
+      mode="single"
+      selected={formData.date}
+      onSelect={(date) => handleInputChange("date", date)}
+      disabled={(date) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return isBefore(date!, today);
+      }}
+      initialFocus
+      locale={enUS} // Add locale
+      modifiers={{
+        today: new Date() // Highlight today
+      }}
+      modifiersStyles={{
+        today: {
+          border: '2px solid currentColor'
+        }
+      }}
+    />
+  </PopoverContent>
+</Popover>
         </motion.div>
         
         <motion.div

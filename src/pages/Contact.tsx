@@ -219,7 +219,7 @@ const ContactForm = () => {
   return (
     <div className={cn(
       "min-h-screen",
-      theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+      theme === "dark" ? "bg-black-900" : "bg-black-50"
     )}>
       {/* Success/Error Dialog */}
       {showDialog && (
@@ -275,7 +275,7 @@ const ContactForm = () => {
       
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 pt-20 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -310,9 +310,9 @@ const ContactForm = () => {
         variants={containerVariants}
         className={cn(
           "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12",
-          theme === "dark" ? "bg-gray-800/50" : "bg-white",
-          "rounded-3xl shadow-xl border",
-          theme === "dark" ? "border-gray-700" : "border-gray-200",
+          theme === "dark" ? "" : "bg-white",
+          "rounded-3xl shadow-xl",
+          theme === "dark" ? "" : "border-gray-200",
           "mb-20"
         )}
       >
@@ -343,7 +343,7 @@ const ContactForm = () => {
                   className={cn(
                     "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
                     theme === "dark" 
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
                       : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
                   )}
                   placeholder="Your name"
@@ -362,7 +362,7 @@ const ContactForm = () => {
     className={cn(
       "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
       theme === "dark" 
-        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
         : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
     )}
     placeholder="your.email@example.com"
@@ -388,7 +388,7 @@ const ContactForm = () => {
                   className={cn(
                     "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
                     theme === "dark" 
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
                       : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
                   )}
                   placeholder="Your company name"
@@ -407,7 +407,7 @@ const ContactForm = () => {
                     className={cn(
                       "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
                       theme === "dark" 
-                        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
                         : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
                     )}
                   >
@@ -430,7 +430,7 @@ const ContactForm = () => {
                     className={cn(
                       "w-full px-4 py-3 rounded-lg border focus:ring-2 focus:outline-none transition-all",
                       theme === "dark" 
-                        ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
                         : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500",
                       !phoneValid && formData.phone ? "border-red-500" : ""
                     )}
@@ -495,7 +495,7 @@ const ContactForm = () => {
                 className={cn(
                   "w-full px-4 py-3 rounded-xl border focus:ring-2 focus:outline-none transition-all min-h-[150px]",
                   theme === "dark" 
-                    ? "bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                    ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
                     : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
                 )}
                 placeholder="Tell us about your project or inquiry..."

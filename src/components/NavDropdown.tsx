@@ -4,6 +4,7 @@ import { ChevronDown, ExternalLink, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils"; // Add this import
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 // Define interfaces based on your navigationData structure
@@ -85,6 +86,9 @@ export default function NavDropdown({ title, items }: NavDropdownProps) {
       item.path && ['startups', 'marketing'].includes(item.path.split('/').pop() || '')
     ),
   } : {};
+
+
+  
 
   // --- Effects (Adapted from Reference) ---
 
@@ -190,12 +194,8 @@ const { theme } = useTheme();
               openDropdown();
             }
           }}
-          // Only hover-open on desktop to avoid weirdness on mobile
-          onMouseEnter={() => {
-            if (window.innerWidth >= 768) {
-              openDropdown();
-            }
-          }}
+        
+        
           className={`flex items-center transition-colors duration-300 py-2 pl-1 pr-3 rounded-lg
             ${isOpen ? theme === "dark"
       ? "bg-white/10 text-white"
@@ -214,10 +214,19 @@ const { theme } = useTheme();
         </button>
       </div>
 
+
+<AnimatePresence>
+
       {isOpen && (
-        <div
+       <motion.div
           ref={dropdownContentRef}
           style={getDropdownPosition()}
+
+          initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.2 }}
+
           className="bg-gray-900/95 rounded-lg shadow-xl border border-gray-800 backdrop-blur-lg animate-slide-up z-50"
           onWheel={handleDropdownScroll}
           onTouchMove={(e) => e.stopPropagation()}
@@ -337,10 +346,22 @@ const { theme } = useTheme();
                   </div>
                 </div>
               </div>
+               <div className="mt-4 pt-4 border-t border-gray-800">
+                <Link
+                  to="/services"
+                  className="flex items-center justify-center text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  View All Services
+                  <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           )}
-        </div>
+       </motion.div>
       )}
+
+      </AnimatePresence>
     </div>
   );
 }

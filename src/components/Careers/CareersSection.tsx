@@ -136,7 +136,7 @@ const CareersSection = ({ onApply }: { onApply: (job: any) => void }) => {
     setSelectedJob(null);
   };
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
          {selectedJob && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                    <motion.div 
@@ -235,27 +235,27 @@ const CareersSection = ({ onApply }: { onApply: (job: any) => void }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-20"
+        className="text-center pt-5"
       >
-        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600 mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
           Join Our Team
         </h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto pt-5">
           Build your career at the forefront of data innovation. We're looking for passionate individuals to help shape the future.
         </p>
       </motion.div>
       
       {/* Benefits Section */}
-      <section className="mb-28">
-        <motion.h2 
+      <section className="mb-10">
+        <motion.h4 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-3xl font-bold mb-12 text-center"
+          className="text-3xl font-bold p-5 text-center"
         >
           Why Join Us
-        </motion.h2>
+        </motion.h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map((b, i) => (
@@ -342,7 +342,7 @@ const CareersSection = ({ onApply }: { onApply: (job: any) => void }) => {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ scale: 1.01 }}
-                className="p-8 rounded-xl border border-border bg-card hover:shadow-lg transition-all duration-300"
+                className="p-8 rounded-xl hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex-1">

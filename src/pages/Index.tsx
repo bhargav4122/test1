@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import Statistics from "@/components/Statistics";
-import HowItWorks from "@/components/HowItWorks";
-import CallToAction from "@/components/CallToAction";
-import AnimatedBackground from "@/components/AnimatedBackground";
-import ServicesOverview from '@/components/ServicesOverview';
-import IndustrySection from '@/components/IndustrySection';
-import Why from '@/components/Why';
-import AnimatedTestimonialsDemo  from '@/components/animated-testimonials-demo';
-
-
+import React, { useEffect } from "react";
+import Hero from "@/components/home/Hero";
+import Features from "@/components/home/Features";
+import Statistics from "@/components/home/Statistics";
+import HowItWorks from "@/components/home/HowItWorks";
+import CallToAction from "@/components/home/CallToAction";
+import AnimatedBackground from "@/components/home/AnimatedBackground";
+import ServicesOverview from '@/components/home/ServicesOverview';
+import IndustrySection from '@/components/home/IndustrySection';
+import Why from '@/components/home/Why';
+import AnimatedTestimonialsDemo from '@/components/home/animated-testimonials-demo';
+import "../index.css";
 
 const Index = () => {
-//  const [showInitialAnimation, setShowInitialAnimation] = useState(true);
- // const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const animateOnScroll = () => {
       const elements = document.querySelectorAll('.animate-on-scroll');
@@ -26,51 +22,30 @@ const Index = () => {
         }
       });
     };
-    
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll();
     
     return () => window.removeEventListener('scroll', animateOnScroll);
   }, []);
 
-  /*useEffect(() => {
-    // Set a minimum load time of 2 seconds to ensure animation plays properly
-    const minLoadTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(minLoadTimer);
-  }, []);
-
-  useEffect(() => {
-    if (!isLoading) {
-      // After minimum load time, show animation for 5 seconds
-      const animationTimer = setTimeout(() => {
-        setShowInitialAnimation(false);
-      }, 2000);
-
-      return () => clearTimeout(animationTimer);
-    }
-  }, [isLoading]);*/
-
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
+      {/* Full-page glass overlay */}
+      <div className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"></div>
+      
       <AnimatedBackground />
-          <main>
-          <Hero />
-          <Statistics />
-           {/*<ServiceSections />*/}
-          <ServicesOverview />
-          <IndustrySection />
-          <Features />
-          <Why />
-          <HowItWorks />
-           {/*<Testimonials />*/}
-          <AnimatedTestimonialsDemo />
-          <CallToAction />
-        
+      
+      <main className="relative">
+        <Hero />
+        <Statistics />
+        <ServicesOverview />
+        <IndustrySection />
+        <Features />
+        <Why />
+        <HowItWorks />
+        <AnimatedTestimonialsDemo />
+        <CallToAction />
       </main>
-     
     </div>
   );
 };

@@ -25,7 +25,7 @@ export default function SparklesPreview() {
         className="relative z-20 text-center"
       >
         <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-white mb-4">
-          GBDS
+          BDS
         </h1>
         <p className="md:text-xl text-sm lg:text-2xl font-bold text-white mb-8">
           Business & Data Solutions

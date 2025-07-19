@@ -82,7 +82,7 @@ export default function Industries() {
   return (
     <div className="min-h-screen py-5 md:py-10">
    
-      <div className="container mx-auto px-4 py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <div className="container mx-auto px-4 py-16 bg-white shadow-lg rounded-xl dark:bg-black dark:text-gray-100 min-h-screen">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold gradient-text mb-4 text-gray-900 dark:text-white">
@@ -94,7 +94,7 @@ export default function Industries() {
         </div>
 
         {/* Filter Section - Now at the top */}
-        <div className="mb-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div className="mb-12 rounded-xl dark:bg-black dark:text-gray-100">
           <div className="flex flex-col md:flex-row md:items-end gap-4">
             {/* Search Input */}
             <div className="flex-1">
@@ -111,7 +111,7 @@ export default function Industries() {
                   placeholder="Search by industry name or description..."
                   value={searchTerm}
                   onChange={handleSearchChange}
-                  className="pl-10 pr-10 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
+                  className="pl-10 pr-10 dark:text-white"
                 />
                 {searchTerm && (
                   <button 
@@ -131,7 +131,7 @@ export default function Industries() {
                 Filter by Category
               </label>
               <Select value={activeCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger id="industry-category" className="dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100">
+                <SelectTrigger id="industry-category" className="dark:bg-gray-900  dark:text-gray-100">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent className="dark:bg-gray-800 dark:border-gray-700">

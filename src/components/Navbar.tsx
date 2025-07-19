@@ -49,54 +49,32 @@ const Navbar = () => {
   ];
 
   return (
-    <>
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
-          isScrolled
-            ? theme === "dark" 
-              ? "bg-black/90 backdrop-blur-md border-b border-gray-800 shadow-lg" 
-              : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200"
-            : "bg-transparent"
-        )}
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 md:h-20 items-center justify-between">
-
-            {/* Logo - Keeping original large size */}
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
-                {/* Light Mode Logo */}
-                <img 
-                  src="/BDS Logo - Original with Transparent Background (1).svg" 
-                  alt="BDS Light Logo" 
-                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
-                    theme === 'light' ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    display: theme === 'light' ? 'block' : 'none',
-                    marginLeft: -50,
-                    lineHeight: 0,
-                    clipPath: 'inset(30px 0 0 0)'
-                  }}
-                />
-                
-                {/* Dark Mode Logo */}
-                <img 
-                  src="/BDS Logo - Original with Transparent Background.svg" 
-                  alt="BDS Dark Logo" 
-                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
-                    theme === 'dark' ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{
-                    display: theme === 'dark' ? 'block' : 'none',
-                    marginLeft: -50,
-                    lineHeight: 0,
-                    clipPath: 'inset(30px 0 0 0)'
-                  }}
-                />
-              </div>
-            </Link>
+  <>
+  <header
+    className={cn(
+      "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
+      isScrolled
+        ? theme === "dark"
+          ? "bg-black/90 backdrop-blur-md border-b border-gray-800 shadow-lg"
+          : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200"
+        : "bg-transparent"
+    )}
+  >
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="flex h-16 md:h-20 items-center justify-between">
+        
+        {/* Logo - Fully responsive */}
+        <Link to="/" className="flex items-center z-10">
+          <img
+            src={
+              theme === "dark"
+                ? "/BDS Logowhite.png"
+                : "/BDS Logo - Original with Transparent Background.png"
+            }
+            alt="BDS Logo"
+            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+          />
+        </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
@@ -116,6 +94,23 @@ const Navbar = () => {
                 <HomeIcon className="h-4 w-4" />
                 Home
               </Link>
+   
+              <Link 
+                to="/about" 
+                className={cn(
+                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
+                  location.pathname === "/about"
+                    ? theme === "dark" 
+                      ? "bg-white/10 text-white" 
+                      : "bg-primary/10 text-primary"
+                    : theme === "dark" 
+                      ? "text-gray-300 hover:text-white hover:bg-white/5" 
+                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
+                )}
+              >
+                About
+              </Link>
+              
 
               <NavDropdown 
                 title="Services"
@@ -156,22 +151,7 @@ const Navbar = () => {
               >
                 Team & Careers
               </Link>
-              
-              <Link 
-                to="/about" 
-                className={cn(
-                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-                  location.pathname === "/about"
-                    ? theme === "dark" 
-                      ? "bg-white/10 text-white" 
-                      : "bg-primary/10 text-primary"
-                    : theme === "dark" 
-                      ? "text-gray-300 hover:text-white hover:bg-white/5" 
-                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                )}
-              >
-                About
-              </Link>
+           
               
               <Link 
                 to="/contact" 

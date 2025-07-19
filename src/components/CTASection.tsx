@@ -30,59 +30,24 @@ export default function CTASection({
 }: CTASectionProps) {
   // Theme-based gradient backgrounds
   const gradients = {
-    blue: 'from-blue-600/20 via-blue-500/20 to-blue-600/20 dark:from-blue-600/20 dark:via-blue-500/20 dark:to-blue-600/20',
-    purple: 'from-purple-600/20 via-purple-500/20 to-purple-600/20 dark:from-purple-600/20 dark:via-purple-500/20 dark:to-purple-600/20',
-    green: 'from-emerald-600/20 via-emerald-500/20 to-emerald-600/20 dark:from-emerald-600/20 dark:via-emerald-500/20 dark:to-emerald-600/20',
-    cyan: 'from-cyan-600/20 via-cyan-500/20 to-cyan-600/20 dark:from-cyan-600/20 dark:via-cyan-500/20 dark:to-cyan-600/20',
-    gradient: 'from-blue-600/20 via-purple-600/20 to-blue-600/20 dark:from-blue-600/20 dark:via-purple-600/20 dark:to-blue-600/20'
+   
   };
 
   // Theme-based button gradients
   const buttonGradients = {
-    blue: 'from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800',
-    purple: 'from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800',
-    green: 'from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800',
-    cyan: 'from-cyan-500 to-cyan-700 hover:from-cyan-600 hover:to-cyan-800',
-    gradient: 'from-blue-500 to-purple-700 hover:from-blue-600 hover:to-purple-800'
+  gradient: 'from-blue-400 to-blue-600 dark:from-blue-400'
   };
 
   // Theme-based text gradients
   const textGradients = {
-    blue: 'from-blue-400 to-blue-600 dark:from-blue-400 dark:to-blue-600',
-    purple: 'from-purple-400 to-purple-600 dark:from-purple-400 dark:to-purple-600',
-    green: 'from-emerald-400 to-emerald-600 dark:from-emerald-400 dark:to-emerald-600',
-    cyan: 'from-cyan-400 to-cyan-600 dark:from-cyan-400 dark:to-cyan-600',
-    gradient: 'from-blue-400 to-purple-600 dark:from-blue-400 dark:to-purple-600'
+
+    gradient: 'from-blue-400 to-blue-600 dark:from-blue-400 dark:to-blue-600'
   };
 
   return (
-    <HolographicCard className="relative overflow-hidden bg-white dark:bg-gray-900">
+    <div className="relative overflow-hidden bg-white shadow-lg rounded-xl dark:bg-black dark:text-gray-100">
       {/* Animated Background with Parallax */}
-      <div className="absolute inset-0">
-        <div 
-          className={`absolute inset-0 bg-gradient-to-br ${gradients[theme]} animate-gradient`}
-          style={showParallax ? {
-            transform: 'translateZ(-10px)',
-            transition: 'transform 0.3s ease-out'
-          } : undefined}
-        />
-        
-        {/* Animated Particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <Sparkles
-              key={i}
-              className={`absolute text-gray-400/20 dark:text-white/10 animate-pulse`}
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                transform: `scale(${Math.random() * 0.5 + 0.5})`
-              }}
-            />
-          ))}
-        </div>
-      </div>
+    
       
       <div className="relative z-10 p-8 md:p-12">
         <div className={`max-w-4xl mx-auto ${layout === 'centered' ? 'text-center' : ''}`}>
@@ -157,6 +122,6 @@ export default function CTASection({
           </div>
         </div>
       </div>
-    </HolographicCard>
+    </div>
   );
 }

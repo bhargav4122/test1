@@ -1,8 +1,37 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Card } from "../components/UI/card";
+import { Card } from "../components/ui/card";
 import BlogCard from "../components/Blog/BlogCard";
 import BlogFilterSidebar from "../components/Blog/BlogFilterSidebar";
 import { fetchBlogPosts } from "@/firebase/blogService";
+
+// Hard coded inline styles
+const layoutContainerStyle = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  gap: "20px",
+};
+
+const contentStyle = {
+  width: "76.66%", // roughly two-thirds of the container
+};
+
+const sidebarStyle = {
+  width: "23.33%", // roughly one-third of the container
+};
+
+const heroStyle = {
+  background: "linear-gradient(to right, rgba(59,130,246,0.1), rgba(16,185,129,0.1))",
+  padding: "0px 0",
+  textAlign: "center",
+};
+
+const containerStyle = {
+  maxWidth: "1200px",
+  margin: "0 auto",
+  padding: "0px",
+};
 
 const BlogPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,30 +48,27 @@ const BlogPage = () => {
       try {
         setLoading(true);
         setError(null);
-        
         const posts = await fetchBlogPosts();
-        
-        // Validate and normalize posts data
-        const validatedPosts = posts.map(post => ({
+
+        const validatedPosts = posts.map((post) => ({
           ...post,
-          title: post.title || 'Untitled Post',
-          content: post.content || '',
-          category: post.category || 'Uncategorized',
+          title: post.title || "Untitled Post",
+          content: post.content || "",
+          category: post.category || "Uncategorized",
           tags: Array.isArray(post.tags) ? post.tags : [],
         }));
 
         setBlogPosts(validatedPosts);
 
-        // Extract categories
+        // Extract categories and tags
         const catMap = {};
         const tagSet = new Set();
 
         validatedPosts.forEach((post) => {
           const name = post.category.trim();
           catMap[name] = (catMap[name] || 0) + 1;
-
           post.tags.forEach((tag) => {
-            if (typeof tag === 'string') {
+            if (typeof tag === "string") {
               tagSet.add(tag.trim());
             }
           });
@@ -52,7 +78,6 @@ const BlogPage = () => {
           name,
           count,
         }));
-
         setCategories(extractedCategories);
         setTags([...tagSet]);
       } catch (err) {
@@ -70,15 +95,14 @@ const BlogPage = () => {
     try {
       return blogPosts.filter((post) => {
         const searchLower = searchTerm.toLowerCase();
-        const titleLower = (post.title || '').toLowerCase();
-        const contentLower = (post.content || '').toLowerCase();
-        const categoryLower = (post.category || '').toLowerCase();
+        const titleLower = (post.title || "").toLowerCase();
+        const contentLower = (post.content || "").toLowerCase();
+        const categoryLower = (post.category || "").toLowerCase();
         const selectedCategoryLower = selectedCategory.toLowerCase();
         const selectedTagLower = selectedTag.toLowerCase();
 
         const matchesSearch = searchTerm
-          ? titleLower.includes(searchLower) || 
-            contentLower.includes(searchLower)
+          ? titleLower.includes(searchLower) || contentLower.includes(searchLower)
           : true;
 
         const matchesCategory = selectedCategory
@@ -86,9 +110,7 @@ const BlogPage = () => {
           : true;
 
         const matchesTag = selectedTag
-          ? (post.tags || []).some(tag => 
-              String(tag).toLowerCase() === selectedTagLower
-            )
+          ? (post.tags || []).some((tag) => String(tag).toLowerCase() === selectedTagLower)
           : true;
 
         return matchesSearch && matchesCategory && matchesTag;
@@ -110,13 +132,13 @@ const BlogPage = () => {
 
   if (error) {
     return (
-      <div className="bg-background min-h-screen flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
-          <p className="text-muted-foreground mb-6">{error}</p>
-          <button 
+      <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Card style={{ padding: "20px", textAlign: "center" }}>
+          <h2 style={{ fontSize: "1.75rem", color: "red" }}>Error</h2>
+          <p style={{ marginBottom: "1rem" }}>{error}</p>
+          <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+            style={{ padding: "8px 16px", backgroundColor: "#2563EB", color: "#fff", border: "none", borderRadius: "4px" }}
           >
             Retry
           </button>
@@ -126,42 +148,44 @@ const BlogPage = () => {
   }
 
   return (
-    <div className="bg-background min-h-screen">
+   <div className=" text-foreground min-h-screen">
+
       {/* Hero */}
-      <div className="relative bg-gradient-to-r from-primary/10 to-secondary/10 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">BDS Insights</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+      <div style={heroStyle}>
+        <div className=" pt-20 dark:bg-black dark:text-gray-100">
+
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary ">BDS Insights</h1>
+          <p style={{ fontSize: "1.25rem", color: "#6b7280", maxWidth: "600px", margin: "0 auto" }}>
             Discover the latest trends, research, and thought leadership from our team of experts.
           </p>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Blog Posts */}
-          <div className="lg:w-2/3">
-            <h2 className="text-2xl font-semibold mb-6 text-primary">Latest Articles</h2>
+      {/* Main Content */}
+      <div style={containerStyle}>
+        <div style={layoutContainerStyle}>
+          {/* Blog Posts Section */}
+          <div style={contentStyle}>
+             <h2 className="text-2xl md:text-3xl font-bold mb-3 text-primary pt-10">Latest Articles</h2>
             {loading ? (
-              <div className="flex justify-center items-center h-64">
+              <div style={{ textAlign: "center", padding: "40px 0" }}>
                 <p>Loading posts...</p>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 gap-6">
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
                 {filteredPosts.length === 0 ? (
-                  <div className="col-span-full text-center py-10">
-                    <p className="text-muted-foreground">No posts found matching your criteria.</p>
+                  <div style={{ textAlign: "center", padding: "40px 0" }}>
+                    <p>No posts found matching your criteria.</p>
                     <button
                       onClick={handleClearFilters}
-                      className="mt-4 px-4 py-2 text-primary underline hover:text-primary/80"
+                      style={{ marginTop: "10px", padding: "8px 16px", backgroundColor: "transparent", color: "#2563EB", textDecoration: "underline", border: "none" }}
                     >
                       Clear all filters
                     </button>
                   </div>
                 ) : (
                   filteredPosts.map((post) => (
-                    <Card key={post.id}>
+                    <Card key={post.id} style={{ padding: "16px" }}>
                       <BlogCard post={post} />
                     </Card>
                   ))
@@ -170,8 +194,8 @@ const BlogPage = () => {
             )}
           </div>
 
-          {/* Sidebar */}
-          <div className="lg:w-1/3 space-y-6">
+          {/* Sidebar Section */}
+          <div style={sidebarStyle}>
             <BlogFilterSidebar
               onSearch={handleSearch}
               selectedCategory={selectedCategory}
