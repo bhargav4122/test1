@@ -3,10 +3,8 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "use": "@vercel/plugin-react",
+      "config": {      }
     }
   ],
   "routes": [
@@ -18,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
+      "dest": "/",
       "status": 200
     }
   ],
@@ -28,8 +26,4 @@
       "destination": "/index.html"
     }
   ]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a149305899bad8b4a43b30f2d6c4bb5a94067081
