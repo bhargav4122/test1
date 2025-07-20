@@ -66,7 +66,7 @@ export default function Features() {
   return (
     <section 
       id="features" 
-      className="p-10 bg-white dark:bg-black relative"
+      className="p-10 relative"
     >
       {/* Glass overlay for the section */}
       <div className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"></div>
