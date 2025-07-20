@@ -63,7 +63,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="section relative overflow-hidden flex flex-col overflow-x-hidden bg-white dark:bg-black"
+      className="section relative overflow-hidden flex flex-col overflow-x-hidden"
     >
       {/* Background blobs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
