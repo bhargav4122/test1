@@ -98,7 +98,7 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="p-10 bg-white dark:bg-black"
+      className="p-10"
     >
       {/* Glass overlay for the section */}
       <div className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"></div>
