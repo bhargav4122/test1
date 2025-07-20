@@ -50,7 +50,7 @@ export default function Hero() {
   loop
   playsInline
 >
-        <source src="/videos/Google Gemini.mp4" type="video/mp4" />
+        <source src="/videos/GoogleGemini.mp4" type="video/mp4" />
 
       </video>
 
