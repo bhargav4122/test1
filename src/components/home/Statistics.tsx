@@ -12,14 +12,14 @@ export default function Statistics() {
   const statistics = [
     {
       icon: <Users className="h-5 w-5" />,
-      value: 5000,
+      value: 100,
       label: "Active Users",
       suffix: "+",
       duration: 2000
     },
     {
       icon: <Layers className="h-5 w-5" />,
-      value: 50,
+      value: 20,
       label: "Terabytes Processed",
       suffix: "TB",
       duration: 2500
@@ -63,7 +63,7 @@ export default function Statistics() {
 
   return (
     <section 
-      className="py-10 bg-white dark:bg-black"
+      className="py-10"
       ref={ref}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
