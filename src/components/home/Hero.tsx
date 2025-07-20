@@ -50,7 +50,12 @@ export default function Hero() {
   loop
   playsInline
 >
-        <source src="/videos/GoogleGemini.mp4" type="video/mp4" />
+        <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4" type="video/mp4"
+          alt="Optimized Image"
+   loading="lazy"  
+   width="800"     
+   height="450"
+          />
 
       </video>
 
