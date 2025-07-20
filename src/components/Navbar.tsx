@@ -68,8 +68,8 @@ const Navbar = () => {
           <img
             src={
               theme === "dark"
-                ? "/BDS Logowhite.png"
-                : "/BDS Logo - Original with Transparent Background.png"
+                ? "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logowhite_odmpw0.png"
+                : "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logo_-_Original_with_Transparent_Background_yyjwku.png"
             }
             alt="BDS Logo"
             className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
