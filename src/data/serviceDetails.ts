@@ -157,7 +157,7 @@ export const serviceDetails = {
               "Reduced reporting latency from days → minutes",
               "Enabled predictive maintenance"
           ],
-          "image": "/public/photos/website-hosting-concept-with-circuits.jpg",
+          "image": "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753060632/datahub_nscrgo.png",
           "tags": ["Data Lake", "SCD", "Semantic Layer"]
       },
       {
@@ -174,7 +174,7 @@ export const serviceDetails = {
               "Improved query performance 18x",
               "Achieved PCI DSS compliance"
           ],
-          "image": "/public/photos/migration_10404445.png",
+          "image": "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058290/migration_10404445_beepih.png",
           "tags": ["Snowflake", "Data Vault", "Migration"]
       }
       ],
