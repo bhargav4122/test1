@@ -157,7 +157,7 @@ export const serviceDetails = {
               "Reduced reporting latency from days → minutes",
               "Enabled predictive maintenance"
           ],
-          "image": "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753060632/datahub_nscrgo.png",
+          "image": "/public/photos/website-hosting-concept-with-circuits.jpg",
           "tags": ["Data Lake", "SCD", "Semantic Layer"]
       },
       {
@@ -174,7 +174,7 @@ export const serviceDetails = {
               "Improved query performance 18x",
               "Achieved PCI DSS compliance"
           ],
-          "image": "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058290/migration_10404445_beepih.png",
+          "image": "/public/photos/migration_10404445.png",
           "tags": ["Snowflake", "Data Vault", "Migration"]
       }
       ],
@@ -263,446 +263,511 @@ export const serviceDetails = {
   },
 
   //'Business Intelligence & Digital Transformation': 'bi-digital-transformation'
-  "bi-digital-transformation": {
-    "overview": "Evolve Your Enterprise\n\nIn today's digital world, data and technology are key to success. Our services bridge the gap between potential and performance:\n\n- **Data-Driven Insights**: We leverage Business Intelligence, advanced analytics, and AI to unlock critical insights for smarter decision-making.\n- **End-to-End Digital Transformation**: We provide a holistic suite of services including strategic consulting, digital marketing, web/app development, and automation.\n- **Integrated Growth**: Our solutions seamlessly combine technology and marketing to modernize your operations, enhance customer engagement, foster innovation, and drive measurable growth.",
+ 
+  "business-intelligence": {
+    "title": "Business Intelligence & Analytics",
+    "subtitle": "Transform data into actionable insights that drive growth",
+    "overview": "Our BI services empower organizations to make data-driven decisions through powerful visualization, advanced analytics, and intelligent reporting. We bridge the gap between raw data and strategic action.",
+    "description": "At Business and Data Solutions Ltd., we build enterprise-grade BI solutions that turn complex data into clear insights. From executive dashboards to embedded analytics, we create systems that improve decision velocity and operational efficiency across your organization.",
+    
     "benefits": [
-      "Data-driven decision-making with real-time analytics",
-      "Enhanced customer experiences with personalized insights",
-      "Automated marketing workflows (email, ads, CRM)",
-      "Cloud-native scalability for evolving business needs",
-      "Data unification across marketing and operations",
-      "Omnichannel digital experiences (web + mobile + social)",
-      "Proven ROI through measurable KPIs",
-      "Competitive advantage through predictive analytics",
-      "Scalable digital infrastructure for future growth",
-
+      "📊 Real-time visibility into business performance",
+      "🔍 Self-service analytics for business users",
+      "📈 Predictive insights through AI/ML integration",
+      "🔄 Automated reporting that saves 80%+ time",
+      "📱 Mobile-optimized dashboards for on-the-go access",
+      "🔗 Embedded analytics for seamless application integration",
+      "🛡️ Enterprise-grade security and governance",
+      "📉 Cost reduction through data-driven optimization"
     ],
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80",
-    subServices:[
-
-        {
-          "id": "bi-dashboarding",
-          "title": "1️⃣ Custom BI Dashboards – Insights That Drive Action",
-          "description": "Transform your data into interactive dashboards for better decision-making.",
-          "features": [
-            "  Power BI, Tableau & Looker dashboards tailored to your KPIs",
-            "  Real-time and automated reporting",
-            "  Embedded dashboards for web portals and apps"
-          ],
-          "testimonial": "🚀 *\"Enabled C-suite decision-making with a unified BI dashboard across 5 departments.\"*"
-        },
-        {
-          "id": "kpi-metrics",
-          "title": "2️⃣ KPI & Metrics Design – Define What Matters",
-          "description": "Align performance indicators with business goals.",
-          "features": [
-            "  Strategic KPI frameworks for every department",
-            "  Drill-down & roll-up capabilities for multilevel analysis",
-            "  Metric standardization using semantic layers"
-          ],
-          "testimonial": "🚀 *\"Reduced report preparation time by 70% with pre-defined KPI templates.\"*"
-        },
-        {
-          "id": "digital-strategy",
-          "title": "3️⃣ Digital Transformation Strategy – Build for the Future",
-          "description": "Reimagine your business with cloud-first, agile transformation.",
-          "features": [
-            "  Digital maturity assessments & roadmap creation",
-            "  Agile rollout of digital initiatives",
-            "  Tech modernization (ERP/CRM migrations, cloud enablement)"
-          ],
-          "testimonial": "🚀 *\"Accelerated time-to-market by 3x after redesigning digital strategy for a logistics firm.\"*"
-        },
-        {
-          "id": "marketing-analytics",
-          "title": "4️⃣ Marketing Intelligence – Data-Driven Campaigns",
-          "description": "Enhance ROI with smarter analytics for your marketing spend.",
-          "features": [
-            "  GA4 & paid ad performance dashboards",
-            "  Customer journey & funnel analytics",
-            "  A/B testing insights & conversion optimization"
-          ],
-          "testimonial": "🚀 *\"Increased lead conversion by 25% by optimizing campaign attribution and audience segmentation.\"*"
-        },
-        {
-          "id": "web-app-dev",
-          "title": "5️⃣ Web & App Development – Launch Faster, Scale Smarter",
-          "description": "Build fast, responsive, and secure digital platforms tailored to your users.",
-          "features": [
-            "  Custom websites, client portals, and e-commerce stores",
-            "  Cross-platform mobile app development (iOS, Android)",
-            "  PWA, API, and third-party integration (CRM, ERP)"
-          ],
-          "testimonial": "🚀 *\"Reduced app bounce rate by 40% with our new UX-first mobile design for a retail client.\"*"
-        },
-        {
-          "id": "business-analysis",
-          "title": "6️⃣ Business Analysis & Process Optimization – Align Tech with Strategy",
-          "description": "Bridge the gap between business needs and technical delivery.",
-          "features": [
-            "  Requirements gathering & stakeholder alignment",
-            "  Process mapping (As-Is / To-Be analysis)",
-            "  ROI models & business case development"
-          ],
-          "testimonial": "🚀 *\"Saved 300+ hours annually by redesigning inefficient internal workflows.\"*"
-        },
-      
-      
-      
-      
-      
-      
-                    {
-                      "id": "business-intelligence",
-                      "title": "Business Intelligence",
-                      "description": "Turn data into actionable insights with AI-powered analytics",
-                      "features": [
-                        "Interactive dashboards",
-                        "Self-service analytics",
-                        "Predictive modeling",
-                        "Embedded analytics",
-                        "Data storytelling"
-                      ]
-                      
-                      },
-                   
-                   
-                    
-                    {
-                      "id": "digital-transformation",
-                      "title": "Digital Transformation",
-                      "description": "Modernize operations with cloud, automation, and AI",
-                      "features": [
-                        "Legacy system modernization",
-                        "Process automation",
-                        "Change management",
-                        "AI integration",
-                        "Continuous improvement"
-                      ]
-                      
-                    },
-                  
-                        {
-                          "id": "bi-dashboarding",
-                          "title": "1️⃣ Custom BI Dashboards – Insights That Drive Action",
-                          "description": "Transform your data into interactive dashboards for better decision-making.",
-                          "features": [
-                            "  Power BI, Tableau & Looker dashboards tailored to your KPIs",
-                            "  Real-time and automated reporting",
-                            "  Embedded dashboards for web portals and apps",
-                            "  AI-powered anomaly detection",
-                            "  Mobile-optimized views with push notifications",
-                            "  Automated data refresh scheduling"
-                          ],
-                          "technologies": ["Power BI Premium", "Tableau Cloud", "Looker Studio", "Fabric Embedded", "Qlik Sense"],
-                          "projectCount": 28,
-                          "completedProjects": 22,
-                      },
-                        {
-                          "id": "kpi-metrics",
-                          "title": "2️⃣ KPI & Metrics Design – Define What Matters",
-                          "description": "Align performance indicators with business goals.",
-                          "features": [
-                            "  Strategic KPI frameworks for every department",
-                            "  Drill-down & roll-up capabilities for multilevel analysis",
-                            "  Metric standardization using semantic layers",
-                            "  Automated KPI health scoring",
-                            "  Benchmarking against industry standards",
-                            "  What-if scenario modeling"
-                          ],
-                          "technologies": ["dbt Metrics Layer", "Cube.js", "Power BI Metrics", "Tableau Pulse", "Looker Measures"],
-                          "projectCount": 19,
-                          "completedProjects": 15,
-                          
-                        },
-                        {
-                          "id": "digital-strategy",
-                          "title": "3️⃣ Digital Transformation Strategy – Build for the Future",
-                          "description": "Reimagine your business with cloud-first, agile transformation.",
-                          "features": [
-                            "  Digital maturity assessments & roadmap creation",
-                            "  Agile rollout of digital initiatives",
-                            "  Tech modernization (ERP/CRM migrations, cloud enablement)",
-                            "  AI adoption roadmap development",
-                            "  Change management frameworks",
-                            "  ROI tracking dashboards"
-                          ],
-                          "technologies": ["Microsoft Cloud Adoption Framework", "AWS Migration Hub", "Google Cloud Cortex", "Workday", "SAP S/4HANA"],
-                          "projectCount": 32,
-                          "completedProjects": 24,
-                          "projects": {
-                            "completed": [
-                              {
-                                "client": "Manufacturing Conglomerate",
-                                "description": [
-                                  "Mapped 5-year digital transformation journey",
-                                  "Prioritized 120+ initiatives using value/complexity matrix",
-                                  "Implemented IoT-enabled smart factories"
-                                ],
-                                "duration": "6 months",
-                                "result": "$12M projected annual savings from automation"
-                              }
-                            ],
-                            "current": [
-                              {
-                                "client": "Retail Chain",
-                                "description": [
-                                  "Developing omnichannel commerce strategy",
-                                  "Planning AI-powered inventory optimization",
-                                  "Migrating legacy POS systems"
-                                ],
-                                "status": "Phase 1 of 4"
-                              }
-                            ]
-                          },
-                          "testimonial": "🚀 *\"Accelerated time-to-market by 3x after redesigning digital strategy for a logistics firm.\"*"
-                        },
-                        {
-                          "id": "marketing-analytics",
-                          "title": "4️⃣ Marketing Intelligence – Data-Driven Campaigns",
-                          "description": "Enhance ROI with smarter analytics for your marketing spend.",
-                          "features": [
-                            "  GA4 & paid ad performance dashboards",
-                            "  Customer journey & funnel analytics",
-                            "  A/B testing insights & conversion optimization",
-                            "  Multi-touch attribution modeling",
-                            "  Predictive audience segmentation",
-                            "  Competitor benchmarking"
-                          ],
-                          "technologies": ["Google Analytics 360", "Adobe Analytics", "Meta Attribution", "HubSpot CDP", "Snowflake Marketing Data Cloud"],
-                          "projectCount": 21,
-                          "completedProjects": 17,
-                          "projects": {
-                            "completed": [
-                              {
-                                "client": "Travel Platform",
-                                "description": [
-                                  "Built unified marketing performance dashboard",
-                                  "Implemented MTA across 6 channels",
-                                  "Automated weekly performance reports"
-                                ],
-                                "duration": "3 months",
-                                "result": "35% increase in ROAS through data-driven budget allocation"
-                              }
-                            ]
-                          },
-                          "testimonial": "🚀 *\"Increased lead conversion by 25% by optimizing campaign attribution and audience segmentation.\"*"
-                        },
-                        {
-                          "id": "web-app-dev",
-                          "title": "5️⃣ Web & App Development – Launch Faster, Scale Smarter",
-                          "description": "Build fast, responsive, and secure digital platforms tailored to your users.",
-                          "features": [
-                            "  Custom websites, client portals, and e-commerce stores",
-                            "  Cross-platform mobile app development (iOS, Android)",
-                            "  PWA, API, and third-party integration (CRM, ERP)",
-                            "  AI-powered chatbots and virtual assistants",
-                            "  Headless CMS implementations",
-                            "  Web3 and blockchain integrations"
-                          ],
-                          "technologies": ["React", "Flutter", "Shopify Plus", "WordPress VIP", "Azure Static Web Apps"],
-                          "projectCount": 45,
-                          "completedProjects": 38,
-                          "projects": {
-                            "completed": [
-                              {
-                                "client": "Healthcare Startup",
-                                "description": [
-                                  "Developed HIPAA-compliant patient portal",
-                                  "Integrated with 5 EHR systems via API",
-                                  "Implemented telehealth features"
-                                ],
-                                "duration": "5 months",
-                                "result": "40% reduction in patient no-show rates"
-                              }
-                            ],
-                            "current": [
-                              {
-                                "client": "Financial Institution",
-                                "description": [
-                                  "Building next-gen mobile banking app",
-                                  "Implementing biometric authentication",
-                                  "Developing AI-powered financial insights"
-                                ],
-                                "status": "Phase 3 of 5"
-                              }
-                            ]
-                          },
-                          "testimonial": "🚀 *\"Reduced app bounce rate by 40% with our new UX-first mobile design for a retail client.\"*"
-                        },
-                        {
-                          "id": "business-analysis",
-                          "title": "6️⃣ Business Analysis & Process Optimization – Align Tech with Strategy",
-                          "description": "Bridge the gap between business needs and technical delivery.",
-                          "features": [
-                            "  Requirements gathering & stakeholder alignment",
-                            "  Process mapping (As-Is / To-Be analysis)",
-                            "  ROI models & business case development",
-                            "  Digital twin simulations",
-                            "  Value stream mapping",
-                            "  Continuous improvement frameworks"
-                          ],
-                          "technologies": ["Signavio", "Celonis", "Microsoft Visio", "Jira Align", "ARIS"],
-                          "projectCount": 27,
-                          "completedProjects": 21,
-                          "projects": {
-                            "completed": [
-                              {
-                                "client": "Logistics Provider",
-                                "description": [
-                                  "Mapped end-to-end supply chain processes",
-                                  "Identified $2M in annual automation opportunities",
-                                  "Designed AI-powered routing optimization"
-                                ],
-                                "duration": "4 months",
-                                "result": "18% reduction in delivery times"
-                              }
-                            ]
-                          },
-                        "testimonial": "🚀 *\"Saved 300+ hours annually by redesigning inefficient internal workflows.\"*"
-                        },
+    
+    "subServices": [
       {
-        "name": "Performance Marketing",
-        "description": "Data-optimized paid campaigns (Google, Meta, TikTok)",
-        "tools": ["Google Ads", "Meta Ads Manager", "Klaviyo"],
-        "case_example": "Boosted e-commerce ROAS by 240% through AI bid strategies"
+        "id": "interactive-dashboards",
+        "title": "1️⃣ Interactive Dashboards - Visualize What Matters",
+        "description": "Custom-built dashboards tailored to your key metrics and workflows.",
+        "features": [
+          "Power BI, Tableau, or Looker implementation",
+          "Executive-level KPI scorecards",
+          "Department-specific operational views",
+          "Drill-down capabilities for root cause analysis",
+          "Automated data refresh schedules",
+          "White-labeling for client-facing reports"
+        ],
+        "testimonial": "🚀 *\"Reduced monthly reporting time from 40 hours to 2 hours with automated dashboards for a manufacturing client.\"*"
       },
       {
-        "name": "Social Commerce",
-        "description": "Shops, chatbots, and influencer campaigns",
-        "tools": ["Instagram Shopping", "TikTok API", "ManyChat"],
-        "case_example": "Integrated TikTok Shop with Shopify, driving 35% of holiday sales"
+        "id": "advanced-analytics",
+        "title": "2️⃣ Advanced Analytics - Predict and Optimize",
+        "description": "Go beyond basic reporting with predictive and prescriptive analytics.",
+        "features": [
+          "Forecasting models for demand planning",
+          "What-if scenario analysis",
+          "Anomaly detection systems",
+          "Root cause analysis frameworks",
+          "Statistical modeling (R, Python integration)",
+          "AI-powered recommendations"
+        ],
+        "testimonial": "🚀 *\"Improved inventory accuracy by 35% through our demand forecasting models for a retail chain.\"*"
       },
       {
-        "name": "Email & CRM Automation",
-        "description": "Personalized journeys based on behavioral triggers",
-        "tools": ["HubSpot", "Braze", "Customer.io"],
-        "case_example": "Reduced cart abandonment by 28% with AI-driven email sequences"
+        "id": "embedded-analytics",
+        "title": "3️⃣ Embedded Analytics - Insights Where You Work",
+        "description": "Integrate analytics directly into your business applications.",
+        "features": [
+          "White-labeled analytics portals",
+          "Application-native visualizations",
+          "Secure data access controls",
+          "Custom API integrations",
+          "User-specific data filtering",
+          "Actionable insight workflows"
+        ],
+        "testimonial": "🚀 *\"Increased platform engagement by 60% after embedding analytics into our client's SaaS product.\"*"
+      },
+      {
+        "id": "data-storytelling",
+        "title": "4️⃣ Data Storytelling - Communicate with Impact",
+        "description": "Transform numbers into compelling narratives that drive action.",
+        "features": [
+          "Executive briefing packages",
+          "Automated report distribution",
+          "Annotation and commentary systems",
+          "Presentation-ready data visualizations",
+          "Collaborative analysis environments",
+          "Mobile-friendly story formats"
+        ],
+        "testimonial": "🚀 *\"Helped a nonprofit secure $2M in additional funding through improved data storytelling of their impact metrics.\"*"
       }
     ],
-
-
+    
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80",
+    
     "technologies": [
       {
-        "name": "Power BI/Tableau",
-        "description": "Interactive dashboards and visualization tools for business analytics"
+        "name": "Power BI",
+        "description": "Microsoft's leading business analytics platform",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/powerbi/powerbi-original.svg"
       },
       {
-        "name": "AI/ML",
-        "description": "Predictive modeling and intelligent automation solutions"
+        "name": "Tableau",
+        "description": "Interactive data visualization software",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tableau/tableau-original.svg"
       },
       {
-        "name": "Cloud Data Warehousing",
-        "description": "Scalable data storage and processing (Snowflake, BigQuery, Redshift)"
+        "name": "Looker",
+        "description": "Google Cloud's BI and data visualization platform",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
       },
       {
-        "name": "RPA",
-        "description": "Robotic Process Automation for workflow optimization"
+        "name": "SQL",
+        "description": "Standard language for relational database management",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg"
       },
       {
-        "name": "IoT Analytics",
-        "description": "Real-time insights from connected devices and sensors"
+        "name": "Python",
+        "description": "Programming language for advanced analytics",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
       },
       {
-        "name": "Digital Twin",
-        "description": "Virtual simulations of physical systems for scenario planning"
+        "name": "Databricks",
+        "description": "Unified data analytics platform",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/databricks/databricks-original.svg"
       }
     ],
+    
     "projects": {
       "completed": [
         {
-          "title": "Retail Chain Customer Analytics Platform",
-          "description": "Implemented a unified customer data platform that increased marketing ROI by 40% through personalized recommendations.",
+          "title": "Retail Performance Dashboard Suite",
+          "description": "Developed a comprehensive set of 15+ dashboards tracking sales, inventory, and customer metrics across 200 stores.",
           "image": "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&q=80",
-          "tags": ["Retail", "Customer 360", "Personalization"]
+          "tags": ["Retail", "Power BI", "Inventory Optimization"]
         },
         {
-          "title": "Manufacturing Predictive Maintenance System",
-          "description": "Deployed IoT sensors and ML models that reduced equipment downtime by 55% for an industrial manufacturer.",
-          "image": "https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&q=80",
-          "tags": ["IIoT", "Industry 4.0", "Machine Learning"]
-        },
-        {
-          "title": "Pharmaceutical Marketing Intelligence Platform",
-          "description": "Built a BI dashboard tracking 50K+ healthcare provider interactions, improving campaign targeting by 45%.",
+          "title": "Healthcare Provider Analytics Portal",
+          "description": "Built a HIPAA-compliant analytics platform serving 5,000+ medical professionals with real-time patient data insights.",
           "image": "https://images.unsplash.com/photo-1579165466740-5041e0e49b28?auto=format&fit=crop&q=80",
-          "tags": ["Power BI", "CRM Integration", "HIPAA Compliance"]
-        },
-        {
-          "title": "Luxury Retail Social Commerce Suite",
-          "description": "Launched Instagram Shopping + WhatsApp concierge bots, increasing social-driven revenue by 210%.",
-          "image": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80",
-          "tags": ["Instagram API", "ChatGPT", "High-Touch CX"]
-        },
-
+          "tags": ["Healthcare", "Tableau", "Clinical Analytics"]
+        }
       ],
       "ongoing": [
         {
-          "title": "Banking Digital Transformation Program",
-          "description": "Modernizing core banking systems and implementing AI-powered chatbots for 24/7 customer service.",
-          "progress": 70,
-          "tags": ["Core Banking", "Chatbots", "Process Automation"]
-        },
-        {
-          "title": "Healthcare Data Modernization Initiative",
-          "description": "Migrating legacy systems to cloud-based analytics platforms to enable real-time clinical decision support.",
-          "progress": 45,
-          "tags": ["Cloud Migration", "Clinical Analytics", "FHIR"]
+          "title": "Financial Services Predictive Analytics",
+          "description": "Implementing ML models to predict customer churn and lifetime value for a regional bank.",
+          "progress": 65,
+          "tags": ["Banking", "Machine Learning", "Customer Analytics"]
         }
       ],
       "upcoming": [
         {
-          "title": "Smart City Traffic Optimization Project",
-          "description": "Leveraging AI and real-time data to optimize traffic flow and reduce congestion in urban areas.",
+          "title": "Manufacturing Quality Intelligence",
+          "description": "Developing real-time defect detection analytics for an automotive parts supplier.",
           "startDate": "Q3 2025",
-          "tags": ["Smart Cities", "AI Optimization", "Urban Planning"]
-        },
-        {
-          "title": "Energy Sector Digital Twin Implementation",
-          "description": "Creating virtual replicas of power generation assets to simulate scenarios and improve maintenance planning.",
-          "startDate": "Q4 2025",
-          "tags": ["Energy", "Digital Twin", "Asset Performance"]
+          "tags": ["IIoT", "Quality Control", "Real-time Analytics"]
         }
       ]
     },
-    "blogPosts": [
-      {
-        "title": "From Data to Decisions: Building an Effective BI Strategy",
-        "excerpt": "Key considerations for developing a business intelligence strategy that aligns with organizational goals and delivers actionable insights.",
-        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
-      },
-      {
-        "title": "The Human Side of Digital Transformation",
-        "excerpt": "How to manage organizational change and workforce adaptation during technology-driven transformations.",
-        "image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80"
-      },
-      {
-        "title": "Measuring Digital Transformation ROI: Beyond Technology Metrics",
-        "excerpt": "A framework for quantifying both tangible and intangible benefits of digital transformation initiatives.",
-        "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"
-      },
-      {
-        "title": "From Data to Dollars: Monetizing Analytics in Digital Marketing",
-        "excerpt": "How we helped a beauty brand turn BI insights into a 7-figure ad strategy.",
-        "image": "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80"
-      },
-      {
-        "title": "The Silent Revolution: How RPA is Changing Marketing Ops",
-        "excerpt": "Case study: Automating 80% of a Fortune 500’s campaign reporting.",
-        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
-      }
-    ],
+    
     "caseStudies": [
       {
-        "title": "Global Logistics Company: Route Optimization AI",
-        "results": "Reduced fuel costs by 18% and improved delivery times by 22%",
+        "title": "Global Logistics: Fleet Optimization Analytics",
+        "challenge": "Inefficient routing costing $1.2M annually in fuel waste",
+        "solution": "Implemented geospatial analytics with live traffic data integration",
+        "outcome": "18% reduction in fuel costs, 22% faster deliveries",
         "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80"
+      }
+    ],
+    
+    "blogPosts": [
+      {
+        "title": "The Art of Dashboard Design: Principles for Maximum Impact",
+        "excerpt": "How we design executive dashboards that get results, not just glances.",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
+      }
+    ]
+  },
+
+  "digital-transformation": {
+    "title": "Digital Transformation Services",
+    "subtitle": "Modernize your business for the digital age",
+    "overview": "We guide organizations through comprehensive digital transformation journeys - from strategy development to technology implementation and change management. Our approach balances innovation with practical execution.",
+    "description": "At Business and Data Solutions Ltd., we help enterprises reinvent their operations, customer experiences, and business models through strategic technology adoption. Whether modernizing legacy systems or building new digital capabilities, we ensure transformations deliver measurable value.",
+    
+    "benefits": [
+    "⚡ 24-hour AI website deployment (£499+)",
+        "🤖 Custom chatbots deployed in 48 hours",
+        "📱 WhatsApp Business integration ready in 72h",
+        "💸 Market's lowest-cost rapid deployment",
+        "🔄 Dual-track: quick wins + long-term strategy",
+        "🌐 Complete digital footprint solutions",
+        "📈 Enterprise modernization roadmaps",
+        "🔌 Plug-and-play digital storefronts",
+        "🔐 Enterprise-grade security",
+        "🛠️ Custom solution development",
+        "📊 Advanced analytics integration",
+        "🤝 Dedicated account management"
+    ],
+    
+    "subServices": [
+      {
+        "id": "digital-strategy",
+        "title": "1️⃣ Digital Strategy & Roadmapping",
+        "description": "Create a clear path from current state to digital future.",
+        "features": [
+          "Digital maturity assessments",
+          "Technology landscape analysis",
+          "Business case development",
+          "Prioritization frameworks",
+          "Investment roadmaps",
+          "Transformation OKRs"
+        ],
+        "testimonial": "🚀 *\"Helped a 100-year-old manufacturer identify $15M in digital opportunities through our strategic assessment.\"*"
       },
       {
-        "title": "Pharmaceutical Leader: Drug Discovery Acceleration",
-        "results": "Cut research cycle times by 30% using advanced data analytics",
-        "image": "https://images.unsplash.com/photo-1579165466740-5041e0e49b28?auto=format&fit=crop&q=80"
+      "id": "ai-website-factory",
+      "title": "2️⃣ AI Website Factory - Live in 24 Hours",
+      "description": "AI-generated business websites with human refinement.",
+      "features": [
+        "AI site builder with 1000+ templates",
+        "1-day deployment guarantee",
+        "Mobile-optimized design",
+        "SEO pre-configured",
+        "Basic hosting included",
+        "Content generation tools",
+        "E-commerce ready (Shopify Lite)",
+        "Analytics dashboard",
+        "£499 launch special (normally £1,500)"
+      ],
+      "testimonial": "🚀 *\"Had a professional website live before our first sales call - game changer!\" - Startup Founder*",
+      "deliveryTime": "24-48 hours",
+      "priceRange": "£499-£1,999"
+    },
+    {
+      "id": "chatbot-factory",
+      "title": "3️⃣ AI Chatbot Factory - Deploy in 48 Hours",
+      "description": "Custom AI assistants for your business.",
+      "features": [
+        "WhatsApp Business integration",
+        "Website chat widget",
+        "Facebook Messenger connector",
+        "24/7 customer queries handling",
+        "Basic FAQ training included",
+        "Human handoff capability",
+        "Monthly performance reports",
+        "£299 setup (then £99/month)"
+      ],
+      "testimonial": "🚀 *\"Handles 80% of customer queries before they reach our team.\" - E-commerce Store*",
+      "deliveryTime": "48-72 hours",
+      "priceRange": "£299 setup + £99/month"
+    },
+      {
+      "id": "digital-presence-kit",
+      "title": "4️⃣ Complete Digital Presence Kit",
+      "description": "Everything needed to go digital in one week.",
+      "features": [
+        "AI-generated website",
+        "Google Business profile setup",
+        "Basic SEO implementation",
+        "Social media auto-posting",
+        "Email marketing setup",
+        "Review management system",
+        "Analytics dashboard",
+        "£1,799 all-inclusive package"
+      ],
+      "testimonial": "🚀 *\"Went from zero to complete digital presence in 5 business days.\" - Local Service Business*",
+      "deliveryTime": "5-7 days",
+      "priceRange": "£1,799 one-time"
+    },
+       {
+      "id": "process-automation",
+      "title": "5️⃣ Intelligent Process Automation",
+      "description": "Eliminate manual work through RPA and AI.",
+      "features": [
+        "Process discovery assessment",
+        "RPA bot development",
+        "Document processing AI",
+        "Workflow orchestration",
+        "Exception handling",
+        "Center of Excellence setup",
+        "Continuous improvement"
+      ],
+      "testimonial": "🚀 *\"Automated 85% of invoice processing, reducing errors by 95%.\" - Logistics Client*"
+    },
+    {
+      "id": "data-modernization",
+      "title": "6️⃣ Data Modernization",
+      "description": "Unlock value from your data assets.",
+      "features": [
+        "Data architecture redesign",
+        "Modern data platform implementation",
+        "Data governance framework",
+        "Real-time analytics enablement",
+        "AI/ML readiness assessment",
+        "Data monetization strategies"
+      ],
+      "testimonial": "🚀 *\"Reduced time-to-insight from weeks to minutes with our modern data platform.\" - Healthcare Provider*"
+    },
+    {
+      "id": "enterprise-mobility",
+      "title": "7️⃣ Enterprise Mobility",
+      "description": "Empower your workforce with mobile solutions.",
+      "features": [
+        "Field service applications",
+        "Mobile asset tracking",
+        "Offline-capable apps",
+        "Mobile device management",
+        "Location-based services",
+        "Augmented reality interfaces",
+        "Mobile security solutions"
+      ],
+      "testimonial": "🚀 *\"Field technicians complete 30% more jobs daily with our mobile work order system.\" - Utility Company*"
+    },
+    {
+      "id": "ecommerce-solutions",
+      "title": "8️⃣ E-Commerce Transformation",
+      "description": "Build digital commerce capabilities.",
+      "features": [
+        "Platform selection",
+        "Headless commerce architecture",
+        "Payment gateway integration",
+        "Personalization engines",
+        "Omnichannel fulfillment",
+        "Subscription models",
+        "Marketplace integrations"
+      ],
+      "testimonial": "🚀 *\"Online sales grew 210% in first year post-transformation.\" - Specialty Retailer*"
+    },
+  
+    {
+      "id": "change-management",
+      "title": "9️⃣ Change Management & Adoption",
+      "description": "Ensure successful transformation outcomes.",
+      "features": [
+        "Impact assessment",
+        "Stakeholder alignment",
+        "Training programs",
+        "Communication plans",
+        "Adoption metrics",
+        "Continuous feedback loops",
+        "Benefits realization"
+      ],
+      "testimonial": "🚀 *\"Achieved 98% user adoption on our new platform through comprehensive change management.\" - Insurance Provider*"
+    }
+    
+   
+    
+    ],
+    
+    "image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80",
+    
+    "technologies": [
+      {
+        "name": "Cloud Platforms",
+        "description": "AWS, Azure, GCP for scalable infrastructure",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg"
+      },
+     
+      {
+        "name": "Low-Code",
+        "description": "OutSystems, Mendix for rapid application development",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mendix/mendix-original.svg"
+      },
+      {
+        "name": "ERP/CRM",
+        "description": "SAP, Salesforce, Dynamics 365 modernization",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/salesforce/salesforce-original.svg"
+      },
+      
+      {
+        "name": "IoT",
+        "description": "Connected devices and edge computing",
+        "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg"
+      },
+       {
+      "name": "AI Website Builders",
+      "description": "Durable, Wix ADI, Framer AI",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ai/ai-original.svg"
+    },
+    {
+      "name": "Chatbot Platforms",
+      "description": "Dialogflow, ManyChat, Landbot",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chatbot/chatbot-original.svg"
+    },
+    {
+      "name": "WhatsApp Business API",
+      "description": "Cloud-based messaging",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/whatsapp/whatsapp-original.svg"
+    },
+    
+    {
+      "name": "RPA",
+      "description": "UiPath, Automation Anywhere, Power Automate",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/uipath/uipath-original.svg"
+    },
+    {
+      "name": "React/React Native",
+      "description": "Modern web and mobile development",
+      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+    },
+   
+  
+  
+        {
+          "name": "Shopify",
+          "useCase": "E-commerce storefronts",
+          "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/shopify/shopify-original.svg"
+        }
+    ],
+    
+    "projects": {
+      "completed": [
+        {
+          "title": "Banking Digital Transformation",
+          "description": "Modernized core banking systems and launched AI-powered chatbots serving 500K+ customers.",
+          "image": "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80",
+          "tags": ["Core Banking", "Chatbots", "Process Automation"]
+        },
+        {
+        "title": "100 Websites in 100 Days",
+        "description": "Special initiative delivering AI-built sites to SMBs in under 24h each",
+        "results": [
+          "Avg. launch time: 18 hours",
+          "Cost: 60% below market",
+          "Client satisfaction: 4.9/5"
+        ],
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80"
       }
+      ],
+      "ongoing": [
+        {
+          "title": "Manufacturing 4.0 Initiative",
+          "description": "Implementing IoT and digital twin technology across 5 production facilities.",
+          "progress": 55,
+          "tags": ["Industry 4.0", "Digital Twin", "Smart Factory"]
+        }
+      ],
+      "upcoming": [
+        {
+          "title": "Healthcare Digital Front Door",
+          "description": "Creating unified patient experience across web, mobile, and kiosk touchpoints.",
+          "startDate": "Q4 2025",
+          "tags": ["Patient Experience", "Omnichannel", "Healthcare"]
+        }
+      ]
+    },
+    
+    "caseStudies": [
+      {
+        "title": "Insurance Claims Automation",
+        "challenge": "Manual claims processing taking 7+ days per claim",
+        "solution": "Implemented RPA + AI document processing",
+        "outcome": "Reduced processing to <24 hours with 99% accuracy",
+        "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"
+      },
+
+      {
+      "title": "Local Restaurant Digital Makeover",
+      "challenge": "No online presence, losing to competitors",
+      "solution": [
+        "AI website deployed in 18 hours",
+        "WhatsApp ordering bot in 3 days",
+        "Google Business optimization"
+      ],
+      "outcome": [
+        "Online orders increased by 300%",
+        "80% of reservations via chatbot",
+        "Recovered investment in 2 weeks"
+      ],
+      "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80"
+    },
+     {
+      "title": "Insurance Claims Automation",
+      "challenge": "Manual processing taking 7+ days per claim",
+      "solution": "Implemented RPA + AI document processing",
+      "outcome": "Reduced processing to <24 hours with 99% accuracy",
+      "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"
+    },
+     {
+        "category": "Rapid Deployment",
+        "title": "Local Restaurant Chain Digital Launch",
+        "challenge": "No online ordering system, losing to competitors",
+        "solution": [
+          "AI website with menu/ordering (24h)",
+          "WhatsApp ordering bot (48h)",
+          "Google Business optimization"
+        ],
+        "results": [
+          "Online orders: 0 → 35% of revenue",
+          "80% of reservations via chatbot",
+          "ROI in 11 days"
+        ],
+        "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80"
+      },
+      {
+        "category": "Enterprise",
+        "title": "Banking Customer Service Transformation",
+        "challenge": "High call center volumes, long wait times",
+        "solution": [
+          "AI chatbot handling 65% of queries",
+          "Voice-enabled virtual assistant",
+          "CRM integration"
+        ],
+        "results": [
+          "Call center costs reduced by 40%",
+          "Customer satisfaction +25 NPS",
+          "98% chatbot accuracy rate"
+        ],
+        "image": "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80"
+      }
+    ],
+    
+    "blogPosts": [
+      {
+        "title": "The Human Side of Digital Transformation",
+        "excerpt": "Why 70% of transformations fail (and how to avoid it)",
+        "image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80"
+      }
+      
     ]
   },
 
