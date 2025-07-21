@@ -66,7 +66,7 @@ export const servicesDropdown: DropdownItem[] = [
   
   {
     title: 'Business Intelligence',
-    path: '/service-detail/bi-digital-transformation',
+    path: '/service-detail/business-intelligence',
     description: 'Transforming raw data into actionable intelligence, BI dashboards, apps, and digital strategies.',
     icon: BarChart3,
     stage: 'active',
