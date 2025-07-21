@@ -11,7 +11,7 @@ import {
   Heart,
 } from "lucide-react";
 import { Card } from "../components/ui/card";
-import BlogFilterSidebar from "../components/Blog/BlogFilterSidebar";
+//import BlogFilterSidebar from "../components/Blog/BlogFilterSidebar";
 import * as blogService from "@/firebase/blogService";
 import { auth, onAuthStateChanged } from "@/firebase";
 import { signInWithGoogle } from "@/authService";
@@ -357,7 +357,7 @@ const BlogPostPage = () => {
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Write your comment..."
-                      className="w-full p-3 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-black border dark:text-gray-100"
+                      className="w-full p-3 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
                       rows={3}
                     />
                     <div className="flex justify-end gap-2 mt-2">
@@ -423,51 +423,37 @@ const BlogPostPage = () => {
 
 
             
-           {/* Related Articles */}
-{relatedPosts.length > 0 && (
-  <div className="mt-12">
-    <h3 className="text-2xl font-semibold mb-6 text-primary">Related Articles</h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {relatedPosts.map((post) => (
-        <Card key={post.id}>
-          <Link to={`/blog/${post.id}`} className="block">
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <span className="inline-block px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full mb-3">
-                {post.category}
-              </span>
-              <h3 className="text-xl font-semibold mb-2 text-foreground">
-                {post.title}
-              </h3>
-              <p className="text-muted-foreground">{post.excerpt}</p>
-            </div>
-          </Link>
-        </Card>
-      ))}
-    </div>
-  </div>
-)}
+            {/* Related Articles */}
+            {relatedPosts.length > 0 && (
+              <div className="mt-12">
+                <h3 className="text-2xl font-semibold mb-6 text-primary">Related Articles</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {relatedPosts.map((post) => (
+                    <Card key={post.id}>
+                      <Link to={`/blog/${post.id}`} className="block">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-48 object-cover"
+                        />
+                        <div className="p-6">
+                          <span className="inline-block px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full mb-3">
+                            {post.category}
+                          </span>
+                          <h3 className="text-xl font-semibold mb-2 text-foreground">
+                            {post.title}
+                          </h3>
+                          <p className="text-muted-foreground">{post.excerpt}</p>
+                        </div>
+                      </Link>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
           </article>
 
-          {/* Sidebar */}
-          <div style={{ flex: 1 }}>
-
-            <BlogFilterSidebar
-              onSearch={handleSearch}
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryChange}
-              selectedTag={selectedTag}
-              onTagChange={handleTagChange}
-              onClearFilters={handleClearFilters}
-              categories={categories}
-              tags={tags}
-              searchTerm={searchTerm}
-            />
-          </div>
+     
         </div>
       </div>
     </div>
