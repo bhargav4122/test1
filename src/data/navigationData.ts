@@ -43,7 +43,7 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Comprehensive data management and cloud solutions for modern enterprises.',
     icon: Cloud,
     stage: 'active',
-    image:"/photos/cloud1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058193/cloud1_flgxbn.jpg",
     subService: [
    "Data Storage & Management",
       "Cloud Infrastructure",
@@ -82,7 +82,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Ad-hoc Analysis & Exploration",
       "BI Tool Implementation (Power BI, Tableau, etc.)"
     ],
-    image:"/photos/bi1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png",
       stats: [
       { value: '45%', label: 'Faster Decisions' },
       { value: '2x', label: 'ROI' },
@@ -110,7 +110,7 @@ export const servicesDropdown: DropdownItem[] = [
     "Digital Roadmap Planning",
     "Change Management Consulting"
     ],
-    image:"/photos/digital5.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/digital5_sq9kim.jpg",
     stats: [
       { value: '60%', label: 'Cost Reduction' },
       { value: '3x', label: 'Faster Deployment' },
@@ -136,7 +136,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Performance Benchmarking",
       "Process Re-engineering"
     ],
-    image:"/photos/business1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
     stats: [
       { value: '30%', label: 'Efficiency Gain' },
       { value: '50+', label: 'Clients Served' },
@@ -161,7 +161,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Demographic & Psychographic Analysis",
       "Emerging Tech & Innovation Trends"
     ],
-    image:"/photos/ai2.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
     stats: [
       { value: '95%', label: 'Accuracy' },
       { value: '500+', label: 'Studies Conducted' },
@@ -187,7 +187,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Loyalty & Advocacy Insights",
       "Multilingual Sentiment Detection"
     ],
-    image:"/photos/business3.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business3_ptwbct.jpg",
     stats: [
       { value: '10M+', label: 'Reviews Analyzed' },
       { value: '92%', label: 'Sentiment Accuracy' },
@@ -214,7 +214,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Real-time Occupancy & Productivity Monitoring",
       "Employee Sentiment & Feedback Loop"
     ],
-    image:"/photos/stock.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058291/stock_vyj7lb.jpg",
     stats: [
       { value: '25%', label: 'Productivity Gain' },
       { value: '30%', label: 'Retention Improvement' },
@@ -242,7 +242,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Custom ML Pipelines",
       "Business Process Automation"
     ],
-    image:"/photos/help.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/help_uubtjx.jpg",
     stats: [
       { value: '85%', label: 'Process Accuracy' },
       { value: '3x', label: 'Faster Processing' },
@@ -267,12 +267,13 @@ export const servicesDropdown: DropdownItem[] = [
       "Logging & Alerting Automation",
       "DevSecOps Best Practices"
     ],
-    image:"/photos/dev1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/dev1_pda1jf.jpg",
     stats: [
       { value: '90%', label: 'Deployment Speed' },
       { value: '99.99%', label: 'Uptime' },
       { value: '50%', label: 'Ops Cost Reduction' }
     ]
+  
   },
 
  // Under Development (In development, not yet released)
@@ -284,7 +285,8 @@ export const servicesDropdown: DropdownItem[] = [
     icon: BotIcon,
     stage: 'development',
     developmentPhase: 'Prototype phase',
-    estimatedLaunch: 'Q4 2025'
+    estimatedLaunch: 'Q4 2025',
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058629/ai3_mvzwgu.jpg"
   },
    // Upcoming Services (Planned future offerings)
   
@@ -308,7 +310,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Incident Detection & Response (IDR)",
       "Zero Trust Architecture"
     ],
-    image:"/photos/cyber3.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/cyber3_nq6sfk.jpg",
     stats: [
       { value: '100%', label: 'Compliance' },
       { value: '0', label: 'Breaches' },
@@ -343,7 +345,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Expense Tracking & Categorization",
       "Self-Assessment Assistance"
     ],
-    image:"/photos/business2.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/business2_tjqeqr.jpg",
     stats: [
       { value: '99%', label: 'Accuracy' },
       { value: '30%', label: 'Time Saved' },
