@@ -43,7 +43,7 @@ export const AnimatedTestimonials = ({
     return Math.floor(Math.random() * 21) - 10;
   };
   return (
-    <section className="py-20 flex flex-col overflow-x-hidden bg-white dark:bg-black">
+    <section className="py-20 flex flex-col overflow-x-hidden">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mb-16 text-center">
           <h2 className="text-3xl font-bold text-black dark:text-white md:text-4xl">
