@@ -6,7 +6,7 @@ export const teamMembers: TeamMemberProps[] = [
     name: "Bhargav Allu",
     role: "Director",
     bio: "Director with experience in business consulting, data engineering, and BI development. Passionate about driving data-powered business growth.",
-    image: "/https://res.cloudinary.com/dsf4d41i8/image/upload/v1753066891/PHPartyPhotos-5_fnwkkq.jpg",
+    image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753066891/PHPartyPhotos-5_fnwkkq.jpg",
     expertise: ["Business Consulting", "Data Engineering", "Power BI", "Cloud Analytics"],
     socialLinks: {
       linkedin: "https://linkedin.com/in/bhargavallu",
