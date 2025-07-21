@@ -20,9 +20,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["AI/ML", "Cloud Architecture", "Digital Transformation"],
     socialLinks: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
-      email: "sarah@example.com"
+   
     }
   },
   {
@@ -32,8 +30,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["Machine Learning", "Data Analytics", "Python"],
     socialLinks: {
-      linkedin: "https://linkedin.com",
-      website: "https://example.com"
+     
     }
   },
   {
@@ -43,8 +40,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/3776932/pexels-photo-3776932.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["UI/UX Design", "User Research", "Design Systems"],
     socialLinks: {
-      twitter: "https://twitter.com",
-      website: "https://example.com"
+     
     }
   },
   {
@@ -54,8 +50,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["Cloud Infrastructure", "DevOps", "Security"],
     socialLinks: {
-      linkedin: "https://linkedin.com",
-      email: "david@example.com"
+      
     }
   },
   {
@@ -65,8 +60,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["Product Strategy", "Agile", "Market Research"],
     socialLinks: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com"
+     
     }
   },
   {
@@ -76,33 +70,30 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://images.pexels.com/photos/2379xxx/pexels-photo-2379xxx.jpeg?auto=compress&cs=tinysrgb&w=800",
     expertise: ["Cybersecurity", "Risk Management", "Compliance"],
     socialLinks: {
-      linkedin: "https://linkedin.com",
-      website: "https://example.com"
+    
     }
   },
 
   {
-    name: "Trinath Gottipatti",
+    name: "Trinath",
     role: "Financial Data Analyst",
     bio: "Finance professional with strong expertise in financial forecasting, compliance (IFRS), and predictive analytics.",
-    image: "https://yourdomain.com/images/trinath.jpg",
+    image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753068102/trinath_djdgtk.jpg",
     expertise: [
       "Financial Analysis", "Risk Management", "Predictive Analytics", "IFRS", "VAT & Payroll"
     ],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/trinathgottipatti",
-      website: "https://yourcompany.com"
+      
     }
   },
   {
-    name: "Sai Bindu",
+    name: "Sai",
     role: "Client Engagement Manager",
     bio: "Experienced in market research and research development with over 3 years in driving client engagement strategies.",
     image: "https://yourdomain.com/images/saibindu.jpg",
     expertise: ["Client Engagement", "Market Research", "Research Development"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/saibindu",
-      website: "https://yourcompany.com"
+  
     }
   },
   {
@@ -112,8 +103,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://yourdomain.com/images/swaroop.jpg",
     expertise: ["BI Tools", "Market Analysis", "Product Testing", "Data Strategy"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/swaroop",
-      website: "https://yourcompany.com"
+ 
     }
   },
  {
@@ -123,8 +113,7 @@ export const teamMembers: TeamMemberProps[] = [
   image: "https://yourdomain.com/images/saradhi.jpg", // Replace with actual image URL
   expertise: ["Project Management", "Cloud Engineering", "Team Coordination", "Agile Delivery", "Cloud Infrastructure"],
   socialLinks: {
-    linkedin: "https://linkedin.com/in/saradhi", // Replace with real link
-    website: "https://yourcompany.com"
+ 
   }
   },
   {
@@ -134,8 +123,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://yourdomain.com/images/sadik.jpg",
     expertise: ["UI/UX Design", "Brand Strategy", "App/Web Development"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/sadik",
-      website: "https://yourcompany.com"
+ 
     }
   },
   {
@@ -145,8 +133,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://yourdomain.com/images/siva.jpg",
     expertise: ["Digital Marketing", "Content Writing", "SEO", "Social Media"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/siva",
-      website: "https://yourcompany.com"
+   
     }
   },
   {
@@ -156,8 +143,7 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://yourdomain.com/images/jageesha.jpg",
     expertise: ["React.js", "HTML/CSS", "JavaScript", "Responsive Design"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/sai-jageesha",
-      website: "https://yourcompany.com"
+
     }
   }
 
