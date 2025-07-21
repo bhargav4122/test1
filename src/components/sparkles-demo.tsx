@@ -24,9 +24,9 @@ export default function SparklesPreview() {
         transition={{ duration: 1 }}
         className="relative z-20 text-center"
       >
-        <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-white mb-4">
-          BDS
-        </h1>
+       <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-white mb-4 font-[Viga]">
+      BDS
+</h1>
         <p className="md:text-xl text-sm lg:text-2xl font-bold text-white mb-8">
           Business & Data Solutions
         </p>
