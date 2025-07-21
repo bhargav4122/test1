@@ -9,8 +9,8 @@ export const teamMembers: TeamMemberProps[] = [
     image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753066891/PHPartyPhotos-5_fnwkkq.jpg",
     expertise: ["Business Consulting", "Data Engineering", "Power BI", "Cloud Analytics"],
     socialLinks: {
-      linkedin: "https://linkedin.com/in/bhargavallu",
-      website: "https://yourcompany.com"
+      linkedin: "https://www.linkedin.com/in/allubhargav/",
+      website: "https://www.businessanddatasolutions.com"
     }
   },
   {
