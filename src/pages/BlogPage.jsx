@@ -69,7 +69,7 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="min-h-screen text-foreground">
+    <div className="min-h-screen text-foreground pt-20">
       {/* Header */}
       <div className="text-center py-12 px-4 bg-gradient-to-r from-blue-100/20 to-green-100/20 dark:bg-black">
         <h1 className="text-4xl font-bold text-primary mb-2">BDS Insights</h1>
