@@ -255,7 +255,7 @@ const ServicesOverview: React.FC = () => {
             </div>
           )}
         </div>
-        
+          <CallToAction />
         <div className="text-center">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
             Can't find what you're looking for?{' '}
@@ -266,7 +266,7 @@ const ServicesOverview: React.FC = () => {
           </p>
         </div>
       </main>
-      <CallToAction />
+    
     </div>
   );
 };
