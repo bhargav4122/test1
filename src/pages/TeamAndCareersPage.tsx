@@ -48,25 +48,7 @@ const TeamAndCareersPage = () => {
   return (
     <div className=''>
       {/* Sticky floating action buttons */}
-      <div className={cn(
-        "fixed bottom-6 right-6 flex flex-col gap-3 z-50 transition-all duration-300",
-        isScrolled ? "translate-y-0" : "translate-y-20"
-      )}>
-        <Button
-          size="lg"
-          className="rounded-full w-14 h-14 p-0"
-          onClick={() => setTab('team')}
-        >
-          <Users className="w-6 h-6" />
-        </Button>
-        <Button
-          size="lg"
-          className="rounded-full shadow-lg w-14 h-14 p-0"
-          onClick={() => setTab('careers')}
-        >
-          <Briefcase className="w-6 h-6" />
-        </Button>
-      </div>
+   
 
       {/* Privacy notice */}
       <div className="fixed bottom-4 left-4 bg-black/80 text-white text-xs p-2 rounded z-50 flex items-center gap-1">
