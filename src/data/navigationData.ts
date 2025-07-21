@@ -324,7 +324,8 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Connected device ecosystems',
     icon: Zap,
     stage: 'upcoming',
-    releaseDate: 'Q3 2026'
+    releaseDate: 'Q3 2026',
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753059296/iot_emcuvk.jpg"
   },
   {
     title: 'Bookkeeping and Taxation',
