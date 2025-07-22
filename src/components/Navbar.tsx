@@ -39,42 +39,62 @@ const Navbar = () => {
 
   const mobileMenuItems = [
     {name: 'Home', path: '/', icon: <HomeIcon className="h-5 w-5" />},
+    {name: 'About', path: '/about', icon: <Brain className="h-5 w-5" />},
     {name: 'Services', path: '/services', icon: <Wrench className="h-5 w-5" />},
     {name: 'Industries', path: '/industries', icon: <Building2 className="h-5 w-5" />},
-    
     {name: 'TeamAndCareersPage', path: '/teamAndCareersPage', icon: <Zap className="h-5 w-5" />},
-    {name: 'About', path: '/about', icon: <Brain className="h-5 w-5" />},
     {name: 'Contact', path: '/contact', icon: <Mail className="h-5 w-5" />},
     {name: 'Blog', path: '/blog', icon: <NewspaperIcon className="h-5 w-5" />}
   ];
 
   return (
-  <>
-  <header
-    className={cn(
-      "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
-      isScrolled
-        ? theme === "dark"
-          ? "bg-black/90 backdrop-blur-md border-b border-gray-800 shadow-lg"
-          : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200"
-        : "bg-transparent"
-    )}
-  >
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex h-16 md:h-20 items-center justify-between">
-        
-        {/* Logo - Fully responsive */}
-        <Link to="/" className="flex items-center z-10">
-          <img
-            src={
-              theme === "dark"
-                ? "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logowhite_odmpw0.png"
-                : "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logo_-_Original_with_Transparent_Background_yyjwku.png"
-            }
-            alt="BDS Logo"
-            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
-          />
-        </Link>
+    <>
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-in-out",
+          isScrolled
+            ? theme === "dark" 
+              ? "bg-black/90 backdrop-blur-md border-b border-gray-800 shadow-lg" 
+              : "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200"
+            : "bg-transparent"
+        )}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 md:h-20 items-center justify-between">
+            {/* Logo - Non-clickable version */}
+            <div className="flex items-center space-x-3">
+              <div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
+                {/* Light Mode Logo */}
+                <img 
+                  src="/BDS Logo - Original with Transparent Background (1).svg"  
+                  alt="BDS Light Logo" 
+                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
+                    theme === 'light' ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    display: theme === 'light' ? 'block' : 'none',
+                    marginLeft: -50,
+                    lineHeight: 0,
+                    clipPath: 'inset(30px 0 0 0)'
+                  }}
+                />
+                
+                {/* Dark Mode Logo */}
+                <img 
+                  src="/BDS Logo - Original with Transparent Background.svg" 
+                  alt="BDS Dark Logo" 
+                  className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
+                    theme === 'dark' ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    display: theme === 'dark' ? 'block' : 'none',
+                    marginLeft: -50,
+                    lineHeight: 0,
+                    clipPath: 'inset(30px 0 0 0)'
+                  }}
+                />
+              </div>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
@@ -134,8 +154,6 @@ const Navbar = () => {
                 )}
               />
               
-           
-              
               <Link 
                 to="/teamandcareerspage" 
                 className={cn(
@@ -152,7 +170,6 @@ const Navbar = () => {
                 Team & Careers
               </Link>
            
-              
               <Link 
                 to="/contact" 
                 className={cn(
@@ -244,7 +261,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black/50 backdrop-blur-sm" 
@@ -253,14 +270,14 @@ const Navbar = () => {
           
           {/* Mobile Menu Content */}
           <div className={cn(
-            "absolute top-0 right-0 h-full w-4/5 max-w-sm overflow-y-auto",
+            "absolute top-0 right-0 h-full w-4/5 max-w-sm overflow-y-auto pt-20", // Added pt-20 for padding top
             "transform transition-transform duration-300 ease-in-out",
             isMenuOpen ? "translate-x-0" : "translate-x-full",
             theme === "dark" 
               ? "bg-gray-900/95 border-l border-white/10" 
               : "bg-white/95 border-l border-gray-200 shadow-xl"
           )}>
-            <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex justify-between items-center p-4 border-b absolute top-0 left-0 right-0">
               <h3 className={cn(
                 "text-lg font-semibold",
                 theme === "dark" ? "text-white" : "text-gray-900"
@@ -272,14 +289,17 @@ const Navbar = () => {
                   "p-2 rounded-full",
                   theme === "dark" ? "text-white hover:bg-white/10" : "text-gray-800 hover:bg-gray-100"
                 )}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent event bubbling
+                  setIsMenuOpen(false);
+                }}
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
               </button>
             </div>
 
-            <div className="p-4 space-y-2">
+            <div className="p-4 space-y-2 mt-4"> {/* Added mt-4 for margin top */}
               {mobileMenuItems.map((item) => (
                 <Link 
                   key={item.path}
@@ -303,7 +323,10 @@ const Navbar = () => {
 
               {/* Mobile Theme Toggle */}
               <button
-                onClick={toggleTheme}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleTheme();
+                }}
                 className={cn(
                   "flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all",
                   theme === "dark"
