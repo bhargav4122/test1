@@ -120,7 +120,7 @@ export const teamMembers: TeamMemberProps[] = [
     name: "Sadik",
     role: "UI/UX Designer & Brand Manager",
     bio: "UI/UX designer and branding expert with over 5 years of experience building seamless digital experiences.",
-    image: "https://yourdomain.com/images/sadik.jpg",
+    image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1753202245/WhatsApp_Image_2025-07-22_at_17.35.04_8f81caa3_zegeer.jpg",
     expertise: ["UI/UX Design", "Brand Strategy", "App/Web Development"],
     socialLinks: {
  
