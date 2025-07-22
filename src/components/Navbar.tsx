@@ -66,7 +66,7 @@ const Navbar = () => {
               <div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
                 {/* Light Mode Logo */}
                 <img 
-                  src="/BDS Logo - Original with Transparent Background (1).svg"  
+                  src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logowhite_odmpw0.png"  
                   alt="BDS Light Logo" 
                   className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
                     theme === 'light' ? 'opacity-100' : 'opacity-0'
@@ -81,7 +81,7 @@ const Navbar = () => {
                 
                 {/* Dark Mode Logo */}
                 <img 
-                  src="/BDS Logo - Original with Transparent Background.svg" 
+                  src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logo_-_Original_with_Transparent_Background_yyjwku.png" 
                   alt="BDS Dark Logo" 
                   className={`h-full w-full object-contain absolute transition-opacity duration-300 ${
                     theme === 'dark' ? 'opacity-100' : 'opacity-0'
