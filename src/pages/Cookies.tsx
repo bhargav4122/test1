@@ -217,7 +217,7 @@ const Cookies = () => {
                   </span>
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-muted-foreground">privacy@datasphere.com</p>
+                    <p className="text-muted-foreground">info@businessanddatasolutions.com</p>
                   </div>
                 </li>
                 <li className="flex items-start p-4 bg-muted/10 rounded-lg border border-muted/20">
@@ -228,7 +228,7 @@ const Cookies = () => {
                   </span>
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground">+44 748 787 1919</p>
                   </div>
                 </li>
               </ul>
