@@ -225,15 +225,15 @@ export default function ChatBot() {
             <ul className="mt-3 space-y-2">
               <li className="flex items-center">
                 <Mail className="h-4 w-4 mr-2" />
-                <span>Email: info@bds.com</span>
+                <span>Email: info@businessanddatasolutions.com</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-4 w-4 mr-2" />
-                <span>Phone: +1 (555) 123-4567</span>
+                <span>Phone: +44 (748) 787-1919</span>
               </li>
               <li className="flex items-center">
                 <Globe className="h-4 w-4 mr-2" />
-                <span>HQ: 123 Tech Park, San Francisco, CA</span>
+                <span>Ebrington Street, Plymouth, UK</span>
               </li>
             </ul>
             <div className="mt-4">
