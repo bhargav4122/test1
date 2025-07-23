@@ -105,7 +105,7 @@ export default function Footer() {
                 </p>
                 <p className="flex items-center text-muted-foreground">
                   <Mail className="h-5 w-5 mr-3 text-primary" />
-                  info@bds.com
+                  info@businessanddatasolutions.com
                 </p>
               </div>
             </div>
