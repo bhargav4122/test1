@@ -42,7 +42,7 @@ const Navbar = () => {
     {name: 'About', path: '/about', icon: <Brain className="h-5 w-5" />},
     {name: 'Services', path: '/services', icon: <Wrench className="h-5 w-5" />},
     {name: 'Industries', path: '/industries', icon: <Building2 className="h-5 w-5" />},
-    /*{name: 'Team & Careers', path: '/teamAndCareersPage', icon: <Zap className="h-5 w-5" />},*/
+    {/*{name: 'Team & Careers', path: '/teamAndCareersPage', icon: <Zap className="h-5 w-5" />},*/}
     {name: 'Contact', path: '/contact', icon: <Mail className="h-5 w-5" />},
     {name: 'Blog', path: '/blog', icon: <NewspaperIcon className="h-5 w-5" />}
   ];
@@ -155,7 +155,7 @@ const Navbar = () => {
                 )}
               />
               
-              /*<Link 
+              { /*<Link 
                 to="/teamandcareerspage" 
                 className={cn(
                   "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
@@ -169,7 +169,7 @@ const Navbar = () => {
                 )}
               >
                 Team & Careers
-              </Link>*/
+              </Link>*/}
            
               <Link 
                 to="/contact" 
