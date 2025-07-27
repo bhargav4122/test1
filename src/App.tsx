@@ -42,6 +42,7 @@ import ServicesOverview from "./pages/ServicesOverview";
 import ServiceDetail from "./pages/ServiceDetail";
 import serviceCategories from "@/data/serviceCategories";
 import { serviceDetails } from "@/data/serviceDetails";
+import EmailTestPage from './pages/EmailTest';
 
 const queryClient = new QueryClient();
 
@@ -130,6 +131,7 @@ const AppContent = () => {
                 <Route path="/cookies" element={<Cookies />} />
                 <Route path="/canvas" element={<BDSCanvas />} />
                 <Route path="*" element={<NotFound />} />
+                 <Route path="/email-test" element={<EmailTestPage />} />
               </Routes>
               <Footer />
               <CookieConsent />
