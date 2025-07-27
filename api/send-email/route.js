@@ -1,20 +1,23 @@
+// /api/send-email/route.js
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(request) {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {  // ← Critical check
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const { to } = await request.json();
-    const { data, error } = await resend.emails.send({
+    const { to } = req.body;
+    const { data } = await resend.emails.send({
       from: 'bhargav@businessanddatasolutions.com',
       to,
       subject: 'Test Email',
-      html: '<p>Test email from Vercel!</p>'
+      html: '<p>Test content</p>'
     });
-
-    if (error) throw error;
-    return Response.json(data);
+    res.status(200).json(data);
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    res.status(500).json({ error: error.message });
   }
 }
