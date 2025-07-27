@@ -1,10 +1,9 @@
-// Example: src/pages/Contact.jsx
 import EmailSender from '../components/EmailSender/EmailSender';
 
-export default function ContactPage() {
+export default function EmailTestPage() {
   return (
     <div>
-      <h1>Contact Us</h1>
+      <h1>Email Integration Test</h1>
       <EmailSender />
     </div>
   );
