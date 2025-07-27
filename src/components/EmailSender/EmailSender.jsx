@@ -1,33 +1,29 @@
 import { useState } from 'react';
-import './EmailSender.css'; // Optional styling
+import './EmailSender.css'; // Optional
 
 export default function EmailSender() {
   const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('Test from Vite + Resend');
-  const [message, setMessage] = useState('This email was sent via Resend and Vercel!');
-  const [isSending, setIsSending] = useState(false);
+  const [subject, setSubject] = useState('Test from Resend + Vercel');
+  const [message, setMessage] = useState('Hello World!');
+  const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSending(true);
+    setIsLoading(true);
 
     try {
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: email,
-          subject,
-          html: `<p>${message}</p>`,
-        }),
+        body: JSON.stringify({ to: email, subject, html: `<p>${message}</p>` }),
       });
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      setResult({ error: error.message });
+      setResult({ error: 'Failed to send email' });
     } finally {
-      setIsSending(false);
+      setIsLoading(false);
     }
   };
 
@@ -35,42 +31,29 @@ export default function EmailSender() {
     <div className="email-sender">
       <h2>Send Test Email</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Recipient Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="user@example.com"
-          />
-        </label>
-        <label>
-          Subject:
-          <input
-            type="text"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Message:
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit" disabled={isSending}>
-          {isSending ? 'Sending...' : 'Send Email'}
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="recipient@example.com"
+          required
+        />
+        <input
+          type="text"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          required
+        />
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Sending...' : 'Send Email'}
         </button>
       </form>
-      {result && (
-        <div className="result">
-          <pre>{JSON.stringify(result, null, 2)}</pre>
-        </div>
-      )}
+      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
     </div>
   );
 }
