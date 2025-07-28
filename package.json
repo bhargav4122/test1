@@ -76,8 +76,8 @@
     "three": "0.154.0",
     "vaul": "^0.9.3",
     "zod": "^3.23.8",
-    "resend": "^0.22.0",
-    "@vercel/node": "^2.15.3"
+     "resend": "^1.0.0",  // Updated to latest stable version
+    "@vercel/node": "^3.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
