@@ -7,7 +7,7 @@ export default async (req, res) => {
   
   try {
     const data = await resend.emails.send({
-      from: 'onboarding@resend.dev', // Resend's test domain
+      from: 'bhargav@businessanddatasolutions.com', // Resend's test domain
       to: 'bhargavallu.ba@gmail.com', // Your exact email
       subject: 'Test from Debugged API',
       html: '<p>This should work now</p>'
