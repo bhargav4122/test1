@@ -76,7 +76,7 @@
     "three": "0.154.0",
     "vaul": "^0.9.3",
     "zod": "^3.23.8",
-     "resend": "^1.0.0",  // Updated to latest stable version
+     "resend": "^1.0.0", 
     "@vercel/node": "^3.0.0"
   },
   "devDependencies": {
