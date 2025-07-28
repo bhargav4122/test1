@@ -190,21 +190,7 @@ const Navbar = () => {
               </Link>
 
 
-                <Link 
-                to="/email-test" 
-                className={cn(
-                  "text-sm font-medium transition-colors duration-200 py-2 px-3 rounded-md",
-                  location.pathname === "/email-test"
-                    ? theme === "dark" 
-                      ? "bg-white/10 text-white" 
-                      : "bg-primary/10 text-primary"
-                    : theme === "dark" 
-                      ? "text-gray-300 hover:text-white hover:bg-white/5" 
-                      : "text-gray-700 hover:text-primary hover:bg-primary/5"
-                )}
-              >
-                email
-              </Link>
+              
               
               
 
