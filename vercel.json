@@ -10,12 +10,22 @@
         "buildCommand": "npm run build",
         "includeFiles": ["public/videos/**"]
       }
+    },
+ {
+      "src": "api/send-email.js",
+      "use": "@vercel/node"
     }
+    
   ],
   "routes": [
     {
       "src": "/assets/(.*)",
       "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "src": "/api/send-email",
+      "dest": "/api/send-email.js",
+      "methods": ["POST"]
     },
     {
       "src": "/(.*)",
