@@ -1,24 +1,20 @@
-
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+export default async (req, res) => {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
   
-  if (req.method !== 'POST') {  // Reject non-POST requests
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
   try {
-    const { to, subject, html } = req.body;
     const data = await resend.emails.send({
-      from: 'onboarding@businessanddatasolutions.com', // Your verified domain
-      to,
-      subject,
-      html,
+      from: 'onboarding@resend.dev',
+      to: 'bhargavallu.ba@gmail.com',
+      subject: 'Test from Updated Vercel Config',
+      html: '<p>Existing routes remain unaffected</p>'
     });
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
-}
+};
