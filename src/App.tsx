@@ -43,6 +43,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import serviceCategories from "@/data/serviceCategories";
 import { serviceDetails } from "@/data/serviceDetails";
 import EmailTestPage from './pages/EmailTest';
+import Care from "@/pages/Care.tsx";
 
 const queryClient = new QueryClient();
 
@@ -132,6 +133,7 @@ const AppContent = () => {
                 <Route path="/canvas" element={<BDSCanvas />} />
                 <Route path="*" element={<NotFound />} />
                  <Route path="/email-test" element={<EmailTestPage />} />
+                 <Route path="/care" element={<Care />} />
               </Routes>
               <Footer />
               <CookieConsent />
