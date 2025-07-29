@@ -1,25 +1,30 @@
+// api/send-email.js
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async (req, res) => {
-  console.log('Request received'); // Debug log
-  
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Only POST allowed' });
+  }
+
+  const { to, name, phone, jobTitle } = req.body;
+
+  if (!to) {
+    return res.status(400).json({ error: 'Missing recipient email' });
+  }
+
   try {
     const data = await resend.emails.send({
-      from: 'bhargav@businessanddatasolutions.com', // Resend's test domain
-      to: 'bhargavallu.ba@gmail.com', // Your exact email
-      subject: 'Test from Debugged API',
-      html: '<p>This should work now</p>'
+      from: 'bhargav@businessanddatasolutions.com',
+      to,
+      subject: `Application Received for ${jobTitle || 'a Role'}`,
+      html: `<strong>Thank you, ${name}!</strong><br/>We received your application.<br/>Phone: ${phone}`,
     });
-    
-    console.log('Email sent:', data); // Debug log
+
     return res.status(200).json(data);
   } catch (error) {
-    console.error('Error:', error); // Debug log
-    return res.status(500).json({ 
-      error: error.message,
-      stack: error.stack // Include stack trace
-    });
+    console.error('Email sending failed:', error);
+    return res.status(500).json({ error: 'Failed to send email' });
   }
-};
+}
