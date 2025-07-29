@@ -827,3 +827,167 @@ export const uploadResume = async (
     throw new Error(`Upload failed: ${error.message}`);
   }
 };
+
+
+
+
+/**
+ * For Application Model 1 (with university program support)
+ */
+export const submitModel1Application = async (data: {
+  name: string;
+  email: string;
+  phone?: string;
+  message?: string;
+  jobTitle: string;
+  jobId: string;
+  university?: string;
+  graduationYear?: string | number;
+  currentYear?: string | number;
+  preferredField?: string;
+  resumeUrl?: string;
+  userId: string;
+  linkedIn?: string;
+  portfolio?: string;
+  salaryExpectation?: string;
+  theme?: string;
+}): Promise<{ 
+  success: boolean; 
+  message?: string; 
+  applicationId?: string;
+}> => {
+  try {
+    // Validate required fields
+    if (!data.name || !data.email || !data.jobTitle || !data.jobId || !data.userId) {
+      throw new Error('Missing required application fields');
+    }
+
+    // Email format validation
+    const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
+    if (!emailRegex.test(data.email)) {
+      throw new Error('Please enter a valid email address');
+    }
+
+    // Additional validation for university program
+    if (data.jobId === 'university-talent-program') {
+      if (!data.university || !data.graduationYear || !data.currentYear || !data.preferredField) {
+        throw new Error('Please fill all university program fields');
+      }
+    }
+
+    // Prepare metadata
+    const metadata = {
+      userAgent: navigator.userAgent.substring(0, 500),
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      referrer: document.referrer || null,
+      isUniversityProgram: data.jobId === 'university-talent-program',
+      ipAddress: null // Can be added if you collect this
+    };
+
+    // Submit to dedicated path
+    const applicationRef = push(ref(db, 'model1Applications'));
+    
+    const applicationData = {
+      name: data.name.trim(),
+      email: data.email.trim().toLowerCase(),
+      phone: data.phone?.trim() || null,
+      message: data.message?.trim() || null,
+      jobTitle: data.jobTitle.trim(),
+      jobId: String(data.jobId).trim(),
+      resumeUrl: data.resumeUrl || null,
+      userId: data.userId,
+      // Optional professional fields
+      linkedIn: data.linkedIn?.trim() || null,
+      portfolio: data.portfolio?.trim() || null,
+      salaryExpectation: data.salaryExpectation?.trim() || null,
+      // University-specific fields
+      university: data.university?.trim() || null,
+      graduationYear: data.graduationYear ? String(data.graduationYear).trim() : null,
+      currentYear: data.currentYear ? String(data.currentYear).trim() : null,
+      preferredField: data.preferredField?.trim() || null,
+      // System fields
+      status: 'submitted',
+      timestamp: serverTimestamp(),
+      metadata,
+      theme: data.theme || 'default'
+    };
+
+    await set(applicationRef, applicationData);
+
+    return { 
+      success: true,
+      message: "Application submitted successfully",
+      applicationId: applicationRef.key
+    };
+  } catch (error: any) {
+    console.error("Model1 Application Error:", error);
+    return { 
+      success: false,
+      message: error.message || "Failed to submit application"
+    };
+  }
+};
+
+/**
+ * Dedicated uploader for Application Model 1 resumes
+ */
+export const uploadModel1Resume = async (
+  file: File,
+  userId: string
+): Promise<{ success: boolean; downloadURL?: string; error?: string; fileId?: string }> => {
+  try {
+    // Validate file type and size
+    const validTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    
+    if (!validTypes.includes(file.type)) {
+      throw new Error('Only PDF, DOC, and DOCX files are allowed');
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error('File size must be less than 5MB');
+    }
+
+    // Create storage reference - CRITICAL FIX: Use storageRef explicitly
+    const timestamp = Date.now();
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = `model1Applications/resumes/${userId}/${timestamp}_${sanitizedName}`;
+    
+    // Use storageRef (imported as storageRef from firebase/storage)
+    const fileRef = storageRef(storage, filePath);
+
+    const uploadTask = await uploadBytes(fileRef, file, {
+      contentType: file.type,
+      customMetadata: {
+        userId,
+        originalName: file.name,
+        uploadTime: timestamp.toString(),
+        applicationType: 'model1'
+      }
+    });
+
+    const downloadURL = await getDownloadURL(fileRef);
+    
+    return { 
+      success: true, 
+      downloadURL,
+      fileId: uploadTask.ref.name
+    };
+  } catch (error: any) {
+    console.error("Detailed Resume Upload Error:", {
+      error: error.message,
+      stack: error.stack,
+      fileName: file?.name,
+      fileSize: file?.size,
+      fileType: file?.type
+    });
+    return { 
+      success: false, 
+      error: error.message || "Failed to upload resume" 
+    };
+  }
+};
+
