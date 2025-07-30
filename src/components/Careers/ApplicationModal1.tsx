@@ -134,49 +134,34 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
       }
 
       // Step 3: Send confirmation email via Resend
-      try {
-        const emailResponse = await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: formData.email,
-            subject: `Application Received for ${job.title}`,
-            html: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #2563eb;">Thank You for Your Application!</h2>
-                <p>Dear ${formData.name},</p>
-                <p>We've received your application for the <strong>${job.title}</strong> position.</p>
-                
-                ${job.id === 'university-talent-program' ? `
-                <p>As part of our University Talent Program, we'll review your application and get back to you within 2-3 weeks.</p>
-                ` : `
-                <p>Our team will review your qualifications and contact you if there's a match with our current needs.</p>
-                `}
-                
-                <p><strong>Application Details:</strong></p>
-                <ul>
-                  <li>Position: ${job.title}</li>
-                  <li>Submitted: ${new Date().toLocaleDateString()}</li>
-                  ${formData.phone ? `<li>Contact: ${formData.phone}</li>` : ''}
-                </ul>
-                
-                <p>If you have any questions, please reply to this email.</p>
-                
-                <p>Best regards,<br/>
-                The Hiring Team<br/>
-                Business & Data Solutions</p>
-                
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280;">
-                  <p>This is an automated message. Please do not reply directly to this email.</p>
-                </div>
-              </div>
-            `,
-          }),
-        });
+  // Inside handleSubmit after Firebase submission success
+try {
+  const emailResponse = await fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: formData.email,
+      name: formData.name,
+      phone: formData.phone,
+      jobTitle: job.title,
+      jobId: job.id,
+      university: formData.university,
+      graduationYear: formData.graduationYear,
+      currentYear: formData.currentYear,
+      preferredField: formData.preferredField,
+      linkedIn: formData.linkedIn,
+      portfolio: formData.portfolio,
+      message: formData.message
+    }),
+  });
 
-        if (!emailResponse.ok) {
-          throw new Error('Failed to send confirmation email');
-        }
+  if (!emailResponse.ok) {
+    throw new Error('Failed to send confirmation email');
+  }
+} catch (emailError) {
+  console.error('Email notification failed:', emailError);
+  // Fail silently - don't affect user experience
+}
 
         // Optional: Send internal notification
         await fetch('/api/send-email', {
