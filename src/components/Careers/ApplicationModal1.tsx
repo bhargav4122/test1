@@ -4,20 +4,6 @@ import { JobListing } from '@/types/careers';
 import { useToast } from '@/hooks/use-toast';
 import { submitModel1Application, uploadModel1Resume } from "@/firebase";
 import { useJobApplicationAuth } from '@/hooks/useJobApplicationAuth';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-
-interface Job {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  type: string;
-  requirements: string[];
-  preferredSkills: string[];}
 
 interface ApplicationModalProps {
   job: JobListing | null;
@@ -103,7 +89,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         screenResolution: `${window.screen.width}x${window.screen.height}`,
         referrer: document.referrer || null,
         isUniversityProgram: job.id === 'university-talent-program',
-        ipAddress: null 
+        
       };
 
       // Step 2: Submit application data
@@ -133,69 +119,6 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         throw new Error(applicationResult.message || 'Failed to submit application');
       }
 
- // ======= Add this Resend email call AFTER successful submission =======
-    try {
-      await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: formData.email,
-          subject: `Application Received for ${job.title}`,
-          html: `
-            <p>Hi ${formData.name},</p>
-            <p>Thank you for applying for the position of <strong>${job.title}</strong>.</p>
-            <p>We have received your application and will review it shortly.</p>
-            <p>Best regards,<br/>Your Company Team</p>
-          `,
-        }),
-      });
-    } catch (emailError) {
-      console.error('Failed to send confirmation email:', emailError);
-      // You can decide whether to fail silently or notify the user
-    }
-    // ========================================================================
-
-
-      // If the job is a university program, send a confirmation email
-      if (job.id === 'university-talent-program') {
-        await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: formData.email,
-            subject: `Application Received for ${job.title}`,
-            html: `
-              <p>Hi ${formData.name},</p>
-              <p>Thank you for applying for the ${job.title}.</p>
-              <p>We have received your application and will review it shortly.</p>
-              <p>Best regards,<br/>Your Company Team</p>
-            `,
-          }),
-        });
-      }
-      // If the job is not a university program, send a different confirmation email
-      else {
-        await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: formData.email,
-            subject: `Application Received for ${job.title}`,
-            html: `
-              <p>Hi ${formData.name},</p>
-              <p>Thank you for applying for the position of <strong>${job.title}</strong>.</p>
-              <p>We have received your application and will review it shortly.</p>
-              <p>Best regards,<br/>Your Company Team</p>
-            `,
-          }),
-        });
-      }
-      // If the job is a university program, send a confirmation email
-
-
-
-      // Step 3: Handle success
-      console.log('Application submitted successfully:', applicationResult);
       toast({
         title: 'Application Submitted',
         description: 'Your application has been successfully submitted!',
