@@ -67,11 +67,23 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!job || !user) return;
+     console.log('Form submission started'); // Add this
+    if (!job) {
+    console.log('No job selected');
+    return;
+  }
+  
+  if (!user) {
+    console.log('No user authenticated');
+    return;
+  }
+
 
     setIsSubmitting(true);
-
+ console.log('Submission state set to true');
+    
     try {
+       console.log('Starting submission process...');
       let resumeUrl = '';
       
       // Step 1: Upload resume if exists
