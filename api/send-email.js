@@ -229,11 +229,8 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: 'Business & Data Solutions <bhargav@businessanddatasolutions.com>',
       to: INTERNAL_NOTIFICATION_EMAIL,
-      subject: `[New Application] ${applicationData.name} - ${applicationData.jobTitle}`,
-      html: generateInternalEmail({
-        ...applicationData,
-        applicationId: applicationData.jobId // Replace with actual Firebase ID if available
-      }),
+      subject: `[New Application] ${applicationData.name} - ${applicationData.jobTitle}`
+     
     });
 
     return res.status(200).json({ success: true });
