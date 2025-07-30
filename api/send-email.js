@@ -1,4 +1,3 @@
-
 // api/send-email.js
 import { Resend } from 'resend';
 
@@ -31,10 +30,10 @@ export default async function handler(req, res) {
   try {
     const isUniversityProgram = jobId === 'university-talent-program';
     const emailSubject = isUniversityProgram 
-      ? Application Received for ${jobTitle} (University Program)
-      : Application Received for ${jobTitle};
+      ? `Application Received for ${jobTitle} (University Program)`
+      : `Application Received for ${jobTitle}`;
 
-    const emailHtml = 
+    const emailHtml = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -70,23 +69,23 @@ export default async function handler(req, res) {
             <div class="detail-item"><strong>Application Details:</strong></div>
             <div class="detail-item">Name: ${name}</div>
             <div class="detail-item">Email: ${to}</div>
-            ${phone ? <div class="detail-item">Phone: ${phone}</div> : ''}
-            ${isUniversityProgram ? 
+            ${phone ? `<div class="detail-item">Phone: ${phone}</div>` : ''}
+            ${isUniversityProgram ? `
               <div class="detail-item">University: ${university || 'Not provided'}</div>
               <div class="detail-item">Current Year: ${currentYear || 'Not provided'}</div>
               <div class="detail-item">Graduation Year: ${graduationYear || 'Not provided'}</div>
               <div class="detail-item">Preferred Field: ${preferredField || 'Not provided'}</div>
-             : ''}
-            ${linkedIn ? <div class="detail-item">LinkedIn: <a href="${linkedIn}">View Profile</a></div> : ''}
-            ${portfolio ? <div class="detail-item">Portfolio: <a href="${portfolio}">View Portfolio</a></div> : ''}
+            ` : ''}
+            ${linkedIn ? `<div class="detail-item">LinkedIn: <a href="${linkedIn}">View Profile</a></div>` : ''}
+            ${portfolio ? `<div class="detail-item">Portfolio: <a href="${portfolio}">View Portfolio</a></div>` : ''}
           </div>
 
-          ${message ? 
+          ${message ? `
             <p><strong>Your Message:</strong></p>
             <div style="background: #f1f5f9; padding: 10px; border-left: 3px solid #2563eb; margin: 10px 0;">
               ${message}
             </div>
-           : ''}
+          ` : ''}
           
           <p>We've received your application and will review it carefully. ${isUniversityProgram ? 
             'The university program team will get back to you within 2-3 weeks.' : 
@@ -102,7 +101,7 @@ export default async function handler(req, res) {
         </div>
       </body>
       </html>
-    ;
+    `;
 
     const data = await resend.emails.send({
       from: 'Business & Data Solutions <bhargav@businessanddatasolutions.com>',
