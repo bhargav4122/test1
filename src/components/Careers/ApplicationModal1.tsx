@@ -4,6 +4,21 @@ import { JobListing } from '@/types/careers';
 import { useToast } from '@/hooks/use-toast';
 import { submitModel1Application, uploadModel1Resume } from "@/firebase";
 import { useJobApplicationAuth } from '@/hooks/useJobApplicationAuth';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+
+interface Job {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  type: string;
+  requirements: string[];
+  preferredSkills: string[];
+}
 
 interface ApplicationModalProps {
   job: JobListing | null;
@@ -14,10 +29,10 @@ interface ApplicationModalProps {
 
 export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationModalProps) {
   const [formData, setFormData] = useState({
-    name: '', // changed from applicantName
+    name: '',
     email: '',
     phone: '',
-    message: '', // changed from coverLetter
+    message: '',
     university: '',
     graduationYear: '',
     currentYear: '',
@@ -25,7 +40,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
     linkedIn: '',
     portfolio: '',
     salaryExpectation: '',
-     hearAboutUs: '',
+    hearAboutUs: '',
     availableStartDate: '',
     workAuthorization: '',
     disabilityStatus: '',
@@ -38,7 +53,6 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
   const { toast } = useToast();
   const { user, loading: authLoading, error: authError, signIn } = useJobApplicationAuth();
 
-  // Reset form when job changes
   useEffect(() => {
     if (job) {
       setFormData({
@@ -53,13 +67,13 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         linkedIn: '',
         portfolio: '',
         salaryExpectation: '',
-         hearAboutUs: '',
-    availableStartDate: '',
-    workAuthorization: '',
-    disabilityStatus: '',
-    gender: '',
-    ethnicity: '',
-    veteranStatus: ''
+        hearAboutUs: '',
+        availableStartDate: '',
+        workAuthorization: '',
+        disabilityStatus: '',
+        gender: '',
+        ethnicity: '',
+        veteranStatus: ''
       });
       setResume(null);
     }
@@ -67,23 +81,11 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-     console.log('Form submission started'); // Add this
-    if (!job) {
-    console.log('No job selected');
-    return;
-  }
-  
-  if (!user) {
-    console.log('No user authenticated');
-    return;
-  }
-
+    if (!job || !user) return;
 
     setIsSubmitting(true);
- console.log('Submission state set to true');
-    
+
     try {
-       console.log('Starting submission process...');
       let resumeUrl = '';
       
       // Step 1: Upload resume if exists
@@ -101,10 +103,10 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         screenResolution: `${window.screen.width}x${window.screen.height}`,
         referrer: document.referrer || null,
         isUniversityProgram: job.id === 'university-talent-program',
-        
+        ipAddress: null 
       };
 
-      // Step 2: Submit application data
+      // Step 2: Submit application data to Firebase
       const applicationResult = await submitModel1Application({
         name: formData.name,
         email: formData.email,
@@ -131,9 +133,82 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         throw new Error(applicationResult.message || 'Failed to submit application');
       }
 
+      // Step 3: Send confirmation email via Resend
+      try {
+        const emailResponse = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: formData.email,
+            subject: `Application Received for ${job.title}`,
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #2563eb;">Thank You for Your Application!</h2>
+                <p>Dear ${formData.name},</p>
+                <p>We've received your application for the <strong>${job.title}</strong> position.</p>
+                
+                ${job.id === 'university-talent-program' ? `
+                <p>As part of our University Talent Program, we'll review your application and get back to you within 2-3 weeks.</p>
+                ` : `
+                <p>Our team will review your qualifications and contact you if there's a match with our current needs.</p>
+                `}
+                
+                <p><strong>Application Details:</strong></p>
+                <ul>
+                  <li>Position: ${job.title}</li>
+                  <li>Submitted: ${new Date().toLocaleDateString()}</li>
+                  ${formData.phone ? `<li>Contact: ${formData.phone}</li>` : ''}
+                </ul>
+                
+                <p>If you have any questions, please reply to this email.</p>
+                
+                <p>Best regards,<br/>
+                The Hiring Team<br/>
+                Business & Data Solutions</p>
+                
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280;">
+                  <p>This is an automated message. Please do not reply directly to this email.</p>
+                </div>
+              </div>
+            `,
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          throw new Error('Failed to send confirmation email');
+        }
+
+        // Optional: Send internal notification
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: 'bhargav@businessanddatasolutions.com',
+            subject: `New Application: ${formData.name} for ${job.title}`,
+            html: `
+              <div style="font-family: Arial, sans-serif;">
+                <h3>New Job Application Received</h3>
+                <p><strong>Candidate:</strong> ${formData.name}</p>
+                <p><strong>Position:</strong> ${job.title}</p>
+                <p><strong>Email:</strong> ${formData.email}</p>
+                <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+                <p><strong>University:</strong> ${formData.university || 'N/A'}</p>
+                <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
+                <p><a href="https://console.firebase.google.com/u/0/project/YOUR_PROJECT_ID/database/firestore/data/~2Fmodel1Applications~2F${applicationResult.applicationId}">View in Firebase</a></p>
+              </div>
+            `,
+          }),
+        });
+
+      } catch (emailError) {
+        console.error('Email notification failed:', emailError);
+        // Fail silently - don't show error to user
+      }
+
+      // Step 4: Handle success
       toast({
         title: 'Application Submitted',
-        description: 'Your application has been successfully submitted!',
+        description: 'Your application has been successfully submitted! You should receive a confirmation email shortly.',
       });
       onClose();
     } catch (error: any) {
