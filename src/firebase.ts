@@ -10,12 +10,13 @@ import {
   increment,
   get,
   child,
+  query, orderByChild, endAt, limitToLast 
   
 } from "firebase/database";
 
 
 import {getStorage, ref as storageRef,  // This is the correct import for storage references
-  uploadBytesResumable, 
+  uploadBytesResumable, uploadBytes ,
   getDownloadURL } from "firebase/storage";
 //import { storage, uploadBytes, getDownloadURL } from '@/firebase/firebaseConfig';
 
@@ -25,7 +26,7 @@ import { validateEmail } from '@/utils/emailValidation';
 
 import { format } from 'date-fns';
 
-
+//import firebase, { db } from "@/firebase";
 
 import {
   getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged
@@ -635,7 +636,340 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
 };
 
 
-//firebase 
+
+// ======================
+// CHATBOT FUNCTIONS
+// ======================
+
+type ChatMessage = {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: number;
+  conversationId: string;
+  metadata?: {
+    userAgent?: string;
+    screenResolution?: string;
+    page?: string;
+  };
+};
+
+type ChatConversation = {
+  id: string;
+  userId?: string;
+  createdAt: number;
+  updatedAt: number;
+  status: 'active' | 'archived';
+  metadata?: {
+    initialMessage?: string;
+    userAgent?: string;
+    screenResolution?: string;
+    page?: string;
+  };
+};
+
+// Helper to generate simple user IDs for chatbot
+const generateSimpleUserId = (email: string): string => {
+  return email.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+};
+
+/**
+ * Starts a new chat conversation
+ */
+export const startChatConversation = async (
+  initialMessage: string,
+  userId?: string,
+  options?: {
+    source?: string;
+  }
+): Promise<{ 
+  success: boolean; 
+  conversationId?: string; 
+  error?: string 
+}> => {
+  try {
+    const conversationRef = push(ref(db, 'chatConversations'));
+    const conversationId = conversationRef.key as string;
+    
+    const conversationData: ChatConversation = {
+      id: conversationId,
+      userId,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      status: 'active',
+      metadata: {
+        initialMessage: initialMessage.trim(),
+        userAgent: navigator.userAgent.substring(0, 120),
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        page: options?.source || window.location.pathname,
+      }
+    };
+
+    const messageId = generateId();
+    const messageData: ChatMessage = {
+      id: messageId,
+      text: initialMessage.trim(),
+      sender: 'user',
+      timestamp: Date.now(),
+      conversationId,
+      metadata: {
+        userAgent: navigator.userAgent.substring(0, 120),
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        page: options?.source || window.location.pathname,
+      }
+    };
+
+    const updates = {
+      [`chatConversations/${conversationId}`]: conversationData,
+      [`chatMessages/${conversationId}/${messageId}`]: messageData,
+    };
+
+    await update(ref(db), updates);
+
+    await sendChatNotification({
+      type: 'new_conversation',
+      conversationId,
+      userId,
+      message: initialMessage,
+      timestamp: new Date().toISOString(),
+      metadata: conversationData.metadata,
+    });
+
+    return { success: true, conversationId };
+  } catch (error: any) {
+    console.error('Error starting chat:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Failed to start conversation' 
+    };
+  }
+};
+
+/**
+ * Sends a chat message
+ */
+export const sendChatMessage = async (
+  conversationId: string,
+  message: string,
+  sender: 'user' | 'bot',
+  options?: {
+    source?: string;
+  }
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const conversationSnap = await get(ref(db, `chatConversations/${conversationId}`));
+    if (!conversationSnap.exists()) {
+      throw new Error('Conversation not found');
+    }
+    
+    const conversation = conversationSnap.val() as ChatConversation;
+    if (conversation.status !== 'active') {
+      throw new Error('Conversation is not active');
+    }
+
+    const messageId = generateId();
+    const messageData: ChatMessage = {
+      id: messageId,
+      text: message.trim(),
+      sender,
+      timestamp: Date.now(),
+      conversationId,
+      ...(sender === 'user' && {
+        metadata: {
+          userAgent: navigator.userAgent.substring(0, 120),
+          screenResolution: `${window.screen.width}x${window.screen.height}`,
+          page: options?.source || window.location.pathname,
+        }
+      })
+    };
+
+    const updates = {
+      [`chatMessages/${conversationId}/${messageId}`]: messageData,
+      [`chatConversations/${conversationId}/updatedAt`]: Date.now(),
+    };
+
+    await update(ref(db), updates);
+
+    if (sender === 'user') {
+      await sendChatNotification({
+        type: 'new_message',
+        conversationId,
+        userId: conversation.userId,
+        message,
+        timestamp: new Date().toISOString(),
+        metadata: messageData.metadata,
+      });
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error sending message:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Failed to send message' 
+    };
+  }
+};
+
+/**
+ * Gets chat messages
+ */
+export const getChatMessages = async (
+  conversationId: string,
+  options?: {
+    limit?: number;
+    beforeTimestamp?: number;
+  }
+): Promise<{ success: boolean; messages?: ChatMessage[]; error?: string }> => {
+  try {
+    let queryRef = ref(db, `chatMessages/${conversationId}`);
+    
+    if (options?.beforeTimestamp) {
+      queryRef = query(
+        queryRef,
+        orderByChild('timestamp'),
+        endAt(options.beforeTimestamp),
+        limitToLast(options.limit || 50)
+      );
+    } else if (options?.limit) {
+      queryRef = query(
+        queryRef,
+        orderByChild('timestamp'),
+        limitToLast(options.limit)
+      );
+    } else {
+      queryRef = query(
+        queryRef,
+        orderByChild('timestamp')
+      );
+    }
+
+    const snapshot = await get(queryRef);
+    
+    if (!snapshot.exists()) {
+      return { success: true, messages: [] };
+    }
+
+    const messages = Object.values(snapshot.val()) as ChatMessage[];
+    messages.sort((a, b) => a.timestamp - b.timestamp);
+
+    return { success: true, messages };
+  } catch (error: any) {
+    console.error('Error getting messages:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Failed to get messages' 
+    };
+  }
+};
+
+/**
+ * Listens for new messages
+ */
+export const listenForNewMessages = (
+  conversationId: string,
+  callback: (messages: ChatMessage[], error?: string) => void
+): (() => void) => {
+  const messagesRef = ref(db, `chatMessages/${conversationId}`);
+  
+  const unsubscribe = onValue(messagesRef, 
+    (snapshot) => {
+      try {
+        if (snapshot.exists()) {
+          const messages = Object.values(snapshot.val()) as ChatMessage[];
+          messages.sort((a, b) => a.timestamp - b.timestamp);
+          callback(messages);
+        } else {
+          callback([]);
+        }
+      } catch (error: any) {
+        console.error('Error processing messages:', error);
+        callback([], error.message);
+      }
+    },
+    (error) => {
+      console.error('Firebase listener error:', error);
+      callback([], error.message);
+    }
+  );
+
+  return unsubscribe;
+};
+
+/**
+ * Archives a conversation
+ */
+export const archiveChatConversation = async (
+  conversationId: string
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    await update(ref(db, `chatConversations/${conversationId}`), {
+      status: 'archived',
+      updatedAt: Date.now(),
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error archiving conversation:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Failed to archive conversation' 
+    };
+  }
+};
+
+type NotificationPayload = {
+  type: 'new_conversation' | 'new_message';
+  conversationId: string;
+  userId?: string;
+  message: string;
+  timestamp: string;
+  metadata?: {
+    userAgent?: string;
+    screenResolution?: string;
+    page?: string;
+    initialMessage?: string;
+  };
+};
+
+const sendChatNotification = async (payload: NotificationPayload): Promise<void> => {
+  try {
+    const formData = new URLSearchParams();
+    formData.append('type', payload.type);
+    formData.append('conversationId', payload.conversationId);
+    if (payload.userId) formData.append('userId', payload.userId);
+    formData.append('message', payload.message);
+    formData.append('timestamp', payload.timestamp);
+    
+    if (payload.metadata) {
+      formData.append('userAgent', payload.metadata.userAgent || '');
+      formData.append('screenResolution', payload.metadata.screenResolution || '');
+      formData.append('page', payload.metadata.page || '');
+      if (payload.metadata.initialMessage) {
+        formData.append('initialMessage', payload.metadata.initialMessage);
+      }
+    }
+
+    const response = await fetch('https://hooks.zapier.com/hooks/catch/23697085/u3q6xaq/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData
+    });
+
+    if (!response.ok) {
+      console.warn('Failed to send notification', await response.text());
+    }
+  } catch (error) {
+    console.error('Notification error:', error);
+  }
+};
+
+const generateId = (): string => push(ref(db, 'ids')).key as string;
+
+
+
+
+//firebase old application
 
  export const submitJobApplicationForm = async (data: {
   name: string;
@@ -680,7 +1014,7 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
 
     await set(applicationRef, applicationData);
 
-
+/*
 // Send to Zapier with all required fields
     const formData = new URLSearchParams();
     formData.append('name', data.name.trim());
@@ -706,7 +1040,7 @@ await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
 
     if (!response.ok) throw new Error('Zapier submission failed');
 
-
+*/
 
 
     return { 
@@ -827,8 +1161,6 @@ export const uploadResume = async (
     throw new Error(`Upload failed: ${error.message}`);
   }
 };
-
-
 
 
 /**
@@ -990,4 +1322,3 @@ export const uploadModel1Resume = async (
     };
   }
 };
-
