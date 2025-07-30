@@ -104,7 +104,7 @@ export default async function handler(req, res) {
     `;
 
     const data = await resend.emails.send({
-      from: 'Business & Data Solutions <bhargav@businessanddatasolutions.com>',
+      from: 'Business & Data Solutions <Info@businessanddatasolutions.com>',
       to,
       subject: emailSubject,
       html: emailHtml,
