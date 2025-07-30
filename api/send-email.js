@@ -230,22 +230,7 @@ export default async function handler(req, res) {
       }),
     });
 
-    // 2. Send internal notification (basic info only)
-    await resend.emails.send({
-      from: 'Careers Portal <noreply@businessanddatasolutions.com>',
-      to: INTERNAL_TEAM_EMAIL,
-      subject: `[New Application] ${name} - ${jobTitle}`,
-      html: generateInternalNotification({
-        to,
-        name,
-        phone,
-        jobTitle,
-        jobId,
-        university,
-        linkedIn,
-        message
-      }),
-    });
+  
 
     return res.status(200).json({ success: true });
   } catch (error) {
