@@ -158,6 +158,32 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
     if (!emailResponse.ok) {
       throw new Error('Failed to send confirmation email');
     }
+
+
+        // Optional: Send internal notification
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: 'bhargav@businessanddatasolutions.com',
+            subject: `New Application: ${formData.name} for ${job.title}`,
+            html: `
+              <div style="font-family: Arial, sans-serif;">
+                <h3>New Job Application Received</h3>
+                <p><strong>Candidate:</strong> ${formData.name}</p>
+                <p><strong>Position:</strong> ${job.title}</p>
+                <p><strong>Email:</strong> ${formData.email}</p>
+                <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+                <p><strong>University:</strong> ${formData.university || 'N/A'}</p>
+                <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
+                <p><a href="https://console.firebase.google.com/u/0/project/YOUR_PROJECT_ID/database/firestore/data/~2Fmodel1Applications~2F${applicationResult.applicationId}">View in Firebase</a></p>
+              </div>
+            `,
+          }),
+        });
+
+
+    
   } catch (emailError) {
     console.error('Email notification failed:', emailError);
     // Fail silently - don't affect user experience
