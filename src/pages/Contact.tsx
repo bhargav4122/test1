@@ -560,7 +560,7 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Email Us</h3>
             <p className="mb-4">For general inquiries</p>
             <a href="mailto:contact@yourcompany.com" className="text-blue-500 hover:underline">
-              contact@yourcompany.com
+            Info@businessanddatasolutions.com
             </a>
           </motion.div>
           
