@@ -208,9 +208,9 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-black rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Modal header */}
-        <div className="sticky top-0 bg-white dark:bg-gray-800 p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+        <div className="sticky top-0 bg-white dark:bg-black p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Apply for {job.title}</h2>
             <p className="text-gray-600 dark:text-gray-300 mt-1">Fill out the form below to submit your application</p>
@@ -223,8 +223,8 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
         <form onSubmit={handleSubmit} className="p-6">
           <div className="grid md:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <User className="w-4 h-4" />
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2text-gray-900 dark:text-white">
+                <User className="w-4 h-4 text-gray-900 dark:text-white" />
                 Full Name *
               </label>
               <input
@@ -232,30 +232,32 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 placeholder="Enter your full name"
               />
             </div>
 
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <Mail className="w-4 h-4" />
-                Email Address *
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="your.email@example.com"
-              />
-            </div>
+          <div>
+  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
+    <Mail className="w-4 h-4 text-gray-900 dark:text-white" />
+    Email Address *
+  </label>
+  <input
+    type="email"
+    required
+    value={formData.email}
+    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
+    placeholder="your.email@example.com"
+  />
+</div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                 <Phone className="w-4 h-4" />
                 Phone Number
               </label>
@@ -263,13 +265,14 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 placeholder="+91 98765 43210"
               />
             </div>
 
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                 <Upload className="w-4 h-4" />
                 Resume/CV *
               </label>
@@ -285,7 +288,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
 
           <div className="grid md:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                 <Linkedin className="w-4 h-4" />
                 LinkedIn Profile
               </label>
@@ -293,13 +296,14 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                 type="url"
                 value={formData.linkedIn}
                 onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 placeholder="https://linkedin.com/in/yourprofile"
               />
             </div>
 
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                 <Globe className="w-4 h-4" />
                 Portfolio/Website
               </label>
@@ -307,31 +311,33 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                 type="url"
                 value={formData.portfolio}
                 onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 placeholder="https://yourportfolio.com"
               />
             </div>
           </div>
 
           {isUniversityProgram && (
-            <div className="grid md:grid-cols-3 gap-4 mb-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="grid md:grid-cols-3 gap-4 mb-6 p-4 bg-black text-white rounded-lg border border-purple-200">
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                  <GraduationCap className="w-4 h-4" />
-                  University/College *
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
+                  <GraduationCap className="w-4 h-4" /> 
+                  University Name*
                 </label>
                 <input
                   type="text"
                   required={isUniversityProgram}
                   value={formData.university}
                   onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                   placeholder="Your university name"
                 />
               </div>
 
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 mb-2 text-gray-900 dark:text-white">
                   <GraduationCap className="w-4 h-4" />
                   Current Year *
                 </label>
@@ -339,8 +345,8 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                   required={isUniversityProgram}
                   value={formData.currentYear}
                   onChange={(e) => setFormData({ ...formData, currentYear: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                >
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400">
                   <option value="">Select year</option>
                   <option value="1">1st Year</option>
                   <option value="2">2nd Year</option>
@@ -350,7 +356,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
               </div>
 
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                   <GraduationCap className="w-4 h-4" />
                   Expected Graduation *
                 </label>
@@ -358,7 +364,8 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                   required={isUniversityProgram}
                   value={formData.graduationYear}
                   onChange={(e) => setFormData({ ...formData, graduationYear: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 >
                   <option value="">Select year</option>
                   <option value="2025">2025</option>
@@ -369,7 +376,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
               </div>
 
               <div className="md:col-span-3">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                   <GraduationCap className="w-4 h-4" />
                   Preferred Career Track *
                 </label>
@@ -377,7 +384,8 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                   required={isUniversityProgram}
                   value={formData.preferredField}
                   onChange={(e) => setFormData({ ...formData, preferredField: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 >
                   <option value="">Select your preferred field</option>
                   <option value="Cloud Engineering">Cloud Engineering</option>
@@ -392,7 +400,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
           )}
 
           <div className="mb-6">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
               <FileText className="w-4 h-4" />
               Cover Letter / Why are you interested in this position? *
             </label>
@@ -401,7 +409,8 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
               rows={5}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
               placeholder={isUniversityProgram 
                 ? "Tell us why you're interested in our university program and what you hope to achieve..."
                 : "Tell us why you're interested in this position and what makes you a great fit..."
@@ -410,14 +419,15 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
           </div>
 
           <div className="mb-6">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
               Salary Expectation (optional)
             </label>
             <input
               type="text"
               value={formData.salaryExpectation}
               onChange={(e) => setFormData({ ...formData, salaryExpectation: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
               placeholder="Example: ₹8,00,000 or Negotiable"
             />
           </div>
