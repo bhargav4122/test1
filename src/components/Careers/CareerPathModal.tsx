@@ -26,7 +26,7 @@ export function CareerPathModal({ careerPath, isOpen, onClose, onApply }: Career
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors mb-2 text-gray-900 dark:text-black hover:text-black"
           >
             <X className="w-6 h-6" />
           </button>
@@ -211,4 +211,5 @@ export function CareerPathModal({ careerPath, isOpen, onClose, onApply }: Career
       </div>
     </div>
   );
+
 }
