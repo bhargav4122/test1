@@ -235,7 +235,7 @@ const handleApplicationSubmit = async (applicationData: any) => {
       </div>
 
       {/* Company Culture Section */}
-      <div className="bg-gray-50 dark:bg-gray-800">
+      <div className="bg-gray-50 dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Us?</h2>
@@ -308,4 +308,5 @@ const handleApplicationSubmit = async (applicationData: any) => {
       />
     </div>
   );
+
 }
