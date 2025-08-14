@@ -1,3 +1,5 @@
+//#applicationmodel1
+
 import React, { useState, useEffect } from 'react';
 import { X, Upload, User, Mail, Phone, FileText, GraduationCap, Loader2, Linkedin, Globe } from 'lucide-react';
 import { JobListing } from '@/types/careers';
@@ -9,6 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/providers/ThemeProvider";
 
 interface Job {
   id: string;
@@ -232,7 +236,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
                dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                 placeholder="Enter your full name"
               />
@@ -248,7 +252,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
     required
     value={formData.email}
     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
                dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
     placeholder="your.email@example.com"
   />
@@ -319,7 +323,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
           </div>
 
           {isUniversityProgram && (
-            <div className="grid md:grid-cols-3 gap-4 mb-6 p-4 bg-black text-white rounded-lg border border-purple-200">
+            <div className="grid md:grid-cols-3 gap-4 mb-6 p-4 rounded-lg border border-purple-200">
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                   <GraduationCap className="w-4 h-4" /> 
@@ -332,12 +336,12 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                   onChange={(e) => setFormData({ ...formData, university: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
                dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
-                  placeholder="Your university name"
+           placeholder="Your university name"
                 />
               </div>
 
               <div>
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 mb-2 text-gray-900 dark:text-white">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 text-gray-900 dark:text-white">
                   <GraduationCap className="w-4 h-4" />
                   Current Year *
                 </label>
@@ -345,7 +349,7 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
                   required={isUniversityProgram}
                   value={formData.currentYear}
                   onChange={(e) => setFormData({ ...formData, currentYear: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent
                dark:bg-black dark:text-white dark:border-gray-600 dark:placeholder-gray-400">
                   <option value="">Select year</option>
                   <option value="1">1st Year</option>
