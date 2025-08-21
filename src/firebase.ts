@@ -509,134 +509,6 @@ export const submitNewsletterEmail = async (email: string): Promise<{ success: b
 
 
 
-export const submitConsultationForm = async (data: { 
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  company: string;
-  date: string; // Format: YYYY-MM-DD
-  timeSlot: string; // Format: "HH:MM AM/PM"
-  industry?: Record<string, boolean>;
-  services?: Record<string, boolean>;
-  additionalInfo?: string;
-}): Promise<{ success: boolean; message?: string }> => {
-  try {
-    // 1. Generate meeting ID and link (Google Meet alternative)
-    const meetingId = `ds-${Math.random().toString(36).substring(2, 8)}`;
-    const meetLink = `https://meet.datasolutions.com/${meetingId}`; // Replace with your actual meeting domain
-
-    // 2. Convert time with proper timezone handling
-    const [time, period] = data.timeSlot.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
-    
-    // Convert to 24-hour format
-    if (period === 'PM' && hours < 12) hours += 12;
-    if (period === 'AM' && hours === 12) hours = 0;
-
-    const dateParts = data.date.split('-');
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    
-    // Create date in user's timezone
-    const startDate = new Date(Date.UTC(
-      parseInt(dateParts[0]),
-      parseInt(dateParts[1]) - 1,
-      parseInt(dateParts[2]),
-      hours,
-      minutes
-    ));
-    
-    // Adjust for timezone offset
-    const tzOffset = startDate.getTimezoneOffset() * 60 * 1000;
-    const localStartDate = new Date(startDate.getTime() - tzOffset);
-    const localEndDate = new Date(localStartDate.getTime() + 45 * 60 * 1000); // 45 minute meeting
-
-    // 3. Prepare Firebase data
-    const submissionData = {
-      firstName: data.firstName.trim(),
-      lastName: data.lastName.trim(),
-      email: data.email.trim().toLowerCase(),
-      phone: data.phone.replace(/\D/g, ''),
-      company: data.company.trim(),
-      date: data.date,
-      timeSlot: data.timeSlot,
-      startTimeUTC: localStartDate.toISOString(),
-      endTimeUTC: localEndDate.toISOString(),
-      userTimezone: timeZone,
-      meetingLink: meetLink,
-      meetingId: meetingId,
-      timestamp: Date.now(),
-      services: data.services ? Object.keys(data.services).join(', ') : 'None selected',
-      additionalInfo: data.additionalInfo || '',
-      metadata: {
-        userAgent: navigator.userAgent.substring(0, 120),
-        screenResolution: `${window.screen.width}x${window.screen.height}`,
-        page: window.location.pathname
-      }
-    };
-
-    const submissionRef = push(ref(db, 'consultationSubmissions'));
-    await set(submissionRef, submissionData);
-
-    // 4. Send to Zapier with corrected time format
-    const formData = new URLSearchParams();
-    // Core fields
-    formData.append('firstName', submissionData.firstName);
-    formData.append('lastName', submissionData.lastName);
-    formData.append('email', submissionData.email);
-    formData.append('phone', submissionData.phone);
-    formData.append('company', submissionData.company);
-    formData.append('services', submissionData.services);
-    
-    // Time fields (corrected)
-    formData.append('start_time_utc', submissionData.startTimeUTC);
-    formData.append('end_time_utc', submissionData.endTimeUTC);
-    formData.append('user_timezone', submissionData.userTimezone);
-    formData.append('user_date', data.date);
-    formData.append('user_time', data.timeSlot);
-    
-    // Meeting info
-    formData.append('meeting_title', `Consultation with ${data.firstName} ${data.lastName}`);
-    formData.append('meeting_description', `45-min consultation for ${data.company}`);
-    
-    // System fields
-    formData.append('firebaseId', submissionRef.key || '');
-
-    const response = await fetch('https://hooks.zapier.com/hooks/catch/23697085/u3jdp83/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData
-    });
-
-const zapResult = await response.json(); // Zap should return real link
-
-const realMeetLink = zapResult.meeting_link || meetLink; // fallback to fake if missing
-
-// Update Firebase with real meet link
-await update(ref(db, `consultationSubmissions/${submissionRef.key}`), {
-  meetingLink: realMeetLink,
-  googleEventId: zapResult.event_id || null
-});
-
-
-    if (!response.ok) throw new Error('Calendar integration failed');
-
-    return {
-      success: true,
-      message: "Booking confirmed! Check your email for details."
-    };
-
-  } catch (error: any) {
-    console.error("Submission error:", error);
-    return {
-      success: false,
-      message: error.message || "Booking failed. Please try again."
-    };
-  }
-};
-
-
-
 // ======================
 // CHATBOT FUNCTIONS
 // ======================
@@ -1319,6 +1191,82 @@ export const uploadModel1Resume = async (
     return { 
       success: false, 
       error: error.message || "Failed to upload resume" 
+    };
+  }
+};
+
+
+
+
+
+export const submitConsultationForm = async (data: { 
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company: string;
+  industry?: Record<string, boolean>;
+  services?: Record<string, boolean>;
+  additionalInfo?: string;
+  calBookingData?: {  // New Cal.com booking data
+    eventId?: string;
+    bookingId?: string;
+    startTime?: string;
+    endTime?: string;
+    timeZone?: string;
+    meetingUrl?: string;
+  }
+}): Promise<{ success: boolean; message?: string }> => {
+  try {
+    // Prepare Firebase data - remove undefined values
+    const submissionData: Record<string, any> = {
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
+      email: data.email.trim().toLowerCase(),
+      phone: data.phone.replace(/\D/g, ''),
+      company: data.company.trim(),
+      timestamp: Date.now(),
+      services: data.services ? Object.keys(data.services).join(', ') : 'None selected',
+      additionalInfo: data.additionalInfo || '',
+      metadata: {
+        userAgent: navigator.userAgent.substring(0, 120),
+        screenResolution: `${window.screen.width}x${window.screen.height}`,
+        page: window.location.pathname,
+        source: 'cal.com'
+      }
+    };
+
+    // Add Cal.com data only if it exists and has values
+    if (data.calBookingData) {
+      const calData: Record<string, any> = {};
+      
+      // Only add defined values to calData
+      if (data.calBookingData.eventId) calData.eventId = data.calBookingData.eventId;
+      if (data.calBookingData.bookingId) calData.bookingId = data.calBookingData.bookingId;
+      if (data.calBookingData.startTime) calData.startTime = data.calBookingData.startTime;
+      if (data.calBookingData.endTime) calData.endTime = data.calBookingData.endTime;
+      if (data.calBookingData.timeZone) calData.timeZone = data.calBookingData.timeZone;
+      if (data.calBookingData.meetingUrl) calData.meetingUrl = data.calBookingData.meetingUrl;
+      
+      // Only add calEvent if we have any data
+      if (Object.keys(calData).length > 0) {
+        submissionData.calEvent = calData;
+      }
+    }
+
+    const submissionRef = push(ref(db, 'consultationSubmissions'));
+    await set(submissionRef, submissionData);
+
+    return {
+      success: true,
+      message: "Your information has been submitted successfully!"
+    };
+
+  } catch (error: any) {
+    console.error("Submission error:", error);
+    return {
+      success: false,
+      message: error.message || "Submission failed. Please try again."
     };
   }
 };
