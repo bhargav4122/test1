@@ -138,7 +138,11 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
       }
 
       // Step 3: Send confirmation email via Resend
-  try {
+  // Updated email notification section in handleSubmit function
+
+// Step 3: Send confirmation email to applicant and detailed notification to internal team
+try {
+  // Send confirmation to applicant
   const emailResponse = await fetch('/api/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -157,36 +161,129 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
       message: formData.message
     }),
   });
-        if (!emailResponse.ok) {
-          throw new Error('Failed to send confirmation email');
-        }
+  
+  if (!emailResponse.ok) {
+    throw new Error('Failed to send confirmation email');
+  }
 
-        // Optional: Send internal notification
-        await fetch('/api/send-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: 'bhargav@businessanddatasolutions.com',
-            subject: `New Application: ${formData.name} for ${job.title}`,
-            html: `
-              <div style="font-family: Arial, sans-serif;">
-                <h3>New Job Application Received</h3>
-                <p><strong>Candidate:</strong> ${formData.name}</p>
-                <p><strong>Position:</strong> ${job.title}</p>
-                <p><strong>Email:</strong> ${formData.email}</p>
-                <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-                <p><strong>University:</strong> ${formData.university || 'N/A'}</p>
-                <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
-                <p><a href="https://console.firebase.google.com/u/0/project/YOUR_PROJECT_ID/database/firestore/data/~2Fmodel1Applications~2F${applicationResult.applicationId}">View in Firebase</a></p>
-              </div>
-            `,
-          }),
-        });
+  // Send detailed internal notification
+  const internalEmailResponse = await fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: 'bhargav@businessanddatasolutions.com',
+      subject: `New Application: ${formData.name} for ${job.title}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px;">
+          <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
+            New Job Application Received
+          </h2>
+          
+          <h3 style="color: #374151;">Candidate Information</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb; width: 30%;"><strong>Name:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Email:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;"><a href="mailto:${formData.email}">${formData.email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Phone:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.phone || 'Not provided'}</td>
+            </tr>
+            ${formData.linkedIn ? `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>LinkedIn:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;"><a href="${formData.linkedIn}" target="_blank">${formData.linkedIn}</a></td>
+            </tr>
+            ` : ''}
+            ${formData.portfolio ? `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Portfolio:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;"><a href="${formData.portfolio}" target="_blank">${formData.portfolio}</a></td>
+            </tr>
+            ` : ''}
+          </table>
 
-      } catch (emailError) {
-        console.error('Email notification failed:', emailError);
-        // Fail silently - don't show error to user
-      }
+          <h3 style="color: #374151;">Position Information</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb; width: 30%;"><strong>Job Title:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${job.title}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Job ID:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${job.id}</td>
+            </tr>
+            ${formData.salaryExpectation ? `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Salary Expectation:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.salaryExpectation}</td>
+            </tr>
+            ` : ''}
+          </table>
+
+          ${isUniversityProgram ? `
+          <h3 style="color: #374151;">University Program Details</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb; width: 30%;"><strong>University:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.university || 'Not provided'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Current Year:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.currentYear || 'Not provided'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Graduation Year:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.graduationYear || 'Not provided'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Preferred Field:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${formData.preferredField || 'Not provided'}</td>
+            </tr>
+          </table>
+          ` : ''}
+
+          <h3 style="color: #374151;">Cover Letter</h3>
+          <div style="padding: 15px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 20px;">
+            ${formData.message || 'No cover letter provided'}
+          </div>
+
+          <h3 style="color: #374151;">Application Details</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb; width: 30%;"><strong>Submitted at:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">${new Date().toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #e5e7eb; background-color: #f9fafb;"><strong>Resume:</strong></td>
+              <td style="padding: 8px; border: 1px solid #e5e7eb;">
+                ${resumeUrl ? `<a href="${resumeUrl}" target="_blank">Download Resume</a>` : 'No resume uploaded'}
+              </td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 14px;">
+            <p>This email was automatically generated from the career portal.</p>
+            <p><a href="https://console.firebase.google.com/u/0/project/YOUR_PROJECT_ID/database/firestore/data/~2Fmodel1Applications~2F${applicationResult.applicationId}" style="color: #2563eb; text-decoration: none;">View full application in Firebase</a></p>
+          </div>
+        </div>
+      `,
+    }),
+  });
+
+  if (!internalEmailResponse.ok) {
+    console.error('Internal notification failed');
+    // Don't throw an error, as we don't want to fail the submission
+  }
+
+} catch (emailError) {
+  console.error('Email notification failed:', emailError);
+  // Fail silently - don't show error to user
+}
 
       // Step 4: Handle success
       toast({
@@ -464,3 +561,4 @@ export function ApplicationModal1({ job, isOpen, onClose, theme }: ApplicationMo
     </div>
   );
 }
+
