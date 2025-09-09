@@ -15,12 +15,16 @@ import { Card } from "../components/ui/card";
 import * as blogService from "@/firebase/blogService";
 import { auth, onAuthStateChanged } from "@/firebase";
 import { signInWithGoogle } from "@/authService";
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/providers/ThemeProvider";
+
+
 
 const BlogPostPage = () => {
   // All hooks must be declared unconditionally at the top
   const { id } = useParams();
   const navigate = useNavigate(); 
-  
+  const { theme } = useTheme();
   // Post state
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -357,7 +361,12 @@ const BlogPostPage = () => {
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Write your comment..."
-                      className="w-full p-3 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className={cn(
+                  "w-full px-4 py-3 rounded-xl border focus:ring-2 focus:outline-none transition-all min-h-[150px]",
+                  theme === "dark" 
+                    ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                    : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                )}
                       rows={3}
                     />
                     <div className="flex justify-end gap-2 mt-2">
