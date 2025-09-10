@@ -63,7 +63,7 @@ const Navbar = () => {
           <div className="flex h-16 md:h-20 items-center justify-between">
             {/* Logo - Non-clickable version */}
             <div className="flex items-center space-x-3">
-              <div className="h-40 w-40 md:h-52 md:w-52 lg:h-64 lg:w-64 flex-shrink-0 relative">
+                <div className="h-20 w-40 md:h-32 md:w-52 lg:h-30 lg:w-64 flex-shrink-0 relative">
                 {/* Light Mode Logo */}
                 <img 
                   src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logo_-_Original_with_Transparent_Background_yyjwku.png"  
