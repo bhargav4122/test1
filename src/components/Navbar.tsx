@@ -63,7 +63,7 @@ const Navbar = () => {
           <div className="flex h-16 md:h-20 items-center justify-between">
             {/* Logo - Non-clickable version */}
             <div className="flex items-center space-x-3">
-                <div className="h-20 w-40 md:h-32 md:w-52 lg:h-30 lg:w-64 flex-shrink-0 relative">
+                <div className="h-16 w-32 md:h-20 md:w-40 lg:h-24 lg:w-48 xl:h-28 xl:w-56 relative">
                 {/* Light Mode Logo */}
                 <img 
                   src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753052964/BDS_Logo_-_Original_with_Transparent_Background_yyjwku.png"  
@@ -73,9 +73,9 @@ const Navbar = () => {
                   }`}
                   style={{
                     display: theme === 'light' ? 'block' : 'none',
-                    marginLeft: -50,
-                    lineHeight: 0,
-                    clipPath: 'inset(30px 0 0 0)'
+                   marginLeft: '-30px',
+              maxWidth: '100%',
+              maxHeight: '100%'
                   }}
                 />
                 
@@ -89,9 +89,9 @@ const Navbar = () => {
                   }`}
                   style={{
                     display: theme === 'dark' ? 'block' : 'none',
-                    marginLeft: -50,
-                    lineHeight: 0,
-                    clipPath: 'inset(30px 0 0 0)'
+                     marginLeft: '-30px',
+              maxWidth: '100%',
+              maxHeight: '100%'
                   }}
                 />
               </div>
