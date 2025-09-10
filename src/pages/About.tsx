@@ -143,7 +143,7 @@ function About() {
       theme === "dark" ? "bg-gray-900" : "bg-white"
     )}>
       {/* Hero Section - Redesigned */}
-      <section className="relative mb-20 pt-24 pb-16 overflow-hidden">
+      <section className="relative mb-20 pt-24 overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className={cn(
             "absolute inset-0 opacity-20",
