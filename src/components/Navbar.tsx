@@ -203,7 +203,7 @@ const Navbar = () => {
                       : "text-gray-700 hover:text-primary hover:bg-primary/5"
                 )}
               >
-                careers
+                Careers
               </Link>
               
               
