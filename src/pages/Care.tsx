@@ -59,7 +59,7 @@ const handleApplicationSubmit = async (applicationData: any) => {
       throw new Error(result.message);
     }
   } catch (error: any) {
-    alert(`Error: ${error.message}`);
+    alert(`Error: {error.message}`);
   }
 };
 
@@ -310,3 +310,4 @@ const handleApplicationSubmit = async (applicationData: any) => {
   );
 
 }
+
