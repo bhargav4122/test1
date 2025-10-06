@@ -191,6 +191,7 @@ const Navbar = () => {
                 Blog
               </Link>
 
+              {/*
               
                <Link 
                 to="/care" 
@@ -207,7 +208,7 @@ const Navbar = () => {
               >
                 Careers
               </Link>
-              
+              */}
               
 
               {/* Consultation Button - Desktop */}
