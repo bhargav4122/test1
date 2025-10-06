@@ -42,10 +42,10 @@ const Navbar = () => {
     {name: 'About', path: '/about', icon: <Brain className="h-5 w-5" />},
     {name: 'Services', path: '/services', icon: <Wrench className="h-5 w-5" />},
     {name: 'Industries', path: '/industries', icon: <Building2 className="h-5 w-5" />},
-    {name: 'Careers', path: '/care', icon: <briefcase className="h-5 w-5" />},
+    {/* {name: 'Careers', path: '/care', icon: <briefcase className="h-5 w-5" />},/*}
     {name: 'Contact', path: '/contact', icon: <Mail className="h-5 w-5" />},
     {name: 'Blog', path: '/blog', icon: <NewspaperIcon className="h-5 w-5" />}
-  ];
+  ];  
 
   return (
     <>
@@ -189,7 +189,7 @@ const Navbar = () => {
                 Blog
               </Link>
 
-
+              {/*
                <Link 
                 to="/care" 
                 className={cn(
@@ -205,7 +205,7 @@ const Navbar = () => {
               >
                 Careers
               </Link>
-              
+              /*}
               
 
               {/* Consultation Button - Desktop */}
