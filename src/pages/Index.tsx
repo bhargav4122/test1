@@ -39,11 +39,12 @@ const Index = () => {
         <Hero />
         <Statistics />
         <ServicesOverview />
-        <IndustrySection />
-        <Features />
+       <IndustrySection />
+       {/* <Features />*/}
         <Why />
         <HowItWorks />
-        <AnimatedTestimonialsDemo />
+         {/* Full-page glass overlay 
+         <AnimatedTestimonialsDemo /> */}
         <CallToAction />
       </main>
     </div>
