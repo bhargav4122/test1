@@ -157,7 +157,7 @@ export default function CallToAction() {
           inView ? "opacity-100" : "opacity-0 translate-y-10"
         }`}
       >
-        <div className="rounded-2xl bg-gradient-to-br from-primary/80 to-primary p-8 md:p-16 relative overflow-hidden shadow-xl">
+        <div className="rounded-2xl p-8 md:p-16 relative overflow-hidden shadow-xl">
           {/* Decorative elements */}
           <div className="absolute top-0 left-0 h-full w-full">
             <div className="absolute right-0 bottom-0 h-64 w-64 translate-x-1/3 translate-y-1/3 rounded-full bg-white opacity-10"></div>
@@ -165,11 +165,11 @@ export default function CallToAction() {
           </div>
 
           <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-2 items-center">
-            <div className="text-white">
+            <div className="">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl mb-4">
                 Ready to transform your data strategy?
               </h2>
-              <p className="text-white/90 text-lg max-w-md">
+              <p className=" text-lg max-w-md">
                 Join thousands of forward-thinking companies using Data & Business Solutions
                 to drive business success.
               </p>
