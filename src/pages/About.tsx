@@ -267,16 +267,25 @@ function About() {
       </section>
 
       {/* Director's Message - Updated for Startup */}
-      <section className="mb-20">
-        <ThemedCard className="overflow-hidden">
-          <div className="md:flex">
-            <div className="md:w-1/3 bg-gradient-to-br from-blue-500 to-purple-600 p-8 flex flex-col justify-center">
-              <div className="text-center">
-                <div className="inline-block p-4 rounded-full bg-white/10 mb-4">
-                  <User className="h-10 w-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-1">Allu</h3>
-                <p className="text-blue-100">Director & Co-Founder</p>
+   <section className="mb-20 dark:bg-black dark:text-gray-100">
+               <div className="overflow-hidden dark:bg-black dark:text-gray-100">
+            <div className="md:flex">
+         <div className="md:w-1/3 p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
+          
+           <div className="text-center group">
+                 {/* Circular image container with fixed size and hover effect */}
+             <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
+               {/* User image with proper sizing and zoom effect */}
+               <img 
+                 src="/profile/Bhargav.jpg"
+                 alt="Allu - Director & Co-Founder"
+                 className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+               />
+             </div>
+
+
+                <h3 className="text-xl font-bold mb-1">Bhargav Allu</h3>
+                <p className="-100">Director & Co-Founder</p>
               </div>
             </div>
             <div className="md:w-2/3 p-8">
@@ -292,19 +301,12 @@ function About() {
                 As a startup, we bring fresh energy, flexible approaches, and a genuine commitment to our partners' success. 
                 We're not just service providers; we're builders, innovators, and your dedicated partners in growth."
               </blockquote>
-              <div className="flex items-center">
-                <ArrowRight className={cn(
-                  "h-5 w-5 mr-2",
-                  theme === "dark" ? "text-blue-400" : "text-blue-600"
-                )} />
-                <span className={cn(
-                  "font-medium",
-                  theme === "dark" ? "text-blue-400" : "text-blue-600"
-                )}>Meet our leadership team</span>
+              
+              
               </div>
             </div>
           </div>
-        </ThemedCard>
+       
       </section>
 
       {/* Story Section - Updated for Startup */}
@@ -505,15 +507,18 @@ function About() {
                 <h2 className={cn(
                   "text-2xl md:text-3xl font-bold mb-6",
                   theme === "dark" ? "text-white" : "text-gray-800"
-                )}>Why Partner With a Startup?</h2>
+                )}>Why Partner With Us?</h2>
                 <div className="grid gap-4">
                   {[
+                    "Industry-leading expertise in data, AI, and digital transformation.",
+                    "Personalized solutions tailored to your business challenges.",
                     "Agile approaches that adapt to your unique needs",
                     "Fresh perspectives and innovative thinking",
                     "Direct access to founders and decision-makers",
                     "Flexible solutions without corporate bureaucracy",
                     "Genuine partnership and collaborative spirit",
-                    "Cutting-edge technologies and modern methodologies"
+                    "Cutting-edge technologies and modern methodologies",
+                    "Dedicated client success teams and 24/7 support."
                   ].map((item, i) => (
                     <div key={i} className="flex items-start">
                       <div className={cn(
