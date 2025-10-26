@@ -423,7 +423,7 @@ function About() {
              <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
                {/* User image with proper sizing and zoom effect */}
                <img 
-                 src="/profile/Bhargav.jpg"
+                 src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
                  alt="Allu - Director & Co-Founder"
                  className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                />
