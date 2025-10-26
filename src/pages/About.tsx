@@ -158,49 +158,237 @@ function About() {
       theme === "dark" ? "bg-gray-900" : "bg-white"
     )}>
       {/* Hero Section - Updated for Startup */}
-      <section className="relative mb-20 pt-24 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className={cn(
-            "absolute inset-0 opacity-20",
-            theme === "dark" ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30" : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
-          )}></div>
-          <div className={cn(
-            "absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]",
-            theme === "dark" ? "bg-gradient-to-b from-gray-800 to-gray-900" : "bg-white"
-          )}></div>
-        </div>
-        
-        <div className="max-w-4xl mx-auto text-center relative">
+    
+    
+    <section className="relative py-10 lg:pt-24 overflow-hidden">
+  {/* Background Gradient - Full Width */}
+  <div className="absolute inset-0 -z-10">
+    <div className={cn(
+      "absolute inset-0 opacity-20",
+      theme === "dark" 
+        ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30" 
+        : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
+    )}></div>
+    <div className={cn(
+      "absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]",
+      theme === "dark" ? "bg-gradient-to-b from-gray-900 to-gray-800" : "bg-white"
+    )}></div>
+  </div>
+
+  {/* Full Width Container */}
+  <div className="w-full px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto">
+      {/* Badge */}
+      <div className="text-center mb-6">
+        <span className={cn(
+          "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
+          theme === "dark"
+            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+            : "bg-blue-100 text-blue-700 border border-blue-200"
+        )}>
+          Our Startup Story
+        </span>
+      </div>
+      
+      {/* Main Heading */}
+      <div className="text-center mb-8">
+        <h1 className={cn(
+          "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
+          theme === "dark" ? "text-white" : "text-gray-900"
+        )}>
           <span className={cn(
-            "inline-block px-3 py-1 text-xs font-medium rounded-full mb-4",
-            theme === "dark" ? "bg-blue-900/30 text-blue-300" : "bg-blue-100 text-blue-800"
+            "bg-clip-text text-transparent bg-gradient-to-r",
+            theme === "dark"
+              ? "from-blue-400 to-purple-500"
+              : "from-blue-600 to-purple-600"
           )}>
-            Our Startup Story
+            Turning Data into Your Most Strategic Asset
           </span>
-          <h1 className={cn(
-            "text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight",
-            theme === "dark" ? "text-white" : "text-gray-900"
-          )}>
-            Building the future of{' '}
-            <span className={cn(
-              "bg-clip-text text-transparent bg-gradient-to-r",
-              theme === "dark" ? "from-blue-400 to-purple-500" : "from-blue-600 to-purple-600"
-            )}>
-              business solutions
-            </span>
-          </h1>
+        </h1>
+      </div>
+
+      {/* Main Content Block - Reduced Text Size */}
+      <div className="space-y-8">
+        {/* Main Description - Reduced Size */}
+        <div className="text-center">
           <p className={cn(
-            "text-lg md:text-xl max-w-3xl mx-auto",
-            theme === "dark" ? "text-gray-300" : "text-gray-600"
+            "text-lg md:text-xl leading-relaxed max-w-4xl mx-auto",
+            theme === "dark" ? "text-gray-300" : "text-gray-700"
           )}>
-            We're a dynamic startup helping businesses leverage technology and data to drive growth and innovation. 
-            Fresh perspectives, agile approaches, and dedicated partnerships define how we work.
+            In today's digital landscape, data is your business's most valuable asset—yet many organizations 
+            struggle to unlock its true potential. At <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions</strong>, 
+            we transform complex data into clear, actionable strategies that drive growth and create 
+            sustainable competitive advantages.
           </p>
+        </div>
+
+        <section className="pt-8">
+          <div className="grid md:grid-cols-2 gap-6">
+            
+            {/* Culture Section - Reduced Text */}
+            <div className={cn(
+              "p-6 rounded-xl",
+              theme === "dark" 
+                ? "bg-gray-800/40 border border-gray-700" 
+                : "bg-white/80 border border-gray-200"
+            )}>
+              <h2 className={cn(
+                "text-2xl md:text-2xl font-bold mb-4 text-center",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}>
+                <span className={cn(
+                  "bg-clip-text text-transparent bg-gradient-to-r",
+                  theme === "dark"
+                    ? "from-green-400 to-cyan-500"
+                    : "from-green-600 to-cyan-600"
+                )}>
+                  Built on Ideas, Not Pedigrees
+                </span>
+              </h2>
+              
+              <div className="space-y-3 text-justify">
+                <p className={cn(
+                  "text-base leading-relaxed",
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                )}>
+                  We believe <strong className={theme === "dark" ? "text-green-400" : "text-green-600"}>groundbreaking ideas can come from anywhere</strong>. 
+                  That's why we actively seek diverse talent worldwide, focusing on skills and innovation—not backgrounds.
+                </p>
+                
+                <p className={cn(
+                  "text-base leading-relaxed",
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
+                )}>
+                  We're building a community of forward-thinkers ready to challenge the status quo and drive meaningful change.
+                </p>
+              </div>
+            </div>
+            
+            {/* Call to Action - More Concise */}
+            <div className={cn(
+              "rounded-xl p-6 text-center border flex flex-col justify-center",
+              theme === "dark" 
+                ? "bg-gradient-to-r from-orange-900/20 to-pink-900/20 border-orange-800/30" 
+                : "bg-gradient-to-r from-orange-50 to-pink-50 border-orange-200"
+            )}>
+              <p className={cn(
+                "text-xl font-semibold mb-3",
+                theme === "dark" ? "text-gray-200" : "text-gray-800"
+              )}>
+                <span className={cn(
+                  "bg-clip-text text-transparent bg-gradient-to-r",
+                  theme === "dark"
+                    ? "from-orange-400 to-pink-500"
+                    : "from-orange-500 to-pink-600"
+                )}>
+                  Walk with us.
+                </span>
+              </p>
+              <p className={cn(
+                "text-base max-w-3xl mx-auto",
+                theme === "dark" ? "text-gray-300" : "text-gray-700"
+              )}>
+                Join our journey to build the future of business together. Let's transform challenges into opportunities through innovation and collaboration.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+      {/* Mission & Vision - Updated for Startup */}
+      <section className="">
+        <div className="grid md:grid-cols-2 gap-6">
+          
+          {/* Mission */}
+          <div className={cn(
+            "rounded-2xl p-8 border h-full",
+            theme === "dark" 
+              ? "bg-blue-900/20 border-blue-800/30" 
+              : "bg-blue-50 border-blue-200"
+          )}>
+            <div className="flex items-center mb-4">
+              <div className={cn(
+                "p-3 rounded-xl mr-4",
+                theme === "dark" ? "bg-blue-900/30" : "bg-blue-100"
+              )}>
+                <Rocket className="w-6 h-6 text-blue-500" />
+              </div>
+              <h3 className={cn(
+                "text-2xl font-bold",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}>
+                Our Mission
+              </h3>
+            </div>
+            <p className={cn(
+              "leading-relaxed text-justify",
+              theme === "dark" ? "text-gray-300" : "text-gray-700"
+            )}>
+              To empower businesses of all sizes with the data clarity and tools they need to thrive 
+              in a digital world. We believe that when you can see the full picture, you can build 
+              a better future. We deliver innovative solutions that transform complex data into 
+              actionable insights, driving growth and competitive advantage for our clients.
+            </p>
+          </div>
+          
+
+         
+            {/* Vision */}
+          <div className={cn(
+            "rounded-2xl p-8 border h-full",
+            theme === "dark" 
+              ? "bg-purple-900/20 border-purple-800/30" 
+              : "bg-purple-50 border-purple-200"
+          )}>
+            <div className="flex items-center mb-4">
+              <div className={cn(
+                "p-3 rounded-xl mr-4",
+                theme === "dark" ? "bg-purple-900/30" : "bg-purple-100"
+              )}>
+                <Eye className="w-6 h-6 text-purple-500" />
+              </div>
+              <h3 className={cn(
+                "text-2xl font-bold",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}>
+                Our Vision
+              </h3>
+            </div>
+            <p className={cn(
+              "leading-relaxed text-justify",
+              theme === "dark" ? "text-gray-300" : "text-gray-700"
+            )}>
+              To create a world where data-driven decisions are accessible to every organization, 
+              fostering innovation, growth, and sustainable success across all industries and sectors. 
+              We envision a future where businesses of all sizes can leverage cutting-edge technology 
+              to solve complex challenges and unlock new opportunities for growth and transformation.
+            </p>
+          </div>
+
+          {/* Mission & Vision Section - Full Width Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+
+          
+        </div>
         </div>
       </section>
 
+
       {/* Stats Section - Updated for Startup */}
-      <section className="mb-20">
+      <section className="mb-5">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {stats.map((stat, index) => (
             <ThemedCard key={index} className="p-6 text-center group hover:scale-[1.02] transition-transform">
@@ -223,48 +411,6 @@ function About() {
         </div>
       </section>
 
-      {/* Mission & Vision - Updated for Startup */}
-      <section className="mb-20">
-        <div className="grid md:grid-cols-2 gap-6">
-          <ThemedCard className="p-6 md:p-8">
-            <div className={cn(
-              "h-12 w-12 rounded-lg mb-4 flex items-center justify-center",
-              theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-            )}>
-              <Rocket className="h-6 w-6" />
-            </div>
-            <h2 className={cn(
-              "text-2xl md:text-3xl font-bold mb-4",
-              theme === "dark" ? "text-white" : "text-gray-800"
-            )}>Our Mission</h2>
-            <p className={cn(
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              To empower businesses with accessible, innovative technology solutions that drive meaningful growth 
-              and create competitive advantages in today's fast-paced digital world.
-            </p>
-          </ThemedCard>
-
-          <ThemedCard className="p-6 md:p-8">
-            <div className={cn(
-              "h-12 w-12 rounded-lg mb-4 flex items-center justify-center",
-              theme === "dark" ? "bg-purple-900/30 text-purple-400" : "bg-purple-100 text-purple-600"
-            )}>
-              <Eye className="h-6 w-6" />
-            </div>
-            <h2 className={cn(
-              "text-2xl md:text-3xl font-bold mb-4",
-              theme === "dark" ? "text-white" : "text-gray-800"
-            )}>Our Vision</h2>
-            <p className={cn(
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              To become the go-to partner for businesses seeking agile, modern solutions — known for our 
-              innovative approach, collaborative spirit, and commitment to client success.
-            </p>
-          </ThemedCard>
-        </div>
-      </section>
 
       {/* Director's Message - Updated for Startup */}
    <section className="mb-20 dark:bg-black dark:text-gray-100">
@@ -277,7 +423,7 @@ function About() {
              <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
                {/* User image with proper sizing and zoom effect */}
                <img 
-                 src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
+                 src="/profile/Bhargav.jpg"
                  alt="Allu - Director & Co-Founder"
                  className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                />
