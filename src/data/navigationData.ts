@@ -197,7 +197,7 @@ export const servicesDropdown: DropdownItem[] = [
   },
   {
     title: 'Workforce Solutions',
-    path: '/service-detail/employee-solutions',
+    path: '/service-detail/workforce-solutions',
     description: 'Staffing, training, workforce planning, management and optimization through data-driven HR solutions',
     icon: Users,
     stage: 'active',
@@ -461,7 +461,7 @@ export const serviceIndustries = {
   
   // Pilot services
   'consumer-voice': ['retail', 'restaurants', 'healthcare'],
-  'employee-solutions': ['manufacturing', 'healthcare', 'it-cloud'],
+  'workforce-solutions': ['manufacturing', 'healthcare', 'it-cloud'],
   
   // Under development
   'digital-twin': ['manufacturing', 'smart-cities'],
@@ -728,7 +728,7 @@ export const serviceNamesToIds = {
   
   // Pilot
   'Consumer Voice Services': 'consumer-voice',
-  'Employee Solutions': 'employee-solutions',
+  'Workforce Solutions': 'workforce-solutions',
   
   // Under Development
   'Digital Twin Consulting': 'digital-twin',
