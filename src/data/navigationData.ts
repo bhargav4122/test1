@@ -226,7 +226,7 @@ export const servicesDropdown: DropdownItem[] = [
   
    {
     title: 'AI & Machine Learning',
-    path: '/service-detail/ai-ml',
+    path: '/service-detail/aI-&-ml',
     description: 'Intelligent solutions for business problems',
     icon: BrainCircuit,
     stage: 'pilot',
@@ -662,7 +662,7 @@ export const serviceIndustriesDetailed = {
     ]
   },
 
-  'ai-ml': {
+  'aI-&-ml': {
     current: [
       {
         name: 'Healthcare',
