@@ -643,7 +643,7 @@ export default function ChatBot() {
             <p>You can continue this conversation on WhatsApp:</p>
             <Button asChild className="mt-3 w-full">
               <a 
-                href="https://wa.me/447487871919" 
+                href="https://wa.me/447405269396" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center"
