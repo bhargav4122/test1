@@ -2193,7 +2193,7 @@ subServices: [
     "Optimization of operations through data-driven insights",
     "Identification of new opportunities and business models"
   ],
-  image: "https://images.unsplash.com/photo-1677442135136-760c813159b7?auto=format&fit=crop&q=80",
+  image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1762578193/27_Incredible_Examples_Of_AI_And_Machine_Learning_In_Practice_svxufj.png",
 
     "subServices": [
       {
@@ -2461,7 +2461,7 @@ subServices: [
     //title: 'DevOps & Cloud Automation',
 
       "devops-&-cloud-automation": {
-        "overview": "**Accelerate Innovation with Autonomous Cloud Operations**\n\nWe engineer self-healing, scalable cloud ecosystems that deploy code 100x faster while maintaining military-grade security. Our full-stack DevOps automation transforms infrastructure from cost center to competitive advantage.",
+        "overview": "Accelerate Innovation with Autonomous Cloud Operations.\n\nWe engineer self-healing, scalable cloud ecosystems that deploy code 100x faster while maintaining military-grade security. Our full-stack DevOps automation transforms infrastructure from cost center to competitive advantage.",
         "benefits": [
           "90% faster deployment cycles",
           "Zero-downtime blue/green deployments",
@@ -2778,7 +2778,7 @@ subServices: [
    // title: 'AI Automation','AI Automation': 'ai-automation',
  
    "ai-automation": {
-    "overview": "**Intelligent Automation for the Enterprise**\n\nWe transform business processes with AI-driven automation, combining robotic process automation (RPA), machine learning, and cognitive technologies to eliminate repetitive work, reduce errors, and unlock new capabilities. Our solutions deliver 24/7 operational excellence at scale.",
+    "overview": "Intelligent Automation for the Enterprise.\n\nWe transform business processes with AI-driven automation, combining robotic process automation (RPA), machine learning, and cognitive technologies to eliminate repetitive work, reduce errors, and unlock new capabilities. Our solutions deliver 24/7 operational excellence at scale.",
     "benefits": [
       "70-90% reduction in manual processes",
       "60% faster process cycle times",
@@ -3074,7 +3074,7 @@ subServices: [
 
   // Cybersecurity service
   "cybersecurity": {
-    overview: "Our Cybersecurity services provide comprehensive protection for your organization's digital assets, networks, and sensitive information. We employ advanced threat detection, vulnerability management, and incident response capabilities to defend against evolving cyber threats in today's interconnected business environment.",
+    overview: "Our Cybersecurity services provide comprehensive protection for your organization''s digital assets, networks, and sensitive information. We employ advanced threat detection, vulnerability management, and incident response capabilities to defend against evolving cyber threats in today's interconnected business environment.",
     benefits: [
       "Proactive protection against emerging cyber threats",
       "Reduced risk of data breaches and associated costs",
@@ -3652,7 +3652,7 @@ subServices: [
 
 
   "bookkeeping": {
-    "overview": "**Precision Finance Operations**\n\nWe transform accounting from a compliance obligation into a strategic asset. Our AI-enhanced bookkeeping and proactive tax planning deliver real-time financial visibility while minimizing liabilities. From startups to enterprises, we ensure every dollar is accounted for and optimized.",
+    "overview": "Precision Finance Operations.\n\nWe transform accounting from a compliance obligation into a strategic asset. Our AI-enhanced bookkeeping and proactive tax planning deliver real-time financial visibility while minimizing liabilities. From startups to enterprises, we ensure every dollar is accounted for and optimized.",
     "benefits": [
       "95% automated transaction processing",
       "Real-time financial dashboards",
