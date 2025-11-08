@@ -161,7 +161,7 @@ export const servicesDropdown: DropdownItem[] = [
       "Demographic & Psychographic Analysis",
       "Emerging Tech & Innovation Trends"
     ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058237/ai2_xzyvd1.jpg",
     stats: [
       { value: '95%', label: 'Accuracy' },
       { value: '500+', label: 'Studies Conducted' },
