@@ -2460,7 +2460,7 @@ subServices: [
   
     //title: 'DevOps & Cloud Automation',
 
-      "devops": {
+      "devops-&-cloud-automation": {
         "overview": "**Accelerate Innovation with Autonomous Cloud Operations**\n\nWe engineer self-healing, scalable cloud ecosystems that deploy code 100x faster while maintaining military-grade security. Our full-stack DevOps automation transforms infrastructure from cost center to competitive advantage.",
         "benefits": [
           "90% faster deployment cycles",
