@@ -1069,7 +1069,7 @@ export const serviceDetails = {
 
 
   "market-research": {
-    "overview": "**Decode Your Market, Define Your Future**\n\nIn an era of rapid change, gut instinct isn’t enough. Our market research services deliver the intelligence you need to outmaneuver competitors and capture opportunities. We combine cutting-edge analytics with human-centric insights to reveal what’s happening now – and what’s coming next.",
+    "overview": "Decode Your Market, Define Your Future\n\nIn an era of rapid change, gut instinct isn’t enough. Our market research services deliver the intelligence you need to outmaneuver competitors and capture opportunities. We combine cutting-edge analytics with human-centric insights to reveal what’s happening now – and what’s coming next.",
     "benefits": [
       "Evidence-based strategy development",
       "Competitor benchmarking with predictive modeling",
