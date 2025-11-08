@@ -251,7 +251,7 @@ export const servicesDropdown: DropdownItem[] = [
   },
 {
     title: 'DevOps & Cloud Automation',
-    path: '/service-detail/devops',
+    path: '/service-detail/devops-&-cloud-automation',
     description: 'Seamless CI/CD pipelines and infrastructure automation for tech agility.',
     icon: Lock,
     stage: 'pilot',
@@ -662,7 +662,7 @@ export const serviceIndustriesDetailed = {
     ]
   },
 
-  'aI-&-ml': {
+  'aI-&-machine-learning': {
     current: [
       {
         name: 'Healthcare',
