@@ -2184,7 +2184,7 @@ subServices: [
     
 //AI- ML service
 
-"ai-ml": {
+"aI-&-ml": {
   overview: "Our Artificial Intelligence and Machine Learning services help organizations harness the power of advanced algorithms and data-driven insights. We develop custom AI solutions that automate processes, uncover hidden patterns, and enable predictive capabilities to drive innovation and competitive advantage.",
   benefits: [
     "Enhanced decision-making through predictive insights",
