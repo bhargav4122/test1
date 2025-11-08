@@ -100,7 +100,7 @@ export default function Footer() {
                 </p>
                 <p className="flex items-center text-muted-foreground">
                   <Phone className="h-5 w-5 mr-3 text-primary" />
-                  +44 7487871919,<br/>
+                  +44 7405269396,<br/>
                   +91 6304472055
                 </p>
                 <p className="flex items-center text-muted-foreground">
