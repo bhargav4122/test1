@@ -434,7 +434,7 @@ export const serviceDetails = {
     "description": "At Business and Data Solutions Ltd., we help enterprises reinvent their operations, customer experiences, and business models through strategic technology adoption. Whether modernizing legacy systems or building new digital capabilities, we ensure transformations deliver measurable value.",
     
     "benefits": [
-    "⚡ 24-hour AI website deployment (£499+)",
+    "⚡ 24-hour AI website deployment",
         "🤖 Custom chatbots deployed in 48 hours",
         "📱 WhatsApp Business integration ready in 72h",
         "💸 Market's lowest-cost rapid deployment",
