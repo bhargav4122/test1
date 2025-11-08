@@ -1848,191 +1848,188 @@ subServices: [
 },
   //title: 'Workforce Solutions', 'Employee Solutions': 'employee-solutions',
 
-"employee-solutions": {
-    "overview": "Transform Talent into Competitive Advantage \n\n In the war for talent, we engineer human capital systems that attract top performers, accelerate skill mastery, and forge unbreakable engagement. From AI-driven recruitment to neuro-informed leadership development, we transform your workforce into a growth engine.",
+"workforce-solutions": {
+    "overview": "Strategic Staffing & Talent Acquisition Solutions\n\nWe provide end-to-end workforce solutions that help businesses attract, recruit, and retain top talent. From AI-powered recruitment to flexible staffing models, we deliver the right people with the right skills to drive your business growth.",
     "benefits": [
       "40% faster hiring cycle times",
-      "30% increase in employee retention",
-      "Personalized competency roadmaps",
-      "Real-time performance pulse monitoring",
-      "Mentorship network optimization",
-      "Cultural alignment analytics"
+      "30% reduction in recruitment costs",
+      "Access to pre-vetted qualified candidates",
+      "Flexible staffing for changing business needs",
+      "Reduced employee turnover by 35%",
+      "Improved workforce productivity and engagement"
     ],
     "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80",
-
-
     
-      "subServices": [
-        {
-          "id": "skills-training",
-          "title": "1️⃣ Future-Ready Skills Academy",
-          "description": "Upskilling programs aligned with emerging industry demands and AI augmentation.",
-          "features": [
-            "  Digital literacy bootcamps",
-            "  AI co-pilot certification",
-            "  Micro-credentialing pathways",
-            "  VR soft skill simulations",
-            "  Gen Z onboarding adapters",
-            "  Returnship programs"
-          ],
-          "technologies": ["Degreed", "Coursera", "Strivr VR", "EdCast", "PwC SkillSight", "Pluralsight"],
-          "projectCount": 56,
-          "completedProjects": 48,
-          "projects": {
-            "completed": [
-              {
-                "client": "National Retail Chain",
-                "description": [
-                  "Upskilled 12,000 cashiers for omnichannel roles",
-                  "Created AR inventory management training",
-                  "Implemented skills-based promotion ladders"
-                ],
-                "duration": "8 months",
-                "result": "Reduced new-hire ramp time by 40%"
-              }
-            ],
-            "current": [
-              {
-                "client": "Manufacturing Conglomerate",
-                "description": [
-                  "Reskilling diesel mechanics for EV maintenance",
-                  "Developing AI-assisted repair diagnostics",
-                  "Creating knowledge transfer protocols"
-                ],
-                "status": "Phase 3 of 5"
-              }
-            ]
-          },
-          "testimonial": "🚀 *\"Our forklift operators now code basic warehouse robots after completing their upskilling paths.\"*"
-        },
-        {
-          "id": "performance-acceleration",
-          "title": "2️⃣ Performance Intelligence Platform",
-          "description": "Real-time productivity tracking with augmented coaching capabilities.",
-          "features": [
-            "  Continuous feedback pulse surveys",
-            "  Work pattern analytics",
-            "  AI-generated development plans",
-            "  Meeting effectiveness scoring",
-            "  Focus time optimization",
-            "  Bias-free promotion algorithms"
-          ],
-          "technologies": ["BetterUp", "15Five", "Workday Peakon", "Gloat", "Reflektive", "Visier"],
-          "projectCount": 39,
-          "completedProjects": 33,
-          "projects": {
-            "completed": [
-              {
-                "client": "Tech Unicorn",
-                "description": [
-                  "Replaced annual reviews with agile check-ins",
-                  "Identified 27% time wasted in low-value meetings",
-                  "Created hyper-personalized L&D plans"
-                ],
-                "duration": "6 months",
-                "result": "Increased engineer productivity by 22%"
-              }
-            ]
-          },
-          "testimonial": "🚀 *\"Discovered our top sales performer was mentoring 14 colleagues off-the-books - finally got recognized!\"*"
-        },
-        {
-          "id": "talent-matching",
-          "title": "3️⃣ AI Talent Orchestration",
-          "description": "Next-generation recruitment and internal mobility systems.",
-          "features": [
-            "  Skills-based candidate matching",
-            "  Predictive flight risk analysis",
-            "  Internal gig marketplace",
-            "  Blind audition hiring",
-            "  Candidate experience mapping",
-            "  Robotic process automation for HR"
-          ],
-          "technologies": ["Eightfold AI", "Phenom", "HiredScore", "Beamery", "SeekOut", "TalentWall"],
-          "projectCount": 44,
-          "completedProjects": 38,
-          "testimonial": "🚀 *\"Reduced engineering hire time from 68 to 19 days while increasing diversity hires by 33%.\"*"
-        },
-        {
-          "id": "workplace-wellbeing",
-          "title": "4️⃣ Holistic Employee Thriving System",
-          "description": "Mental health and motivation infrastructure.",
-          "features": [
-            "  Burnout early warning systems",
-            "  Psychological safety audits",
-            "  Energy management coaching",
-            "  Micro-recovery nudges",
-            "  Financial wellness integration",
-            "  Trauma-informed leadership training"
-          ],
-          "technologies": ["Headspace", "Lyra Health", "Modern Health", "Calm", "BetterHelp", "Spring Health"],
-          "projectCount": 27,
-          "completedProjects": 21,
-          "projects": {
-            "completed": [
-              {
-                "client": "Law Firm Partnership",
-                "description": [
-                  "Implemented mandatory 'thinking time' blocks",
-                  "Trained 100% of partners in active listening",
-                  "Redesigned office with neurodiversity zones"
-                ],
-                "duration": "5 months",
-                "result": "Decreased attrition by 18% and disability claims by 32%"
-              }
-            ]
-          }
-        },
-        {
-          "id": "org-agility",
-          "title": "5️⃣ Adaptive Workforce Architecture",
-          "description": "Dynamic organizational design for the flux era.",
-          "features": [
-            "  Hybrid work optimization",
-            "  Team cognitive diversity mapping",
-            "  AI-assisted job crafting",
-            "  Dynamic role definition",
-            "  Talent marketplace design",
-            "  Rapid reskilling engines"
-          ],
-          "technologies": ["Unilever's Flex Experiences", "Accenture's Talent Cloud", "McKinsey's Jump", "BCG's bHive", "PwC's Talent Exchange"],
-          "projectCount": 31,
-          "completedProjects": 25,
-          "testimonial": "🚀 *\"Transformed our rigid hierarchy into fluid project teams - innovation cycle time dropped by 60%.\"*"
-        },
-        {
-          "id": "future-work",
-          "title": "6️⃣ Human-AI Collaboration Labs",
-          "description": "Preparing workforces for augmented intelligence environments.",
-          "features": [
-            "  AI assistant integration training",
-            "  Co-bot safety certification",
-            "  Digital twin workforce simulations",
-            "  Augmented reality job aids",
-            "  Collective intelligence design",
-            "  Ethics governance frameworks"
-          ],
-          "technologies": ["Microsoft Viva", "Google's PAIR", "IBM's Watson Orchestrate", "Salesforce's Einstein", "SAP's Joule"],
-          "caseStudy": {
-            "client": "Global Logistics Provider",
-            "impact": "Warehouse pickers using AR glasses + AI routing improved accuracy to 99.97%"
-          }
-        }
-      ],
-      "emergingPractices": {
-        "radicalFlexibility": [
-          "4-day workweek implementation",
-          "Role auction systems",
-          "Lifetime learning sabbaticals"
+    "subServices": [
+      {
+        "id": "talent-acquisition",
+        "title": "1️⃣ AI-Powered Recruitment",
+        "description": "End-to-end talent acquisition with intelligent candidate matching and screening.",
+        "features": [
+          "AI-driven candidate sourcing",
+          "Automated resume screening",
+          "Skills-based matching algorithms",
+          "High-volume recruitment capabilities",
+          "Candidate experience optimization",
+          "Diversity and inclusion focused hiring"
         ],
-        "talentAnalytics": [
-          "Productivity circadian rhythm mapping",
-          "Collaboration network analysis",
-          "Innovation potential forecasting"
-        ]
+        "technologies": ["Eightfold AI", "Phenom", "Beamery", "SeekOut", "Greenhouse", "Lever"],
+        "projectCount": 67,
+        "completedProjects": 58,
+        "projects": {
+          "completed": [
+            {
+              "client": "Tech Scale-Up",
+              "description": [
+                "Recruited 45 engineers in 3 months",
+                "Implemented AI screening for technical roles",
+                "Reduced time-to-hire from 42 to 16 days"
+              ],
+              "duration": "3 months",
+              "result": "Saved $280K in recruitment costs"
+            }
+          ],
+          "current": [
+            {
+              "client": "Healthcare Network",
+              "description": [
+                "Staffing 200+ clinical positions",
+                "Implementing credential verification system",
+                "Creating talent pipeline for specialized roles"
+              ],
+              "status": "Phase 2 of 4"
+            }
+          ]
+        },
+        "testimonial": "🚀 *\"They filled our critical tech roles in half the time with 40% better retention rates.\"*"
       },
-
-    
+      {
+        "id": "flexible-staffing",
+        "title": "2️⃣ Flexible Staffing Solutions",
+        "description": "Agile workforce models for project-based and temporary staffing needs.",
+        "features": [
+          "Contract-to-hire placements",
+          "Temporary staffing solutions",
+          "Project-based team deployment",
+          "Seasonal workforce management",
+          "Specialized skill contractors",
+          "Rapid scaling capabilities"
+        ],
+        "technologies": ["Upwork Enterprise", "Toptal", "Gigster", "Andela", "Gloat", "PRO Unlimited"],
+        "projectCount": 52,
+        "completedProjects": 45,
+        "projects": {
+          "completed": [
+            {
+              "client": "Retail Chain Expansion",
+              "description": [
+                "Staffed 15 new locations in 6 months",
+                "Provided 200+ temporary retail staff",
+                "Managed seasonal hiring peaks"
+              ],
+              "duration": "8 months",
+              "result": "Enabled 30% faster market expansion"
+            }
+          ]
+        },
+        "testimonial": "🚀 *\"Their flexible staffing allowed us to scale for holiday season without permanent overhead.\"*"
+      },
+      {
+        "id": "executive-search",
+        "title": "3️⃣ Executive & Leadership Recruitment",
+        "description": "Specialized search for leadership and hard-to-fill positions.",
+        "features": [
+          "C-level and director recruitment",
+          "Competency-based assessment",
+          "Cultural fit evaluation",
+          "Market mapping and talent intelligence",
+          "Discreet search capabilities",
+          "Onboarding and integration support"
+        ],
+        "technologies": ["LinkedIn Recruiter", "HiredScore", "TalentWall", "Entelo", "SuccessFactors", "Workday"],
+        "projectCount": 38,
+        "completedProjects": 34,
+        "testimonial": "🚀 *\"Found our perfect CTO in 6 weeks when other firms took 6 months with no results.\"*"
+      },
+      {
+        "id": "recruitment-process",
+        "title": "4️⃣ Recruitment Process Optimization",
+        "description": "Streamline and enhance your hiring infrastructure and operations.",
+        "features": [
+          "Hiring process redesign",
+          "Candidate journey mapping",
+          "Interview training and calibration",
+          "Employer branding enhancement",
+          "Recruitment marketing strategy",
+          "Analytics and performance tracking"
+        ],
+        "technologies": ["Ashby", "Lever", "Greenhouse", "Workable", "JazzHR", "Breezy HR"],
+        "projectCount": 41,
+        "completedProjects": 36,
+        "projects": {
+          "completed": [
+            {
+              "client": "Manufacturing Company",
+              "description": [
+                "Redesigned complete hiring workflow",
+                "Trained 25 hiring managers",
+                "Implemented candidate scoring system"
+              ],
+              "duration": "4 months",
+              "result": "Reduced time-to-fill by 55%"
+            }
+          ]
+        }
+      },
+      {
+        "id": "workforce-planning",
+        "title": "5️⃣ Strategic Workforce Planning",
+        "description": "Data-driven workforce strategy and talent pipeline development.",
+        "features": [
+          "Workforce demand forecasting",
+          "Skills gap analysis",
+          "Talent pipeline development",
+          "Succession planning",
+          "Compensation benchmarking",
+          "Market intelligence reports"
+        ],
+        "technologies": ["Visier", "ChartHop", "OneModel", "Orgnostic", "SAP SuccessFactors", "Oracle HCM"],
+        "projectCount": 29,
+        "completedProjects": 24,
+        "testimonial": "🚀 *\"Their workforce planning helped us avoid a 40% skills gap during digital transformation.\"*"
+      },
+      {
+        "id": "employer-branding",
+        "title": "6️⃣ Employer Branding & Attraction",
+        "description": "Build compelling employer value proposition to attract top talent.",
+        "features": [
+          "Employer brand strategy",
+          "Career site optimization",
+          "Recruitment marketing campaigns",
+          "Employee value proposition development",
+          "Social media recruitment strategy",
+          "Candidate experience design"
+        ],
+        "technologies": ["LinkedIn Talent Insights", "Glassdoor", "Indeed", "Hootsuite", "HubSpot", "Google Analytics"],
+        "caseStudy": {
+          "client": "Financial Services Firm",
+          "impact": "Increased qualified applications by 300% and reduced cost-per-hire by 65%"
+        }
+      }
+    ],
+    "emergingPractices": {
+      "talentInnovation": [
+        "Skills-based hiring implementation",
+        "AI interview coaching",
+        "Predictive retention modeling"
+      ],
+      "recruitmentAnalytics": [
+        "Candidate sourcing channel optimization",
+        "Time-to-fill predictive analytics",
+        "Quality-of-hire measurement frameworks"
+      ]
+    }
+  },
     
     "technologies": [
         {
