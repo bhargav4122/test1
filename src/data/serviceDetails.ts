@@ -2028,7 +2028,7 @@ subServices: [
         "Time-to-fill predictive analytics",
         "Quality-of-hire measurement frameworks"
       ]
-    }
+    
   },
     
     "technologies": [
