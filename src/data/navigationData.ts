@@ -226,7 +226,7 @@ export const servicesDropdown: DropdownItem[] = [
   
    {
     title: 'AI & Machine Learning',
-    path: '/service-detail/aI-&-ml',
+    path: '/service-detail/aI-&-machine-Learning',
     description: 'Intelligent solutions for business problems',
     icon: BrainCircuit,
     stage: 'pilot',
