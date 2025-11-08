@@ -96,7 +96,7 @@ export default function Footer() {
               <div className="space-y-4">
                 <p className="flex items-center text-muted-foreground">
                   <MapPin className="h-5 w-5 mr-3 text-primary" />
-                 London, E7 8LS, UK
+                 London, E7 8LS, United Kingdom
                 </p>
                 <p className="flex items-center text-muted-foreground">
                   <Phone className="h-5 w-5 mr-3 text-primary" />
