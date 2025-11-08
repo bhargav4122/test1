@@ -1600,6 +1600,13 @@ subServices: [
         "id": "real-time-feedback",
         "title": "3️⃣ Moment-of-Truth Capture – Instant Experience Sampling",
         "description": "Micro-feedback at critical journey points via discreet methods.",
+         "features": [
+          "  Contextual SMS/App Pulse Surveys",
+          "  Post-Call IVR Snapshot",
+          "  In-App Behavioral Nudges",
+          "  Transactional Email Micro-Surveys",
+          "  IoT-Triggered Feedback"
+        ],
         "feedbackDevices": [
           {
             "type": "Tabletop NFC Tappers",
@@ -1630,11 +1637,11 @@ subServices: [
         "title": "4️⃣ Frontline Intelligence – Staff-Reported Insights",
         "description": "Structured channels for service teams to surface customer truths.",
         "features": [
-          "  Anonymous staff observation reporting",
-          "  'Customer Quote of the Day' programs",
-          "  Shift handover insight logs",
-          "  AI-powered suggestion boxing",
-          "  Whistleblower protection protocols"
+          "Anonymous staff observation reporting",
+          "Customer Quote of the Day programs",
+          "Shift handover insight logs",
+          "AI-powered suggestion boxing",
+          "Whistleblower protection protocols"
         ],
         "hospitalityCase": {
           "client": "Casino Resort",
@@ -1659,6 +1666,13 @@ subServices: [
         "id": "predictive-complaints",
         "title": "5️⃣ Complaint Forecasting – Prevent Issues Before They Happen",
         "description": "Machine learning models predicting likely feedback based on operational data.",
+         "features": [
+          "Operational Data Fusion Engine",
+          "Pre-Complaint Alert System",
+          "Root Cause Propensity Modeling",
+          "At-Risk Customer Identification",
+          "Proactive Resolution Orchestration"
+        ],
         "predictiveModels": [
           {
             "name": "Restaurant Complaint Predictor",
