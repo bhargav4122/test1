@@ -656,14 +656,12 @@ function About() {
                 )}>Why Partner With Us?</h2>
                 <div className="grid gap-4">
                   {[
-                    "Industry-leading expertise in data, AI, and digital transformation.",
-                    "Personalized solutions tailored to your business challenges.",
-                    "Agile approaches that adapt to your unique needs",
-                    "Fresh perspectives and innovative thinking",
-                    "Direct access to founders and decision-makers",
-                    "Flexible solutions without corporate bureaucracy",
-                    "Genuine partnership and collaborative spirit",
-                    "Cutting-edge technologies and modern methodologies",
+                   "Industry-leading expertise in data, AI, and digital transformation.",
+                     "Cutting-edge technologies and modern methodologies",
+                     "Fresh perspectives and innovative thinking",
+                    "Personalized and agile solutions tailored to your needs",
+                    "Direct access to founders without corporate bureaucracy",
+                    "A genuine, collaborative partnership",
                     "Dedicated client success teams and 24/7 support."
                   ].map((item, i) => (
                     <div key={i} className="flex items-start">
