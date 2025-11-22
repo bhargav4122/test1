@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check, 
-  Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, 
+  Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon,CogIcon,HandshakeIcon,
   TrendingUp, MapPin, Compass, ArrowRight, Rocket, Heart, Sparkles 
 } from 'lucide-react';
 import HolographicCard from '../components/HolographicCard';
@@ -10,6 +10,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ConsultationButton } from "@/components/consultation/ConsultationButton";
 import { TeamsButton } from "@/components/Careers/teambutton";
+
+
+
 
 const stats = [
   { number: '15+', label: 'Projects Completed', icon: Target },
@@ -21,23 +24,23 @@ const stats = [
 const values = [
   {
     icon: Rocket,
-    title: 'Agile Innovation',
-    description: 'Moving fast to deliver cutting-edge solutions tailored to your needs.',
+    title: 'Innovation with Purpose',
+    description: 'Moving fast to deliver cutting-edge technology that creates real business impact.',
   },
   {
     icon: BarChart3,
-    title: 'Data-Driven Approach',
-    description: 'Building decisions on solid analytics and measurable results.',
+    title: 'Clarity Over Complexity',
+    description: 'Building solutions that simplify your operations, not complicate them',
   },
   {
     icon: Users,
-    title: 'Collaborative Partnership',
-    description: 'Working alongside you as an extension of your team.',
+    title: 'Partnership with Integrity',
+    description: 'Working alongside you as an extension of your team with honest, transparent collaboration.',
   },
   {
     icon: Sparkles,
-    title: 'Fresh Perspective',
-    description: 'Bringing innovative ideas unconstrained by legacy thinking.',
+    title: 'Results That Matter',
+    description: 'Basing our decisions on solid analytics to deliver measurable outcomes, not just outputs.',
   },
 ];
 
@@ -159,8 +162,21 @@ function About() {
     )}>
       {/* Hero Section - Updated for Startup */}
     
-    
+   <video
+        className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
+        style={{
+          filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
+          transform: 'translateZ(0)'
+        }}
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4" type="video/mp4" />
+      </video>
     <section className="relative py-10 lg:pt-24 overflow-hidden">
+      
   {/* Background Gradient - Full Width */}
   <div className="absolute inset-0 -z-10">
     <div className={cn(
@@ -178,20 +194,19 @@ function About() {
   {/* Full Width Container */}
   <div className="w-full px-4 sm:px-6 lg:px-8">
     <div className="max-w-7xl mx-auto">
-      {/* Badge */}
-      <div className="text-center mb-6">
+       <div className="text-center py-5 mb-6">
         <span className={cn(
           "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
           theme === "dark"
             ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
             : "bg-blue-100 text-blue-700 border border-blue-200"
         )}>
-          Our Startup Story
+          About BDS
         </span>
-      </div>
-      
-      {/* Main Heading */}
-      <div className="text-center mb-8">
+     
+
+
+    <div className="text-center mb-8">
         <h1 className={cn(
           "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
           theme === "dark" ? "text-white" : "text-gray-900"
@@ -199,109 +214,135 @@ function About() {
           <span className={cn(
             "bg-clip-text text-transparent bg-gradient-to-r",
             theme === "dark"
-              ? "from-blue-400 to-purple-500"
-              : "from-blue-600 to-purple-600"
+              ? "from-blue-400 to-purple-100"
+              : "from-blue-400 to-blue-400"
           )}>
-            Turning Data into Your Most Strategic Asset
+            Who We Are
           </span>
         </h1>
-      </div>
-
-      {/* Main Content Block - Reduced Text Size */}
-      <div className="space-y-8">
-        {/* Main Description - Reduced Size */}
-        <div className="text-center">
+          <div className="text-center pt-5">
           <p className={cn(
             "text-lg md:text-xl leading-relaxed max-w-4xl mx-auto",
             theme === "dark" ? "text-gray-300" : "text-gray-700"
           )}>
-            In today's digital landscape, data is your business's most valuable asset—yet many organizations 
-            struggle to unlock its true potential. At <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions</strong>, 
-            we transform complex data into clear, actionable strategies that drive growth and create 
-            sustainable competitive advantages.
+              <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
+           is a modern business transformation and technology solutions company helping organizations grow smarter, faster, and stronger.
+           We provide end-to-end services across data, cloud, AI, automation, digital marketing, consumer insights, strategy, and business consulting delivering measurable results that fuel long-term success.
           </p>
         </div>
-
-        <section className="pt-8">
-          <div className="grid md:grid-cols-2 gap-6">
-            
-            {/* Culture Section - Reduced Text */}
-            <div className={cn(
-              "p-6 rounded-xl",
-              theme === "dark" 
-                ? "bg-gray-800/40 border border-gray-700" 
-                : "bg-white/80 border border-gray-200"
-            )}>
-              <h2 className={cn(
-                "text-2xl md:text-2xl font-bold mb-4 text-center",
-                theme === "dark" ? "text-white" : "text-gray-900"
-              )}>
-                <span className={cn(
-                  "bg-clip-text text-transparent bg-gradient-to-r",
-                  theme === "dark"
-                    ? "from-green-400 to-cyan-500"
-                    : "from-green-600 to-cyan-600"
-                )}>
-                  Built on Ideas, Not Pedigrees
-                </span>
-              </h2>
-              
-              <div className="space-y-3 text-justify">
-                <p className={cn(
-                  "text-base leading-relaxed",
-                  theme === "dark" ? "text-gray-300" : "text-gray-700"
-                )}>
-                  We believe <strong className={theme === "dark" ? "text-green-400" : "text-green-600"}>groundbreaking ideas can come from anywhere</strong>. 
-                  That's why we actively seek diverse talent worldwide, focusing on skills and innovation—not backgrounds.
-                </p>
-                
-                <p className={cn(
-                  "text-base leading-relaxed",
-                  theme === "dark" ? "text-gray-300" : "text-gray-700"
-                )}>
-                  We're building a community of forward-thinkers ready to challenge the status quo and drive meaningful change.
-                </p>
-              </div>
-            </div>
-            
-            {/* Call to Action - More Concise */}
-            <div className={cn(
-              "rounded-xl p-6 text-center border flex flex-col justify-center",
-              theme === "dark" 
-                ? "bg-gradient-to-r from-orange-900/20 to-pink-900/20 border-orange-800/30" 
-                : "bg-gradient-to-r from-orange-50 to-pink-50 border-orange-200"
-            )}>
-              <p className={cn(
-                "text-xl font-semibold mb-3",
-                theme === "dark" ? "text-gray-200" : "text-gray-800"
-              )}>
-                <span className={cn(
-                  "bg-clip-text text-transparent bg-gradient-to-r",
-                  theme === "dark"
-                    ? "from-orange-400 to-pink-500"
-                    : "from-orange-500 to-pink-600"
-                )}>
-                  Walk with us.
-                </span>
-              </p>
-              <p className={cn(
-                "text-base max-w-3xl mx-auto",
-                theme === "dark" ? "text-gray-300" : "text-gray-700"
-              )}>
-                Join our journey to build the future of business together. Let's transform challenges into opportunities through innovation and collaboration.
-              </p>
-            </div>
-          </div>
-        </section>
       </div>
+    </div>
+
+      {/* Main Heading */}
+      
+
+      {/* Main Content Block - Reduced Text Size */}
+      <div className="space-y-8">
+        {/* Main Description - Reduced Size */}
+       
+
+<section className="pt">
+  <div className="grid md:grid-cols-2 gap-6">
+    {/* Left Card */}
+    <div className={cn(
+      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+      theme === "dark" 
+        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+    )}>
+      <div className="flex items-start gap-4 mb-6">
+        <div className={cn(
+          "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+        )}>
+          <ChartBarIcon className="h-6 w-6" />
+        </div>
+        <div>
+          <span className={cn(
+            "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+            theme === "dark"
+              ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+              : "bg-blue-100 text-blue-700 border border-blue-200"
+          )}>
+            What We Do
+          </span>
+          <p className={cn(
+            "text-lg font-semibold text-left",
+            theme === "dark" ? "text-gray-200" : "text-gray-800"
+          )}>
+            <span className={cn(
+              "bg-clip-text text-transparent bg-gradient-to-r",
+              theme === "dark"
+                ? "from-blue-400 to-blue-500"
+                : "from-blue-500 to-blue-600"
+            )}>
+              Empowering Businesses Through Data, Technology & Intelligent Innovation
+            </span>
+          </p>
+        </div>
+      </div>
+      
+      <p className={cn(
+        "text-base text-left",
+        theme === "dark" ? "text-gray-300" : "text-gray-700"
+      )}>
+        We help companies evolve with clarity, confidence, and modern digital capabilities.
+        At Business & Data Solutions, we combine data intelligence, advanced technology, and human insight to solve real business challenges and build long-term growth.
+      </p>
+    </div>
+
+    {/* Right Card */}
+    <div className={cn(
+      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+      theme === "dark" 
+        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+    )}>
+      <div className="flex items-start gap-4 mb-6">
+        <div className={cn(
+          "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+        )}>
+          <HandshakeIcon className="h-6 w-6" />
+        </div>
+        <div>
+          <span className={cn(
+            "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+            theme === "dark"
+              ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+              : "bg-blue-100 text-blue-700 border border-blue-200"
+          )}>
+            Our Identity
+          </span>
+          <p className={cn(
+            "text-lg font-semibold text-left",
+            theme === "dark" ? "text-gray-200" : "text-gray-800"
+          )}>
+            <span className={cn(
+              "bg-clip-text text-transparent bg-gradient-to-r",
+              theme === "dark"
+                ? "from-blue-400 to-blue-500"
+                : "from-blue-500 to-blue-600"
+            )}>
+              A Strategic Partner for Your Digital Evolution
+            </span>
+          </p>
+        </div>
+      </div>
+      
+      <p className={cn(
+        "text-base text-left",
+        theme === "dark" ? "text-gray-300" : "text-gray-700"
+      )}>
+        Business & Data Solutions delivers end-to-end solutions across data, cloud, automation, AI, digital marketing, and business intelligence — enabling organizations to operate smarter, scale faster, and achieve measurable impact.
+      </p>
     </div>
   </div>
 </section>
-
-
-
-
-
+              </div>
+            </div>
+  </div>
+</section>
 
 
 
@@ -336,10 +377,8 @@ function About() {
               "leading-relaxed text-justify",
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             )}>
-              To empower businesses of all sizes with the data clarity and tools they need to thrive 
-              in a digital world. We believe that when you can see the full picture, you can build 
-              a better future. We deliver innovative solutions that transform complex data into 
-              actionable insights, driving growth and competitive advantage for our clients.
+              To simplify, accelerate, and elevate the digital evolution of every business we serve.
+              We empower organizations with clarity, modern technology, and actionable insights to drive sustainable growth.
             </p>
           </div>
           
@@ -370,46 +409,47 @@ function About() {
               "leading-relaxed text-justify",
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             )}>
-              To create a world where data-driven decisions are accessible to every organization, 
-              fostering innovation, growth, and sustainable success across all industries and sectors. 
-              We envision a future where businesses of all sizes can leverage cutting-edge technology 
-              to solve complex challenges and unlock new opportunities for growth and transformation.
+             To create a world where every business regardless of size can leverage intelligent technology, powerful insights,
+              and digital innovation to unlock opportunity, resilience, and long-term success.
+          
             </p>
+
           </div>
-
-          {/* Mission & Vision Section - Full Width Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-
-          
-        </div>
         </div>
       </section>
 
 
       {/* Stats Section - Updated for Startup */}
-      <section className="mb-5">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {stats.map((stat, index) => (
-            <ThemedCard key={index} className="p-6 text-center group hover:scale-[1.02] transition-transform">
-              <div className={cn(
-                "h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center",
-                theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-              )}>
-                <stat.icon className="h-8 w-8" />
-              </div>
-              <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
-                theme === "dark" ? "gradient-text" : "text-gray-800"
-              )}>{stat.number}</div>
-              <div className={cn(
-                "text-sm md:text-base",
-                theme === "dark" ? "text-gray-300" : "text-gray-600"
-              )}>{stat.label}</div>
-            </ThemedCard>
-          ))}
+   <section className="mb-5 pt-5">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    {stats.map((stat, index) => (
+      <div 
+        key={index} 
+        className={cn(
+          "p-6 text-center group hover:scale-[1.02] transition-transform rounded-lg border focus:ring-2 focus:outline-none",
+          theme === "dark" 
+            ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+            : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+        )}
+      >
+        <div className={cn(
+          "h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center",
+          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+        )}>
+          <stat.icon className="h-8 w-8" />
         </div>
-      </section>
+        <div className={cn(
+          "text-3xl md:text-4xl font-bold mb-2",
+          theme === "dark" ? "gradient-text" : "text-gray-800"
+        )}>{stat.number}</div>
+        <div className={cn(
+          "text-sm md:text-base",
+          theme === "dark" ? "text-gray-300" : "text-gray-600"
+        )}>{stat.label}</div>
+      </div>
+    ))}
+  </div>
+</section>
 
 
       {/* Director's Message - Updated for Startup */}
@@ -443,9 +483,9 @@ function About() {
                 "text-lg italic mb-6 pl-4 border-l-4",
                 theme === "dark" ? "border-blue-400 text-gray-300" : "border-blue-600 text-gray-600"
               )}>
-                "At Business & Data Solutions, we believe that great things start with a bold idea and passionate people. 
-                As a startup, we bring fresh energy, flexible approaches, and a genuine commitment to our partners' success. 
-                We're not just service providers; we're builders, innovators, and your dedicated partners in growth."
+                “At Business & Data Solutions, we believe in partnerships built on trust, innovation, and real outcomes.
+                 We're builders and innovators at heart, bringing a fresh, energetic approach to every challenge.
+                 We know every business is unique, and our job is to bring the right mix of strategy, technology, and insight to drive your measurable transformation.”
               </blockquote>
               
               
@@ -460,39 +500,80 @@ function About() {
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="md:w-1/2">
             <ThemedCard className="overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
-                alt="Our Startup Journey"
-                className="w-full h-auto rounded-lg"
-              />
+            
+ <div className={cn(
+      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+      theme === "dark" 
+        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+    )}>
+             
+            <div className="relative aspect-video">
+              <video
+                className="w-full h-full object-cover"
+                controls
+                autoPlay
+                muted
+                loop
+                onContextMenu={(e) => e.preventDefault()} // Disable right-click
+                controlsList='false'
+                poster="/images/video-poster.jpg" // Add a poster frame for better UX
+              >
+                <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              </div>
+              </div>
             </ThemedCard>
           </div>
-          <div className="md:w-1/2">
-            <h2 className={cn(
-              "text-2xl md:text-3xl font-bold mb-6",
-              theme === "dark" ? "text-white" : "text-gray-800"
-            )}>Our Startup Journey</h2>
-            <p className={cn(
-              "mb-4",
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              Founded in 2022, Business & Data Solutions began with a simple yet powerful vision: to make advanced 
-              business technology accessible to companies of all sizes. What started as a passionate idea has grown 
-              into a dynamic startup making real impact.
-            </p>
-            <p className={cn(
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              We're proud to work with forward-thinking businesses who value innovation and partnership. 
-              Every project is an opportunity to learn, grow, and deliver exceptional value.
-            </p>
-            <Button
-              variant={theme === "dark" ? "outline" : "default"}
-              className="mt-6"
-            >
-              Learn more about our approach
-            </Button>
-          </div>
+
+          <div className="md:w-1/2 relative rounded-2xl overflow-hidden">
+  {/* Background Image */}
+  <div className="absolute inset-0">
+    <img
+      src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
+      alt="Our Startup Journey"
+      className="w-full h-full object-cover"
+    />
+    {/* Overlay for better text readability */}
+    <div className={cn(
+      "absolute inset-0",
+      theme === "dark" ? "bg-black/60" : "bg-white/80"
+    )} />
+  </div>
+
+  {/* Content */}
+  <div className="relative z-10 p-8">
+    <h2 className={cn(
+      "text-2xl md:text-3xl font-bold mb-6",
+      theme === "dark" ? "text-white" : "text-gray-800"
+    )}>Our Startup Journey</h2>
+
+    <span className={cn(
+      "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
+      theme === "dark"
+        ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+        : "bg-blue-100 text-blue-700 border border-blue-200"
+    )}>
+      Built to Solve the Challenges Modern Businesses Face
+    </span>
+
+    <p className={cn(
+      "text-lg leading-relaxed",
+      theme === "dark" ? "text-gray-200" : "text-gray-700"
+    )}>
+      <br/>
+      We began in 2022 with a simple belief: every business deserves clarity, not complexity.
+      We saw that companies were struggling with scattered systems, traditional processes, and fast-changing digital demands.
+      Business & Data Solutions was founded to bridge that gap.
+      Our vision is to make advanced business technology accessible to companies of all sizes.
+      From a passionate idea, we've grown into a dynamic startup dedicated to helping our clients gain clarity, adopt modern tools,
+      and transform their operations with confidence.
+      We're proud to work with forward-thinking businesses who value a true partnership.
+      Every project is an opportunity to learn, grow, and deliver the exceptional value your company deserves.
+    </p>
+  </div>
+</div>
         </div>
       </section>
 
@@ -638,9 +719,11 @@ function About() {
         </div>
       </section>
 
+
+
       {/* Why Choose Us - Updated for Startup */}
       <section className="mb-20">
-        <ThemedCard className="p-8 md:p-12">
+        <div className="p-8 md:p-1">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className={cn(
@@ -653,15 +736,13 @@ function About() {
                 <h2 className={cn(
                   "text-2xl md:text-3xl font-bold mb-6",
                   theme === "dark" ? "text-white" : "text-gray-800"
-                )}>Why Partner With Us?</h2>
+                )}>Why  BDS?</h2>
                 <div className="grid gap-4">
                   {[
-                   "Industry-leading expertise in data, AI, and digital transformation.",
-                     "Cutting-edge technologies and modern methodologies",
-                     "Fresh perspectives and innovative thinking",
-                    "Personalized and agile solutions tailored to your needs",
-                    "Direct access to founders without corporate bureaucracy",
-                    "A genuine, collaborative partnership",
+                    "Innovation First — AI, automation, cloud, next-gen technologies.",
+                    "Enterprise Security — End-to-end protection for data and systems.",
+                    "Rapid Results — Fast implementation and real-time impact.",
+                    "A Single Tech Partner — Everything you need under one trusted partner.",
                     "Dedicated client success teams and 24/7 support."
                   ].map((item, i) => (
                     <div key={i} className="flex items-start">
@@ -681,8 +762,9 @@ function About() {
               </div>
             </div>
           </div>
-        </ThemedCard>
+        </div>
       </section>
+             
 
       {/* CTA Section - Updated for Startup */}
       <section className="mb-20">
