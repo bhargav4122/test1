@@ -10,7 +10,8 @@ import {
   Mic2,
   BrainCog,
   ShieldCheck,
-  ArrowRight
+  ArrowRight,
+  Bot
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +24,7 @@ const services = [
     description: "End-to-end data management, migration, cleansing, ETL pipelines, and scalable cloud infrastructure for secure and efficient operations."
   },
   {
-    id: "bi-digital-transformation",
+    id: "business-intelligence",
     icon: <BarChart3 className="h-6 w-6" />,
     title: "Business Intelligence (BI)",
     description: "Power BI dashboards, KPI tools, data modeling, and real-time analytics that empower better business decisions through actionable insights."
@@ -52,11 +53,17 @@ const services = [
     title: "Consumer Voice Analytics",
     description: "AI-driven sentiment analysis, feedback mining, and brand perception tools to understand your customers across every channel."
   },
-  {
-    id: "ai",
-    icon: <BrainCog className="h-6 w-6" />,
+   {
+    id: "ai-automation",
+    icon: <Bot   className="h-6 w-6" />,
     title: "AI & Automation",
-    description: "From predictive analytics to intelligent automation, we deploy AI tools and custom ML models to streamline and optimize operations."
+    description: "Advanced AI automation services to streamline business processes"
+  },
+  {
+    id: "aI-&-machine-Learning",
+    icon: <BrainCog className="h-6 w-6" />,
+    title: "AI & Machine Learning",
+    description: "Our Artificial Intelligence and Machine Learning services help organizations harness the power of advanced algorithms and data-driven insights."
   },
   {
     id: "cybersecurity",
