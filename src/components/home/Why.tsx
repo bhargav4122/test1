@@ -22,21 +22,21 @@ export default function Why() {
           <Brain className="h-12 w-12 text-blue-400 mb-6 group-hover:animate-bounce dark:text-blue-300" />
           <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-gray-100">Innovation First</h3>
           <p className="text-gray-800 dark:text-gray-300">
-            Leading-edge technology solutions powered by AI and quantum computing
+           AI-driven, automated, and cloud-powered solutions that push your business ahead of the competition.
           </p>
         </div>
         <div className="p-8 group hover:transform hover:scale-105 transition-all duration-300 bg-white shadow-lg rounded-xl dark:bg-black border dark:text-gray-100">
           <Shield className="h-12 w-12 text-blue-400 mb-6 group-hover:animate-bounce dark:text-blue-300" />
           <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-gray-100">Enterprise Security</h3>
           <p className="text-gray-800 dark:text-gray-300">
-            Military-grade security protocols protecting your valuable data
+           Military-grade protection ensuring your data, operations, and digital assets remain fully secure.
           </p>
          </div>
           <div className="p-8 group hover:transform hover:scale-105 transition-all duration-300 bg-white shadow-lg rounded-xl dark:bg-black border dark:text-gray-100">
           <Zap className="h-12 w-12 text-blue-400 mb-6 group-hover:animate-bounce dark:text-blue-300" />
           <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-gray-100">Rapid Results</h3>
           <p className="text-gray-800 dark:text-gray-300">
-            Quick implementation and faster time-to-market for your solutions
+            Fast implementation, seamless integration, and accelerated go-to-market for measurable business impact.
           </p>
           </div>
       </div>
