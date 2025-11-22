@@ -149,7 +149,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-2 pt-2 border-border text-center text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} BDS. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Business and Data Solutions. All rights reserved.</p>
         </div>
       </div>
     </footer>
