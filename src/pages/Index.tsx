@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Hero from "@/components/home/Hero";
+import Hero1 from "@/components/about/Hero";
 import Features from "@/components/home/Features";
 import Statistics from "@/components/home/Statistics";
 import HowItWorks from "@/components/home/HowItWorks";
@@ -39,9 +40,10 @@ const Index = () => {
         <Hero />
         <Statistics />
         <ServicesOverview />
-       <IndustrySection />
+        <IndustrySection />
        {/* <Features />*/}
         <Why />
+        <Hero1/>
         <HowItWorks />
          {/* Full-page glass overlay 
          <AnimatedTestimonialsDemo /> */}
