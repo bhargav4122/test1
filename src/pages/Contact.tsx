@@ -577,7 +577,7 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Call Us</h3>
             <p className="mb-4">Mon-Fri, 9am-5pm EST</p>
             <a href="tel:+1234567890" className="text-blue-500 hover:underline">
-              +44 (023) 456-7890
+              +44 08008611147  
             </a>
           </motion.div>
           
