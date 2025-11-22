@@ -213,7 +213,7 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
   return (
     <div className={cn(
       "min-h-screen pt-16 relative overflow-hidden",
-      theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+      theme === "dark" ? "bg-black-900" : "bg-gray-50"
     )}>
       <Helmet>
         <title>Book a Free Consultation | DataSolutions</title>
