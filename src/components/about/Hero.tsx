@@ -6,6 +6,8 @@ import React from "react";
 
 export default function Hero(): JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -13,7 +15,18 @@ export default function Hero(): JSX.Element {
       setIsVisible(true);
     }, 100);
 
-    return () => clearTimeout(timer);
+    // Detect mobile devices
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const containerVariants = {
@@ -36,13 +49,62 @@ export default function Hero(): JSX.Element {
     }
   };
 
+  // Cloudinary video URLs with optimizations
+  const videoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+  };
+
   return (
     <div className="relative overflow-hidden">
-     
-     
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-1 pb-2 md:pt-2 md:pb-10">
-        
+      {/* Optimized Background Video */}
+      <video
+        className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${
+          videoLoaded ? 'opacity-20' : 'opacity-0'
+        }`}
+        style={{
+          filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
+          transform: 'translateZ(0)'
+        }}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
+        onLoadedData={() => setVideoLoaded(true)}
+        onError={() => console.log('Video failed to load')}
+      >
+        {/* Mobile-optimized sources */}
+        {isMobile ? (
+          <>
+            <source src={videoSources.mobile.webm} type="video/webm" />
+            <source src={videoSources.mobile.mp4} type="video/mp4" />
+          </>
+        ) : (
+          <>
+            <source src={videoSources.desktop.webm} type="video/webm" />
+            <source src={videoSources.desktop.mp4} type="video/mp4" />
+          </>
+        )}
+        {/* Fallback to original MP4 */}
+        <source src={videoSources.fallback} type="video/mp4" />
+      </video>
 
+      {/* Background gradient */}
+      <div
+        className="absolute top-0 left-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent opacity-70"
+        aria-hidden="true"
+      />
+      
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-1 pb-2 md:pt-2 md:pb-10">
         {/* SECOND VISUAL SECTION - COMPREHENSIVE BUSINESS SOLUTIONS */}
         <motion.div 
           className="mt-2 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
@@ -85,6 +147,16 @@ export default function Hero(): JSX.Element {
                 </div>
               </div>
             </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <Button size="lg" className="gap-2">
+                Explore Solutions <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2">
+                View Case Studies
+              </Button>
+            </div>
           </div>
 
           {/* Right visualization - COMPREHENSIVE BUSINESS DASHBOARD */}
@@ -105,7 +177,11 @@ export default function Hero(): JSX.Element {
                 ease: "easeInOut"
               }}
             >
-              <div className="glass rounded-xl p-6 bg-white/80 dark:bg-black/50 backdrop-blur-md">
+              {/* Floating elements */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/10 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-blue-500/10 rounded-full blur-xl"></div>
+              
+              <div className="glass rounded-xl p-6 bg-white/80 dark:bg-black/50 backdrop-blur-md relative z-10">
                 <div className="w-full h-full rounded-lg overflow-hidden flex flex-col">
                   {/* Window Controls */}
                   <div className="h-8 bg-gray-100 dark:bg-gray-800 flex items-center px-4 justify-between">
@@ -121,28 +197,42 @@ export default function Hero(): JSX.Element {
                   <div className="flex-1 p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                     {/* Key Business Metrics */}
                     <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 text-center">
+                      <motion.div 
+                        className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 text-center"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
                         <TrendingUp className="h-5 w-5 text-green-600 mx-auto mb-1" />
                         <div className="font-bold text-green-600 text-sm">+42%</div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">Revenue Growth</div>
-                           {/* Revenue Growth */}
-                                                   
-                      </div>
-                      <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-center">
+                      </motion.div>
+                      <motion.div 
+                        className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-center"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
                         <Users className="h-5 w-5 text-blue-600 mx-auto mb-1" />
                         <div className="font-bold text-blue-600 text-sm">2.4M</div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">Customers Reached</div>
-                      </div>
-                      <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-center">
+                      </motion.div>
+                      <motion.div 
+                        className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-center"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
                         <Zap className="h-5 w-5 text-purple-600 mx-auto mb-1" />
                         <div className="font-bold text-purple-600 text-sm">68%</div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">Efficiency Gain</div>
-                      </div>
-                      <div className="p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-center">
+                      </motion.div>
+                      <motion.div 
+                        className="p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-center"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
                         <DollarSign className="h-5 w-5 text-orange-600 mx-auto mb-1" />
                         <div className="font-bold text-orange-600 text-sm">-32%</div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">Cost Reduction</div>
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Business Growth Areas */}
@@ -206,7 +296,7 @@ export default function Hero(): JSX.Element {
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 1.8, duration: 0.5 }}
                     >
-                      <div className="w-full h-full flex items-end justify-between ">
+                      <div className="w-full h-full flex items-end justify-between">
                         {[
                           { height: 75, color: 'bg-green-500', label: 'Retail' },
                           { height: 65, color: 'bg-blue-500', label: 'Tech' },
@@ -219,7 +309,6 @@ export default function Hero(): JSX.Element {
                           <div key={index} className="flex flex-col items-center flex-1 mx-1">
                             <motion.div
                               className={`w-3/4 ${item.color} rounded-t-sm`}
-                              
                               initial={{ height: 0 }}
                               animate={{ height: `${item.height}%` }}
                               transition={{
@@ -230,7 +319,7 @@ export default function Hero(): JSX.Element {
                                 repeatDelay: 1
                               }}
                             />
-                            <div className="text-[15px] mt-1 text-gray-500 dark:text-gray-400 ">
+                            <div className="text-[10px] mt-1 text-gray-500 dark:text-gray-400 text-center leading-tight">
                               {item.label}
                             </div>
                           </div>
