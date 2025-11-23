@@ -49,20 +49,12 @@ import { PhaseTimeline, Timeline } from "@/components/PhaseTimeline"; // Assumin
 import { motion, AnimatePresence } from "framer-motion";
 
 
-
-
-
 // --- Type Definitions (Ensure these match your actual data structures) ---
 interface Technology {
   name: string;
   description: string;
-  icon?: keyof typeof techIcons;
+  icon?: string; // Based on usage in Section 5
 }
-
-interface ServiceDetails {
-  technologies?: Technology[];
-}
-
 
 interface ProjectPhase {
   name: string;
@@ -175,7 +167,6 @@ const ServiceDetail: React.FC = () => {
 
   // State for tracking expanded sub-service cards
   const [expandedSubServiceCards, setExpandedSubServiceCards] = useState<Set<string>>(new Set());
-
 
   // --- Data Fetching Effect ---
   useEffect(() => {
@@ -313,7 +304,7 @@ const ServiceDetail: React.FC = () => {
     return ( // Ensure TSX is valid here
       <div className="min-h-screen flex flex-col dark:bg-black border dark:text-gray-100 ">
       
-        <main className="flex-grow flex items-center justify-center py-10">
+        <main className="flex-grow flex items-center justify-center py-16">
           <Card className="w-full max-w-lg mx-auto border-destructive bg-destructive/5">
             <CardHeader>
               <CardTitle className="text-destructive flex items-center gap-2">
@@ -356,6 +347,78 @@ const ServiceDetail: React.FC = () => {
     ); // Semicolon added for clarity
   }
 
+
+
+// Optimized Image Component
+const OptimizedImage = ({ 
+  src, 
+  alt, 
+  className = "",
+  fallback = null 
+}: { 
+  src?: string; 
+  alt: string; 
+  className?: string;
+  fallback?: React.ReactNode;
+}) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // Optimize Cloudinary/Unsplash images with responsive parameters
+  const optimizedSrc = React.useMemo(() => {
+    if (!src) return null;
+    
+    if (src.includes('cloudinary.com')) {
+      const isMobile = window.innerWidth < 768;
+      const width = isMobile ? 400 : 800;
+      const quality = isMobile ? 'q_auto:eco' : 'q_auto:good';
+      
+      if (src.includes('/upload/')) {
+        return src.replace('/upload/', `/upload/${quality},w_${width},f_auto/`);
+      }
+    }
+    
+    // Optimize Unsplash images
+    if (src.includes('unsplash.com')) {
+      const url = new URL(src);
+      url.searchParams.set('q', '70');
+      url.searchParams.set('fit', 'crop');
+      url.searchParams.set('w', '800');
+      return url.toString();
+    }
+    
+    return src;
+  }, [src]);
+
+  if (!optimizedSrc || imageError) {
+    return fallback || (
+      <div className={`w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center ${className}`}>
+        <span className="text-gray-500 dark:text-gray-400 text-sm">No Image</span>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {!imageLoaded && (
+        <div className={`absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse ${className}`} />
+      )}
+      <img
+        src={optimizedSrc}
+        alt={alt}
+        className={`w-full h-full object-cover transition-transform duration-500 ${
+          imageLoaded ? 'opacity-100' : 'opacity-0'
+        } ${className}`}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageError(true)}
+      />
+    </>
+  );
+};
+
+
   // ===========================
   // === Main Component Return ===  (This is where the error likely pointed)
   // ===========================
@@ -363,7 +426,7 @@ const ServiceDetail: React.FC = () => {
     <div className="min-h-screen flex flex-col">
    
 
-      <main className="flex-grow pt-10 md:pt-20">
+      <main className="flex-grow pt-20 md:pt-20">
 
         {/* --- Section 1: Header --- */}
         <section className="bg-gradient-to-b  py-8 md:py-2">
@@ -373,134 +436,181 @@ const ServiceDetail: React.FC = () => {
                 <Button
                   variant="ghost"
                   onClick={() => navigate("/services")}
-                  className="mb-4 pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary p-1"
+                  className="mb-4 pl-0 hover:pl-2 transition-all text-muted-foreground hover:text-primary"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Services Overview
                 </Button>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary">{displayTitle}</h1>
-               
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">{displayTitle}</h1>
+                {details.overview && (
+                  <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+                    {details.overview.split('.')[0]}.
+                  </p>
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        {/* --- Section 2: Service Overview & Benefits --- */}
-        <section className="py-1">
-          <div className="container mx-auto px-4 max-w-5xl">
-             <h2 className="text-2xl md:text-3xl font-bold mb-8 pt-5 ">Service Overview</h2>
-             <div className="prose dark:prose-invert max-w-none">
-               {details.overview ? (
-                 <p className="text-lg text-justify">{details.overview}</p>
-               ) : (
-                 <p className="text-lg text-muted-foreground italic">Detailed overview not available.</p>
-               )}
-               <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                 <div>
-                   {details.benefits && details.benefits.length > 0 && (
-                     <>
-                       <h3 className="text-xl font-semibold mb-4 ">Key Benefits</h3>
-                       <ul className="space-y-2 list-none pl-0"> {/* Adjusted list styling */}
-                         {details.benefits.map((benefit, index) => (
-                           <li key={index} className="flex items-start">
-                             <Check className="h-5 w-5 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                             <span>{benefit}</span>
-                           </li>
-                         ))}
-                       </ul>
-                     </>
-                   )}
-                 </div>
-                 <div>
-                   {details.image && (
-                     <img
-                       src={details.image}
-                       alt={displayTitle}
-                       className="rounded-lg w-full h-auto object-cover shadow-md border border-border"
-                     />
-                   )}
-                 </div>
-               </div>
-             </div>
-          </div>
-        </section>
+       {/* --- Section 2: Service Overview & Benefits --- */}
+<section className="py-8">
+  <div className="container mx-auto px-4 max-w-5xl">
+    <h2 className="text-2xl md:text-3xl font-bold mb-6">Service Overview</h2>
+    <div className="prose dark:prose-invert max-w-none">
+      {details.overview ? (
+        <p className="text-lg text-muted-foreground leading-relaxed">{details.overview}</p>
+      ) : (
+        <p className="text-lg text-muted-foreground italic">Detailed overview coming soon.</p>
+      )}
+      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div>
+          {details.benefits && details.benefits.length > 0 && (
+            <>
+              <h3 className="text-xl font-semibold mb-4">Key Benefits</h3>
+              <ul className="space-y-3">
+                {details.benefits.map((benefit, index) => (
+                  <motion.li 
+                    key={index} 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start bg-white dark:bg-gray-800 p-3 rounded-lg border border-border"
+                  >
+                    <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm md:text-base">{benefit}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+        <div className="flex justify-center lg:justify-end">
+          {details.image && (
+            <div className="relative w-full max-w-md">
+              <OptimizedImage
+                src={details.image}
+                alt={displayTitle}
+                className="rounded-lg shadow-md border border-border hover:shadow-lg transition-shadow"
+                fallback={
+                  <div className="w-full h-64 bg-gradient-to-br from-primary/10 to-primary/20 rounded-lg flex items-center justify-center">
+                    <span className="text-primary font-medium">Service Image</span>
+                  </div>
+                }
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
        {/* --- Section 3: Core Components --- */}
-      {details.subServices && details.subServices.length > 0 && (
-        <section className="">
-        <div className="container mx-auto px-4 max-w-5xl pt-10">
-        <div className="text-center mb-10">
+{details.subServices && details.subServices.length > 0 && (
+  <section className="py-12 bg-muted/20">
+    <div className="container mx-auto px-4 max-w-5xl">
+      <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-2">Core Components</h2>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
           Comprehensive solutions tailored to your specific needs
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {details.subServices.map((subService) => {
+        {details.subServices.map((subService, index) => {
           const isExpanded = expandedSubServiceCards.has(subService.id);
           const hasDetails = !!(subService.features || subService.testimonial);
 
           return (
-            <Card 
-              key={subService.id} 
-              className="flex flex-col   hover:shadow-lg transition-shadow duration-300 border border-border overflow-hidden hover:border-primary/20"
+            <motion.div
+              key={subService.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
             >
-              <CardHeader className="pb-3 bg-cyan-300">
-                <CardTitle className="text-lg font-medium text-black">{subService.title}</CardTitle>
-                <CardDescription className="text-sm">{subService.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0 pb-4 flex-grow flex flex-col bg-cyan-100">
-                {subService.features && subService.features.length > 0 && (
-                  <div className="mt-2 ">
-                    <h4 className="text-xs font-semibold uppercase tracking-wider mb-2 text-muted-foreground">Features:</h4>
-                    <ul className="space-y-1.5 list-none pl-0 text-black">
-                      {subService.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <Check className="h-4 w-4 text-primary mt-0.5 mr-2 flex-shrink-0" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <Card className="flex flex-col h-full hover:shadow-lg transition-all duration-300 border border-border overflow-hidden hover:border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg font-medium leading-tight">
+                    {subService.title}
+                  </CardTitle>
+                  <CardDescription className="text-sm line-clamp-2">
+                    {subService.description}
+                  </CardDescription>
+                </CardHeader>
                 
-                <AnimatePresence initial={false}>
-                  {isExpanded && hasDetails && (
-                    <motion.div
-                      key="sub-service-details-content"
-                      initial="collapsed" 
-                      animate="open" 
-                      exit="collapsed"
-                      variants={{
-                        open: { 
-                          opacity: 1, 
-                          height: 'auto', 
-                          marginTop: '1rem', 
-                          paddingTop: '1rem', 
-                          borderTop: '1px solid hsl(var(--border))' 
-                        },
-                        collapsed: { 
-                          opacity: 0, 
-                          height: 0, 
-                          marginTop: 0, 
-                          paddingTop: 0, 
-                          borderTop: '0px solid hsl(var(--border))' 
-                        }
-                      }}
-                      transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                      className="overflow-hidden"
-                    >
-                      {subService.testimonial && (
-                        <div className="mt-4 bg-muted/20 p-3 rounded-lg border border-border">
-                          <p className="text-sm italic">{subService.testimonial}</p>
-                        </div>
-                      )}
-                    </motion.div>
+                <CardContent className="pt-0 pb-4 flex-grow flex flex-col">
+                  {subService.features && subService.features.length > 0 && (
+                    <div className="mt-2">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider mb-2 text-muted-foreground">
+                        Key Features
+                      </h4>
+                      <ul className="space-y-1.5">
+                        {subService.features.slice(0, 3).map((feature, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <Check className="h-3 w-3 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                            <span className="text-xs leading-relaxed">{feature}</span>
+                          </li>
+                        ))}
+                        {subService.features.length > 3 && !isExpanded && (
+                          <li className="text-xs text-muted-foreground pl-5">
+                            +{subService.features.length - 3} more features
+                          </li>
+                        )}
+                      </ul>
+                    </div>
                   )}
-                </AnimatePresence>
-              </CardContent>
-         
-            </Card>
+                  
+                  <AnimatePresence initial={false}>
+                    {isExpanded && hasDetails && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        {subService.features && subService.features.length > 3 && (
+                          <div className="mt-3">
+                            <ul className="space-y-1.5">
+                              {subService.features.slice(3).map((feature, idx) => (
+                                <li key={idx + 3} className="flex items-start">
+                                  <Check className="h-3 w-3 text-primary mt-0.5 mr-2 flex-shrink-0" />
+                                  <span className="text-xs leading-relaxed">{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {subService.testimonial && (
+                          <div className="mt-4 bg-muted/30 p-3 rounded-lg border border-border">
+                            <p className="text-xs italic text-muted-foreground">"{subService.testimonial}"</p>
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </CardContent>
+                
+                {hasDetails && (
+                  <CardFooter className="pt-0">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleToggleSubServiceExpand(subService.id)}
+                      className="w-full text-xs"
+                    >
+                      {isExpanded ? (
+                        <>Show Less <ChevronUp className="ml-1 h-3 w-3" /></>
+                      ) : (
+                        <>Show More <ChevronDown className="ml-1 h-3 w-3" /></>
+                      )}
+                    </Button>
+                  </CardFooter>
+                )}
+              </Card>
+            </motion.div>
           );
         })}
       </div>
@@ -509,35 +619,27 @@ const ServiceDetail: React.FC = () => {
 )}
 
 
-{/* --- Section 5: Technologies We Use --- */}
-{details.technologies && details.technologies.length > 0 && (
-  <section className="py-12">
-    <div className="container mx-auto px-4 max-w-5xl">
-      <h2 className="text-2xl md:text-3xl font-bold mb-8">Technologies We Use</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {details.technologies.map((tech, index) => (
-          <Card key={index} className="border border-border hover:shadow-md transition-shadow">
-            <CardHeader className="p-4 flex flex-col items-center text-center">
-              {tech.logo && (
-                <img
-                  src={tech.logo}
-                  alt={`${tech.name} logo`}
-                  className="w-12 h-12 object-contain mb-2"
-                  loading="lazy"
-                />
-              )}
-              <CardTitle className="text-lg">{tech.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 pt-0">
-              <CardDescription>{tech.description}</CardDescription>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
 
+        {/* --- Section 5: Technologies We Use --- */}
+        {details.technologies && details.technologies.length > 0 && (
+          <section className="py-12">
+             <div className="container mx-auto px-4 max-w-5xl">
+               <h2 className="text-2xl md:text-3xl font-bold mb-8">Technologies We Use</h2>
+               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                 {details.technologies.map((tech, index) => (
+                   <Card key={index} className="border border-border   hover:shadow-md transition-shadow">
+                     <CardHeader className="p-4">
+                       <CardTitle className="text-lg">{tech.icon} {tech.name}</CardTitle>
+                     </CardHeader>
+                     <CardContent className="p-4 pt-0">
+                       <CardDescription>{tech.description}</CardDescription>
+                     </CardContent>
+                   </Card>
+                 ))}
+               </div>
+             </div>
+          </section>
+        )}
 
         {/* --- Section: Key Features / Components (Using details.services) --- */}
         {details.services && details.services.length > 0 && (
@@ -589,15 +691,20 @@ const ServiceDetail: React.FC = () => {
                     {details.projects.completed.map((project, index) => (
                       <Card key={index} className="overflow-hidden border border-border  ">
                         <div className="md:flex">
-                          {project.image && (
-                            <div className="md:w-1/3 flex-shrink-0 relative aspect-[5/3] overflow-hidden">
-                              <img
-                                src={project.image}
-                                alt={project.title}
-                                className="h-48 md:h-full w-full object-cover"
-                              />
-                            </div>
-                          )}
+                         {project.image && (
+  <div className="md:w-1/3 flex-shrink-0">
+    <OptimizedImage
+      src={project.image}
+      alt={project.title}
+      className="h-48 md:h-full w-full object-cover"
+      fallback={
+        <div className="h-48 md:h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+          <span className="text-gray-500 dark:text-gray-400 text-sm">Project Image</span>
+        </div>
+      }
+    />
+  </div>
+)}
                           <div className="p-6 flex-1">
                             <CardTitle className="mb-2">{project.title}</CardTitle>
                             <CardDescription className="mb-4">{project.description}</CardDescription>
@@ -655,15 +762,20 @@ const ServiceDetail: React.FC = () => {
       <Card key={index} className="  overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="flex flex-col md:flex-row">
           {/* Image Section (30%) */}
-          {project.image && (
-            <div className="md:w-[30%] flex-shrink-0 relative aspect-[5/3] overflow-hidden">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-48 md:h-full object-cover"
-              />
-            </div>
-          )}
+        {project.image && (
+  <div className="md:w-[30%] flex-shrink-0">
+    <OptimizedImage
+      src={project.image}
+      alt={project.title}
+      className="w-full h-48 md:h-full object-cover"
+      fallback={
+        <div className="w-full h-48 md:h-full bg-gradient-to-br from-primary/5 to-primary/10 flex items-center justify-center">
+          <Code className="h-8 w-8 text-primary/40" />
+        </div>
+      }
+    />
+  </div>
+)}
 
           {/* Content Section (70%) */}
           <div className="flex-1 p-6">
@@ -946,42 +1058,59 @@ const ServiceDetail: React.FC = () => {
           </section>
         )}
 
- {/* Section 8: Insights & Resources */}
+ 
         
-        {details.blogPosts && details.blogPosts.length > 0 && (
-          <section className="p-5">
-            <div className="container mx-auto px-4 max-w-5xl">
-              <h2 className="text-2xl md:text-3xl font-bold mb-8">Insights & Resources</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-                {details.blogPosts.map((post, index) => (
-                  <Card key={index} className="overflow-hidden flex flex-col hover:shadow-lg transition-shadow bg-white shadow-lg rounded-xl dark:bg-black  dark:text-gray-100">
-                    {post.image && (
-                      <div className="h-48 overflow-hidden">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                        />
+     {/* Section 8: Insights & Resources */}
+{details.blogPosts && details.blogPosts.length > 0 && (
+  <section className="py-12">
+    <div className="container mx-auto px-4 max-w-5xl">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">Insights & Resources</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {details.blogPosts.map((post, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300 bg-card border-border">
+              {post.image && (
+                <div className="h-48 overflow-hidden">
+                  <OptimizedImage
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    fallback={
+                      <div className="w-full h-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
+                        <FileText className="h-8 w-8 text-muted-foreground" />
                       </div>
-                    )}
-                    <CardHeader className="flex-grow " >
-                      <CardTitle className="text-lg leading-snug">{post.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-sm line-clamp-3">{post.excerpt}</CardDescription>
-                    </CardContent>
-                    <div className="p-4 pt-0 mt-auto border-border">
-                      <Button variant="link" className="w-full justify-start px-0 text-primary" onClick={() => navigate('/blog')}>
-                        Read More
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+                    }
+                  />
+                </div>
+              )}
+              <CardHeader className="flex-grow pb-4">
+                <CardTitle className="text-lg leading-snug line-clamp-2">
+                  {post.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <CardDescription className="text-sm line-clamp-3 leading-relaxed">
+                  {post.excerpt}
+                </CardDescription>
+              </CardContent>
+              <CardFooter className="pt-0 mt-auto">
+                <Button variant="link" className="w-full justify-start px-0 text-primary text-sm">
+                  Read More
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
   
 
