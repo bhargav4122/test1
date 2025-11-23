@@ -2,9 +2,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, animate } from 'framer-motion';
 
-const words = [ "Welcome to BDS","Future"," Loading"];
-const WORD_DURATION = 2500; // 2.5 seconds per word
-const FINAL_DELAY = 1500; // 1.5 seconds after last word
+const words = [ "W"];
+const WORD_DURATION = 100; // 1.0 seconds per word
+const FINAL_DELAY = 100; // 1.0 seconds after last word
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [index, setIndex] = useState(0);
@@ -43,8 +43,8 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           ]
         },
         {
-          duration: 0.8,
-          delay: i * 0.05
+          duration: 0.1,
+          delay: i * 0.01
         }
       );
     });
