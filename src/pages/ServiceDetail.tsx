@@ -349,75 +349,29 @@ const ServiceDetail: React.FC = () => {
 
 
 
-// Optimized Image Component
-const OptimizedImage = ({ 
-  src, 
-  alt, 
-  className = "",
-  fallback = null 
-}: { 
-  src?: string; 
-  alt: string; 
-  className?: string;
-  fallback?: React.ReactNode;
-}) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  // Optimize Cloudinary/Unsplash images with responsive parameters
-  const optimizedSrc = React.useMemo(() => {
-    if (!src) return null;
-    
-    if (src.includes('cloudinary.com')) {
-      const isMobile = window.innerWidth < 768;
-      const width = isMobile ? 400 : 800;
-      const quality = isMobile ? 'q_auto:eco' : 'q_auto:good';
-      
-      if (src.includes('/upload/')) {
-        return src.replace('/upload/', `/upload/${quality},w_${width},f_auto/`);
-      }
-    }
-    
-    // Optimize Unsplash images
-    if (src.includes('unsplash.com')) {
-      const url = new URL(src);
-      url.searchParams.set('q', '70');
-      url.searchParams.set('fit', 'crop');
-      url.searchParams.set('w', '800');
-      return url.toString();
-    }
-    
-    return src;
-  }, [src]);
-
-  if (!optimizedSrc || imageError) {
-    return fallback || (
-      <div className={`w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center ${className}`}>
-        <span className="text-gray-500 dark:text-gray-400 text-sm">No Image</span>
-      </div>
-    );
-  }
-
+// Simple version for immediate fix
+const OptimizedImage = ({ src, alt, className = "" }) => {
   return (
-    <>
-      {!imageLoaded && (
-        <div className={`absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse ${className}`} />
-      )}
-      <img
-        src={optimizedSrc}
-        alt={alt}
-        className={`w-full h-full object-cover transition-transform duration-500 ${
-          imageLoaded ? 'opacity-100' : 'opacity-0'
-        } ${className}`}
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setImageLoaded(true)}
-        onError={() => setImageError(true)}
-      />
-    </>
+    <img
+      src={src}
+      alt={alt}
+      className={`w-full h-full object-cover ${className}`}
+      loading="lazy"
+      decoding="async"
+      style={{ 
+        background: 'hsl(var(--muted))',
+        transition: 'opacity 0.3s ease-in-out'
+      }}
+      onLoad={(e) => {
+        e.currentTarget.style.opacity = '1';
+      }}
+      onError={(e) => {
+        e.currentTarget.style.display = 'none';
+        // Show fallback if needed
+      }}
+    />
   );
 };
-
 
   // ===========================
   // === Main Component Return ===  (This is where the error likely pointed)
