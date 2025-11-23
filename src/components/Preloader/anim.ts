@@ -10,7 +10,7 @@ export const opacity: Variants = {
     y: 0,
     transition: { 
       duration: 0.8, 
-      delay: 0.9,
+      delay: 0.1,
       ease: [0.33, 1, 0.68, 1] 
     }
   }
@@ -23,7 +23,7 @@ export const slideUp: Variants = {
   exit: {
     top: "-100vh",
     transition: { 
-      duration: 1, 
+      duration: 0.1, 
       ease: [0.76, 0, 0.24, 1], 
       delay: 0.5
     }
