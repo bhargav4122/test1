@@ -6,6 +6,8 @@ import React from "react";
 
 export default function Hero(): JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -13,7 +15,18 @@ export default function Hero(): JSX.Element {
       setIsVisible(true);
     }, 100);
 
-    return () => clearTimeout(timer);
+    // Detect mobile devices
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const containerVariants = {
@@ -36,11 +49,26 @@ export default function Hero(): JSX.Element {
     }
   };
 
+  // Cloudinary video URLs with optimizations
+  const videoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+  };
+
   return (
     <div className="relative overflow-hidden pt-20">
-      {/* Background Video */}
+      {/* Optimized Background Video */}
       <video
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
+        className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${
+          videoLoaded ? 'opacity-20' : 'opacity-0'
+        }`}
         style={{
           filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
           transform: 'translateZ(0)'
@@ -49,8 +77,25 @@ export default function Hero(): JSX.Element {
         muted
         loop
         playsInline
+        preload="metadata"
+        poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
+        onLoadedData={() => setVideoLoaded(true)}
+        onError={() => console.log('Video failed to load')}
       >
-        <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4" type="video/mp4" />
+        {/* Mobile-optimized sources */}
+        {isMobile ? (
+          <>
+            <source src={videoSources.mobile.webm} type="video/webm" />
+            <source src={videoSources.mobile.mp4} type="video/mp4" />
+          </>
+        ) : (
+          <>
+            <source src={videoSources.desktop.webm} type="video/webm" />
+            <source src={videoSources.desktop.mp4} type="video/mp4" />
+          </>
+        )}
+        {/* Fallback to original MP4 */}
+        <source src={videoSources.fallback} type="video/mp4" />
       </video>
 
       {/* Background gradient */}
@@ -139,6 +184,15 @@ export default function Hero(): JSX.Element {
                 <Store className="h-4 w-4 text-primary" />
                 <span>All Business Types</span>
               </div>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button size="lg" className="gap-2">
+                Start Growing Today <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2">
+                View Case Studies
+              </Button>
             </motion.div>
           </motion.div>
           
