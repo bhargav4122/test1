@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check, 
   Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon,CogIcon,HandshakeIcon,
@@ -10,9 +10,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ConsultationButton } from "@/components/consultation/ConsultationButton";
 import { TeamsButton } from "@/components/Careers/teambutton";
-
-
-
 
 const stats = [
   { number: '15+', label: 'Projects Completed', icon: Target },
@@ -140,6 +137,48 @@ const timeline = [
 
 function About() {
   const { theme } = useTheme();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Detect mobile devices
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  // Cloudinary video URLs with optimizations
+  const videoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+  };
+
+  // Story video sources (16MB video optimization)
+  const storyVideoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
+  };
 
   const ThemedCard = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
     return theme === 'dark' ? (
@@ -161,192 +200,199 @@ function About() {
       theme === "dark" ? "bg-gray-900" : "bg-white"
     )}>
       {/* Hero Section - Updated for Startup */}
-    
-   <video
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-20"
-        style={{
-          filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
-          transform: 'translateZ(0)'
-        }}
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
-        <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4" type="video/mp4" />
-      </video>
-    <section className="relative py-10 lg:pt-24 overflow-hidden">
+      <section className="relative py-10 lg:pt-24 overflow-hidden">
+        {/* Optimized Background Video */}
+        <video
+          className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${
+            videoLoaded ? 'opacity-20' : 'opacity-0'
+          }`}
+          style={{
+            filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
+            transform: 'translateZ(0)'
+          }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
+          onLoadedData={() => setVideoLoaded(true)}
+          onError={() => console.log('Video failed to load')}
+        >
+          {/* Mobile-optimized sources */}
+          {isMobile ? (
+            <>
+              <source src={videoSources.mobile.webm} type="video/webm" />
+              <source src={videoSources.mobile.mp4} type="video/mp4" />
+            </>
+          ) : (
+            <>
+              <source src={videoSources.desktop.webm} type="video/webm" />
+              <source src={videoSources.desktop.mp4} type="video/mp4" />
+            </>
+          )}
+          {/* Fallback to original MP4 */}
+          <source src={videoSources.fallback} type="video/mp4" />
+        </video>
       
-  {/* Background Gradient - Full Width */}
-  <div className="absolute inset-0 -z-10">
-    <div className={cn(
-      "absolute inset-0 opacity-20",
-      theme === "dark" 
-        ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30" 
-        : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
-    )}></div>
-    <div className={cn(
-      "absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]",
-      theme === "dark" ? "bg-gradient-to-b from-gray-900 to-gray-800" : "bg-white"
-    )}></div>
-  </div>
-
-  {/* Full Width Container */}
-  <div className="w-full px-4 sm:px-6 lg:px-8">
-    <div className="max-w-7xl mx-auto">
-       <div className="text-center py-5 mb-6">
-        <span className={cn(
-          "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
-          theme === "dark"
-            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-            : "bg-blue-100 text-blue-700 border border-blue-200"
-        )}>
-          About BDS
-        </span>
-     
-
-
-    <div className="text-center mb-8">
-        <h1 className={cn(
-          "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
-          theme === "dark" ? "text-white" : "text-gray-900"
-        )}>
-          <span className={cn(
-            "bg-clip-text text-transparent bg-gradient-to-r",
-            theme === "dark"
-              ? "from-blue-400 to-purple-100"
-              : "from-blue-400 to-blue-400"
-          )}>
-            Who We Are
-          </span>
-        </h1>
-          <div className="text-center pt-5">
-          <p className={cn(
-            "text-lg md:text-xl leading-relaxed max-w-4xl mx-auto",
-            theme === "dark" ? "text-gray-300" : "text-gray-700"
-          )}>
-              <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
-           is a modern business transformation and technology solutions company helping organizations grow smarter, faster, and stronger.
-           We provide end-to-end services across data, cloud, AI, automation, digital marketing, consumer insights, strategy, and business consulting delivering measurable results that fuel long-term success.
-          </p>
+        {/* Background Gradient - Full Width */}
+        <div className="absolute inset-0 -z-10">
+          <div className={cn(
+            "absolute inset-0 opacity-20",
+            theme === "dark" 
+              ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30" 
+              : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
+          )}></div>
+          <div className={cn(
+            "absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]",
+            theme === "dark" ? "bg-gradient-to-b from-gray-900 to-gray-800" : "bg-white"
+          )}></div>
         </div>
-      </div>
-    </div>
 
-      {/* Main Heading */}
-      
+        {/* Full Width Container */}
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center py-5 mb-6">
+              <span className={cn(
+                "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
+                theme === "dark"
+                  ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+                  : "bg-blue-100 text-blue-700 border border-blue-200"
+              )}>
+                About BDS
+              </span>
 
-      {/* Main Content Block - Reduced Text Size */}
-      <div className="space-y-8">
-        {/* Main Description - Reduced Size */}
-       
-
-<section className="pt">
-  <div className="grid md:grid-cols-2 gap-6">
-    {/* Left Card */}
-    <div className={cn(
-      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-      theme === "dark" 
-        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-    )}>
-      <div className="flex items-start gap-4 mb-6">
-        <div className={cn(
-          "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
-          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-        )}>
-          <ChartBarIcon className="h-6 w-6" />
-        </div>
-        <div>
-          <span className={cn(
-            "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
-            theme === "dark"
-              ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-              : "bg-blue-100 text-blue-700 border border-blue-200"
-          )}>
-            What We Do
-          </span>
-          <p className={cn(
-            "text-lg font-semibold text-left",
-            theme === "dark" ? "text-gray-200" : "text-gray-800"
-          )}>
-            <span className={cn(
-              "bg-clip-text text-transparent bg-gradient-to-r",
-              theme === "dark"
-                ? "from-blue-400 to-blue-500"
-                : "from-blue-500 to-blue-600"
-            )}>
-              Empowering Businesses Through Data, Technology & Intelligent Innovation
-            </span>
-          </p>
-        </div>
-      </div>
-      
-      <p className={cn(
-        "text-base text-left",
-        theme === "dark" ? "text-gray-300" : "text-gray-700"
-      )}>
-        We help companies evolve with clarity, confidence, and modern digital capabilities.
-        At Business & Data Solutions, we combine data intelligence, advanced technology, and human insight to solve real business challenges and build long-term growth.
-      </p>
-    </div>
-
-    {/* Right Card */}
-    <div className={cn(
-      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-      theme === "dark" 
-        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-    )}>
-      <div className="flex items-start gap-4 mb-6">
-        <div className={cn(
-          "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
-          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-        )}>
-          <HandshakeIcon className="h-6 w-6" />
-        </div>
-        <div>
-          <span className={cn(
-            "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
-            theme === "dark"
-              ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-              : "bg-blue-100 text-blue-700 border border-blue-200"
-          )}>
-            Our Identity
-          </span>
-          <p className={cn(
-            "text-lg font-semibold text-left",
-            theme === "dark" ? "text-gray-200" : "text-gray-800"
-          )}>
-            <span className={cn(
-              "bg-clip-text text-transparent bg-gradient-to-r",
-              theme === "dark"
-                ? "from-blue-400 to-blue-500"
-                : "from-blue-500 to-blue-600"
-            )}>
-              A Strategic Partner for Your Digital Evolution
-            </span>
-          </p>
-        </div>
-      </div>
-      
-      <p className={cn(
-        "text-base text-left",
-        theme === "dark" ? "text-gray-300" : "text-gray-700"
-      )}>
-        Business & Data Solutions delivers end-to-end solutions across data, cloud, automation, AI, digital marketing, and business intelligence — enabling organizations to operate smarter, scale faster, and achieve measurable impact.
-      </p>
-    </div>
-  </div>
-</section>
+              <div className="text-center mb-8">
+                <h1 className={cn(
+                  "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
+                  theme === "dark" ? "text-white" : "text-gray-900"
+                )}>
+                  <span className={cn(
+                    "bg-clip-text text-transparent bg-gradient-to-r",
+                    theme === "dark"
+                      ? "from-blue-400 to-purple-100"
+                      : "from-blue-400 to-blue-400"
+                  )}>
+                    Who We Are
+                  </span>
+                </h1>
+                <div className="text-center pt-5">
+                  <p className={cn(
+                    "text-lg md:text-xl leading-relaxed max-w-4xl mx-auto",
+                    theme === "dark" ? "text-gray-300" : "text-gray-700"
+                  )}>
+                    <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
+                    is a modern business transformation and technology solutions company helping organizations grow smarter, faster, and stronger.
+                    We provide end-to-end services across data, cloud, AI, automation, digital marketing, consumer insights, strategy, and business consulting delivering measurable results that fuel long-term success.
+                  </p>
+                </div>
               </div>
             </div>
-  </div>
-</section>
 
+            {/* Main Content Block - Reduced Text Size */}
+            <div className="space-y-8">
+              <section className="pt">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Left Card */}
+                  <div className={cn(
+                    "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+                    theme === "dark" 
+                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                  )}>
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className={cn(
+                        "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+                        theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+                      )}>
+                        <ChartBarIcon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <span className={cn(
+                          "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+                          theme === "dark"
+                            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+                            : "bg-blue-100 text-blue-700 border border-blue-200"
+                        )}>
+                          What We Do
+                        </span>
+                        <p className={cn(
+                          "text-lg font-semibold text-left",
+                          theme === "dark" ? "text-gray-200" : "text-gray-800"
+                        )}>
+                          <span className={cn(
+                            "bg-clip-text text-transparent bg-gradient-to-r",
+                            theme === "dark"
+                              ? "from-blue-400 to-blue-500"
+                              : "from-blue-500 to-blue-600"
+                          )}>
+                            Empowering Businesses Through Data, Technology & Intelligent Innovation
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <p className={cn(
+                      "text-base text-left",
+                      theme === "dark" ? "text-gray-300" : "text-gray-700"
+                    )}>
+                      We help companies evolve with clarity, confidence, and modern digital capabilities.
+                      At Business & Data Solutions, we combine data intelligence, advanced technology, and human insight to solve real business challenges and build long-term growth.
+                    </p>
+                  </div>
 
-
-
+                  {/* Right Card */}
+                  <div className={cn(
+                    "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+                    theme === "dark" 
+                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                  )}>
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className={cn(
+                        "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+                        theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+                      )}>
+                        <HandshakeIcon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <span className={cn(
+                          "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+                          theme === "dark"
+                            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+                            : "bg-blue-100 text-blue-700 border border-blue-200"
+                        )}>
+                          Our Identity
+                        </span>
+                        <p className={cn(
+                          "text-lg font-semibold text-left",
+                          theme === "dark" ? "text-gray-200" : "text-gray-800"
+                        )}>
+                          <span className={cn(
+                            "bg-clip-text text-transparent bg-gradient-to-r",
+                            theme === "dark"
+                              ? "from-blue-400 to-blue-500"
+                              : "from-blue-500 to-blue-600"
+                          )}>
+                            A Strategic Partner for Your Digital Evolution
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <p className={cn(
+                      "text-base text-left",
+                      theme === "dark" ? "text-gray-300" : "text-gray-700"
+                    )}>
+                      Business & Data Solutions delivers end-to-end solutions across data, cloud, automation, AI, digital marketing, and business intelligence — enabling organizations to operate smarter, scale faster, and achieve measurable impact.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Mission & Vision - Updated for Startup */}
       <section className="">
@@ -382,9 +428,7 @@ function About() {
             </p>
           </div>
           
-
-         
-            {/* Vision */}
+          {/* Vision */}
           <div className={cn(
             "rounded-2xl p-8 border h-full",
             theme === "dark" 
@@ -409,67 +453,60 @@ function About() {
               "leading-relaxed text-justify",
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             )}>
-             To create a world where every business regardless of size can leverage intelligent technology, powerful insights,
+              To create a world where every business regardless of size can leverage intelligent technology, powerful insights,
               and digital innovation to unlock opportunity, resilience, and long-term success.
-          
             </p>
-
           </div>
         </div>
       </section>
 
-
       {/* Stats Section - Updated for Startup */}
-   <section className="mb-5 pt-5">
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-    {stats.map((stat, index) => (
-      <div 
-        key={index} 
-        className={cn(
-          "p-6 text-center group hover:scale-[1.02] transition-transform rounded-lg border focus:ring-2 focus:outline-none",
-          theme === "dark" 
-            ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-            : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-        )}
-      >
-        <div className={cn(
-          "h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center",
-          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-        )}>
-          <stat.icon className="h-8 w-8" />
+      <section className="mb-5 pt-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {stats.map((stat, index) => (
+            <div 
+              key={index} 
+              className={cn(
+                "p-6 text-center group hover:scale-[1.02] transition-transform rounded-lg border focus:ring-2 focus:outline-none",
+                theme === "dark" 
+                  ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                  : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              )}
+            >
+              <div className={cn(
+                "h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center",
+                theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+              )}>
+                <stat.icon className="h-8 w-8" />
+              </div>
+              <div className={cn(
+                "text-3xl md:text-4xl font-bold mb-2",
+                theme === "dark" ? "gradient-text" : "text-gray-800"
+              )}>{stat.number}</div>
+              <div className={cn(
+                "text-sm md:text-base",
+                theme === "dark" ? "text-gray-300" : "text-gray-600"
+              )}>{stat.label}</div>
+            </div>
+          ))}
         </div>
-        <div className={cn(
-          "text-3xl md:text-4xl font-bold mb-2",
-          theme === "dark" ? "gradient-text" : "text-gray-800"
-        )}>{stat.number}</div>
-        <div className={cn(
-          "text-sm md:text-base",
-          theme === "dark" ? "text-gray-300" : "text-gray-600"
-        )}>{stat.label}</div>
-      </div>
-    ))}
-  </div>
-</section>
-
+      </section>
 
       {/* Director's Message - Updated for Startup */}
-   <section className="mb-20 dark:bg-black dark:text-gray-100">
-               <div className="overflow-hidden dark:bg-black dark:text-gray-100">
-            <div className="md:flex">
-         <div className="md:w-1/3 p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
-          
-           <div className="text-center group">
-                 {/* Circular image container with fixed size and hover effect */}
-             <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
-               {/* User image with proper sizing and zoom effect */}
-               <img 
-                 src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
-                 alt="Allu - Director & Co-Founder"
-                 className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-               />
-             </div>
-
-
+      <section className="mb-20 dark:bg-black dark:text-gray-100">
+        <div className="overflow-hidden dark:bg-black dark:text-gray-100">
+          <div className="md:flex">
+            <div className="md:w-1/3 p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
+              <div className="text-center group">
+                {/* Circular image container with fixed size and hover effect */}
+                <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
+                  {/* User image with proper sizing and zoom effect */}
+                  <img 
+                    src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
+                    alt="Allu - Director & Co-Founder"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-1">Bhargav Allu</h3>
                 <p className="-100">Director & Co-Founder</p>
               </div>
@@ -484,15 +521,12 @@ function About() {
                 theme === "dark" ? "border-blue-400 text-gray-300" : "border-blue-600 text-gray-600"
               )}>
                 “At Business & Data Solutions, we believe in partnerships built on trust, innovation, and real outcomes.
-                 We're builders and innovators at heart, bringing a fresh, energetic approach to every challenge.
-                 We know every business is unique, and our job is to bring the right mix of strategy, technology, and insight to drive your measurable transformation.”
+                We're builders and innovators at heart, bringing a fresh, energetic approach to every challenge.
+                We know every business is unique, and our job is to bring the right mix of strategy, technology, and insight to drive your measurable transformation.”
               </blockquote>
-              
-              
-              </div>
             </div>
           </div>
-       
+        </div>
       </section>
 
       {/* Story Section - Updated for Startup */}
@@ -500,83 +534,98 @@ function About() {
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="md:w-1/2">
             <ThemedCard className="overflow-hidden">
-            
- <div className={cn(
-      "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-      theme === "dark" 
-        ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-        : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-    )}>
-             
-            <div className="relative aspect-video">
-              <video
-                className="w-full h-full object-cover"
-                controls
-                autoPlay
-                muted
-                loop
-                onContextMenu={(e) => e.preventDefault()} // Disable right-click
-                controlsList='false'
-                poster="/images/video-poster.jpg" // Add a poster frame for better UX
-              >
-                <source src="https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              </div>
+              <div className={cn(
+                "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
+                theme === "dark" 
+                  ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
+                  : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              )}>
+                <div className="relative aspect-video">
+                  {/* Optimized Story Video */}
+                  <video
+                    className="w-full h-full object-cover rounded-lg"
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1763800003/Final1_fusbec.jpg"
+                    onContextMenu={(e) => e.preventDefault()}
+                    controlsList='nodownload noremoteplayback'
+                  >
+                    {/* Mobile-optimized sources */}
+                    {isMobile ? (
+                      <>
+                        <source src={storyVideoSources.mobile.webm} type="video/webm" />
+                        <source src={storyVideoSources.mobile.mp4} type="video/mp4" />
+                      </>
+                    ) : (
+                      <>
+                        <source src={storyVideoSources.desktop.webm} type="video/webm" />
+                        <source src={storyVideoSources.desktop.mp4} type="video/mp4" />
+                      </>
+                    )}
+                    {/* Fallback to original MP4 */}
+                    <source src={storyVideoSources.fallback} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               </div>
             </ThemedCard>
           </div>
 
           <div className="md:w-1/2 relative rounded-2xl overflow-hidden">
-  {/* Background Image */}
-  <div className="absolute inset-0">
-    <img
-      src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
-      alt="Our Startup Journey"
-      className="w-full h-full object-cover"
-    />
-    {/* Overlay for better text readability */}
-    <div className={cn(
-      "absolute inset-0",
-      theme === "dark" ? "bg-black/60" : "bg-white/80"
-    )} />
-  </div>
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <img
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
+                alt="Our Startup Journey"
+                className="w-full h-full object-cover"
+              />
+              {/* Overlay for better text readability */}
+              <div className={cn(
+                "absolute inset-0",
+                theme === "dark" ? "bg-black/60" : "bg-white/80"
+              )} />
+            </div>
 
-  {/* Content */}
-  <div className="relative z-10 p-8">
-    <h2 className={cn(
-      "text-2xl md:text-3xl font-bold mb-6",
-      theme === "dark" ? "text-white" : "text-gray-800"
-    )}>Our Startup Journey</h2>
+            {/* Content */}
+            <div className="relative z-10 p-8">
+              <h2 className={cn(
+                "text-2xl md:text-3xl font-bold mb-6",
+                theme === "dark" ? "text-white" : "text-gray-800"
+              )}>Our Startup Journey</h2>
 
-    <span className={cn(
-      "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
-      theme === "dark"
-        ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-        : "bg-blue-100 text-blue-700 border border-blue-200"
-    )}>
-      Built to Solve the Challenges Modern Businesses Face
-    </span>
+              <span className={cn(
+                "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
+                theme === "dark"
+                  ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+                  : "bg-blue-100 text-blue-700 border border-blue-200"
+              )}>
+                Built to Solve the Challenges Modern Businesses Face
+              </span>
 
-    <p className={cn(
-      "text-lg leading-relaxed",
-      theme === "dark" ? "text-gray-200" : "text-gray-700"
-    )}>
-      <br/>
-      We began in 2022 with a simple belief: every business deserves clarity, not complexity.
-      We saw that companies were struggling with scattered systems, traditional processes, and fast-changing digital demands.
-      Business & Data Solutions was founded to bridge that gap.
-      Our vision is to make advanced business technology accessible to companies of all sizes.
-      From a passionate idea, we've grown into a dynamic startup dedicated to helping our clients gain clarity, adopt modern tools,
-      and transform their operations with confidence.
-      We're proud to work with forward-thinking businesses who value a true partnership.
-      Every project is an opportunity to learn, grow, and deliver the exceptional value your company deserves.
-    </p>
-  </div>
-</div>
+              <p className={cn(
+                "text-lg leading-relaxed",
+                theme === "dark" ? "text-gray-200" : "text-gray-700"
+              )}>
+                <br/>
+                We began in 2022 with a simple belief: every business deserves clarity, not complexity.
+                We saw that companies were struggling with scattered systems, traditional processes, and fast-changing digital demands.
+                Business & Data Solutions was founded to bridge that gap.
+                Our vision is to make advanced business technology accessible to companies of all sizes.
+                From a passionate idea, we've grown into a dynamic startup dedicated to helping our clients gain clarity, adopt modern tools,
+                and transform their operations with confidence.
+                We're proud to work with forward-thinking businesses who value a true partnership.
+                Every project is an opportunity to learn, grow, and deliver the exceptional value your company deserves.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* Rest of your existing components remain the same */}
       {/* Roadmap Timeline Section */}
       <section className="mb-2">
         <div className="mb-20">
@@ -718,8 +767,6 @@ function About() {
           ))}
         </div>
       </section>
-
-
 
       {/* Why Choose Us - Updated for Startup */}
       <section className="mb-20">
