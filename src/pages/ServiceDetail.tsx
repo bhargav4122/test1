@@ -350,26 +350,107 @@ const ServiceDetail: React.FC = () => {
 
 
 // Simple version for immediate fix
-const OptimizedImage = ({ src, alt, className = "" }) => {
+// Improved Optimized Image Component
+const OptimizedImage = ({ 
+  src, 
+  alt, 
+  className = "",
+  fallback = null 
+}: { 
+  src?: string; 
+  alt: string; 
+  className?: string;
+  fallback?: React.ReactNode;
+}) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // More aggressive image optimization
+  const optimizedSrc = React.useMemo(() => {
+    if (!src) return null;
+    
+    if (src.includes('cloudinary.com')) {
+      const width = isMobile ? 400 : 800;
+      const quality = isMobile ? 'q_auto:low' : 'q_auto:good'; // Lower quality for faster load
+      
+      if (src.includes('/upload/')) {
+        // Add more aggressive optimization parameters
+        return src.replace('/upload/', `/upload/${quality},w_${width},f_auto,c_fill,g_auto/`);
+      }
+    }
+    
+    // Optimize Unsplash images more aggressively
+    if (src.includes('unsplash.com')) {
+      const url = new URL(src);
+      url.searchParams.set('q', isMobile ? '50' : '70'); // Lower quality for faster load
+      url.searchParams.set('fit', 'crop');
+      url.searchParams.set('w', isMobile ? '400' : '800');
+      url.searchParams.set('h', isMobile ? '300' : '500');
+      url.searchParams.set('dpr', '1'); // Reduce DPR for faster loading
+      return url.toString();
+    }
+    
+    return src;
+  }, [src, isMobile]);
+
+  // Preload image to reduce flickering
+  useEffect(() => {
+    if (!optimizedSrc) return;
+
+    const img = new Image();
+    img.src = optimizedSrc;
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageError(true);
+  }, [optimizedSrc]);
+
+  if (!optimizedSrc || imageError) {
+    return fallback || (
+      <div className={`w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center ${className}`}>
+        <div className="text-center">
+          <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+          <span className="text-gray-500 dark:text-gray-400 text-sm">No Image</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={`w-full h-full object-cover ${className}`}
-      loading="lazy"
-      decoding="async"
-      style={{ 
-        background: 'hsl(var(--muted))',
-        transition: 'opacity 0.3s ease-in-out'
-      }}
-      onLoad={(e) => {
-        e.currentTarget.style.opacity = '1';
-      }}
-      onError={(e) => {
-        e.currentTarget.style.display = 'none';
-        // Show fallback if needed
-      }}
-    />
+    <div className="relative w-full h-full">
+      {/* Improved Loading Skeleton - Matches your theme */}
+      {!imageLoaded && (
+        <div className={`absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 animate-pulse rounded-lg ${className}`}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+          </div>
+        </div>
+      )}
+      
+      {/* Optimized Image */}
+      <img
+        src={optimizedSrc}
+        alt={alt}
+        className={`w-full h-full object-cover transition-all duration-500 ${
+          imageLoaded 
+            ? 'opacity-100 scale-100' 
+            : 'opacity-0 scale-105'
+        } ${className}`}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageError(true)}
+      />
+    </div>
   );
 };
 
