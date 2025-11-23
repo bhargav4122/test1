@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 
 export default function SparklesPreview() {
   const [showText, setShowText] = useState(true);
-  const words = ["Welcome to BDS", "Future", "Loading"];
+  const words = ["Welcome to BDS", "Loading"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
   useEffect(() => {
     const wordTimer = setInterval(() => {
       setCurrentWordIndex((prev) => (prev < words.length - 1 ? prev + 1 : prev));
-    }, 2500);
+    }, 1000);
 
     return () => clearInterval(wordTimer);
   }, []);
@@ -24,7 +24,7 @@ export default function SparklesPreview() {
         transition={{ duration: 1 }}
         className="relative z-20 text-center"
       >
-       <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-white mb-4 font-[Viga]">
+   <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-white mb-4 font-[Viga]">
       BDS
 </h1>
         <p className="md:text-xl text-sm lg:text-2xl font-bold text-white mb-8">
@@ -36,7 +36,7 @@ export default function SparklesPreview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className="text-white text-xl md:text-3xl font-medium"
           >
             {words[currentWordIndex]}
