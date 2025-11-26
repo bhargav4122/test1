@@ -215,13 +215,28 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
       "min-h-screen pt-16 relative overflow-hidden",
       theme === "dark" ? "bg-black-900" : "bg-gray-50"
     )}>
+       {/* SEO Meta Tags */}
       <Helmet>
-        <title>Book a Free Consultation | DataSolutions</title>
+        <title>Free Consultation | Business and Data Solutions - Book Your Session</title>
         <meta 
           name="description" 
-          content="Transform your business with a free 45-minute consultation from our data solutions experts." 
+          content="Book a free 30-minute consultation with our business and data solutions experts. Get personalized advice on data services, digital transformation, and business growth strategies." 
         />
+        <meta 
+          name="keywords" 
+          content="free consultation, business consultation, data solutions consultation, digital transformation advice, business growth strategy, expert consultation" 
+        />
+        <link rel="canonical" href="https://businessanddatasolutions.com/consultation" />
+        <meta property="og:title" content="Free Consultation | Business and Data Solutions - Book Your Session" />
+        <meta 
+          property="og:description" 
+          content="Book a free 30-minute consultation with our business and data solutions experts. Get personalized advice for your business growth." 
+        />
+        <meta property="og:url" content="https://businessanddatasolutions.com/consultation" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://yourcompany.com/og-image-consultation.png" />
       </Helmet>
+
       
       <section className="py-20 relative">
         <div className="container mx-auto px-4 relative z-10">
