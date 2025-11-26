@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import * as Icons from 'lucide-react';
@@ -166,8 +167,30 @@ const ServicesOverview: React.FC = () => {
 
   return (
     <div className="min-h-screen py-8 md:py-10">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Our Services | Business and Data Solutions - Complete Service Portfolio</title>
+        <meta 
+          name="description" 
+          content="Explore our comprehensive business services: Data & Cloud solutions, BI & Digital Transformation, Business Consulting, Market Research, and Workforce Development services." 
+        />
+        <meta 
+          name="keywords" 
+          content="business services, data solutions, cloud services, BI solutions, digital transformation, business consulting, market research, workforce development, data analytics, digital marketing" 
+        />
+        <link rel="canonical" href="https://www.businessanddatasolutions.com/services" />
+        <meta property="og:title" content="Our Services | Business and Data Solutions - Complete Service Portfolio" />
+        <meta 
+          property="og:description" 
+          content="Explore our comprehensive business services: Data & Cloud solutions, BI & Digital Transformation, Business Consulting, and more." 
+        />
+        <meta property="og:url" content="https://www.businessanddatasolutions.com/services" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png" />
+      </Helmet>
+
       <main className="container mx-auto px-4 sm:px-6 py-6 md:py-8 max-w-6xl">
-        <section className="text-center mb-6 md:mb-8">
+        <section className="text-center pt-10 mb-6 md:mb-8">
           <h1 className="text-2xl md:text-4xl font-bold gradient-text mb-3 md:mb-4 dark:text-white text-gray-900">
             Explore Our Services
           </h1>
