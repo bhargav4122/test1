@@ -9,7 +9,7 @@ import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { submitContactForm } from "@/firebase"; // Update path as needed
 import EmailValidation from '@/components/EmailValidation';
-
+import { Helmet } from 'react-helmet-async';
 // Services List
 const ALL_SERVICES = [
   { value: 'data-analytics', label: 'Data Analytics & BI', icon: Database },
@@ -221,6 +221,31 @@ const ContactForm = () => {
       "min-h-screen",
       theme === "dark" ? "bg-black-900" : "bg-black-50"
     )}>
+
+    {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Contact Us | Business and Data Solutions - Get in Touch</title>
+        <meta 
+          name="description" 
+          content="Contact Business and Data Solutions for expert consultation on data services, cloud solutions, business intelligence, and digital transformation. Let's discuss your project." 
+        />
+        <meta 
+          name="keywords" 
+          content="contact BDS, business solutions contact, data services consultation, cloud solutions inquiry, digital transformation experts, get in touch" 
+        />
+        <link rel="canonical" href="https://businessanddatasolutions.com/contact" />
+        <meta property="og:title" content="Contact Us | Business and Data Solutions - Get in Touch" />
+        <meta 
+          property="og:description" 
+          content="Contact us for expert consultation on data services, cloud solutions, business intelligence, and digital transformation." 
+        />
+        <meta property="og:url" content="https://businessanddatasolutions.com/contact" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://yourcompany.com/og-image-contact.png" />
+      </Helmet>
+
+
+
       {/* Success/Error Dialog */}
       {showDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -560,7 +585,7 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Email Us</h3>
             <p className="mb-4">For general inquiries</p>
             <a href="mailto:contact@yourcompany.com" className="text-blue-500 hover:underline">
-            Info@businessanddatasolutions.com
+              Info@businessanddatasolutions.com
             </a>
           </motion.div>
           
@@ -577,7 +602,7 @@ const ContactForm = () => {
             <h3 className="text-xl font-semibold mb-2">Call Us</h3>
             <p className="mb-4">Mon-Fri, 9am-5pm EST</p>
             <a href="tel:+1234567890" className="text-blue-500 hover:underline">
-              +44 08008611147  
+              +44 (800)861-1147
             </a>
           </motion.div>
           
