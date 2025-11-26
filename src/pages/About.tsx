@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { 
   Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check, 
   Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon,CogIcon,HandshakeIcon,
@@ -199,6 +200,28 @@ function About() {
       "container mx-auto min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black",
       theme === "dark" ? "bg-gray-900" : "bg-white"
     )}>
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>About Business and Data Solutions | About BDS | Our Story & Mission</title>
+        <meta 
+          name="description" 
+          content="Learn about Business and Data Solutions - our mission, values, growth journey, and commitment to delivering innovative business transformation services since 2022." 
+        />
+        <meta 
+          name="keywords" 
+          content="about BDS, business solutions company, our mission, company values, growth journey, business transformation, data services, digital innovation" 
+        />
+        <link rel="canonical" href="https://www.businessanddatasolutions.com/about" />
+        <meta property="og:title" content="About Business and Data Solutions | Our Story & Mission" />
+        <meta 
+          property="og:description" 
+          content="Learn about Business and Data Solutions - our mission, values, and commitment to delivering innovative business transformation services." 
+        />
+        <meta property="og:url" content="https://www.businessanddatasolutions.com/about" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
+      </Helmet>
+
       {/* Hero Section - Updated for Startup */}
       <section className="relative py-10 lg:pt-24 overflow-hidden">
         {/* Optimized Background Video */}
@@ -393,6 +416,8 @@ function About() {
           </div>
         </div>
       </section>
+
+
 
       {/* Mission & Vision - Updated for Startup */}
       <section className="">
@@ -625,7 +650,6 @@ function About() {
         </div>
       </section>
 
-      {/* Rest of your existing components remain the same */}
       {/* Roadmap Timeline Section */}
       <section className="mb-2">
         <div className="mb-20">
