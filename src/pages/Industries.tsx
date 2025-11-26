@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search, Filter, X } from 'lucide-react';
-
+import { Helmet } from 'react-helmet-async';
 import { allIndustries } from '../data/industriesData';
 import { Input } from "@/components/ui/input";
 import {
@@ -215,6 +215,29 @@ export default function Industries() {
 
   return (
     <div className="min-h-screen py-5 md:py-10">
+
+    {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Industries We Serve | Business and Data Solutions</title>
+        <meta 
+          name="description" 
+          content="We provide tailored business and data solutions for industries including Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more." 
+        />
+        <meta 
+          name="keywords" 
+          content="industry solutions, technology sector, finance industry, healthcare solutions, retail business, manufacturing data, education technology, industry expertise" 
+        />
+        <link rel="canonical" href="https://businessanddatasolutions.com/industries" />
+        <meta property="og:title" content="Industries We Serve | Business and Data Solutions" />
+        <meta 
+          property="og:description" 
+          content="Tailored business and data solutions for Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more industries." 
+        />
+        <meta property="og:url" content="https://businessanddatasolutions.com/industries" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://yourcompany.com/og-image-industries.png" />
+      </Helmet>
+
       <div className="container mx-auto px-4 py-8 md:py-16 bg-white shadow-lg rounded-xl dark:bg-black dark:text-gray-100 min-h-screen">
         {/* Header Section */}
         <motion.div 
