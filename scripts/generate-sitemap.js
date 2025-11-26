@@ -9,9 +9,9 @@ const SITE_URL = 'https://www.businessanddatasolutions.com';
 const DIST_DIR = path.join(__dirname, '../dist');
 const PUBLIC_DIR = path.join(__dirname, '../public');
 
-// All your website routes
+
 const routes = [
-  // Main pages - HIGH PRIORITY
+  
   { url: '/', priority: 1.0, changefreq: 'weekly', lastmod: '2024-12-01' },
   { url: '/about', priority: 0.9, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/services', priority: 0.9, changefreq: 'weekly', lastmod: '2024-12-01' },
@@ -19,7 +19,6 @@ const routes = [
   { url: '/contact', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/consultation', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Service pages
   { url: '/service-detail/core-data-cloud', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/bi-digital-transformation', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/business-consulting', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
@@ -28,7 +27,6 @@ const routes = [
   { url: '/service-detail/employee-workforce-solutions', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/training-development', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Industry pages
   { url: '/industries/it-cloud', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/finance', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/healthcare', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
@@ -43,21 +41,17 @@ const routes = [
   { url: '/industries/marketing', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/startups', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Additional pages
   { url: '/teamandcareerspage', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/blog', priority: 0.8, changefreq: 'weekly', lastmod: '2024-12-01' },
   { url: '/care', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Legal pages
   { url: '/terms', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
   { url: '/privacy', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
   { url: '/cookies', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
-  
-  // Utility pages
+
   { url: '/bdscanvas', priority: 0.4, changefreq: 'monthly', lastmod: '2024-12-01' },
 ];
 
-// Function to generate sitemap XML with proper encoding
 function generateSitemap() {
   const today = new Date().toISOString().split('T')[0];
   
@@ -75,12 +69,10 @@ function generateSitemap() {
   return sitemap;
 }
 
-// Main function
 async function main() {
   try {
     console.log('🚀 Generating sitemap...');
     
-    // Ensure directories exist
     if (!fs.existsSync(PUBLIC_DIR)) {
       fs.mkdirSync(PUBLIC_DIR, { recursive: true });
     }
@@ -89,15 +81,12 @@ async function main() {
       fs.mkdirSync(DIST_DIR, { recursive: true });
     }
 
-    // Generate sitemap
     const sitemap = generateSitemap();
 
-    // Write to public and dist folders
     fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap.xml'), sitemap);
     fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemap);
     console.log('✅ Sitemap generated successfully!');
 
-    // Generate simple robots.txt
     const robotsTxt = `User-agent: *
 Allow: /
 
