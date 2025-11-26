@@ -2,26 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// ES Modules equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Your website configuration
 const SITE_URL = 'https://www.businessanddatasolutions.com';
-const BUILD_DIR = path.join(__dirname, '../build');
 const DIST_DIR = path.join(__dirname, '../dist');
 const PUBLIC_DIR = path.join(__dirname, '../public');
-
-// Check which build directory exists
-function getBuildDirectory() {
-  if (fs.existsSync(BUILD_DIR)) {
-    return BUILD_DIR;
-  } else if (fs.existsSync(DIST_DIR)) {
-    return DIST_DIR;
-  } else {
-    return BUILD_DIR;
-  }
-}
 
 // All your website routes
 const routes = [
@@ -33,7 +19,7 @@ const routes = [
   { url: '/contact', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/consultation', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Service Overview & Details
+  // Service pages
   { url: '/service-detail/core-data-cloud', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/bi-digital-transformation', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/business-consulting', priority: 0.8, changefreq: 'monthly', lastmod: '2024-12-01' },
@@ -42,7 +28,7 @@ const routes = [
   { url: '/service-detail/employee-workforce-solutions', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/service-detail/training-development', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Industry Pages
+  // Industry pages
   { url: '/industries/it-cloud', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/finance', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/healthcare', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
@@ -57,98 +43,90 @@ const routes = [
   { url: '/industries/marketing', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/industries/startups', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Additional Pages
+  // Additional pages
   { url: '/teamandcareerspage', priority: 0.7, changefreq: 'monthly', lastmod: '2024-12-01' },
   { url: '/blog', priority: 0.8, changefreq: 'weekly', lastmod: '2024-12-01' },
   { url: '/care', priority: 0.6, changefreq: 'monthly', lastmod: '2024-12-01' },
   
-  // Legal Pages
+  // Legal pages
   { url: '/terms', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
   { url: '/privacy', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
   { url: '/cookies', priority: 0.3, changefreq: 'yearly', lastmod: '2024-12-01' },
   
-  // Utility Pages
+  // Utility pages
   { url: '/bdscanvas', priority: 0.4, changefreq: 'monthly', lastmod: '2024-12-01' },
 ];
 
-// Function to generate sitemap XML
+// Function to generate sitemap XML with proper encoding
 function generateSitemap() {
   const today = new Date().toISOString().split('T')[0];
   
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
   ${routes.map(route => `
   <url>
     <loc>${SITE_URL}${route.url}</loc>
     <lastmod>${route.lastmod || today}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>
-  `).join('')}
+  </url>`).join('')}
 </urlset>`;
 
   return sitemap;
 }
 
-// Function to generate sitemap index
-function generateSitemapIndex() {
-  const today = new Date().toISOString().split('T')[0];
-  
-  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>${SITE_URL}/sitemap.xml</loc>
-    <lastmod>${today}</lastmod>
-  </sitemap>
-</sitemapindex>`;
-
-  return sitemapIndex;
-}
-
 // Main function
 async function main() {
   try {
-    const buildDir = getBuildDirectory();
-    console.log(`📁 Using build directory: ${buildDir}`);
+    console.log('🚀 Generating sitemap...');
     
     // Ensure directories exist
     if (!fs.existsSync(PUBLIC_DIR)) {
       fs.mkdirSync(PUBLIC_DIR, { recursive: true });
     }
     
-    if (!fs.existsSync(buildDir)) {
-      fs.mkdirSync(buildDir, { recursive: true });
+    if (!fs.existsSync(DIST_DIR)) {
+      fs.mkdirSync(DIST_DIR, { recursive: true });
     }
 
     // Generate sitemap
     const sitemap = generateSitemap();
-    const sitemapIndex = generateSitemapIndex();
 
-    // Write sitemap to public folder (for development)
+    // Write to public and dist folders
     fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap.xml'), sitemap);
-    console.log('✅ Sitemap generated in public folder');
+    fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemap);
+    console.log('✅ Sitemap generated successfully!');
 
-    // Write sitemap to build folder (for production)
-    fs.writeFileSync(path.join(buildDir, 'sitemap.xml'), sitemap);
-    console.log('✅ Sitemap generated in build folder');
+    // Generate simple robots.txt
+    const robotsTxt = `User-agent: *
+Allow: /
 
-    // Write sitemap index
-    fs.writeFileSync(path.join(PUBLIC_DIR, 'sitemap-index.xml'), sitemapIndex);
-    fs.writeFileSync(path.join(buildDir, 'sitemap-index.xml'), sitemapIndex);
-    console.log('✅ Sitemap index generated');
+Sitemap: ${SITE_URL}/sitemap.xml
 
-    console.log('\n🎉 Sitemap generation completed!');
-    console.log(`📊 Total URLs: ${routes.length}`);
-    console.log(`🌐 Sitemap URL: ${SITE_URL}/sitemap.xml`);
-    console.log(`🔗 Submit to Google: https://search.google.com/search-console`);
+# Block AI bots
+User-agent: ChatGPT-User
+Disallow: /
+User-agent: GPTBot
+Disallow: /`;
+
+    fs.writeFileSync(path.join(PUBLIC_DIR, 'robots.txt'), robotsTxt);
+    fs.writeFileSync(path.join(DIST_DIR, 'robots.txt'), robotsTxt);
+    console.log('✅ Robots.txt generated successfully!');
+
+    console.log('\n📊 Sitemap Statistics:');
+    console.log(`   • Total URLs: ${routes.length}`);
+    console.log(`   • Domain: ${SITE_URL}`);
+    console.log(`   • Sitemap URL: ${SITE_URL}/sitemap.xml`);
+    console.log(`   • Robots.txt: ${SITE_URL}/robots.txt`);
+    
+    console.log('\n🔧 Next Steps:');
+    console.log('   1. Push changes to GitHub');
+    console.log('   2. Wait for Vercel deployment');
+    console.log('   3. Test sitemap at: https://www.xml-sitemaps.com/validate-xml-sitemap.html');
+    console.log('   4. Submit to Google Search Console');
 
   } catch (error) {
-    console.error('❌ Error generating sitemap:', error);
+    console.error('❌ Error generating SEO files:', error);
     process.exit(1);
   }
 }
@@ -158,4 +136,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-export { generateSitemap, generateSitemapIndex };
+export { generateSitemap };
