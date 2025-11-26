@@ -44,7 +44,6 @@ Allow: /*.svg$
 
 # Sitemap location
 Sitemap: https://www.businessanddatasolutions.com/sitemap.xml
-Sitemap: https://www.businessanddatasolutions.com/sitemap-index.xml
 
 # Specific bot instructions
 User-agent: Googlebot
