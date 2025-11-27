@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { Helmet } from 'react-helmet-async';
 
 // Lazy load heavy components
-const CompactHero = lazy(() => import("@/components/home/CompactHero"));
 const Hero = lazy(() => import("@/components/home/Hero"));
 const Hero1 = lazy(() => import("@/components/about/Hero"));
 const Features = lazy(() => import("@/components/home/Features"));
