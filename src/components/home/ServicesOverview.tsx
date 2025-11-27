@@ -75,7 +75,7 @@ const SERVICES_DATA = [
     description: "Advanced AI automation services to streamline business processes"
   },
   {
-    id: "ai-machine-learning",
+    id: "aI-&-machine-Learning",
     icon: "BrainCog",
     title: "AI & Machine Learning",
     description: "Our Artificial Intelligence and Machine Learning services help organizations harness the power of advanced algorithms and data-driven insights."
