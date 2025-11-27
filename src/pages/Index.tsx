@@ -1,38 +1,70 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { Helmet } from 'react-helmet-async';
-import Hero from "@/components/home/Hero";
-import Hero1 from "@/components/about/Hero";
-import Features from "@/components/home/Features";
-import Statistics from "@/components/home/Statistics";
-import HowItWorks from "@/components/home/HowItWorks";
-import CallToAction from "@/components/home/CallToAction";
-import AnimatedBackground from "@/components/home/AnimatedBackground";
-import ServicesOverview from '@/components/home/ServicesOverview';
-import IndustrySection from '@/components/home/IndustrySection';
-import Why from '@/components/home/Why';
-import AnimatedTestimonialsDemo from '@/components/home/animated-testimonials-demo';
-import "../index.css";
+
+// Lazy load heavy components
+const Hero = lazy(() => import("@/components/home/Hero"));
+const Hero1 = lazy(() => import("@/components/about/Hero"));
+const Features = lazy(() => import("@/components/home/Features"));
+const Statistics = lazy(() => import("@/components/home/Statistics"));
+const HowItWorks = lazy(() => import("@/components/home/HowItWorks"));
+const CallToAction = lazy(() => import("@/components/home/CallToAction"));
+const AnimatedBackground = lazy(() => import("@/components/home/AnimatedBackground"));
+const ServicesOverview = lazy(() => import('@/components/home/ServicesOverview'));
+const IndustrySection = lazy(() => import('@/components/home/IndustrySection'));
+const Why = lazy(() => import('@/components/home/Why'));
+const AnimatedTestimonialsDemo = lazy(() => import('@/components/home/animated-testimonials-demo'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
+    <div className="animate-pulse text-lg">Loading...</div>
+  </div>
+);
 
 const Index = () => {
+  // Optimized scroll animation with throttling
+  const animateOnScroll = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    const windowHeight = window.innerHeight;
+    
+    elements.forEach(element => {
+      const position = element.getBoundingClientRect();
+      if (position.top < windowHeight * 0.85 && position.bottom >= 0) {
+        element.classList.add('animate-fade-in');
+      }
+    });
+  }, []);
+
   useEffect(() => {
-    const animateOnScroll = () => {
-      const elements = document.querySelectorAll('.animate-on-scroll');
-      elements.forEach(element => {
-        const position = element.getBoundingClientRect();
-        if(position.top < window.innerHeight && position.bottom >= 0) {
-          element.classList.add('animate-fade-in');
-        }
-      });
+    if (typeof window === 'undefined') return;
+
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          animateOnScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', animateOnScroll);
+
+    // Initial animation check
     animateOnScroll();
     
-    return () => window.removeEventListener('scroll', animateOnScroll);
-  }, []);
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+    };
+  }, [animateOnScroll]);
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
-      {/* SEO Meta Tags */}
+      {/* SEO Meta Tags - Preload critical resources */}
       <Helmet>
         <title>Business and Data Solutions | Complete Business Services Partner</title>
         <meta 
@@ -59,28 +91,32 @@ const Index = () => {
           content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, and more." 
         />
         <meta name="twitter:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
+        
+        {/* Preload critical resources */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </Helmet>
 
       {/* Full-page glass overlay */}
-      <div className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"></div>
+      <div 
+        className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"
+        aria-hidden="true"
+      />
       
-      <AnimatedBackground />
-      
-      <main className="relative">
-        <Hero />
-        <Statistics />
-        <ServicesOverview />
-        <IndustrySection />
-       {/* <Features />*/}
-        <Why />
-        <Hero1/>
-        <HowItWorks />
-         {/* Full-page glass overlay 
-         <AnimatedTestimonialsDemo /> */}
-        <CallToAction />
-      </main>
+      <Suspense fallback={<LoadingFallback />}>
+        <main className="relative">
+          <Hero />
+          <Statistics />
+          <ServicesOverview />
+          <IndustrySection />
+          <Why />
+          <Hero1 />
+          <HowItWorks />
+          <CallToAction />
+        </main>
+      </Suspense>
     </div>
   );
 };
 
-export default Index;
+export default React.memo(Index);
