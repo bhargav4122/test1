@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { Helmet } from 'react-helmet-async';
 
 // Lazy load heavy components
+const CompactHero = lazy(() => import("@/components/home/CompactHero"));
 const Hero = lazy(() => import("@/components/home/Hero"));
 const Hero1 = lazy(() => import("@/components/about/Hero"));
 const Features = lazy(() => import("@/components/home/Features"));
@@ -13,6 +14,9 @@ const ServicesOverview = lazy(() => import('@/components/home/ServicesOverview')
 const IndustrySection = lazy(() => import('@/components/home/IndustrySection'));
 const Why = lazy(() => import('@/components/home/Why'));
 const AnimatedTestimonialsDemo = lazy(() => import('@/components/home/animated-testimonials-demo'));
+const WhatWeDoSection = lazy(() => import('@/components/home/WhatWeDoSection'));
+
+
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -105,13 +109,16 @@ const Index = () => {
       
       <Suspense fallback={<LoadingFallback />}>
         <main className="relative">
-          <Hero />
+           <WhatWeDoSection />
+         
           <Statistics />
+         
           <ServicesOverview />
           <IndustrySection />
-          <Why />
-          <Hero1 />
-          <HowItWorks />
+           {/*<Hero />*/}
+           <Why />
+          {/*<Hero1 />
+          <HowItWorks />*/}
           <CallToAction />
         </main>
       </Suspense>
