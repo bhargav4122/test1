@@ -43,25 +43,8 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Comprehensive data management and cloud solutions for modern enterprises.',
     icon: Cloud,
     stage: 'active',
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058193/cloud1_flgxbn.jpg",
-    subService: [
-   "Data Storage & Management",
-      "Cloud Infrastructure",
-      "Data Protection",
-      "Backup & Disaster Recovery",
-      "Data Capturing",
-      "Data Integration",
-      "Data Migration",
-      "Data Cleansing",
-      "Data Transformation",
-      "Cloud & Database Maintenance",
-      "ETL/ELT Pipeline Building"
-    ],
-     stats: [
-      { value: '99.9%', label: 'Accuracy' },
-      { value: '50TB+', label: 'Processed' },
-      { value: '24/7', label: 'Support' }
-    ]
+    image:"/photos/cloud1.jpg",
+    
   },
   
   {
@@ -70,24 +53,9 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Transforming raw data into actionable intelligence, BI dashboards, apps, and digital strategies.',
     icon: BarChart3,
     stage: 'active',
-    subService: [
-      "BI Dashboards & Visualizations",
-      "Custom KPI Building",
-      "Self-Service Reporting",
-      "Embedded Analytics",
-      "Real-Time Data Insights",
-      "KPI Monitoring Tools",
-      "Data Storytelling & Presentation",
-      "Data Blending & Modeling",
-      "Ad-hoc Analysis & Exploration",
-      "BI Tool Implementation (Power BI, Tableau, etc.)"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png",
-      stats: [
-      { value: '45%', label: 'Faster Decisions' },
-      { value: '2x', label: 'ROI' },
-      { value: '100+', label: 'Dashboards Built' }
-    ]
+  
+    image:"/photos/bi1.jpg",
+     
   },
 
 {
@@ -96,26 +64,9 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Reimagine your business in the digital age with our transformation services and custom software solutions.',
     icon: Code,
     stage: 'active',
-    subService: [
-    // Software & Apps
-    "Web/Mobile App Development",
-    "Legacy System Modernization",
-    "Cloud-Native Architecture",
-    "API Integration",
-    // Process Optimization
-    "Workflow Automation",
-    "CRM/ERP Implementation",
-    "Digital Process Re-engineering",
-    // Strategy
-    "Digital Roadmap Planning",
-    "Change Management Consulting"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/digital5_sq9kim.jpg",
-    stats: [
-      { value: '60%', label: 'Cost Reduction' },
-      { value: '3x', label: 'Faster Deployment' },
-      { value: '200+', label: 'Projects Completed' }
-    ]
+    
+    image:"/photos/digital5.jpg",
+    
   },
 
    {
@@ -124,24 +75,9 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Strategic business advice and planning',
     icon: Building2,
     stage: 'active',
-    subService: [
-      "Strategic Business Planning",
-      "Operational Efficiency Optimization",
-      "Financial & Revenue Modeling",
-      "Risk Assessment & Mitigation",
-      "Business Scaling Support",
-      "Business Model Innovation",
-      "Cost Optimization Strategies",
-      "Digital Strategy Alignment",
-      "Performance Benchmarking",
-      "Process Re-engineering"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
-    stats: [
-      { value: '30%', label: 'Efficiency Gain' },
-      { value: '50+', label: 'Clients Served' },
-      { value: '$10M+', label: 'Cost Savings' }
-    ]
+   
+    image:"/photos/business1.jpg",
+    
   },
   {
     title: 'Market Research and Trends',
@@ -149,24 +85,9 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Informed decisions through competitor analysis and market insights.',
     icon: Search,
     stage: 'active',
-    subService: [
-      "Competitor Analysis",
-      "Industry Trends & Forecasting",
-      "Consumer Behaviour Insights",
-      "Brand Perception Tracking",
-      "Pricing Strategy Research",
-      "Product-Market Fit Studies",
-      "Custom Surveys & Focus Groups",
-      "Voice of Customer (VoC) Reports",
-      "Demographic & Psychographic Analysis",
-      "Emerging Tech & Innovation Trends"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058237/ai2_xzyvd1.jpg",
-    stats: [
-      { value: '95%', label: 'Accuracy' },
-      { value: '500+', label: 'Studies Conducted' },
-      { value: '20+', label: 'Industries Covered' }
-    ]
+    
+    image:"/photos/ai2.jpg",
+   
   },
    
   {
@@ -175,24 +96,9 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Customer feedback and sentiment analysis to understand and improve customer experience',
     icon: MessageSquare,
     stage: 'active',
-    subService: [
-      "Feedback Collection Systems",
-      "AI-Based Sentiment Analysis",
-      "Social Listening & Brand Tracking",
-      "Customer Review Mining",
-      "Open-Text Feedback Analytics",
-      "Omnichannel Survey Deployment",
-      "Experience Score Mapping",
-      "Complaint Resolution Analytics",
-      "Loyalty & Advocacy Insights",
-      "Multilingual Sentiment Detection"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business3_ptwbct.jpg",
-    stats: [
-      { value: '10M+', label: 'Reviews Analyzed' },
-      { value: '92%', label: 'Sentiment Accuracy' },
-      { value: '15', label: 'Languages Supported' }
-    ]
+    
+    image:"/photos/business3.jpg",
+    
     
   },
   {
@@ -202,24 +108,9 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Users,
     stage: 'active',
     pilotDetails: 'Piloting with 2 retail organizations',
-    subService: [
-      "Workforce Analytics & Forecasting",
-      "Resource Planning & Scheduling",
-      "Performance Dashboards",
-      "Attrition & Retention Insights",
-      "Engagement Monitoring",
-      "Skill Mapping & Internal Mobility",
-      "Roster Optimization Tools",
-      "WFM System Integration (IEX, NICE, etc.)",
-      "Real-time Occupancy & Productivity Monitoring",
-      "Employee Sentiment & Feedback Loop"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058291/stock_vyj7lb.jpg",
-    stats: [
-      { value: '25%', label: 'Productivity Gain' },
-      { value: '30%', label: 'Retention Improvement' },
-      { value: '50+', label: 'Workforces Analyzed' }
-    ]
+    
+    image:"/photos/stock.jpg",
+    
   },
 
  // Pilot Services (developed and in testing with clients)
@@ -230,50 +121,19 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Intelligent solutions for business problems',
     icon: BrainCircuit,
     stage: 'pilot',
-     subService: [
-      "Predictive Analytics & Forecasting",
-      "Robotic Process Automation (RPA)",
-      "AI Chatbots & Virtual Assistants",
-      "NLP & Text Mining",
-      "Machine Learning Models",
-      "Image & Video Recognition (CV)",
-      "Intelligent Document Processing (IDP)",
-      "Automated Decision Making",
-      "Custom ML Pipelines",
-      "Business Process Automation"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/help_uubtjx.jpg",
-    stats: [
-      { value: '85%', label: 'Process Accuracy' },
-      { value: '3x', label: 'Faster Processing' },
-      { value: '100+', label: 'Use Cases' }
-    ]
+    
+    image:"/photos/help.jpg",
+   
   },
 {
     title: 'DevOps & Cloud Automation',
-    path: '/service-detail/devops-&-cloud-automation',
+    path: '/service-detail/devops',
     description: 'Seamless CI/CD pipelines and infrastructure automation for tech agility.',
     icon: Lock,
     stage: 'pilot',
-     subService: [
-      "CI/CD Pipeline Implementation",
-      "Infrastructure as Code (Terraform, Ansible)",
-      "Kubernetes & Container Management",
-      "Cloud Resource Automation",
-      "GitOps & Version Control",
-      "Auto Scaling & Monitoring",
-      "Cloud Environment Provisioning",
-      "Cloud-native Deployment Pipelines",
-      "Logging & Alerting Automation",
-      "DevSecOps Best Practices"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/dev1_pda1jf.jpg",
-    stats: [
-      { value: '90%', label: 'Deployment Speed' },
-      { value: '99.99%', label: 'Uptime' },
-      { value: '50%', label: 'Ops Cost Reduction' }
-    ]
-  
+    
+    image:"/photos/dev1.jpg",
+    
   },
 
  // Under Development (In development, not yet released)
@@ -286,7 +146,7 @@ export const servicesDropdown: DropdownItem[] = [
     stage: 'development',
     developmentPhase: 'Prototype phase',
     estimatedLaunch: 'Q4 2025',
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058629/ai3_mvzwgu.jpg"
+     image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058629/ai3_mvzwgu.jpg"
   },
    // Upcoming Services (Planned future offerings)
   
@@ -298,24 +158,9 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Lock,
     stage: 'upcoming',
     releaseDate: 'Q2 2026',
-    subService: [
-      "Network & Endpoint Security",
-      "Identity & Access Management (IAM)",
-      "Data Encryption & Protection",
-      "Cloud Security & DevSecOps",
-      "Threat Detection & Prevention",
-      "Penetration Testing & Vulnerability Scans",
-      "Compliance Management (ISO, GDPR, HIPAA)",
-      "Security Awareness Training",
-      "Incident Detection & Response (IDR)",
-      "Zero Trust Architecture"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/cyber3_nq6sfk.jpg",
-    stats: [
-      { value: '100%', label: 'Compliance' },
-      { value: '0', label: 'Breaches' },
-      { value: '24/7', label: 'Monitoring' }
-    ]
+    
+    image:"/photos/cyber3.jpg",
+   
   },
    
   {
@@ -325,7 +170,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Zap,
     stage: 'upcoming',
     releaseDate: 'Q3 2026',
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753059296/iot_emcuvk.jpg"
+     image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753059296/iot_emcuvk.jpg"
   },
   {
     title: 'Bookkeeping and Taxation',
@@ -334,24 +179,9 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Calculator,
     stage: 'upcoming',
     releaseDate: 'Q4 2026',
-    subService: [
-      "Daily Bookkeeping",
-      "Monthly & Year-End Reporting",
-      "Tax Return Preparation & Filing",
-      "VAT/GST Reporting",
-      "Payroll Processing",
-      "Financial Statements",
-      "Cash Flow Management",
-      "HMRC Compliance (UK)",
-      "Expense Tracking & Categorization",
-      "Self-Assessment Assistance"
-    ],
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/business2_tjqeqr.jpg",
-    stats: [
-      { value: '99%', label: 'Accuracy' },
-      { value: '30%', label: 'Time Saved' },
-      { value: '100+', label: 'Clients Served' }
-    ]
+    
+    image:"/photos/business2.jpg",
+   
   }
 ];
 
@@ -662,7 +492,7 @@ export const serviceIndustriesDetailed = {
     ]
   },
 
-  'aI-&-machine-learning': {
+  'ai-ml': {
     current: [
       {
         name: 'Healthcare',
