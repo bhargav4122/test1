@@ -56,7 +56,7 @@ function generateSitemap() {
   const today = new Date().toISOString().split('T')[0];
   
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemap.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 ${routes.map(route =>`<url>
     <loc>${SITE_URL}${route.url}</loc>
     <lastmod>${route.lastmod || today}</lastmod>
