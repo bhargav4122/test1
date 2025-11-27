@@ -46,8 +46,10 @@ import EmailTestPage from './pages/EmailTest';
 import Care from "@/pages/Care.tsx";
 import BookingConfirmation from './pages/BookingConfirmation';
 
-const queryClient = new QueryClient();
+import WhatsAppButton from "@/components/WhatsAppButton";
 
+
+const queryClient = new QueryClient();
 const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   const [hasError, setHasError] = useState(false);
 
@@ -100,6 +102,7 @@ const AppContent = () => {
               <Toaster />
               <Sonner />
               <ChatBot />
+              <WhatsAppButton/>
               <Navbar />
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Index />} />
