@@ -116,7 +116,7 @@ const FeatureCard = memo(({ feature, index }: FeatureCardProps) => {
     <motion.div
       variants={itemVariants}
       className="group p-4 rounded-xl bg-white/70 dark:bg-black/70 backdrop-blur-sm  border-white/20 hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
-      whileHover={{ scale: 1.02, y: -2 }}
+      whileHover={{ scale: 1.02, y: -5 }}
     >
       <div className="flex items-start space-x-4">
        
@@ -254,7 +254,7 @@ function Why() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden pt-5">
       {/* Background Elements */}
       <div className="absolute inset-0 -z-10">
         {/* Background Video */}
