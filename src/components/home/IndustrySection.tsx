@@ -214,7 +214,7 @@ function IndustrySection() {
   ), [inView, handleIndustryClick]);
 
   return (
-    <section className="py-12"> {/* Reduced padding */}
+    <section className=""> {/* Reduced padding */}
       {/* Simplified background elements with reduced blur */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-violet-500/3 blur-[60px]" />
