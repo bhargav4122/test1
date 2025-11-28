@@ -255,28 +255,7 @@ function Why() {
 
   return (
     <section className="relative overflow-hidden pt-5">
-      {/* Background Elements */}
-      <div className="absolute inset-0 -z-10">
-        {/* Background Video */}
-        <video
-          className="absolute top-0 left-0 w-full h-full object-cover opacity-10"
-          style={{
-            filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
-            transform: 'translateZ(0)'
-          }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/videos/Google Gemini.mp4" type="video/mp4" />
-        </video>
-
-        {/* Background gradients */}
-        <div className="absolute top-0 left-0 h-full w-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/15 via-transparent to-transparent opacity-70" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/8 blur-[60px] -z-10" />
-      </div>
+    
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header Section */}
