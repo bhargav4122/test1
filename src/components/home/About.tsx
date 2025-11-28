@@ -126,7 +126,9 @@ function About() {
                     theme === "dark" ? "text-gray-300" : "text-gray-700"
                   )}>
                     <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
-                    is a forward-thinking business transformation and technology solutions company. We bring together expertise in data, digital technologies, and strategic consulting to help organizations unlock growth, efficiency, and competitive advantage. Our team is dedicated to simplifying complexity and delivering solutions that make businesses more resilient, agile, and future-ready.
+                    is a modern transformation and technology partner helping organizations grow smarter and compete stronger.
+                     We combine data, cloud, AI, automation, digital marketing, and strategic consulting to solve real business challenges and drive measurable results.
+                      Our mission is simple turn complexity into clarity and empower businesses with future-ready solutions that deliver long-term success.
                      </p>
                 </div>
               </div>
