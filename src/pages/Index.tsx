@@ -2,8 +2,6 @@ import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { Helmet } from 'react-helmet-async';
 
 // Lazy load heavy components
-const Hero = lazy(() => import("@/components/home/Hero"));
-const Hero1 = lazy(() => import("@/components/about/Hero"));
 const Features = lazy(() => import("@/components/home/Features"));
 const Statistics = lazy(() => import("@/components/home/Statistics"));
 const HowItWorks = lazy(() => import("@/components/home/HowItWorks"));
@@ -14,8 +12,31 @@ const IndustrySection = lazy(() => import('@/components/home/IndustrySection'));
 const Why = lazy(() => import('@/components/home/Why'));
 const AnimatedTestimonialsDemo = lazy(() => import('@/components/home/animated-testimonials-demo'));
 const WhatWeDoSection = lazy(() => import('@/components/home/WhatWeDoSection'));
+const About = lazy(() => import('@/components/home/About'));
 
+// Custom hook for media queries
+const useMediaQuery = (query: string): boolean => {
+  const [matches, setMatches] = React.useState(false);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+
+    const listener = () => setMatches(media.matches);
+    media.addEventListener('change', listener);
+
+    return () => media.removeEventListener('change', listener);
+  }, [matches, query]);
+
+  return matches;
+};
+
+const useIsMobile = () => useMediaQuery('(max-width: 768px)');
+const useIsDesktop = () => useMediaQuery('(min-width: 769px)');
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -25,6 +46,9 @@ const LoadingFallback = () => (
 );
 
 const Index = () => {
+  const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
+
   // Optimized scroll animation with throttling
   const animateOnScroll = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -108,16 +132,20 @@ const Index = () => {
       
       <Suspense fallback={<LoadingFallback />}>
         <main className="relative">
-           <WhatWeDoSection />
-         
+          <WhatWeDoSection />
           <Statistics />
-         
-          <ServicesOverview />
-          <IndustrySection />
-           {/*<Hero />*/}
-           <Why />
-          {/*<Hero1 />
-          <HowItWorks />*/}
+          <About />
+          <Why />
+          
+          {/* Show these sections only on desktop */}
+          {isDesktop && (
+            <>
+              <ServicesOverview />
+              <IndustrySection />
+              <HowItWorks />
+            </>
+          )}
+          
           <CallToAction />
         </main>
       </Suspense>
