@@ -134,12 +134,13 @@ const Index = () => {
         <main className="relative">
           <WhatWeDoSection />
           <Statistics />
-          <About />
+          
           <Why />
           
           {/* Show these sections only on desktop */}
           {isDesktop && (
             <>
+            <About />
               <ServicesOverview />
               <IndustrySection />
               <HowItWorks />
