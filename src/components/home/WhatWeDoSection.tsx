@@ -5,7 +5,7 @@ import React, { memo, useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle } from "lucide-react";
+import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart,BrainCog } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,9 @@ const MemoizedIcons = {
   Cpu: memo(Cpu),
   ArrowRight: memo(ArrowRight),
   Calendar: memo(Calendar),
-  CheckCircle: memo(CheckCircle)
+  CheckCircle: memo(CheckCircle),
+  LineChart:memo(LineChart),
+  BrainCog:memo(BrainCog)
 };
 
 // Constants outside component to prevent recreation
@@ -114,35 +116,38 @@ function WhatWeDoSection() {
   const storyVid = isMobile ? STORY_VIDEO_SOURCES.mobile : STORY_VIDEO_SOURCES.desktop;
 
   const FEATURES = [
-    {
-      icon: "Cpu",
-      title: "Automation & AI",
-      text: "Streamline workflows & reduce manual work."
-    },
+   
     {
       icon: "Cloud",
-      title: "Cloud & Infrastructure",
+      title: "Data & Cloud Services",
       text: "Deploy scalable, secure cloud solutions."
     },
     {
+      icon: "Briefcase",
+      title: "Business Consulting",
+      text: "A single partner from strategy to execution."
+    },
+    {
       icon: "BarChart3",
-      title: "BI & Analytics",
+      title: "Business Intelligence",
       text: "Turn data into smart business decisions."
     },
     {
       icon: "Megaphone",
-      title: "Digital Marketing",
+      title: "Digital Transformation & Marketing",
       text: "Grow visibility & acquire more customers."
     },
     {
       icon: "Users",
-      title: "Consumer Insights",
+      title: "Consumer Voice Insights",
       text: "Understand what your customers really want."
     },
-    {
-      icon: "Briefcase",
-      title: "Business Strategy",
-      text: "A single partner from strategy to execution."
+    
+    
+     {
+      icon: "LineChart",
+      title: "Market Research & Analytics",
+      text: "In-depth competitor studies, consumer behavior insights, and trend forecasting to help position your brand ahead of the curve."
     }
   ];
 
