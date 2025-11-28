@@ -13,7 +13,7 @@ import { ConsultationButton } from "@/components/consultation/ConsultationButton
 import { TeamsButton } from "@/components/Careers/teambutton";
 
 const stats = [
-  { number: '15+', label: 'Projects Completed', icon: Target },
+  { number: '10+', label: 'Projects Completed', icon: Target },
   { number: '05+', label: 'Industries Served', icon: Globe },
   { number: '10+', label: 'Team Members', icon: Users },
   { number: '100%', label: 'Client Focused', icon: Heart },
@@ -305,9 +305,9 @@ function About() {
                     theme === "dark" ? "text-gray-300" : "text-gray-700"
                   )}>
                     <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
-                    is a modern business transformation and technology solutions company helping organizations grow smarter, faster, and stronger.
-                    We provide end-to-end services across data, cloud, AI, automation, digital marketing, consumer insights, strategy, and business consulting delivering measurable results that fuel long-term success.
-                  </p>
+                    is a forward-thinking business transformation and technology solutions company. We bring together expertise in data, digital technologies, and strategic consulting to help organizations unlock growth, efficiency, and competitive advantage.
+                     Our team is dedicated to simplifying complexity and delivering solutions that make businesses more resilient, agile, and future-ready.
+                     </p>
                 </div>
               </div>
             </div>
@@ -359,9 +359,8 @@ function About() {
                       "text-base text-left",
                       theme === "dark" ? "text-gray-300" : "text-gray-700"
                     )}>
-                      We help companies evolve with clarity, confidence, and modern digital capabilities.
-                      At Business & Data Solutions, we combine data intelligence, advanced technology, and human insight to solve real business challenges and build long-term growth.
-                    </p>
+                      We provide end-to-end solutions that enable smarter decisions, optimized operations, and seamless digital experiences. Our offerings span data analytics, AI and automation, cloud solutions, digital marketing, consumer insights, market research, strategy, and business consulting.
+                       Whether you need to modernize systems, enhance customer engagement, or scale your operations, we deliver solutions built for impact and long-term value.</p>
                   </div>
 
                   {/* Right Card */}
@@ -407,8 +406,8 @@ function About() {
                       "text-base text-left",
                       theme === "dark" ? "text-gray-300" : "text-gray-700"
                     )}>
-                      Business & Data Solutions delivers end-to-end solutions across data, cloud, automation, AI, digital marketing, and business intelligence — enabling organizations to operate smarter, scale faster, and achieve measurable impact.
-                    </p>
+                     We are innovators, problem-solvers, and transformation partners. At our core, we believe in combining technology with human insight to create meaningful change. Our identity is shaped by agility, collaboration, transparency, and a strong commitment to measurable results. We don’t just implement solutions — we help businesses evolve with confidence.
+                     </p>
                   </div>
                 </div>
               </section>
@@ -448,8 +447,8 @@ function About() {
               "leading-relaxed text-justify",
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             )}>
-              To simplify, accelerate, and elevate the digital evolution of every business we serve.
-              We empower organizations with clarity, modern technology, and actionable insights to drive sustainable growth.
+              Our mission is to empower organizations to grow sustainably through intelligent technology, data-driven strategies, and future-proof digital solutions.
+               We aim to simplify the digital journey for every business by delivering measurable value, operational excellence, and solutions that create lasting impact.
             </p>
           </div>
           
@@ -478,8 +477,8 @@ function About() {
               "leading-relaxed text-justify",
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             )}>
-              To create a world where every business regardless of size can leverage intelligent technology, powerful insights,
-              and digital innovation to unlock opportunity, resilience, and long-term success.
+              Our vision is to become a global leader in business transformation—helping organizations of all sizes harness the power of technology and data.
+               We aspire to create a world where every business, regardless of industry or scale, can innovate confidently, adapt quickly, and thrive in a fast-changing digital landscape.
             </p>
           </div>
         </div>
