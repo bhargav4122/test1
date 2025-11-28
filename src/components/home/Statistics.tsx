@@ -15,9 +15,9 @@ const MemoizedIcons = {
 const STATISTICS_DATA = [
   {
     icon: "Users",
-    value: 100,
+    value: 10,
     label: "Active Clients",
-    suffix: "10+",
+    suffix: "+",
     duration: 1500 // Reduced duration
   },
   {
