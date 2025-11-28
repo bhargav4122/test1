@@ -43,7 +43,7 @@ export const servicesDropdown: DropdownItem[] = [
     description: 'Comprehensive data management and cloud solutions for modern enterprises.',
     icon: Cloud,
     stage: 'active',
-    image:"/photos/cloud1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058193/cloud1_flgxbn.jpg",
     
   },
   
@@ -54,7 +54,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: BarChart3,
     stage: 'active',
   
-    image:"/photos/bi1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png",
      
   },
 
@@ -65,7 +65,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Code,
     stage: 'active',
     
-    image:"/photos/digital5.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/digital5_sq9kim.jpg",
     
   },
 
@@ -76,7 +76,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Building2,
     stage: 'active',
    
-    image:"/photos/business1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
     
   },
   {
@@ -86,7 +86,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Search,
     stage: 'active',
     
-    image:"/photos/ai2.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058237/ai2_xzyvd1.jpg",
    
   },
    
@@ -97,7 +97,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: MessageSquare,
     stage: 'active',
     
-    image:"/photos/business3.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business3_ptwbct.jpg",
     
     
   },
@@ -109,7 +109,7 @@ export const servicesDropdown: DropdownItem[] = [
     stage: 'active',
     pilotDetails: 'Piloting with 2 retail organizations',
     
-    image:"/photos/stock.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058291/stock_vyj7lb.jpg",
     
   },
 
@@ -122,7 +122,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: BrainCircuit,
     stage: 'pilot',
     
-    image:"/photos/help.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/help_uubtjx.jpg",
    
   },
 {
@@ -132,7 +132,7 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Lock,
     stage: 'pilot',
     
-    image:"/photos/dev1.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/dev1_pda1jf.jpg",
     
   },
 
@@ -159,7 +159,7 @@ export const servicesDropdown: DropdownItem[] = [
     stage: 'upcoming',
     releaseDate: 'Q2 2026',
     
-    image:"/photos/cyber3.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/cyber3_nq6sfk.jpg",
    
   },
    
@@ -180,7 +180,7 @@ export const servicesDropdown: DropdownItem[] = [
     stage: 'upcoming',
     releaseDate: 'Q4 2026',
     
-    image:"/photos/business2.jpg",
+    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/business2_tjqeqr.jpg",
    
   }
 ];
