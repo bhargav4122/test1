@@ -16,13 +16,13 @@ const STATISTICS_DATA = [
   {
     icon: "Users",
     value: 100,
-    label: "Active Users",
-    suffix: "+",
+    label: "Active Clients",
+    suffix: "10+",
     duration: 1500 // Reduced duration
   },
   {
     icon: "Layers",
-    value: 20,
+    value: 5,
     label: "Terabytes Processed",
     suffix: "TB",
     duration: 1800
@@ -36,7 +36,7 @@ const STATISTICS_DATA = [
   },
   {
     icon: "TrendingUp",
-    value: 40,
+    value: 35,
     label: "Performance Increase",
     suffix: "%",
     duration: 1900
