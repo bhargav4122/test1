@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { 
-  Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check, 
-  Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon,CogIcon,HandshakeIcon,
-  TrendingUp, MapPin, Compass, ArrowRight, Rocket, Heart, Sparkles 
+import {
+  Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check,
+  Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon, CogIcon, HandshakeIcon,
+  TrendingUp, MapPin, Compass, ArrowRight, Rocket, Heart, Sparkles, ChevronLeft, ChevronRight as RightIcon,
+  ScrollText
 } from 'lucide-react';
 import HolographicCard from '../components/HolographicCard';
 import { useTheme } from "@/providers/ThemeProvider";
@@ -136,13 +137,243 @@ const timeline = [
   },
 ];
 
+// Scrollable Text Component
+const ScrollableText = ({
+  children,
+  className = '',
+  maxHeight = '200px',
+  showScrollHint = true
+}: {
+  children: React.ReactNode;
+  className?: string;
+  maxHeight?: string;
+  showScrollHint?: boolean;
+}) => {
+  const [showHint, setShowHint] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHint(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative">
+      <div
+        className={cn(
+          "overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent",
+          "hover:scrollbar-thumb-blue-400 transition-colors",
+          className
+        )}
+        style={{ maxHeight }}
+        onScroll={() => setShowHint(false)}
+      >
+        {children}
+      </div>
+      {showScrollHint && showScrollHint && (
+        <div className="absolute bottom-2 right-2 flex items-center space-x-1 animate-pulse">
+          <ScrollText className="h-3 w-3 text-blue-500" />
+          <span className="text-xs text-blue-500">Scroll</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Horizontal Scrollable Cards Component
+const HorizontalScrollable = ({
+  children,
+  className = '',
+  showScrollHint = true
+}: {
+  children: React.ReactNode;
+  className?: string;
+  showScrollHint?: boolean;
+}) => {
+  const [showHint, setShowHint] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHint(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative">
+      <div
+        className={cn(
+          "flex overflow-x-auto space-x-4 pb-4 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent",
+          "hover:scrollbar-thumb-blue-400 transition-colors",
+          className
+        )}
+        onScroll={() => setShowHint(false)}
+      >
+        {children}
+      </div>
+      {showScrollHint && showScrollHint && (
+        <div className="absolute top-2 right-2 flex items-center space-x-1 animate-pulse">
+          <ScrollText className="h-3 w-3 text-blue-500 rotate-90" />
+          <span className="text-xs text-blue-500">Scroll</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Mobile Timeline Component
+const MobileTimeline = ({ timeline, theme }: { timeline: any[], theme: string }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % timeline.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + timeline.length) % timeline.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const currentEvent = timeline[currentIndex];
+  const Icon = currentEvent.icon;
+
+  return (
+    <div className="md:hidden">
+      <div className="relative">
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className={cn(
+            "absolute left-2 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full",
+            theme === "dark"
+              ? "bg-gray-800 text-white hover:bg-gray-700"
+              : "bg-white text-gray-800 hover:bg-gray-100 shadow-lg"
+          )}
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+
+        <button
+          onClick={nextSlide}
+          className={cn(
+            "absolute right-2 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full",
+            theme === "dark"
+              ? "bg-gray-800 text-white hover:bg-gray-700"
+              : "bg-white text-gray-800 hover:bg-gray-100 shadow-lg"
+          )}
+        >
+          <RightIcon className="h-5 w-5" />
+        </button>
+
+        {/* Timeline Card */}
+        <div className={cn(
+          "p-6 rounded-xl border transition-all duration-300",
+          theme === "dark"
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200 shadow-sm"
+        )}>
+          {currentEvent.badge && (
+            <span className={cn(
+              "inline-block text-xs font-semibold px-2 py-1 rounded-full mb-3",
+              currentEvent.badge === "NOW"
+                ? "bg-green-600 text-white animate-pulse"
+                : currentEvent.badge === "PLANNED"
+                  ? "bg-blue-500 text-white"
+                  : "bg-yellow-500 text-white"
+            )}>
+              {currentEvent.badge}
+            </span>
+          )}
+
+          <div className="flex items-center mb-3">
+            <Icon className={cn(
+              "h-5 w-5 mr-2",
+              theme === "dark" ? "text-blue-400" : "text-blue-600"
+            )} />
+            <span className={cn(
+              "text-lg font-semibold",
+              theme === "dark" ? "text-blue-400" : "text-blue-600"
+            )}>
+              {currentEvent.year}
+            </span>
+          </div>
+
+          <h3 className={cn(
+            "text-xl font-bold mb-2",
+            theme === "dark" ? "text-white" : "text-gray-800"
+          )}>
+            {currentEvent.title}
+          </h3>
+
+          <ScrollableText
+            maxHeight="120px"
+            showScrollHint={false}
+          >
+            <p className={cn(
+              "text-sm leading-relaxed pr-2",
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            )}>
+              {currentEvent.description}
+            </p>
+          </ScrollableText>
+        </div>
+
+        {/* Dots Indicator */}
+        <div className="flex justify-center mt-4 space-x-2">
+          {timeline.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={cn(
+                "w-2 h-2 rounded-full transition-all",
+                index === currentIndex
+                  ? theme === "dark" ? "bg-blue-400" : "bg-blue-600"
+                  : theme === "dark" ? "bg-gray-600" : "bg-gray-300"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const videoSources = {
+  desktop: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+  },
+  mobile: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+  },
+  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+};
+
+const storyVideoSources = {
+  desktop: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
+  },
+  mobile: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
+  },
+  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
+};
+
 function About() {
   const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    // Detect mobile devices
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -155,31 +386,6 @@ function About() {
     };
   }, []);
 
-  // Cloudinary video URLs with optimizations
-  const videoSources = {
-    desktop: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
-    },
-    mobile: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
-    },
-    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
-  };
-
-  // Story video sources (16MB video optimization)
-  const storyVideoSources = {
-    desktop: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
-    },
-    mobile: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
-    },
-    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
-  };
 
   const ThemedCard = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
     return theme === 'dark' ? (
@@ -197,40 +403,40 @@ function About() {
 
   return (
     <div className={cn(
-      "container mx-auto min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black",
+      "container mx-auto min-h-screen flex flex-col overflow-x-hidden",
       theme === "dark" ? "bg-gray-900" : "bg-white"
     )}>
       {/* SEO Meta Tags */}
       <Helmet>
         <title>About Business and Data Solutions | About BDS | Our Story & Mission</title>
-        <meta 
-          name="description" 
-          content="Learn about Business and Data Solutions - our mission, values, growth journey, and commitment to delivering innovative business transformation services since 2022." 
+        <meta
+          name="description"
+          content="Learn about Business and Data Solutions - our mission, values, growth journey, and commitment to delivering innovative business transformation services since 2022."
         />
-        <meta 
-          name="keywords" 
-          content="about BDS, business solutions company, our mission, company values, growth journey, business transformation, data services, digital innovation" 
+        <meta
+          name="keywords"
+          content="about BDS, business solutions company, our mission, company values, growth journey, business transformation, data services, digital innovation"
         />
         <link rel="canonical" href="https://www.businessanddatasolutions.com/about" />
         <meta property="og:title" content="About Business and Data Solutions | Our Story & Mission" />
-        <meta 
-          property="og:description" 
-          content="Learn about Business and Data Solutions - our mission, values, and commitment to delivering innovative business transformation services." 
+        <meta
+          property="og:description"
+          content="Learn about Business and Data Solutions - our mission, values, and commitment to delivering innovative business transformation services."
         />
         <meta property="og:url" content="https://www.businessanddatasolutions.com/about" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
       </Helmet>
 
-      {/* Hero Section - Updated for Startup */}
-      <section className="relative py-10 lg:pt-24 overflow-hidden">
+      {/* Hero Section - Mobile Optimized */}
+      <section className="relative py-8 lg:pt-24 overflow-hidden">
         {/* Optimized Background Video */}
         <video
-          className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${
-            videoLoaded ? 'opacity-20' : 'opacity-0'
-          }`}
+          className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${videoLoaded ? 'opacity-20' : 'opacity-0'
+            }`}
           style={{
-            filter: 'brightness(1.1) contrast(1.1) saturate(1.2)',
+            // Remove expensive filters on mobile
+            filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.2)',
             transform: 'translateZ(0)'
           }}
           autoPlay
@@ -242,7 +448,6 @@ function About() {
           onLoadedData={() => setVideoLoaded(true)}
           onError={() => console.log('Video failed to load')}
         >
-          {/* Mobile-optimized sources */}
           {isMobile ? (
             <>
               <source src={videoSources.mobile.webm} type="video/webm" />
@@ -254,16 +459,15 @@ function About() {
               <source src={videoSources.desktop.mp4} type="video/mp4" />
             </>
           )}
-          {/* Fallback to original MP4 */}
           <source src={videoSources.fallback} type="video/mp4" />
         </video>
-      
+
         {/* Background Gradient - Full Width */}
         <div className="absolute inset-0 -z-10">
           <div className={cn(
             "absolute inset-0 opacity-20",
-            theme === "dark" 
-              ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30" 
+            theme === "dark"
+              ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30"
               : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
           )}></div>
           <div className={cn(
@@ -275,7 +479,7 @@ function About() {
         {/* Full Width Container */}
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center py-5 mb-6">
+            <div className="text-center py-4 mb-6">
               <span className={cn(
                 "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
                 theme === "dark"
@@ -287,7 +491,7 @@ function About() {
 
               <div className="text-center mb-8">
                 <h1 className={cn(
-                  "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight",
+                  "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-4",
                   theme === "dark" ? "text-white" : "text-gray-900"
                 )}>
                   <span className={cn(
@@ -300,39 +504,44 @@ function About() {
                   </span>
                 </h1>
                 <div className="text-center pt-5">
-                  <p className={cn(
-                    "text-lg md:text-xl leading-relaxed max-w-4xl mx-auto",
-                    theme === "dark" ? "text-gray-300" : "text-gray-700"
-                  )}>
-                    <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>, 
-                    is a forward-thinking business transformation and technology solutions company. We bring together expertise in data, digital technologies, and strategic consulting to help organizations unlock growth, efficiency, and competitive advantage.
-                     Our team is dedicated to simplifying complexity and delivering solutions that make businesses more resilient, agile, and future-ready.
-                     </p>
+                  <ScrollableText
+                    maxHeight="150px"
+                    className="max-w-4xl mx-auto"
+                  >
+                    <p className={cn(
+                      "text-base md:text-lg lg:text-xl leading-relaxed px-2",
+                      theme === "dark" ? "text-gray-300" : "text-gray-700"
+                    )}>
+                      <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>,
+                      is a forward-thinking business transformation and technology solutions company. We bring together expertise in data, digital technologies, and strategic consulting to help organizations unlock growth, efficiency, and competitive advantage.
+                      Our team is dedicated to simplifying complexity and delivering solutions that make businesses more resilient, agile, and future-ready.
+                    </p>
+                  </ScrollableText>
                 </div>
               </div>
             </div>
 
-            {/* Main Content Block - Reduced Text Size */}
-            <div className="space-y-8">
-              <section className="pt">
-                <div className="grid md:grid-cols-2 gap-6">
+            {/* Main Content Block - Mobile Optimized */}
+            <div className="space-y-6 md:space-y-8">
+              <section>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   {/* Left Card */}
                   <div className={cn(
-                    "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-                    theme === "dark" 
-                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                    "w-full rounded-lg border p-4 md:p-6 group transition-all",
+                    theme === "dark"
+                      ? "bg-black border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
                   )}>
-                    <div className="flex items-start gap-4 mb-6">
+                    <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
                       <div className={cn(
-                        "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+                        "h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
                         theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
                       )}>
-                        <ChartBarIcon className="h-6 w-6" />
+                        <ChartBarIcon className="h-5 w-5 md:h-6 md:w-6" />
                       </div>
                       <div>
                         <span className={cn(
-                          "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+                          "inline-block px-2 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
                           theme === "dark"
                             ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
                             : "bg-blue-100 text-blue-700 border border-blue-200"
@@ -340,7 +549,7 @@ function About() {
                           What We Do
                         </span>
                         <p className={cn(
-                          "text-lg font-semibold text-left",
+                          "text-lg md:text-lg font-semibold text-left",
                           theme === "dark" ? "text-gray-200" : "text-gray-800"
                         )}>
                           <span className={cn(
@@ -354,32 +563,35 @@ function About() {
                         </p>
                       </div>
                     </div>
-                    
-                    <p className={cn(
-                      "text-base text-left",
-                      theme === "dark" ? "text-gray-300" : "text-gray-700"
-                    )}>
-                      We provide end-to-end solutions that enable smarter decisions, optimized operations, and seamless digital experiences. Our offerings span data analytics, AI and automation, cloud solutions, digital marketing, consumer insights, market research, strategy, and business consulting.
-                       Whether you need to modernize systems, enhance customer engagement, or scale your operations, we deliver solutions built for impact and long-term value.</p>
+
+                    <ScrollableText maxHeight="200px">
+                      <p className={cn(
+                        "text-sm md:text-base text-left leading-relaxed pr-2",
+                        theme === "dark" ? "text-gray-300" : "text-gray-700"
+                      )}>
+                        We provide end-to-end solutions that enable smarter decisions, optimized operations, and seamless digital experiences. Our offerings span data analytics, AI and automation, cloud solutions, digital marketing, consumer insights, market research, strategy, and business consulting.
+                        Whether you need to modernize systems, enhance customer engagement, or scale your operations, we deliver solutions built for impact and long-term value.
+                      </p>
+                    </ScrollableText>
                   </div>
 
                   {/* Right Card */}
                   <div className={cn(
-                    "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-                    theme === "dark" 
-                      ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                      : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                    "w-full rounded-lg border p-4 md:p-6 group transition-all",
+                    theme === "dark"
+                      ? "bg-black border-gray-600 text-white"
+                      : "bg-white border-gray-300 text-gray-900"
                   )}>
-                    <div className="flex items-start gap-4 mb-6">
+                    <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
                       <div className={cn(
-                        "h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
+                        "h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
                         theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
                       )}>
-                        <HandshakeIcon className="h-6 w-6" />
+                        <HandshakeIcon className="h-5 w-5 md:h-6 md:w-6" />
                       </div>
                       <div>
                         <span className={cn(
-                          "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
+                          "inline-block px-2 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
                           theme === "dark"
                             ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
                             : "bg-blue-100 text-blue-700 border border-blue-200"
@@ -387,7 +599,7 @@ function About() {
                           Our Identity
                         </span>
                         <p className={cn(
-                          "text-lg font-semibold text-left",
+                          "text-lg md:text-lg font-semibold text-left",
                           theme === "dark" ? "text-gray-200" : "text-gray-800"
                         )}>
                           <span className={cn(
@@ -401,13 +613,15 @@ function About() {
                         </p>
                       </div>
                     </div>
-                    
-                    <p className={cn(
-                      "text-base text-left",
-                      theme === "dark" ? "text-gray-300" : "text-gray-700"
-                    )}>
-                     We are innovators, problem-solvers, and transformation partners. At our core, we believe in combining technology with human insight to create meaningful change. Our identity is shaped by agility, collaboration, transparency, and a strong commitment to measurable results. We don’t just implement solutions — we help businesses evolve with confidence.
-                     </p>
+
+                    <ScrollableText maxHeight="200px">
+                      <p className={cn(
+                        "text-sm md:text-base text-left leading-relaxed pr-2",
+                        theme === "dark" ? "text-gray-300" : "text-gray-700"
+                      )}>
+                        We are innovators, problem-solvers, and transformation partners. At our core, we believe in combining technology with human insight to create meaningful change. Our identity is shaped by agility, collaboration, transparency, and a strong commitment to measurable results. We don't just implement solutions — we help businesses evolve with confidence.
+                      </p>
+                    </ScrollableText>
                   </div>
                 </div>
               </section>
@@ -416,99 +630,101 @@ function About() {
         </div>
       </section>
 
+      {/* Mission & Vision - Mobile Optimized */}
+      <section className="mb-12 md:mb-20 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
-
-      {/* Mission & Vision - Updated for Startup */}
-      <section className="">
-        <div className="grid md:grid-cols-2 gap-6">
-          
           {/* Mission */}
           <div className={cn(
-            "rounded-2xl p-8 border h-full",
-            theme === "dark" 
-              ? "bg-blue-900/20 border-blue-800/30" 
+            "rounded-xl md:rounded-2xl p-6 md:p-8 border h-full",
+            theme === "dark"
+              ? "bg-blue-900/20 border-blue-800/30"
               : "bg-blue-50 border-blue-200"
           )}>
             <div className="flex items-center mb-4">
               <div className={cn(
-                "p-3 rounded-xl mr-4",
+                "p-2 md:p-3 rounded-lg md:rounded-xl mr-3 md:mr-4",
                 theme === "dark" ? "bg-blue-900/30" : "bg-blue-100"
               )}>
-                <Rocket className="w-6 h-6 text-blue-500" />
+                <Rocket className="w-5 h-5 md:w-6 md:h-6 text-blue-500" />
               </div>
               <h3 className={cn(
-                "text-2xl font-bold",
+                "text-xl md:text-2xl font-bold",
                 theme === "dark" ? "text-white" : "text-gray-900"
               )}>
                 Our Mission
               </h3>
             </div>
-            <p className={cn(
-              "leading-relaxed text-justify",
-              theme === "dark" ? "text-gray-300" : "text-gray-700"
-            )}>
-              Our mission is to empower organizations to grow sustainably through intelligent technology, data-driven strategies, and future-proof digital solutions.
-               We aim to simplify the digital journey for every business by delivering measurable value, operational excellence, and solutions that create lasting impact.
-            </p>
+            <ScrollableText maxHeight="120px">
+              <p className={cn(
+                "text-sm md:text-base leading-relaxed text-justify pr-2",
+                theme === "dark" ? "text-gray-300" : "text-gray-700"
+              )}>
+                Our mission is to empower organizations to grow sustainably through intelligent technology, data-driven strategies, and future-proof digital solutions.
+                We aim to simplify the digital journey for every business by delivering measurable value, operational excellence, and solutions that create lasting impact.
+              </p>
+            </ScrollableText>
           </div>
-          
+
           {/* Vision */}
           <div className={cn(
-            "rounded-2xl p-8 border h-full",
-            theme === "dark" 
-              ? "bg-purple-900/20 border-purple-800/30" 
+            "rounded-xl md:rounded-2xl p-6 md:p-8 border h-full",
+            theme === "dark"
+              ? "bg-purple-900/20 border-purple-800/30"
               : "bg-purple-50 border-purple-200"
           )}>
             <div className="flex items-center mb-4">
               <div className={cn(
-                "p-3 rounded-xl mr-4",
+                "p-2 md:p-3 rounded-lg md:rounded-xl mr-3 md:mr-4",
                 theme === "dark" ? "bg-purple-900/30" : "bg-purple-100"
               )}>
-                <Eye className="w-6 h-6 text-purple-500" />
+                <Eye className="w-5 h-5 md:w-6 md:h-6 text-purple-500" />
               </div>
               <h3 className={cn(
-                "text-2xl font-bold",
+                "text-xl md:text-2xl font-bold",
                 theme === "dark" ? "text-white" : "text-gray-900"
               )}>
                 Our Vision
               </h3>
             </div>
-            <p className={cn(
-              "leading-relaxed text-justify",
-              theme === "dark" ? "text-gray-300" : "text-gray-700"
-            )}>
-              Our vision is to become a global leader in business transformation—helping organizations of all sizes harness the power of technology and data.
-               We aspire to create a world where every business, regardless of industry or scale, can innovate confidently, adapt quickly, and thrive in a fast-changing digital landscape.
-            </p>
+            <ScrollableText maxHeight="120px">
+              <p className={cn(
+                "text-sm md:text-base leading-relaxed text-justify pr-2",
+                theme === "dark" ? "text-gray-300" : "text-gray-700"
+              )}>
+                Our vision is to become a global leader in business transformation—helping organizations of all sizes harness the power of technology and data.
+                We aspire to create a world where every business, regardless of industry or scale, can innovate confidently, adapt quickly, and thrive in a fast-changing digital landscape.
+              </p>
+            </ScrollableText>
           </div>
         </div>
       </section>
 
-      {/* Stats Section - Updated for Startup */}
-      <section className="mb-5 pt-5">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {/* Stats Section - Mobile Optimized */}
+      <section className="mb-12 md:mb-20 px-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-6">
           {stats.map((stat, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={cn(
-                "p-6 text-center group hover:scale-[1.02] transition-transform rounded-lg border focus:ring-2 focus:outline-none",
-                theme === "dark" 
-                  ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                  : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                "p-4 md:p-6 text-center rounded-lg border",
+                theme === "dark"
+                  ? "bg-black border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
               )}
             >
               <div className={cn(
-                "h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center",
+                "h-12 w-12 md:h-16 md:w-16 mx-auto mb-3 md:mb-4 rounded-full flex items-center justify-center",
                 theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
               )}>
-                <stat.icon className="h-8 w-8" />
+                <stat.icon className="h-6 w-6 md:h-8 md:w-8" />
               </div>
               <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
+                "text-2xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2",
                 theme === "dark" ? "gradient-text" : "text-gray-800"
               )}>{stat.number}</div>
               <div className={cn(
-                "text-sm md:text-base",
+                "text-xs md:text-sm lg:text-base",
                 theme === "dark" ? "text-gray-300" : "text-gray-600"
               )}>{stat.label}</div>
             </div>
@@ -516,56 +732,55 @@ function About() {
         </div>
       </section>
 
-      {/* Director's Message - Updated for Startup */}
-      <section className="mb-20 dark:bg-black dark:text-gray-100">
+      {/* Director's Message - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4 dark:bg-black dark:text-gray-100">
         <div className="overflow-hidden dark:bg-black dark:text-gray-100">
-          <div className="md:flex">
-            <div className="md:w-1/3 p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
+          <div className="flex flex-col md:flex-row">
+            <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
               <div className="text-center group">
-                {/* Circular image container with fixed size and hover effect */}
-                <div className="w-40 h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
-                  {/* User image with proper sizing and zoom effect */}
-                  <img 
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
+                  <img
                     src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
                     alt="Allu - Director & Co-Founder"
                     className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                   />
                 </div>
-                <h3 className="text-xl font-bold mb-1">Bhargav Allu</h3>
-                <p className="-100">Director & Co-Founder</p>
+                <h3 className="text-lg md:text-xl font-bold mb-1">Bhargav Allu</h3>
+                <p className="text-sm md:text-base text-gray-500">Director & Co-Founder</p>
               </div>
             </div>
-            <div className="md:w-2/3 p-8">
+            <div className="w-full md:w-2/3 p-6 md:p-8">
               <h2 className={cn(
-                "text-2xl md:text-3xl font-bold mb-6",
+                "text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6",
                 theme === "dark" ? "text-white" : "text-gray-800"
               )}>A Message from Our Director</h2>
-              <blockquote className={cn(
-                "text-lg italic mb-6 pl-4 border-l-4",
-                theme === "dark" ? "border-blue-400 text-gray-300" : "border-blue-600 text-gray-600"
-              )}>
-                “At Business & Data Solutions, we believe in partnerships built on trust, innovation, and real outcomes.
-                We're builders and innovators at heart, bringing a fresh, energetic approach to every challenge.
-                We know every business is unique, and our job is to bring the right mix of strategy, technology, and insight to drive your measurable transformation.”
-              </blockquote>
+              <ScrollableText maxHeight="200px">
+                <blockquote className={cn(
+                  "text-base md:text-lg italic mb-4 md:mb-6 pl-3 md:pl-4 border-l-4 pr-2",
+                  theme === "dark" ? "border-blue-400 text-gray-300" : "border-blue-600 text-gray-600"
+                )}>
+                  "At Business & Data Solutions, we believe in partnerships built on trust, innovation, and real outcomes.
+                  We're builders and innovators at heart, bringing a fresh, energetic approach to every challenge.
+                  We know every business is unique, and our job is to bring the right mix of strategy, technology, and insight to drive your measurable transformation."
+                </blockquote>
+              </ScrollableText>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Story Section - Updated for Startup */}
-      <section className="mb-20">
-        <div className="flex flex-col md:flex-row gap-8 items-center">
-          <div className="md:w-1/2">
+      {/* Story Section - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+          <div className="w-full md:w-1/2">
             <ThemedCard className="overflow-hidden">
               <div className={cn(
-                "w-full rounded-lg border focus:ring-2 focus:outline-none transition-all p-6 group hover:scale-[1.02] cursor-pointer",
-                theme === "dark" 
-                  ? "bg-black border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500" 
-                  : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+                "w-full rounded-lg border p-4 md:p-6",
+                theme === "dark"
+                  ? "bg-black border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-900"
               )}>
                 <div className="relative aspect-video">
-                  {/* Optimized Story Video */}
                   <video
                     className="w-full h-full object-cover rounded-lg"
                     controls
@@ -575,10 +790,7 @@ function About() {
                     playsInline
                     preload="metadata"
                     poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1763800003/Final1_fusbec.jpg"
-                    onContextMenu={(e) => e.preventDefault()}
-                    controlsList='nodownload noremoteplayback'
                   >
-                    {/* Mobile-optimized sources */}
                     {isMobile ? (
                       <>
                         <source src={storyVideoSources.mobile.webm} type="video/webm" />
@@ -590,39 +802,34 @@ function About() {
                         <source src={storyVideoSources.desktop.mp4} type="video/mp4" />
                       </>
                     )}
-                    {/* Fallback to original MP4 */}
                     <source src={storyVideoSources.fallback} type="video/mp4" />
-                    Your browser does not support the video tag.
                   </video>
                 </div>
               </div>
             </ThemedCard>
           </div>
 
-          <div className="md:w-1/2 relative rounded-2xl overflow-hidden">
-            {/* Background Image */}
+          <div className="w-full md:w-1/2 relative rounded-xl md:rounded-2xl overflow-hidden">
             <div className="absolute inset-0">
               <img
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
                 alt="Our Startup Journey"
                 className="w-full h-full object-cover"
               />
-              {/* Overlay for better text readability */}
               <div className={cn(
                 "absolute inset-0",
                 theme === "dark" ? "bg-black/60" : "bg-white/80"
               )} />
             </div>
 
-            {/* Content */}
-            <div className="relative z-10 p-8">
+            <div className="relative z-10 p-6 md:p-8">
               <h2 className={cn(
-                "text-2xl md:text-3xl font-bold mb-6",
+                "text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6",
                 theme === "dark" ? "text-white" : "text-gray-800"
               )}>Our Startup Journey</h2>
 
               <span className={cn(
-                "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
+                "inline-block px-3 py-1 text-xs font-semibold rounded-full tracking-wide mb-4 md:mb-6",
                 theme === "dark"
                   ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
                   : "bg-blue-100 text-blue-700 border border-blue-200"
@@ -630,36 +837,42 @@ function About() {
                 Built to Solve the Challenges Modern Businesses Face
               </span>
 
-              <p className={cn(
-                "text-lg leading-relaxed",
-                theme === "dark" ? "text-gray-200" : "text-gray-700"
-              )}>
-                <br/>
-                We began in 2022 with a simple belief: every business deserves clarity, not complexity.
-                We saw that companies were struggling with scattered systems, traditional processes, and fast-changing digital demands.
-                Business & Data Solutions was founded to bridge that gap.
-                Our vision is to make advanced business technology accessible to companies of all sizes.
-                From a passionate idea, we've grown into a dynamic startup dedicated to helping our clients gain clarity, adopt modern tools,
-                and transform their operations with confidence.
-                We're proud to work with forward-thinking businesses who value a true partnership.
-                Every project is an opportunity to learn, grow, and deliver the exceptional value your company deserves.
-              </p>
+              <ScrollableText maxHeight="250px">
+                <p className={cn(
+                  "text-sm md:text-base lg:text-lg leading-relaxed pr-2",
+                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                )}>
+                  <br />
+                  We began in 2022 with a simple belief: every business deserves clarity, not complexity.
+                  We saw that companies were struggling with scattered systems, traditional processes, and fast-changing digital demands.
+                  Business & Data Solutions was founded to bridge that gap.
+                  Our vision is to make advanced business technology accessible to companies of all sizes.
+                  From a passionate idea, we've grown into a dynamic startup dedicated to helping our clients gain clarity, adopt modern tools,
+                  and transform their operations with confidence.
+                  We're proud to work with forward-thinking businesses who value a true partnership.
+                  Every project is an opportunity to learn, grow, and deliver the exceptional value your company deserves.
+                </p>
+              </ScrollableText>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Roadmap Timeline Section */}
-      <section className="mb-2">
-        <div className="mb-20">
+      {/* Roadmap Timeline Section - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4">
+        <div className="mb-12 md:mb-20">
           <h2 className={cn(
-            "text-2xl md:text-3xl font-bold text-center mb-12",
+            "text-xl md:text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12",
             theme === "dark" ? "gradient-text" : "text-primary"
           )}>
             Our Growth Journey
           </h2>
 
-          <div className="relative">
+          {/* Mobile Timeline */}
+          <MobileTimeline timeline={timeline} theme={theme} />
+
+          {/* Desktop Timeline (Hidden on mobile) */}
+          <div className="hidden md:block relative">
             <div className={cn(
               "absolute left-1/2 transform -translate-x-1/2 h-full w-px",
               theme === "dark" ? "bg-blue-400/30" : "bg-primary/30"
@@ -671,7 +884,7 @@ function About() {
                 const Icon = event.icon;
 
                 return (
-                  <div 
+                  <div
                     key={index}
                     className={`relative flex ${isLeft ? "justify-start" : "justify-end"}`}
                   >
@@ -681,8 +894,8 @@ function About() {
                           {event.badge && (
                             <span className={cn(
                               "absolute -top-3 -right-3 text-xs font-semibold px-2 py-1 rounded-full z-10",
-                              event.badge === "NOW" 
-                                ? "bg-green-600 text-white animate-pulse" 
+                              event.badge === "NOW"
+                                ? "bg-green-600 text-white animate-pulse"
                                 : "bg-yellow-500 text-white"
                             )}>
                               {event.badge}
@@ -706,11 +919,14 @@ function About() {
                           )}>
                             {event.title}
                           </h3>
-                          <p className={cn(
-                            theme === "dark" ? "text-gray-300" : "text-gray-600"
-                          )}>
-                            {event.description}
-                          </p>
+                          <ScrollableText maxHeight="100px" showScrollHint={false}>
+                            <p className={cn(
+                              "pr-2",
+                              theme === "dark" ? "text-gray-300" : "text-gray-600"
+                            )}>
+                              {event.description}
+                            </p>
+                          </ScrollableText>
                         </HolographicCard>
                       ) : (
                         <div className={cn(
@@ -720,8 +936,8 @@ function About() {
                           {event.badge && (
                             <span className={cn(
                               "absolute -top-3 -right-3 text-xs font-semibold px-2 py-1 rounded-full",
-                              event.badge === "NOW" 
-                                ? "bg-green-600 text-white" 
+                              event.badge === "NOW"
+                                ? "bg-green-600 text-white"
                                 : "bg-yellow-500 text-white"
                             )}>
                               {event.badge}
@@ -736,9 +952,11 @@ function About() {
                           <h3 className="text-xl font-bold mb-2 text-gray-800">
                             {event.title}
                           </h3>
-                          <p className="text-gray-600">
-                            {event.description}
-                          </p>
+                          <ScrollableText maxHeight="100px" showScrollHint={false}>
+                            <p className="text-gray-600 pr-2">
+                              {event.description}
+                            </p>
+                          </ScrollableText>
                         </div>
                       )}
                     </div>
@@ -755,35 +973,65 @@ function About() {
         </div>
       </section>
 
-      {/* Values Section - Updated for Startup */}
-      <section className="mb-20">
-        <div className="text-center mb-12">
+      {/* Values Section - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4">
+        <div className="text-center mb-8 md:mb-12">
           <h2 className={cn(
-            "text-2xl md:text-3xl font-bold mb-4",
+            "text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4",
             theme === "dark" ? "text-white" : "text-gray-800"
           )}>Our Startup Values</h2>
           <p className={cn(
-            "max-w-2xl mx-auto",
+            "text-sm md:text-base max-w-2xl mx-auto",
             theme === "dark" ? "text-gray-300" : "text-gray-600"
           )}>
             These principles guide our approach and define how we work with every partner.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Horizontal scroll on mobile, grid on desktop */}
+        <div className="md:hidden">
+          <HorizontalScrollable>
+            {values.map((value, index) => (
+              <div key={index} className="min-w-[280px] flex-shrink-0">
+                <ThemedCard className="p-4 md:p-6 group transition-transform h-full">
+                  <div className={cn(
+                    "h-10 w-10 md:h-12 md:w-12 rounded-lg mb-3 flex items-center justify-center",
+                    theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+                  )}>
+                    <value.icon className="h-5 w-5 md:h-6 md:w-6" />
+                  </div>
+                  <h3 className={cn(
+                    "text-lg md:text-xl font-bold mb-2",
+                    theme === "dark" ? "text-white" : "text-gray-800"
+                  )}>{value.title}</h3>
+                  <ScrollableText maxHeight="120px" showScrollHint={false}>
+                    <p className={cn(
+                      "text-sm md:text-base",
+                      theme === "dark" ? "text-gray-300" : "text-gray-600"
+                    )}>{value.description}</p>
+                  </ScrollableText>
+                </ThemedCard>
+              </div>
+            ))}
+          </HorizontalScrollable>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {values.map((value, index) => (
-            <ThemedCard key={index} className="p-6 group hover:-translate-y-2 transition-transform">
+            <ThemedCard key={index} className="p-4 md:p-6 group transition-transform">
               <div className={cn(
-                "h-12 w-12 rounded-lg mb-4 flex items-center justify-center",
+                "h-10 w-10 md:h-12 md:w-12 rounded-lg mb-3 md:mb-4 flex items-center justify-center",
                 theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
               )}>
-                <value.icon className="h-6 w-6" />
+                <value.icon className="h-5 w-5 md:h-6 md:w-6" />
               </div>
               <h3 className={cn(
-                "text-xl font-bold mb-3",
+                "text-lg md:text-xl font-bold mb-2 md:mb-3",
                 theme === "dark" ? "text-white" : "text-gray-800"
               )}>{value.title}</h3>
               <p className={cn(
+                "text-sm md:text-base",
                 theme === "dark" ? "text-gray-300" : "text-gray-600"
               )}>{value.description}</p>
             </ThemedCard>
@@ -791,101 +1039,105 @@ function About() {
         </div>
       </section>
 
-      {/* Why Choose Us - Updated for Startup */}
-      <section className="mb-20">
-        <div className="p-8 md:p-1">
+      {/* Why Choose Us - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4">
+        <div className="p-4 md:p-8">
           <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
               <div className={cn(
-                "h-16 w-16 rounded-xl flex items-center justify-center flex-shrink-0",
+                "h-12 w-12 md:h-16 md:w-16 rounded-lg flex items-center justify-center flex-shrink-0",
                 theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
               )}>
-                <Sparkles className="h-8 w-8" />
+                <Sparkles className="h-6 w-6 md:h-8 md:w-8" />
               </div>
-              <div>
+              <div className="flex-1">
                 <h2 className={cn(
-                  "text-2xl md:text-3xl font-bold mb-6",
+                  "text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6",
                   theme === "dark" ? "text-white" : "text-gray-800"
-                )}>Why  BDS?</h2>
-                <div className="grid gap-4">
-                  {[
-                    "Innovation First — AI, automation, cloud, next-gen technologies.",
-                    "Enterprise Security — End-to-end protection for data and systems.",
-                    "Rapid Results — Fast implementation and real-time impact.",
-                    "A Single Tech Partner — Everything you need under one trusted partner.",
-                    "Dedicated client success teams and 24/7 support."
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start">
-                      <div className={cn(
-                        "h-5 w-5 rounded-full flex-shrink-0 mt-1 flex items-center justify-center",
-                        theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-                      )}>
-                        <Check className="h-3 w-3" />
+                )}>Why BDS?</h2>
+                <ScrollableText maxHeight="250px">
+                  <div className="grid gap-3 md:gap-4 pr-2">
+                    {[
+                      "Innovation First — AI, automation, cloud, next-gen technologies.",
+                      "Enterprise Security — End-to-end protection for data and systems.",
+                      "Rapid Results — Fast implementation and real-time impact.",
+                      "A Single Tech Partner — Everything you need under one trusted partner.",
+                      "Dedicated client success teams and 24/7 support."
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className={cn(
+                          "h-4 w-4 md:h-5 md:w-5 rounded-full flex-shrink-0 mt-1 flex items-center justify-center",
+                          theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
+                        )}>
+                          <Check className="h-2 w-2 md:h-3 md:w-3" />
+                        </div>
+                        <span className={cn(
+                          "ml-2 md:ml-3 text-sm md:text-base",
+                          theme === "dark" ? "text-gray-300" : "text-gray-600"
+                        )}>{item}</span>
                       </div>
-                      <span className={cn(
-                        "ml-3",
-                        theme === "dark" ? "text-gray-300" : "text-gray-600"
-                      )}>{item}</span>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollableText>
               </div>
             </div>
           </div>
         </div>
       </section>
-             
 
-      {/* CTA Section - Updated for Startup */}
-      <section className="mb-20">
+
+      {/* CTA Section - Mobile Optimized */}
+      <section className="mb-16 md:mb-20 px-4">
         <div className={cn(
-          "rounded-2xl p-8 md:p-12 overflow-hidden relative",
-          theme === "dark" 
-            ? "bg-gradient-to-br from-blue-900/80 via-purple-800/80 to-indigo-900/80" 
+          "rounded-xl md:rounded-2xl p-6 md:p-12 overflow-hidden relative",
+          theme === "dark"
+            ? "bg-gradient-to-br from-blue-900/80 via-purple-800/80 to-indigo-900/80"
             : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
         )}>
           <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
           <div className="relative z-10 max-w-4xl mx-auto text-center">
             <h2 className={cn(
-              "text-2xl md:text-3xl font-bold mb-6",
+              "text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6",
               theme === "dark" ? "text-white" : "text-gray-800"
             )}>
               Ready to Build Something Amazing Together?
             </h2>
-            <p className={cn(
-              "text-lg mb-8 max-w-3xl mx-auto",
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              Join us on our journey. Whether you're looking for innovative solutions or want to help shape the future with us.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <ConsultationButton 
+            <ScrollableText maxHeight="100px" showScrollHint={false}>
+              <p className={cn(
+                "text-sm md:text-lg mb-6 md:mb-8 max-w-3xl mx-auto px-2",
+                theme === "dark" ? "text-gray-300" : "text-gray-600"
+              )}>
+                Join us on our journey. Whether you're looking for innovative solutions or want to help shape the future with us.
+              </p>
+            </ScrollableText>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
+              <ConsultationButton
                 className={cn(
-                  "px-8 py-3 rounded-lg font-medium transition-all",
-                  theme === "dark" 
-                    ? "bg-white text-blue-900 hover:bg-gray-100 hover:shadow-lg" 
+                  "w-full sm:w-auto h-auto whitespace-normal px-4 py-3 md:px-8 md:py-3 text-sm md:text-base rounded-lg font-medium transition-all",
+                  theme === "dark"
+                    ? "bg-white text-blue-900 hover:bg-gray-100 hover:shadow-lg"
                     : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
                 )}
               />
-              <TeamsButton 
+              <TeamsButton
                 className={cn(
-                  "px-8 py-3 rounded-lg font-medium transition-all",
-                  theme === "dark" 
-                    ? "bg-transparent border border-white text-white hover:bg-white/10" 
+                  "w-full sm:w-auto h-auto px-6 py-3 md:px-8 md:py-3 text-sm md:text-base rounded-lg font-medium transition-all",
+                  theme === "dark"
+                    ? "bg-transparent border border-white text-white hover:bg-white/10"
                     : "bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-50"
                 )}
               />
             </div>
-            
+
             <div className={cn(
-              "flex flex-wrap justify-center gap-6 text-sm mt-8",
+              "flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm mt-6 md:mt-8",
               theme === "dark" ? "text-gray-300" : "text-gray-600"
             )}>
               {['Innovative projects', 'Growth opportunities', 'Make real impact', 'Flexible environment'].map((benefit, index) => (
                 <div key={index} className="flex items-center">
                   <Check className={cn(
-                    "h-4 w-4 mr-2",
+                    "h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2",
                     theme === "dark" ? "text-blue-400" : "text-blue-600"
                   )} />
                   <span>{benefit}</span>
