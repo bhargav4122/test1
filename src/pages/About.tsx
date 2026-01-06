@@ -424,10 +424,13 @@ function About() {
 
       {/* Hero Section - Mobile Optimized */}
       {/* Hero Section - Full Screen with Video */}
-      <section className="relative min-h-screen flex flex-col justify-center py-20 overflow-hidden">
+
+
+
+      <section className="relative min-h-screen flex flex-col justify-center text-center md:pt-0 mb-6 md:mb-8 overflow-hidden">
         {/* Background Video */}
         <video
-          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
+          className={`absolute w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
           style={{
             filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.2)',
           }}
@@ -460,7 +463,7 @@ function About() {
         )} />
 
         {/* Hero Content */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 container mx-auto text-center pt-10">
           <div className="max-w-4xl mx-auto">
             <span className={cn(
               "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
@@ -1096,6 +1099,7 @@ function About() {
           </div>
         </div>
       </section>
+
     </div>
   );
 }
