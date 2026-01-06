@@ -424,7 +424,7 @@ function About() {
 
       {/* Hero Section - Mobile Optimized */}
       {/* Hero Section - Full Screen with Video */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pb-12 md:py-20">
         {/* Background Video */}
         <video
           className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
@@ -460,7 +460,7 @@ function About() {
         )} />
 
         {/* Hero Content */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center pt-28 md:pt-0">
           <div className="max-w-4xl mx-auto">
             <span className={cn(
               "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
