@@ -172,12 +172,7 @@ const ScrollableText = ({
       >
         {children}
       </div>
-      {showScrollHint && showScrollHint && (
-        <div className="absolute bottom-2 right-2 flex items-center space-x-1 animate-pulse">
-          <ScrollText className="h-3 w-3 text-blue-500" />
-          <span className="text-xs text-blue-500">Scroll</span>
-        </div>
-      )}
+
     </div>
   );
 };
@@ -403,8 +398,7 @@ function About() {
 
   return (
     <div className={cn(
-      "container mx-auto min-h-screen flex flex-col overflow-x-hidden",
-      theme === "dark" ? "bg-gray-900" : "bg-white"
+      "w-full min-h-screen flex flex-col",
     )}>
       {/* SEO Meta Tags */}
       <Helmet>
@@ -429,15 +423,13 @@ function About() {
       </Helmet>
 
       {/* Hero Section - Mobile Optimized */}
-      <section className="relative py-8 lg:pt-24 overflow-hidden">
-        {/* Optimized Background Video */}
+      {/* Hero Section - Full Screen with Video */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+        {/* Background Video */}
         <video
-          className={`absolute top-0 left-0 w-full h-full object-cover opacity-20 transition-opacity duration-500 ${videoLoaded ? 'opacity-20' : 'opacity-0'
-            }`}
+          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
           style={{
-            // Remove expensive filters on mobile
             filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.2)',
-            transform: 'translateZ(0)'
           }}
           autoPlay
           muted
@@ -446,7 +438,6 @@ function About() {
           preload="metadata"
           poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
           onLoadedData={() => setVideoLoaded(true)}
-          onError={() => console.log('Video failed to load')}
         >
           {isMobile ? (
             <>
@@ -462,173 +453,145 @@ function About() {
           <source src={videoSources.fallback} type="video/mp4" />
         </video>
 
-        {/* Background Gradient - Full Width */}
-        <div className="absolute inset-0 -z-10">
-          <div className={cn(
-            "absolute inset-0 opacity-20",
-            theme === "dark"
-              ? "bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-indigo-900/30"
-              : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
-          )}></div>
-          <div className={cn(
-            "absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]",
-            theme === "dark" ? "bg-gradient-to-b from-gray-900 to-gray-800" : "bg-white"
-          )}></div>
-        </div>
+        {/* Overlay */}
+        <div className={cn(
+          "absolute inset-0 z-0",
+          theme === "dark" ? "bg-black/50" : "bg-white/30"
+        )} />
 
-        {/* Full Width Container */}
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center py-4 mb-6">
+        {/* Hero Content */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto">
+            <span className={cn(
+              "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
+              theme === "dark"
+                ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
+                : "bg-blue-100 text-blue-700 border border-blue-200"
+            )}>
+              About BDS
+            </span>
+
+            <h1 className={cn(
+              "text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-8",
+              theme === "dark" ? "text-white" : "text-gray-900"
+            )}>
               <span className={cn(
-                "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide",
+                "bg-clip-text text-transparent bg-gradient-to-r",
                 theme === "dark"
-                  ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-                  : "bg-blue-100 text-blue-700 border border-blue-200"
+                  ? "from-blue-400 via-purple-400 to-indigo-400"
+                  : "from-blue-600 via-purple-600 to-indigo-600"
               )}>
-                About BDS
+                Who We Are
               </span>
+            </h1>
 
-              <div className="text-center mb-8">
-                <h1 className={cn(
-                  "text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-4",
-                  theme === "dark" ? "text-white" : "text-gray-900"
+            <div className="mx-auto max-w-3xl">
+              <ScrollableText maxHeight="200px" className="mx-auto">
+                <p className={cn(
+                  "text-lg md:text-xl lg:text-2xl leading-relaxed",
+                  theme === "dark" ? "text-gray-200" : "text-gray-800"
                 )}>
-                  <span className={cn(
-                    "bg-clip-text text-transparent bg-gradient-to-r",
-                    theme === "dark"
-                      ? "from-blue-400 to-purple-100"
-                      : "from-blue-400 to-blue-400"
-                  )}>
-                    Who We Are
-                  </span>
-                </h1>
-                <div className="text-center pt-5">
-                  <ScrollableText
-                    maxHeight="150px"
-                    className="max-w-4xl mx-auto"
-                  >
-                    <p className={cn(
-                      "text-base md:text-lg lg:text-xl leading-relaxed px-2",
-                      theme === "dark" ? "text-gray-300" : "text-gray-700"
+                  <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>
+                  is a forward-thinking transformation partner. We combine data intelligence, digital technology, and strategic consulting to help organizations unlock growth and build resilience.
+                </p>
+              </ScrollableText>
+            </div>
+          </div>
+
+          {/* Cards Section */}
+          <section className="py-16 md:py-24 px-4">
+            <div className="container mx-auto max-w-7xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                {/* Left Card */}
+                <div className={cn(
+                  "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                  theme === "dark"
+                    ? "bg-gray-900/50 border-gray-800 hover:border-blue-500/30"
+                    : "bg-white border-gray-200 hover:border-blue-200"
+                )}>
+                  <div className="flex items-start gap-6 mb-6">
+                    <div className={cn(
+                      "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
+                      theme === "dark" ? "bg-blue-900/20 text-blue-400 group-hover:bg-blue-900/30" : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
                     )}>
-                      <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>,
-                      is a forward-thinking business transformation and technology solutions company. We bring together expertise in data, digital technologies, and strategic consulting to help organizations unlock growth, efficiency, and competitive advantage.
-                      Our team is dedicated to simplifying complexity and delivering solutions that make businesses more resilient, agile, and future-ready.
-                    </p>
-                  </ScrollableText>
+                      <ChartBarIcon className="h-7 w-7" />
+                    </div>
+                    <div>
+                      <span className={cn(
+                        "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
+                        theme === "dark"
+                          ? "bg-blue-950 text-blue-300"
+                          : "bg-blue-50 text-blue-700"
+                      )}>
+                        What We Do
+                      </span>
+                      <h3 className={cn(
+                        "text-xl font-bold",
+                        theme === "dark" ? "text-white" : "text-gray-900"
+                      )}>
+                        Empowering Through Innovation
+                      </h3>
+                    </div>
+                  </div>
+
+                  <p className={cn(
+                    "text-base leading-relaxed",
+                    theme === "dark" ? "text-gray-400" : "text-gray-600"
+                  )}>
+                    We provide end-to-end solutions that enable smarter decisions and seamless digital experiences. From data analytics and AI to cloud solutions and market research, we deliver impact that lasts.
+                  </p>
+                </div>
+
+                {/* Right Card */}
+                <div className={cn(
+                  "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                  theme === "dark"
+                    ? "bg-gray-900/50 border-gray-800 hover:border-purple-500/30"
+                    : "bg-white border-gray-200 hover:border-purple-200"
+                )}>
+                  <div className="flex items-start gap-6 mb-6">
+                    <div className={cn(
+                      "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
+                      theme === "dark" ? "bg-purple-900/20 text-purple-400 group-hover:bg-purple-900/30" : "bg-purple-50 text-purple-600 group-hover:bg-purple-100"
+                    )}>
+                      <HandshakeIcon className="h-7 w-7" />
+                    </div>
+                    <div>
+                      <span className={cn(
+                        "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
+                        theme === "dark"
+                          ? "bg-purple-950 text-purple-300"
+                          : "bg-purple-50 text-purple-700"
+                      )}>
+                        Our Identity
+                      </span>
+                      <h3 className={cn(
+                        "text-xl font-bold",
+                        theme === "dark" ? "text-white" : "text-gray-900"
+                      )}>
+                        Strategic Partnership
+                      </h3>
+                    </div>
+                  </div>
+
+                  <p className={cn(
+                    "text-base leading-relaxed",
+                    theme === "dark" ? "text-gray-400" : "text-gray-600"
+                  )}>
+                    We are innovators and problem-solvers. Our identity is shaped by agility, transparency, and results. We don't just implement technology; we help your business evolve with confidence.
+                  </p>
                 </div>
               </div>
             </div>
+          </section>
 
-            {/* Main Content Block - Mobile Optimized */}
-            <div className="space-y-6 md:space-y-8">
-              <section>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  {/* Left Card */}
-                  <div className={cn(
-                    "w-full rounded-lg border p-4 md:p-6 group transition-all",
-                    theme === "dark"
-                      ? "bg-black border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                  )}>
-                    <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
-                      <div className={cn(
-                        "h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
-                        theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-                      )}>
-                        <ChartBarIcon className="h-5 w-5 md:h-6 md:w-6" />
-                      </div>
-                      <div>
-                        <span className={cn(
-                          "inline-block px-2 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
-                          theme === "dark"
-                            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-                            : "bg-blue-100 text-blue-700 border border-blue-200"
-                        )}>
-                          What We Do
-                        </span>
-                        <p className={cn(
-                          "text-lg md:text-lg font-semibold text-left",
-                          theme === "dark" ? "text-gray-200" : "text-gray-800"
-                        )}>
-                          <span className={cn(
-                            "bg-clip-text text-transparent bg-gradient-to-r",
-                            theme === "dark"
-                              ? "from-blue-400 to-blue-500"
-                              : "from-blue-500 to-blue-600"
-                          )}>
-                            Empowering Businesses Through Data, Technology & Intelligent Innovation
-                          </span>
-                        </p>
-                      </div>
-                    </div>
 
-                    <ScrollableText maxHeight="200px">
-                      <p className={cn(
-                        "text-sm md:text-base text-left leading-relaxed pr-2",
-                        theme === "dark" ? "text-gray-300" : "text-gray-700"
-                      )}>
-                        We provide end-to-end solutions that enable smarter decisions, optimized operations, and seamless digital experiences. Our offerings span data analytics, AI and automation, cloud solutions, digital marketing, consumer insights, market research, strategy, and business consulting.
-                        Whether you need to modernize systems, enhance customer engagement, or scale your operations, we deliver solutions built for impact and long-term value.
-                      </p>
-                    </ScrollableText>
-                  </div>
 
-                  {/* Right Card */}
-                  <div className={cn(
-                    "w-full rounded-lg border p-4 md:p-6 group transition-all",
-                    theme === "dark"
-                      ? "bg-black border-gray-600 text-white"
-                      : "bg-white border-gray-300 text-gray-900"
-                  )}>
-                    <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
-                      <div className={cn(
-                        "h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center flex-shrink-0 mt-1",
-                        theme === "dark" ? "bg-blue-900/30 text-blue-400" : "bg-blue-100 text-blue-600"
-                      )}>
-                        <HandshakeIcon className="h-5 w-5 md:h-6 md:w-6" />
-                      </div>
-                      <div>
-                        <span className={cn(
-                          "inline-block px-2 py-1 text-xs font-semibold rounded-full tracking-wide mb-2",
-                          theme === "dark"
-                            ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-                            : "bg-blue-100 text-blue-700 border border-blue-200"
-                        )}>
-                          Our Identity
-                        </span>
-                        <p className={cn(
-                          "text-lg md:text-lg font-semibold text-left",
-                          theme === "dark" ? "text-gray-200" : "text-gray-800"
-                        )}>
-                          <span className={cn(
-                            "bg-clip-text text-transparent bg-gradient-to-r",
-                            theme === "dark"
-                              ? "from-blue-400 to-blue-500"
-                              : "from-blue-500 to-blue-600"
-                          )}>
-                            A Strategic Partner for Your Digital Evolution
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <ScrollableText maxHeight="200px">
-                      <p className={cn(
-                        "text-sm md:text-base text-left leading-relaxed pr-2",
-                        theme === "dark" ? "text-gray-300" : "text-gray-700"
-                      )}>
-                        We are innovators, problem-solvers, and transformation partners. At our core, we believe in combining technology with human insight to create meaningful change. Our identity is shaped by agility, collaboration, transparency, and a strong commitment to measurable results. We don't just implement solutions — we help businesses evolve with confidence.
-                      </p>
-                    </ScrollableText>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
         </div>
+
       </section>
+
+
 
       {/* Mission & Vision - Mobile Optimized */}
       <section className="mb-12 md:mb-20 px-4">
