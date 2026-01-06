@@ -460,7 +460,7 @@ function About() {
         )} />
 
         {/* Hero Content */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center pt-28 md:pt-0">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center md:pt-0">
           <div className="max-w-4xl mx-auto">
             <span className={cn(
               "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
