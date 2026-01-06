@@ -424,7 +424,7 @@ function About() {
 
       {/* Hero Section - Mobile Optimized */}
       {/* Hero Section - Full Screen with Video */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Video */}
         <video
           className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
