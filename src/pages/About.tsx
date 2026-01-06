@@ -427,7 +427,7 @@ function About() {
 
 
 
-      <section className="relative min-h-screen flex flex-col justify-center text-center md:pt-0 mb-6 md:mb-8 overflow-hidden">
+      <section className="relative min-h-screen flex flex-col md:pt-0 mb-6 md:mb-8 overflow-hidden">
         {/* Background Video */}
         <video
           className={`absolute w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
@@ -459,12 +459,12 @@ function About() {
         {/* Overlay */}
         <div className={cn(
           "absolute inset-0 z-0",
-          theme === "dark" ? "bg-black/50" : "bg-white/30"
+          theme === "dark" ? "bg-black/30" : "bg-white/30"
         )} />
 
         {/* Hero Content */}
-        <div className="relative z-10 container mx-auto text-center pt-10">
-          <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto pt-24">
+          <div className="text-center py-4 mb-6 ">
             <span className={cn(
               "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
               theme === "dark"
@@ -476,7 +476,7 @@ function About() {
 
             <h1 className={cn(
               "text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-8",
-              theme === "dark" ? "text-white" : "text-gray-900"
+              theme === "dark" ? "text-white" : "text"
             )}>
               <span className={cn(
                 "bg-clip-text text-transparent bg-gradient-to-r",
@@ -512,7 +512,7 @@ function About() {
                     "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
                     theme === "dark" ? "bg-blue-900/20 text-blue-400 group-hover:bg-blue-900/30" : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
                   )}>
-                    <ChartBarIcon className="h-7 w-7" />
+                    <ChartBarIcon className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div className="text-center md:text-left">
                     <span className={cn(
@@ -527,7 +527,7 @@ function About() {
                       "text-xl font-bold",
                       theme === "dark" ? "text-white" : "text-gray-900"
                     )}>
-                      Empowering Through Innovation
+                      Empowering Businesses Through Data, Technology & Intelligent Innovation
                     </h3>
                   </div>
                 </div>
