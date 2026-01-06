@@ -496,104 +496,90 @@ function About() {
                 </p>
               </ScrollableText>
             </div>
-          </div>
-
-          {/* Cards Section */}
-          <section className="py-16 md:py-24 px-4">
-            <div className="container mx-auto max-w-7xl">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                {/* Left Card */}
-                <div className={cn(
-                  "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
-                  theme === "dark"
-                    ? "bg-gray-900/50 border-gray-800 hover:border-blue-500/30"
-                    : "bg-white border-gray-200 hover:border-blue-200"
-                )}>
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className={cn(
-                      "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
-                      theme === "dark" ? "bg-blue-900/20 text-blue-400 group-hover:bg-blue-900/30" : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
-                    )}>
-                      <ChartBarIcon className="h-7 w-7" />
-                    </div>
-                    <div>
-                      <span className={cn(
-                        "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
-                        theme === "dark"
-                          ? "bg-blue-950 text-blue-300"
-                          : "bg-blue-50 text-blue-700"
-                      )}>
-                        What We Do
-                      </span>
-                      <h3 className={cn(
-                        "text-xl font-bold",
-                        theme === "dark" ? "text-white" : "text-gray-900"
-                      )}>
-                        Empowering Through Innovation
-                      </h3>
-                    </div>
-                  </div>
-
-                  <p className={cn(
-                    "text-base leading-relaxed",
-                    theme === "dark" ? "text-gray-400" : "text-gray-600"
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-left">
+              {/* Left Card */}
+              <div className={cn(
+                "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                theme === "dark"
+                  ? "bg-gray-900/80 border-gray-800 hover:border-blue-500/30 backdrop-blur-sm"
+                  : "bg-white/90 border-gray-200 hover:border-blue-200 backdrop-blur-sm"
+              )}>
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
+                  <div className={cn(
+                    "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
+                    theme === "dark" ? "bg-blue-900/20 text-blue-400 group-hover:bg-blue-900/30" : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
                   )}>
-                    We provide end-to-end solutions that enable smarter decisions and seamless digital experiences. From data analytics and AI to cloud solutions and market research, we deliver impact that lasts.
-                  </p>
+                    <ChartBarIcon className="h-7 w-7" />
+                  </div>
+                  <div className="text-center md:text-left">
+                    <span className={cn(
+                      "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
+                      theme === "dark"
+                        ? "bg-blue-950 text-blue-300"
+                        : "bg-blue-50 text-blue-700"
+                    )}>
+                      What We Do
+                    </span>
+                    <h3 className={cn(
+                      "text-xl font-bold",
+                      theme === "dark" ? "text-white" : "text-gray-900"
+                    )}>
+                      Empowering Through Innovation
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Right Card */}
-                <div className={cn(
-                  "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
-                  theme === "dark"
-                    ? "bg-gray-900/50 border-gray-800 hover:border-purple-500/30"
-                    : "bg-white border-gray-200 hover:border-purple-200"
+                <p className={cn(
+                  "text-base leading-relaxed text-center md:text-left",
+                  theme === "dark" ? "text-gray-300" : "text-gray-600"
                 )}>
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className={cn(
-                      "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
-                      theme === "dark" ? "bg-purple-900/20 text-purple-400 group-hover:bg-purple-900/30" : "bg-purple-50 text-purple-600 group-hover:bg-purple-100"
-                    )}>
-                      <HandshakeIcon className="h-7 w-7" />
-                    </div>
-                    <div>
-                      <span className={cn(
-                        "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
-                        theme === "dark"
-                          ? "bg-purple-950 text-purple-300"
-                          : "bg-purple-50 text-purple-700"
-                      )}>
-                        Our Identity
-                      </span>
-                      <h3 className={cn(
-                        "text-xl font-bold",
-                        theme === "dark" ? "text-white" : "text-gray-900"
-                      )}>
-                        Strategic Partnership
-                      </h3>
-                    </div>
-                  </div>
+                  We provide end-to-end solutions that enable smarter decisions and seamless digital experiences. From data analytics and AI to cloud solutions and market research, we deliver impact that lasts.
+                </p>
+              </div>
 
-                  <p className={cn(
-                    "text-base leading-relaxed",
-                    theme === "dark" ? "text-gray-400" : "text-gray-600"
+              {/* Right Card */}
+              <div className={cn(
+                "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+                theme === "dark"
+                  ? "bg-gray-900/80 border-gray-800 hover:border-purple-500/30 backdrop-blur-sm"
+                  : "bg-white/90 border-gray-200 hover:border-purple-200 backdrop-blur-sm"
+              )}>
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
+                  <div className={cn(
+                    "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
+                    theme === "dark" ? "bg-purple-900/20 text-purple-400 group-hover:bg-purple-900/30" : "bg-purple-50 text-purple-600 group-hover:bg-purple-100"
                   )}>
-                    We are innovators and problem-solvers. Our identity is shaped by agility, transparency, and results. We don't just implement technology; we help your business evolve with confidence.
-                  </p>
+                    <HandshakeIcon className="h-7 w-7" />
+                  </div>
+                  <div className="text-center md:text-left">
+                    <span className={cn(
+                      "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
+                      theme === "dark"
+                        ? "bg-purple-950 text-purple-300"
+                        : "bg-purple-50 text-purple-700"
+                    )}>
+                      Our Identity
+                    </span>
+                    <h3 className={cn(
+                      "text-xl font-bold",
+                      theme === "dark" ? "text-white" : "text-gray-900"
+                    )}>
+                      Strategic Partnership
+                    </h3>
+                  </div>
                 </div>
+
+                <p className={cn(
+                  "text-base leading-relaxed text-center md:text-left",
+                  theme === "dark" ? "text-gray-300" : "text-gray-600"
+                )}>
+                  We are innovators and problem-solvers. Our identity is shaped by agility, transparency, and results. We don't just implement technology; we help your business evolve with confidence.
+                </p>
               </div>
             </div>
-          </section>
-
-
-
+          </div>
         </div>
-
       </section>
-
-
-
-      {/* Mission & Vision - Mobile Optimized */}
       <section className="mb-12 md:mb-20 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
