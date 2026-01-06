@@ -5,7 +5,7 @@ import React, { memo, useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart,BrainCog } from "lucide-react";
+import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart, BrainCog } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +23,8 @@ const MemoizedIcons = {
   ArrowRight: memo(ArrowRight),
   Calendar: memo(Calendar),
   CheckCircle: memo(CheckCircle),
-  LineChart:memo(LineChart),
-  BrainCog:memo(BrainCog)
+  LineChart: memo(LineChart),
+  BrainCog: memo(BrainCog)
 };
 
 // Constants outside component to prevent recreation
@@ -60,7 +60,7 @@ const STORY_VIDEO_SOURCES = {
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } }
+  visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" as const } }
 };
 
 // Optimized IndustryItem with proper typing
@@ -115,41 +115,77 @@ function WhatWeDoSection() {
   const bgVid = isMobile ? BACKGROUND_VIDEO_SOURCES.mobile : BACKGROUND_VIDEO_SOURCES.desktop;
   const storyVid = isMobile ? STORY_VIDEO_SOURCES.mobile : STORY_VIDEO_SOURCES.desktop;
 
+  const handleFeatureClick = useCallback((serviceId: string) => {
+    navigate(`/service-detail/${serviceId}`);
+  }, [navigate]);
+
   const FEATURES = [
-   
     {
       icon: "Cloud",
       title: "Data & Cloud Services",
-      text: "Deploy scalable, secure cloud solutions."
+      text: "Deploy scalable, secure cloud solutions.",
+      serviceId: "core-data-cloud",
+      id: "core-data-cloud",
     },
     {
       icon: "Briefcase",
       title: "Business Consulting",
-      text: "A single partner from strategy to execution."
+      text: "A single partner from strategy to execution.",
+      serviceId: "business-consulting"
     },
     {
       icon: "BarChart3",
       title: "Business Intelligence",
-      text: "Turn data into smart business decisions."
+      text: "Turn data into smart business decisions.",
+      serviceId: "business-intelligence"
     },
     {
       icon: "Megaphone",
       title: "Digital Transformation & Marketing",
-      text: "Grow visibility & acquire more customers."
+      text: "Grow visibility & acquire more customers.",
+      serviceId: "digital-transformation"
     },
     {
       icon: "Users",
       title: "Consumer Voice Insights",
-      text: "Understand what your customers really want."
+      text: "Understand what your customers really want.",
+      serviceId: "consumer-voice"
     },
-    
-    
-     {
+    {
       icon: "LineChart",
       title: "Market Research & Analytics",
-      text: "In-depth competitor studies, consumer behavior insights, and trend forecasting to help position your brand ahead of the curve."
+      text: "In-depth competitor studies, consumer behavior insights, and trend forecasting to help position your brand ahead of the curve.",
+      serviceId: "market-research"
     }
   ];
+
+  // Cloudinary video URLs with optimizations
+  const videoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+  };
+
+  // Story video sources (16MB video optimization)
+  const storyVideoSources = {
+    desktop: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
+    },
+    mobile: {
+      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
+      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
+    },
+    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
+  };
+
+
 
   return (
     <section className="py-16 relative overflow-hidden">
@@ -172,52 +208,74 @@ function WhatWeDoSection() {
         <motion.div className="mb-4">
           <div className="rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary inline-flex items-center">
             <span className="h-2 w-2 bg-primary rounded-full mr-2 animate-pulse" />
-            Your Tech Partner for All Your Business Needs
+            Your End-to-End Tech Partner for the Digital World
           </div>
         </motion.div>
- {/* SEO Optimized Main Heading */}
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
-                Engineering Smarter Businesses, Driven by Data and Market Insight.
-              </h1>
+        {/* SEO Optimized Main Heading */}
+        <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
+          Everything a Modern Business Needs<br /> — Delivered Under One Roof.
+        </h1>
         {/* Main Layout */}
         <div className="flex flex-col lg:flex-row gap-12 items-center">
-          
+
           {/* Content - Left side on desktop */}
           <div className="lg:w-1/2 w-full">
             <motion.div ref={ref} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}>
-             
+
 
               {/* Updated Content with Consumer Insights */}
               <div className="mb-6">
                 <h2 className="text-xl lg:text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">
-                  Your End-to-End Tech Partner for the Digital World
+
                 </h2>
                 <p className="text- text-gray-600 dark:text-gray-300 leading-relaxed">
-                  We help businesses automate processes, scale operations, market smarter, and make data-driven decisions. 
-                  Our complete solutions leverage deep <strong>consumer insights</strong>, advanced analytics, and cloud technology 
-                  to drive your digital transformation and business growth.
+                  <strong> We partner with businesses of all sizes and industries to solve real-world challenges and drive sustainable growth.</strong><br /><br />
+                  By combining business consulting, data intelligence, digital innovation, and market insights, we design practical,
+                  scalable solutions tailored to your goals, industry, and stage of growth — not one-size-fits-all services.<br /><br />
+                  <strong> Whether you’re a startup, SME, or growing enterprise, we adapt our approach to help you operate smarter, connect better with customers, and make confident, data-driven decisions.
+                  </strong>,
                 </p>
               </div>
 
               {/* Bullet Features - Clean without borders/background */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {FEATURES.map((f, idx) => {
-                  const Icon = MemoizedIcons[f.icon];
+                  const Icon = MemoizedIcons[f.icon as keyof typeof MemoizedIcons]; // Type assertion added
                   return (
-                    <div key={idx} className="flex items-start space-x-3 p-2">
-                      <Icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <div>
-                        <div className="font-semibold text-gray-900 dark:text-white">{f.title}</div>
-                        
+                    <motion.div
+                      key={idx}
+                      variants={itemVariants}
+                      whileHover={{
+                        scale: 1.02,
+                        backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)'
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-start space-x-3 p-4 rounded-xl cursor-pointer group transition-all duration-200 border border-transparent hover:border-primary/20"
+                      onClick={() => handleFeatureClick(f.serviceId)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyPress={(e) => e.key === 'Enter' && handleFeatureClick(f.serviceId)}
+                      aria-label={`Navigate to ${f.title} service`}
+                    >
+                      <div className="relative">
+                        <Icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                        <div className="absolute inset-0 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"></div>
                       </div>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors duration-200 flex items-center justify-between">
+                          <span className="truncate">{f.title}</span>
+                          <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-x-2 group-hover:translate-x-0" />
+                        </div>
+
+                      </div>
+                    </motion.div>
                   );
                 })}
               </div>
 
               {/* Industries Section */}
-              <motion.div 
-                variants={itemVariants} 
+              <motion.div
+                variants={itemVariants}
                 className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8"
               >
                 {INDUSTRIES.map((industry, index) => (
@@ -229,31 +287,34 @@ function WhatWeDoSection() {
 
           {/* Video - Right side on desktop with CTAs below */}
           <div className="lg:w-1/2 w-full flex flex-col items-center justify-center">
-            <motion.div 
-              className="overflow-hidden rounded-2xl shadow-2xl bg-black w-full max-w-4xl mx-auto"
+            <motion.div
+              className="overflow-hidden rounded-2xl shadow-2xl bg-black w-full max-w-4xl mx-auto relative"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5 }}
             >
-              {/* Increased video size with responsive dimensions */}
               <div className="relative aspect-video w-full">
                 <video
-                  className="w-full h-full object-cover"
+                  key={storyVid.mp4}
+                  className="w-full h-full object-cover rounded-lg"
+                  controls
                   autoPlay
                   muted
                   loop
-                  controls
                   playsInline
                   preload="metadata"
+                  poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1763800003/Final1_fusbec.jpg"
                   title="Business Data Solutions - Digital Transformation Services"
                 >
                   <source src={storyVid.webm} type="video/webm" />
                   <source src={storyVid.mp4} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-                
-                {/* Video overlay for better text contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+
+                {/* Gradient overlay with pointer-events: none */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none"
+                ></div>
               </div>
             </motion.div>
 
