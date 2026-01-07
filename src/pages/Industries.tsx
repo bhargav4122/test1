@@ -16,25 +16,26 @@ import HolographicCard from '../components/HolographicCard';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Optimized Image Component
-const OptimizedIndustryImage = ({ 
-  src, 
-  alt, 
+const OptimizedIndustryImage = ({
+  src,
+  alt,
   className = "",
-}: { 
-  src?: string; 
-  alt: string; 
+}: {
+  src?: string;
+  alt: string;
   className?: string;
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
-    checkMobile();
+
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -42,17 +43,17 @@ const OptimizedIndustryImage = ({
   // Optimize images with responsive parameters
   const optimizedSrc = React.useMemo(() => {
     if (!src) return '/placeholder.svg';
-    
+
     // Handle Cloudinary images
     if (src.includes('cloudinary.com')) {
       const width = isMobile ? 400 : 600;
       const quality = isMobile ? 'q_auto:eco' : 'q_auto:good';
-      
+
       if (src.includes('/upload/')) {
         return src.replace('/upload/', `/upload/${quality},w_${width},f_auto,c_fill/`);
       }
     }
-    
+
     // Optimize Unsplash images
     if (src.includes('unsplash.com')) {
       const url = new URL(src);
@@ -78,7 +79,7 @@ const OptimizedIndustryImage = ({
         </svg>
       `)}`;
     }
-    
+
     return src;
   }, [src, isMobile, alt]);
 
@@ -88,27 +89,26 @@ const OptimizedIndustryImage = ({
       {!imageLoaded && !imageError && (
         <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 animate-pulse" />
       )}
-      
+
       {/* Error Fallback */}
       {imageError && (
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
           <span className="text-white text-sm font-medium text-center px-2">{alt}</span>
         </div>
       )}
-      
+
       {/* Optimized Image */}
       <img
         src={optimizedSrc}
         alt={alt}
-        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-          imageLoaded ? 'opacity-100' : 'opacity-0'
-        } ${className}`}
+        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+          } ${className}`}
         loading="lazy"
         decoding="async"
         onLoad={() => setImageLoaded(true)}
         onError={() => setImageError(true)}
       />
-      
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent dark:from-black/60" />
     </div>
@@ -118,40 +118,29 @@ const OptimizedIndustryImage = ({
 export default function Industries() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [isMobile, setIsMobile] = useState(false);
   const { theme } = useTheme();
 
-  // Mobile detection
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const getCategories = () => {
     const categories = allIndustries.map(industry => {
       const categoryMap: { [key: string]: string } = {
         'it-cloud': 'Technology',
-        'finance': 'Finance', 
+        'finance': 'Finance',
         'healthcare': 'Healthcare',
-        'education': 'Education', 
-        'manufacturing': 'Manufacturing', 
+        'education': 'Education',
+        'manufacturing': 'Manufacturing',
         'retail': 'Retail',
-        'restaurants': 'Hospitality', 
-        'real-estate': 'Real Estate', 
+        'restaurants': 'Hospitality',
+        'real-estate': 'Real Estate',
         'transport': 'Transport',
-        'agriculture': 'Agriculture', 
-        'legal': 'Professional', 
+        'agriculture': 'Agriculture',
+        'legal': 'Professional',
         'marketing': 'Marketing',
         'startups': 'Startups'
       };
       return categoryMap[industry.id] || 'Other';
     });
-    
+
     return ['All', ...Array.from(new Set(categories))];
   };
 
@@ -186,9 +175,9 @@ export default function Industries() {
   const filteredIndustries = allIndustries
     .filter(industry => {
       const categoryMatch = activeCategory === 'All' || getIndustryCategory(industry.id) === activeCategory;
-      const searchMatch = searchTerm === '' || 
-                        industry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        (industry.description && industry.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      const searchMatch = searchTerm === '' ||
+        industry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (industry.description && industry.description.toLowerCase().includes(searchTerm.toLowerCase()));
       return categoryMatch && searchMatch;
     });
 
@@ -216,22 +205,22 @@ export default function Industries() {
   return (
     <div className="min-h-screen py-5 md:py-10">
 
-    {/* SEO Meta Tags */}
+      {/* SEO Meta Tags */}
       <Helmet>
         <title>Industries We Serve | Business and Data Solutions</title>
-        <meta 
-          name="description" 
-          content="We provide tailored business and data solutions for industries including Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more." 
+        <meta
+          name="description"
+          content="We provide tailored business and data solutions for industries including Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more."
         />
-        <meta 
-          name="keywords" 
-          content="industry solutions, technology sector, finance industry, healthcare solutions, retail business, manufacturing data, education technology, industry expertise" 
+        <meta
+          name="keywords"
+          content="industry solutions, technology sector, finance industry, healthcare solutions, retail business, manufacturing data, education technology, industry expertise"
         />
         <link rel="canonical" href="https://businessanddatasolutions.com/industries" />
         <meta property="og:title" content="Industries We Serve | Business and Data Solutions" />
-        <meta 
-          property="og:description" 
-          content="Tailored business and data solutions for Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more industries." 
+        <meta
+          property="og:description"
+          content="Tailored business and data solutions for Technology, Finance, Healthcare, Retail, Manufacturing, Education, and more industries."
         />
         <meta property="og:url" content="https://businessanddatasolutions.com/industries" />
         <meta property="og:type" content="website" />
@@ -240,7 +229,7 @@ export default function Industries() {
 
       <div className="container mx-auto px-4 py-8 md:py-16 bg-white shadow-lg rounded-xl dark:bg-black dark:text-gray-100 min-h-screen">
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           className="text-center mb-8 md:mb-12"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -255,7 +244,7 @@ export default function Industries() {
         </motion.div>
 
         {/* Filter Section */}
-        <motion.div 
+        <motion.div
           className="mb-8 md:mb-12 rounded-xl dark:bg-black dark:text-gray-100"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -280,7 +269,7 @@ export default function Industries() {
                   className="pl-10 pr-10 dark:text-white text-sm md:text-base"
                 />
                 {searchTerm && (
-                  <button 
+                  <button
                     onClick={handleClearSearch}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     aria-label="Clear search"
@@ -313,7 +302,7 @@ export default function Industries() {
             {/* Clear Filters Button */}
             <AnimatePresence>
               {(searchTerm || activeCategory !== 'All') && (
-                <motion.div 
+                <motion.div
                   className="md:flex md:items-end"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -333,7 +322,7 @@ export default function Industries() {
           {/* Results count */}
           <AnimatePresence>
             {(searchTerm || activeCategory !== 'All') && (
-              <motion.div 
+              <motion.div
                 className="mt-4 pt-4 border-t dark:border-gray-700 border-gray-200"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -375,7 +364,7 @@ export default function Industries() {
                           src={industry.imageUrl}
                           alt={industry.name}
                         />
-                        
+
                         {/* Content */}
                         <div className="p-4 md:p-6 flex-1 flex flex-col">
                           <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 leading-tight">
@@ -419,9 +408,9 @@ export default function Industries() {
             )}
           </AnimatePresence>
         </div>
-        
+
         {/* Contact CTA */}
-        <motion.div 
+        <motion.div
           className="text-center mt-8 md:mt-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
