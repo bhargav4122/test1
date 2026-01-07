@@ -93,6 +93,11 @@ const AppContent = () => {
 
   return (
     <HelmetProvider>
+       <Helmet>
+        {/* Add this meta tag with YOUR verification code */}
+       
+         <meta name="google-site-verification" content="Zbw-rBOu2m7MuIxusA68SCR6crB-y5pi6ygnNrz7iwA" />
+      </Helmet>
       <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
