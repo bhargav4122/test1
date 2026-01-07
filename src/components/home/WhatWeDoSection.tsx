@@ -196,7 +196,8 @@ function WhatWeDoSection() {
         muted
         loop
         playsInline
-        preload="none"
+        preload="metadata"
+        poster="https://res.cloudinary.com/dsf4d41i8/image/upload/f_auto,q_auto/v1753041808/Google_Gemini_n4h8by.jpg"
         onLoadedData={handleBG}
       >
         <source src={bgVid.webm} type="video/webm" />
