@@ -2,16 +2,13 @@ import React, { useEffect, useCallback, lazy, Suspense } from "react";
 import { Helmet } from 'react-helmet-async';
 
 // Lazy load heavy components
-const Features = lazy(() => import("@/components/home/Features"));
 const Statistics = lazy(() => import("@/components/home/Statistics"));
 const HowItWorks = lazy(() => import("@/components/home/HowItWorks"));
 const CallToAction = lazy(() => import("@/components/home/CallToAction"));
-const AnimatedBackground = lazy(() => import("@/components/home/AnimatedBackground"));
 const ServicesOverview = lazy(() => import('@/components/home/ServicesOverview'));
 const IndustrySection = lazy(() => import('@/components/home/IndustrySection'));
 const Why = lazy(() => import('@/components/home/Why'));
-const AnimatedTestimonialsDemo = lazy(() => import('@/components/home/animated-testimonials-demo'));
-const WhatWeDoSection = lazy(() => import('@/components/home/WhatWeDoSection'));
+import WhatWeDoSection from '@/components/home/WhatWeDoSection';
 const About = lazy(() => import('@/components/home/About'));
 
 // Custom hook for media queries
@@ -52,10 +49,10 @@ const Index = () => {
   // Optimized scroll animation with throttling
   const animateOnScroll = useCallback(() => {
     if (typeof window === 'undefined') return;
-    
+
     const elements = document.querySelectorAll('.animate-on-scroll');
     const windowHeight = window.innerHeight;
-    
+
     elements.forEach(element => {
       const position = element.getBoundingClientRect();
       if (position.top < windowHeight * 0.85 && position.bottom >= 0) {
@@ -81,9 +78,9 @@ const Index = () => {
 
     // Initial animation check
     animateOnScroll();
-    
+
     window.addEventListener('scroll', throttledScroll, { passive: true });
-    
+
     return () => {
       window.removeEventListener('scroll', throttledScroll);
     };
@@ -94,60 +91,85 @@ const Index = () => {
       {/* SEO Meta Tags - Preload critical resources */}
       <Helmet>
         <title>Business and Data Solutions | Complete Business Services Partner</title>
-        <meta name="google-site-verification" content="Zbw-rBOu2m7MuIxusA68SCR6crB-y5pi6ygnNrz7iwA" />
-        <meta 
-          name="description" 
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Workforce Solutions, and Training & Development." 
+        <meta
+          name="description"
+          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Workforce Solutions, and Training & Development."
         />
-        <meta 
-          name="keywords" 
-          content="business solutions, data services, cloud infrastructure, BI solutions, digital transformation, business consulting, market research, workforce solutions, training development, data analytics, digital marketing" 
+        <meta
+          name="keywords"
+          content="business solutions, data services, cloud infrastructure, BI solutions, digital transformation, business consulting, market research, workforce solutions, training development, data analytics, digital marketing"
         />
         <link rel="canonical" href="https://www.businessanddatasolutions.com/" />
         <meta property="og:title" content="Business and Data Solutions | BDS | Complete Business Services Partner" />
-        <meta 
-          property="og:description" 
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Consumer voice, Digital Marketing and more." 
+        <meta
+          property="og:description"
+          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Consumer voice, Digital Marketing and more."
         />
         <meta property="og:url" content="https://www.businessanddatasolutions.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Business and Data Solutions | BDS | Complete Business Services Partner" />
-        <meta 
-          name="twitter:description" 
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, and more." 
+        <meta
+          name="twitter:description"
+          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, and more."
         />
+        <meta name="robots" content="index, follow" />
         <meta name="twitter:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
-        
+
+        {/* Structured Data (JSON-LD) */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BusinessSolutions",
+            "name": "Business and Data Solutions",
+            "url": "https://www.businessanddatasolutions.com/",
+            "logo": "https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png",
+            "sameAs": [
+              "https://www.linkedin.com/company/business-and-data-solutions",
+              "https://twitter.com/bds_solutions"
+            ],
+            "description": "Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, and more.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "GB"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "contact@businessanddatasolutions.com"
+            }
+          })}
+        </script>
+
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
       </Helmet>
 
       {/* Full-page glass overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-sm -z-10"
         aria-hidden="true"
       />
-      
+
       <Suspense fallback={<LoadingFallback />}>
         <main className="relative">
           <WhatWeDoSection />
           <Statistics />
-          
+
           <Why />
-          
+
           {/* Show these sections only on desktop */}
           {isDesktop && (
             <>
-            <About />
+              <About />
               <ServicesOverview />
               <IndustrySection />
               <HowItWorks />
             </>
           )}
-          
+
           <CallToAction />
         </main>
       </Suspense>
