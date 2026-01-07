@@ -94,6 +94,7 @@ const Index = () => {
       {/* SEO Meta Tags - Preload critical resources */}
       <Helmet>
         <title>Business and Data Solutions | Complete Business Services Partner</title>
+        <meta name="google-site-verification" content="Zbw-rBOu2m7MuIxusA68SCR6crB-y5pi6ygnNrz7iwA" />
         <meta 
           name="description" 
           content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Workforce Solutions, and Training & Development." 
