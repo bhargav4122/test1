@@ -230,7 +230,7 @@ const ServiceCard = React.memo(({
 
           <div className="flex-grow mb-3 md:mb-4">
             <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm line-clamp-3 mb-3 md:mb-4 leading-relaxed">
-              {service.description}
+              {service.description2 ? service.description2 : service.description}
             </p>
           </div>
 
