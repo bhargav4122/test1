@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check,
@@ -12,6 +12,53 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ConsultationButton } from "@/components/consultation/ConsultationButton";
 import { TeamsButton } from "@/components/Careers/teambutton";
+import { useInView } from 'react-intersection-observer';
+
+// ==================== OPTIMIZED MEDIA SOURCES ====================
+
+// Director Image - Converted to WebP format
+const DIRECTOR_IMAGE = {
+  desktop: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_60,w_400/v1753057496/Bhargav_va98sz.jpg",
+  mobile: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_50,w_200/v1753057496/Bhargav_va98sz.jpg",
+  fallback: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_jpg,q_60,w_400/v1753057496/Bhargav_va98sz.jpg"
+};
+
+// Background Video - Optimized for performance
+const BACKGROUND_VIDEO = {
+  desktop: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    poster: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_800/v1753041808/Google_Gemini_n4h8by.jpg"
+  },
+  mobile: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    poster: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_400/v1753041808/Google_Gemini_n4h8by.jpg"
+  }
+};
+
+// Story Video - Optimized with audio for controls
+const STORY_VIDEO = {
+  desktop: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_35,w_960/v1763800003/Final1_fusbec.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_35,w_960/v1763800003/Final1_fusbec.mp4",
+    poster: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_600/v1763800003/Final1_fusbec.jpg"
+  },
+  mobile: {
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_480/v1763800003/Final1_fusbec.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_480/v1763800003/Final1_fusbec.mp4",
+    poster: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_300/v1763800003/Final1_fusbec.jpg"
+  }
+};
+
+// Unsplash images - Added WebP format and size optimization
+const UNSPLASH_IMAGES = {
+  journey: {
+    desktop: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    mobile: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=60",
+    alt: "Our Startup Journey"
+  }
+};
 
 const stats = [
   { number: '10+', label: 'Projects Completed', icon: Target },
@@ -49,42 +96,42 @@ const timeline = [
     title: "Idea & Vision",
     description: "The spark of an idea: to help businesses harness data and technology in more accessible ways.",
     icon: Lightbulb,
-    image: "https://source.unsplash.com/600x400/?startup,light",
+    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=600&q=60",
   },
   {
     year: "2023",
     title: "Foundation Building",
     description: "Working with early clients, refining our approach, and building our service framework.",
     icon: Hammer,
-    image: "https://source.unsplash.com/600x400/?laptop,code",
+    image: "https://images.unsplash.com/photo-1522252234503-e356532cafd5?auto=format&fit=crop&w=600&q=60",
   },
   {
     year: "2024 Q1",
     title: "Official Launch",
     description: "Formally established the company with a clear vision for modern business solutions.",
     icon: Rocket,
-    image: "https://source.unsplash.com/600x400/?office,startup",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=60",
   },
   {
     year: "2024 Q2-Q3",
     title: "Service Refinement",
     description: "Launched and refined our core services based on client feedback and market needs.",
     icon: Zap,
-    image: "https://source.unsplash.com/600x400/?technology,services",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=60",
   },
   {
     year: "2024 Q4",
     title: "Building Momentum",
     description: "Growing our client base and developing deeper partnerships with forward-thinking businesses.",
     icon: TrendingUp,
-    image: "https://source.unsplash.com/600x400/?growth,business",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=60",
   },
   {
     year: "2025 Q1",
     title: "UK Market Planning",
     description: "Currently laying the groundwork for UK operations with market research and strategy development.",
     icon: MapPin,
-    image: "https://source.unsplash.com/600x400/?uk,london,planning",
+    image: "https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=600&q=60",
     badge: "",
   },
   {
@@ -92,7 +139,7 @@ const timeline = [
     title: "UK Operations Start",
     description: "Planning to begin UK client engagements and establish our presence in the market.",
     icon: Globe,
-    image: "https://source.unsplash.com/600x400/?uk,office",
+    image: "https://images.unsplash.com/photo-1512850183-6d8b49e3298e?auto=format&fit=crop&w=600&q=60",
     badge: "",
   },
   {
@@ -100,7 +147,7 @@ const timeline = [
     title: "Team Expansion",
     description: "Growing our team to better serve our expanding client base and international ambitions.",
     icon: Users,
-    image: "https://source.unsplash.com/600x400/?team,growth",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=60",
     badge: "NOW",
   },
   {
@@ -108,7 +155,7 @@ const timeline = [
     title: "Next Chapter",
     description: "Exploring new markets and opportunities for growth based on our UK experience.",
     icon: Compass,
-    image: "https://source.unsplash.com/600x400/?future,horizon",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=60",
     badge: "PLANNED",
   },
   {
@@ -116,7 +163,7 @@ const timeline = [
     title: "India Operations Start",
     description: "Launching India operations with strategic hiring and local market focus.",
     icon: Users,
-    image: "https://source.unsplash.com/600x400/?india,team",
+    image: "https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?auto=format&fit=crop&w=600&q=60",
     badge: "Coming Soon",
   },
   {
@@ -124,7 +171,7 @@ const timeline = [
     title: "USA Market Planning",
     description: "Laying the groundwork for US expansion with market research and strategy development.",
     icon: MapPin,
-    image: "https://source.unsplash.com/600x400/?usa,newyork,planning",
+    image: "https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?auto=format&fit=crop&w=600&q=60",
     badge: "Coming Soon",
   },
   {
@@ -132,7 +179,7 @@ const timeline = [
     title: "Team Growth Phase",
     description: "Expanding our team to better serve our growing international client base.",
     icon: Compass,
-    image: "https://source.unsplash.com/600x400/?team,uk",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=60",
     badge: "Coming Soon",
   },
 ];
@@ -339,34 +386,108 @@ const MobileTimeline = ({ timeline, theme }: { timeline: any[], theme: string })
   );
 };
 
-const videoSources = {
-  desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
-  },
-  mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
-  },
-  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+// Optimized Video Component with Lazy Loading
+const OptimizedVideo = ({ 
+  sources, 
+  isMobile, 
+  controls = false, 
+  autoPlay = true,
+  muted = true,
+  loop = true,
+  className = "",
+  title = ""
+}: {
+  sources: typeof BACKGROUND_VIDEO | typeof STORY_VIDEO;
+  isMobile: boolean;
+  controls?: boolean;
+  autoPlay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  className?: string;
+  title?: string;
+}) => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    rootMargin: '200px',
+  });
+
+  const source = isMobile ? sources.mobile : sources.desktop;
+
+  return (
+    <div ref={ref} className="relative">
+      {inView && (
+        <video
+          ref={videoRef}
+          className={cn(
+            "w-full h-full object-cover transition-opacity duration-500",
+            videoLoaded ? "opacity-100" : "opacity-0",
+            className
+          )}
+          autoPlay={autoPlay}
+          muted={muted}
+          loop={loop}
+          playsInline
+          controls={controls}
+          preload="metadata"
+          loading="lazy"
+          poster={source.poster}
+          title={title}
+          onLoadedData={() => setVideoLoaded(true)}
+        >
+          <source src={source.webm} type="video/webm" />
+          <source src={source.mp4} type="video/mp4" />
+        </video>
+      )}
+      {!videoLoaded && inView && (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse" />
+      )}
+    </div>
+  );
 };
 
-const storyVideoSources = {
-  desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
-  },
-  mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
-  },
-  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
+// Optimized Image Component
+const OptimizedImage = ({
+  src,
+  alt,
+  className = "",
+  isMobile,
+  sizes = "(max-width: 768px) 100vw, 50vw"
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  isMobile: boolean;
+  sizes?: string;
+}) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  return (
+    <div className="relative overflow-hidden">
+      <img
+        src={src}
+        alt={alt}
+        className={cn(
+          "w-full h-full object-cover transition-opacity duration-300",
+          imageLoaded ? "opacity-100" : "opacity-0",
+          className
+        )}
+        loading="lazy"
+        decoding="async"
+        sizes={sizes}
+        onLoad={() => setImageLoaded(true)}
+      />
+      {!imageLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse" />
+      )}
+    </div>
+  );
 };
 
 function About() {
   const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -381,6 +502,17 @@ function About() {
     };
   }, []);
 
+  // Add preconnect for Cloudinary
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = 'https://res.cloudinary.com';
+    document.head.appendChild(link);
+    
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   const ThemedCard = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => {
     return theme === 'dark' ? (
@@ -419,42 +551,22 @@ function About() {
         />
         <meta property="og:url" content="https://www.businessanddatasolutions.com/about" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
+        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_60,w_1200/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
       </Helmet>
 
-      {/* Hero Section - Mobile Optimized */}
       {/* Hero Section - Full Screen with Video */}
-
-
-
       <section className="relative min-h-screen flex flex-col md:pt-0 mb-6 md:mb-8 overflow-hidden">
-        {/* Background Video */}
-        <video
-          className={`absolute w-full h-full object-cover transition-opacity duration-500 ${videoLoaded ? 'opacity-30' : 'opacity-0'}`}
-          style={{
-            filter: isMobile ? 'none' : 'brightness(1.1) contrast(1.1) saturate(1.2)',
-          }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
-          onLoadedData={() => setVideoLoaded(true)}
-        >
-          {isMobile ? (
-            <>
-              <source src={videoSources.mobile.webm} type="video/webm" />
-              <source src={videoSources.mobile.mp4} type="video/mp4" />
-            </>
-          ) : (
-            <>
-              <source src={videoSources.desktop.webm} type="video/webm" />
-              <source src={videoSources.desktop.mp4} type="video/mp4" />
-            </>
-          )}
-          <source src={videoSources.fallback} type="video/mp4" />
-        </video>
+        {/* Background Video - Optimized with lazy loading */}
+        <OptimizedVideo
+          sources={BACKGROUND_VIDEO}
+          isMobile={isMobile}
+          controls={false}
+          autoPlay={true}
+          muted={true}
+          loop={true}
+          className="absolute w-full h-full object-cover opacity-30"
+          title="BDS Background Video"
+        />
 
         {/* Overlay */}
         <div className={cn(
@@ -691,10 +803,11 @@ function About() {
             <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col justify-center items-center dark:bg-black dark:text-gray-100">
               <div className="text-center group">
                 <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-4 transition-all duration-300 ease-in-out group-hover:scale-105 shadow-lg">
-                  <img
-                    src="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753057496/Bhargav_va98sz.jpg"
-                    alt="Allu - Director & Co-Founder"
+                  <OptimizedImage
+                    src={isMobile ? DIRECTOR_IMAGE.mobile : DIRECTOR_IMAGE.desktop}
+                    alt="Bhargav Allu - Director & Co-Founder"
                     className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                    isMobile={isMobile}
                   />
                 </div>
                 <h3 className="text-lg md:text-xl font-bold mb-1">Bhargav Allu</h3>
@@ -733,29 +846,16 @@ function About() {
                   : "bg-white border-gray-300 text-gray-900"
               )}>
                 <div className="relative aspect-video">
-                  <video
+                  <OptimizedVideo
+                    sources={STORY_VIDEO}
+                    isMobile={isMobile}
+                    controls={true}
+                    autoPlay={true}
+                    muted={true}
+                    loop={true}
                     className="w-full h-full object-cover rounded-lg"
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1763800003/Final1_fusbec.jpg"
-                  >
-                    {isMobile ? (
-                      <>
-                        <source src={storyVideoSources.mobile.webm} type="video/webm" />
-                        <source src={storyVideoSources.mobile.mp4} type="video/mp4" />
-                      </>
-                    ) : (
-                      <>
-                        <source src={storyVideoSources.desktop.webm} type="video/webm" />
-                        <source src={storyVideoSources.desktop.mp4} type="video/mp4" />
-                      </>
-                    )}
-                    <source src={storyVideoSources.fallback} type="video/mp4" />
-                  </video>
+                    title="Our Story - Business & Data Solutions Journey"
+                  />
                 </div>
               </div>
             </ThemedCard>
@@ -763,10 +863,11 @@ function About() {
 
           <div className="w-full md:w-1/2 relative rounded-xl md:rounded-2xl overflow-hidden">
             <div className="absolute inset-0">
-              <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
+              <OptimizedImage
+                src={isMobile ? UNSPLASH_IMAGES.journey.mobile : UNSPLASH_IMAGES.journey.desktop}
                 alt="Our Startup Journey"
                 className="w-full h-full object-cover"
+                isMobile={isMobile}
               />
               <div className={cn(
                 "absolute inset-0",
