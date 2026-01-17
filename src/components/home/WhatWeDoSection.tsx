@@ -1,6 +1,4 @@
-// Refactored WhatWeDoSection with improved mobile layout, shorter content, bullet points, and clear value props
-// NOTE: Replace your existing WhatWeDoSection component with this updated version
-
+// Refactored WhatWeDoSection with optimized media loading
 import React, { memo, useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -8,10 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart, BrainCog } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-
 import { useTheme } from "@/providers/ThemeProvider";
-
-
 
 const MemoizedIcons = {
   Cloud: memo(Cloud),
@@ -34,28 +29,40 @@ const INDUSTRIES = [
   { icon: "Users", text: "All Business Types" },
 ] as const;
 
+// ==================== FIXED: Image/Video Format Issues ====================
+
+// ✅ ISSUE #1: Background video poster is JPG, should be WebP
 const BACKGROUND_VIDEO_SOURCES = {
   desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
   },
   mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
   },
-  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
+  // ✅ FIXED: Changed from JPG to WebP with proper optimization
+  poster: {
+    desktop: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_800/v1753041808/Google_Gemini_n4h8by.jpg",
+    mobile: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_400/v1753041808/Google_Gemini_n4h8by.jpg"
+  }
 };
 
+// ✅ ISSUE #2: Story video poster has incorrect format parameters
 const STORY_VIDEO_SOURCES = {
   desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_35,w_960/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_35,w_960/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
   },
   mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_480/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_480/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
   },
-  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
+  // ✅ FIXED: Changed from f_auto to f_webp for better compression
+  poster: {
+    desktop: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_600/v1763800003/Final1_fusbec.jpg",
+    mobile: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_300/v1763800003/Final1_fusbec.jpg"
+  }
 };
 
 const itemVariants = {
@@ -103,17 +110,27 @@ const useVideoLoad = () => {
 
 function WhatWeDoSection() {
   const { ref, inView } = useInView({ triggerOnce: true });
+  const [storyVideoInView, setStoryVideoInView] = useState(false);
+  const { ref: storyVideoRef } = useInView({
+    triggerOnce: true,
+    rootMargin: '200px',
+    onChange: (inView) => setStoryVideoInView(inView)
+  });
+  
   const isMobile = useMobileDetection();
   const navigate = useNavigate();
 
   const { theme } = useTheme();
   const { videoRef: backgroundVideoRef, videoLoaded: bgLoaded, handleVideoLoad: handleBG } = useVideoLoad();
+  const [storyVideoLoaded, setStoryVideoLoaded] = useState(false);
 
   const handleServicesClick = () => navigate("/services");
   const handleConsultClick = () => navigate("/consultation");
 
   const bgVid = isMobile ? BACKGROUND_VIDEO_SOURCES.mobile : BACKGROUND_VIDEO_SOURCES.desktop;
+  const bgPoster = isMobile ? BACKGROUND_VIDEO_SOURCES.poster.mobile : BACKGROUND_VIDEO_SOURCES.poster.desktop;
   const storyVid = isMobile ? STORY_VIDEO_SOURCES.mobile : STORY_VIDEO_SOURCES.desktop;
+  const storyPoster = isMobile ? STORY_VIDEO_SOURCES.poster.mobile : STORY_VIDEO_SOURCES.poster.desktop;
 
   const handleFeatureClick = useCallback((serviceId: string) => {
     navigate(`/service-detail/${serviceId}`);
@@ -159,50 +176,26 @@ function WhatWeDoSection() {
     }
   ];
 
-  // Cloudinary video URLs with optimizations
-  const videoSources = {
-    desktop: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
-    },
-    mobile: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
-    },
-    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
-  };
-
-  // Story video sources (16MB video optimization)
-  const storyVideoSources = {
-    desktop: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1280/v1763800003/Final1_fusbec.mp4"
-    },
-    mobile: {
-      webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4",
-      mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1763800003/Final1_fusbec.mp4"
-    },
-    fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1763800003/Final1_fusbec.mp4"
-  };
-
-
-
   return (
     <section className="py-16 relative overflow-hidden">
-      <video
-        ref={backgroundVideoRef}
-        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${bgLoaded ? "opacity-20" : "opacity-0"}`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="https://res.cloudinary.com/dsf4d41i8/image/upload/f_auto,q_auto/v1753041808/Google_Gemini_n4h8by.jpg"
-        onLoadedData={handleBG}
-      >
-        <source src={bgVid.webm} type="video/webm" />
-        <source src={bgVid.mp4} type="video/mp4" />
-      </video>
+      {/* ✅ OPTIMIZED: Background video with lazy loading */}
+      {inView && (
+        <video
+          ref={backgroundVideoRef}
+          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${bgLoaded ? "opacity-20" : "opacity-0"}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none" // Changed from "metadata" to "none"
+          loading="lazy"
+          poster={bgPoster}
+          onLoadedData={handleBG}
+        >
+          <source src={bgVid.webm} type="video/webm" />
+          <source src={bgVid.mp4} type="video/mp4" />
+        </video>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 relative z-10 pt-10">
         {/* Badge - SEO Optimized */}
@@ -212,28 +205,24 @@ function WhatWeDoSection() {
             Your End-to-End Tech Partner for the Digital World
           </div>
         </motion.div>
+        
         {/* SEO Optimized Main Heading */}
         <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
           Everything a Modern Business Needs<br /> — Delivered Under One Roof.
         </h1>
+        
         {/* Main Layout */}
         <div className="flex flex-col lg:flex-row gap-12 items-center">
-
           {/* Content - Left side on desktop */}
           <div className="lg:w-1/2 w-full">
             <motion.div ref={ref} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}>
-
-
               {/* Updated Content with Consumer Insights */}
               <div className="mb-6">
-                <h2 className="text-xl lg:text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">
-
-                </h2>
-                <p className="text- text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   <strong> We partner with businesses of all sizes and industries to solve real-world challenges and drive sustainable growth.</strong><br /><br />
                   By combining business consulting, data intelligence, digital innovation, and market insights, we design practical,
                   scalable solutions tailored to your goals, industry, and stage of growth — not one-size-fits-all services.<br /><br />
-                  <strong> Whether you’re a startup, SME, or growing enterprise, we adapt our approach to help you operate smarter, connect better with customers, and make confident, data-driven decisions.
+                  <strong> Whether you're a startup, SME, or growing enterprise, we adapt our approach to help you operate smarter, connect better with customers, and make confident, data-driven decisions.
                   </strong>,
                 </p>
               </div>
@@ -241,7 +230,7 @@ function WhatWeDoSection() {
               {/* Bullet Features - Clean without borders/background */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {FEATURES.map((f, idx) => {
-                  const Icon = MemoizedIcons[f.icon as keyof typeof MemoizedIcons]; // Type assertion added
+                  const Icon = MemoizedIcons[f.icon as keyof typeof MemoizedIcons];
                   return (
                     <motion.div
                       key={idx}
@@ -267,7 +256,6 @@ function WhatWeDoSection() {
                           <span className="truncate">{f.title}</span>
                           <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all duration-200 transform -translate-x-2 group-hover:translate-x-0" />
                         </div>
-
                       </div>
                     </motion.div>
                   );
@@ -289,33 +277,47 @@ function WhatWeDoSection() {
           {/* Video - Right side on desktop with CTAs below */}
           <div className="lg:w-1/2 w-full flex flex-col items-center justify-center">
             <motion.div
+              ref={storyVideoRef}
               className="overflow-hidden rounded-2xl shadow-2xl bg-black w-full max-w-4xl mx-auto relative"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5 }}
             >
               <div className="relative aspect-video w-full">
-                <video
-                  key={storyVid.mp4}
-                  className="w-full h-full object-cover rounded-lg"
-                  controls
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1763800003/Final1_fusbec.jpg"
-                  title="Business Data Solutions - Digital Transformation Services"
-                >
-                  <source src={storyVid.webm} type="video/webm" />
-                  <source src={storyVid.mp4} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-
-                {/* Gradient overlay with pointer-events: none */}
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none"
-                ></div>
+                {/* ✅ OPTIMIZED: Story video loads only when in view */}
+                {storyVideoInView && (
+                  <>
+                    <video
+                      className={`w-full h-full object-cover rounded-lg transition-opacity duration-500 ${
+                        storyVideoLoaded ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      controls
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      loading="lazy"
+                      poster={storyPoster}
+                      title="Business Data Solutions - Digital Transformation Services"
+                      onLoadedData={() => setStoryVideoLoaded(true)}
+                    >
+                      <source src={storyVid.webm} type="video/webm" />
+                      <source src={storyVid.mp4} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    
+                    {/* Loading skeleton */}
+                    {!storyVideoLoaded && (
+                      <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse rounded-lg flex items-center justify-center">
+                        <div className="text-gray-500 dark:text-gray-400">Loading video...</div>
+                      </div>
+                    )}
+                  </>
+                )}
+                
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none"></div>
               </div>
             </motion.div>
 
@@ -332,8 +334,6 @@ function WhatWeDoSection() {
           </div>
         </div>
       </div>
-
-
     </section>
   );
 }
