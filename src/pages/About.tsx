@@ -555,24 +555,47 @@ function About() {
       </Helmet>
 
       {/* Hero Section - Full Screen with Video */}
-      <section className="relative min-h-screen flex flex-col md:pt-0 mb-6 md:mb-8 overflow-hidden">
-        {/* Background Video - Optimized with lazy loading */}
-        <OptimizedVideo
-          sources={BACKGROUND_VIDEO}
-          isMobile={isMobile}
-          controls={false}
-          autoPlay={true}
-          muted={true}
-          loop={true}
-          className="absolute w-full h-full object-cover opacity-30"
-          title="BDS Background Video"
-        />
+     <section className="relative min-h-screen flex flex-col md:pt-0 mb-6 md:mb-8 overflow-hidden">
+  {/* SIMPLE Background Video - No State, No Infinite Loop */}
+  <div className="absolute inset-0 z-0">
+    <video
+      className="w-full h-full object-cover opacity-30"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      loading="lazy"
+      poster={
+        isMobile 
+          ? "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_400/v1753041808/Google_Gemini_n4h8by.jpg"
+          : "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_800/v1753041808/Google_Gemini_n4h8by.jpg"
+      }
+    >
+      <source 
+        src={
+          isMobile
+            ? "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
+            : "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
+        } 
+        type="video/webm" 
+      />
+      <source 
+        src={
+          isMobile
+            ? "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
+            : "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
+        } 
+        type="video/mp4" 
+      />
+    </video>
+  </div>
 
-        {/* Overlay */}
-        <div className={cn(
-          "absolute inset-0 z-0",
-          theme === "dark" ? "bg-black/30" : "bg-white/30"
-        )} />
+  {/* Overlay */}
+  <div className={cn(
+    "absolute inset-0 z-10",
+    theme === "dark" ? "bg-black/40" : "bg-white/20"
+  )} />
 
         {/* Hero Content */}
         <div className="max-w-7xl mx-auto pt-24">
