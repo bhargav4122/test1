@@ -331,25 +331,31 @@ const Navbar = () => {
               ))}
 
               {/* Mobile Theme Toggle */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleTheme();
-                }}
-                className={cn(
-                  "flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all",
-                  theme === "dark"
-                    ? "text-white hover:bg-white/5"
-                    : "text-gray-800 hover:bg-gray-100"
-                )}
-              >
-                {theme === "dark" ? (
+                <button
+              onClick={() => {
+                toggleTheme();
+                // Keep menu open after theme toggle on mobile
+              }}
+              className={cn(
+                "flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all",
+                theme === "dark"
+                  ? "text-white hover:bg-white/5"
+                  : "text-gray-800 hover:bg-gray-100"
+              )}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === "dark" ? (
+                <>
                   <Sun className="h-5 w-5" />
-                ) : (
+                  <span className="text-base font-medium">Light Mode</span>
+                </>
+              ) : (
+                <>
                   <Moon className="h-5 w-5" />
-                )}
-                <span className="text-base font-medium">Toggle Theme</span>
-              </button>
+                  <span className="text-base font-medium">Dark Mode</span>
+                </>
+              )}
+            </button>
 
               {/* Consultation Button - Mobile */}
               <div className="pt-4">
