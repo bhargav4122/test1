@@ -7,6 +7,7 @@ import {
   Navigate,
   useParams
 } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -171,6 +172,7 @@ export default function App() {
           <AppContent />
         )}
       </AnimatePresence>
+      <Analytics />
     </BrowserRouter>
   );
 }
