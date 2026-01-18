@@ -7,6 +7,7 @@ import {
   Navigate,
   useParams
 } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -104,6 +105,7 @@ const AppContent = () => {
               <Sonner />
               <ChatBot />
               <WhatsAppButton/>
+              <SpeedInsights />
               <Navbar />
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Index />} />
