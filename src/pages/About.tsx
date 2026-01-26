@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/common/SEO';
 import {
   Globe, BarChart3, Users, MessageCircle, Award, Zap, Target, Check,
   Shield, ChevronRight, Eye, User, Lightbulb, Hammer, Briefcase, ChartBarIcon, CogIcon, HandshakeIcon,
@@ -13,8 +13,13 @@ import { Button } from "@/components/ui/button";
 import { ConsultationButton } from "@/components/consultation/ConsultationButton";
 import { TeamsButton } from "@/components/Careers/teambutton";
 import { useInView } from 'react-intersection-observer';
-
-// ==================== OPTIMIZED MEDIA SOURCES ====================
+import { motion } from 'framer-motion';
+import Layout from "@/components/layout/Layout";
+import ConsistentPageHeader from '@/components/layout/ConsistentPageHeader';
+import { useIsMobile } from '@/hooks/useWindowSize';
+import OptimizedImage from '@/components/core/OptimizedImage';
+import OptimizedVideo from '@/components/core/OptimizedVideo';
+import CallToAction from '@/components/home/CallToAction';
 
 // Director Image - Converted to WebP format
 const DIRECTOR_IMAGE = {
@@ -93,94 +98,54 @@ const values = [
 const timeline = [
   {
     year: "2022",
-    title: "Idea & Vision",
-    description: "The spark of an idea: to help businesses harness data and technology in more accessible ways.",
+    title: "The Vision",
+    description: "Business & Data Solutions was born from a simple belief: every enterprise deserves clarity, not complexity. We set out to bridge the gap between traditional processes and digital intelligence.",
     icon: Lightbulb,
-    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=600&q=60",
+    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+    color: "from-blue-500 to-cyan-500"
   },
   {
     year: "2023",
-    title: "Foundation Building",
-    description: "Working with early clients, refining our approach, and building our service framework.",
-    icon: Hammer,
-    image: "https://images.unsplash.com/photo-1522252234503-e356532cafd5?auto=format&fit=crop&w=600&q=60",
+    title: "Global Foundations",
+    description: "We established our core service frameworks, working with early adopters in the tech and finance sectors to refine our AI-driven approach to data transformation.",
+    icon: Globe,
+    image: "https://images.unsplash.com/photo-1522252234503-e356532cafd5?auto=format&fit=crop&w=800&q=80",
+    color: "from-indigo-500 to-blue-500"
   },
   {
     year: "2024 Q1",
-    title: "Official Launch",
-    description: "Formally established the company with a clear vision for modern business solutions.",
+    title: "Official Scale",
+    description: "Transitioning from a specialized consultancy to a full-service digital transformation house. We doubled our engineering team and launched our proprietary implementation methodology.",
     icon: Rocket,
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=60",
-  },
-  {
-    year: "2024 Q2-Q3",
-    title: "Service Refinement",
-    description: "Launched and refined our core services based on client feedback and market needs.",
-    icon: Zap,
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=60",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
+    color: "from-purple-500 to-indigo-500"
   },
   {
     year: "2024 Q4",
-    title: "Building Momentum",
-    description: "Growing our client base and developing deeper partnerships with forward-thinking businesses.",
-    icon: TrendingUp,
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=60",
-  },
-  {
-    year: "2025 Q1",
-    title: "UK Market Planning",
-    description: "Currently laying the groundwork for UK operations with market research and strategy development.",
+    title: "UK Market Entry",
+    description: "Successfully laid the groundwork for our London-based operations, specializing in cross-border data compliance and international cloud migrations.",
     icon: MapPin,
-    image: "https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=600&q=60",
-    badge: "",
+    image: "https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=800&q=80",
+    color: "from-blue-600 to-indigo-700",
+    badge: "NOW"
   },
   {
-    year: "2025 Q2-Q3",
-    title: "UK Operations Start",
-    description: "Planning to begin UK client engagements and establish our presence in the market.",
-    icon: Globe,
-    image: "https://images.unsplash.com/photo-1512850183-6d8b49e3298e?auto=format&fit=crop&w=600&q=60",
-    badge: "",
-  },
-  {
-    year: "2025 Q4",
-    title: "Team Expansion",
-    description: "Growing our team to better serve our expanding client base and international ambitions.",
+    year: "2025 Q2",
+    title: "India Tech Hub",
+    description: "Expanding our delivery capabilities with a dedicated center of excellence in India, focusing on AI research and 24/7 global support operations.",
     icon: Users,
-    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=60",
-    badge: "NOW",
+    image: "https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?auto=format&fit=crop&w=800&q=80",
+    color: "from-orange-500 to-red-500",
+    badge: "PLANNED"
   },
   {
     year: "2026",
-    title: "Next Chapter",
-    description: "Exploring new markets and opportunities for growth based on our UK experience.",
+    title: "North America Expansion",
+    description: "Bringing our unique blend of strategic consulting and technological excellence to the US market, completing our vision of a truly global transformation partner.",
     icon: Compass,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=60",
-    badge: "PLANNED",
-  },
-  {
-    year: "2026 Q1",
-    title: "India Operations Start",
-    description: "Launching India operations with strategic hiring and local market focus.",
-    icon: Users,
-    image: "https://images.unsplash.com/photo-1516562309708-05f3b2b2c238?auto=format&fit=crop&w=600&q=60",
-    badge: "Coming Soon",
-  },
-  {
-    year: "2026 Q4",
-    title: "USA Market Planning",
-    description: "Laying the groundwork for US expansion with market research and strategy development.",
-    icon: MapPin,
-    image: "https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?auto=format&fit=crop&w=600&q=60",
-    badge: "Coming Soon",
-  },
-  {
-    year: "2027 Q1",
-    title: "Team Growth Phase",
-    description: "Expanding our team to better serve our growing international client base.",
-    icon: Compass,
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=60",
-    badge: "Coming Soon",
+    image: "https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?auto=format&fit=crop&w=800&q=80",
+    color: "from-cyan-500 to-blue-600",
+    badge: "VISION"
   },
 ];
 
@@ -386,121 +351,10 @@ const MobileTimeline = ({ timeline, theme }: { timeline: any[], theme: string })
   );
 };
 
-// Optimized Video Component with Lazy Loading
-const OptimizedVideo = ({ 
-  sources, 
-  isMobile, 
-  controls = false, 
-  autoPlay = true,
-  muted = true,
-  loop = true,
-  className = "",
-  title = ""
-}: {
-  sources: typeof BACKGROUND_VIDEO | typeof STORY_VIDEO;
-  isMobile: boolean;
-  controls?: boolean;
-  autoPlay?: boolean;
-  muted?: boolean;
-  loop?: boolean;
-  className?: string;
-  title?: string;
-}) => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    rootMargin: '200px',
-  });
-
-  const source = isMobile ? sources.mobile : sources.desktop;
-
-  return (
-    <div ref={ref} className="relative">
-      {inView && (
-        <video
-          ref={videoRef}
-          className={cn(
-            "w-full h-full object-cover transition-opacity duration-500",
-            videoLoaded ? "opacity-100" : "opacity-0",
-            className
-          )}
-          autoPlay={autoPlay}
-          muted={muted}
-          loop={loop}
-          playsInline
-          controls={controls}
-          preload="metadata"
-          loading="lazy"
-          poster={source.poster}
-          title={title}
-          onLoadedData={() => setVideoLoaded(true)}
-        >
-          <source src={source.webm} type="video/webm" />
-          <source src={source.mp4} type="video/mp4" />
-        </video>
-      )}
-      {!videoLoaded && inView && (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse" />
-      )}
-    </div>
-  );
-};
-
-// Optimized Image Component
-const OptimizedImage = ({
-  src,
-  alt,
-  className = "",
-  isMobile,
-  sizes = "(max-width: 768px) 100vw, 50vw"
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  isMobile: boolean;
-  sizes?: string;
-}) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  return (
-    <div className="relative overflow-hidden">
-      <img
-        src={src}
-        alt={alt}
-        className={cn(
-          "w-full h-full object-cover transition-opacity duration-300",
-          imageLoaded ? "opacity-100" : "opacity-0",
-          className
-        )}
-        loading="lazy"
-        decoding="async"
-        sizes={sizes}
-        onLoad={() => setImageLoaded(true)}
-      />
-      {!imageLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse" />
-      )}
-    </div>
-  );
-};
 
 function About() {
   const { theme } = useTheme();
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   // Add preconnect for Cloudinary
   useEffect(() => {
@@ -508,7 +362,7 @@ function About() {
     link.rel = 'preconnect';
     link.href = 'https://res.cloudinary.com';
     document.head.appendChild(link);
-    
+
     return () => {
       document.head.removeChild(link);
     };
@@ -529,192 +383,144 @@ function About() {
   };
 
   return (
-    <div className={cn(
-      "w-full min-h-screen flex flex-col",
-    )}>
+    <>
       {/* SEO Meta Tags */}
-      <Helmet>
-        <title>About Business and Data Solutions | About BDS | Our Story & Mission</title>
-        <meta
-          name="description"
-          content="Learn about Business and Data Solutions - our mission, values, growth journey, and commitment to delivering innovative business transformation services since 2022."
-        />
-        <meta
-          name="keywords"
-          content="about BDS, business solutions company, our mission, company values, growth journey, business transformation, data services, digital innovation"
-        />
-        <link rel="canonical" href="https://www.businessanddatasolutions.com/about" />
-        <meta property="og:title" content="About Business and Data Solutions | Our Story & Mission" />
-        <meta
-          property="og:description"
-          content="Learn about Business and Data Solutions - our mission, values, and commitment to delivering innovative business transformation services."
-        />
-        <meta property="og:url" content="https://www.businessanddatasolutions.com/about" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_60,w_1200/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
-      </Helmet>
-
-      {/* Hero Section - Full Screen with Video */}
-     <section className="relative min-h-screen flex flex-col md:pt-0 mb-6 md:mb-8 overflow-hidden">
-  {/* SIMPLE Background Video - No State, No Infinite Loop */}
-  <div className="absolute inset-0 z-0">
-    <video
-      className="w-full h-full object-cover opacity-30"
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      loading="lazy"
-      poster={
-        isMobile 
-          ? "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_400/v1753041808/Google_Gemini_n4h8by.jpg"
-          : "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_800/v1753041808/Google_Gemini_n4h8by.jpg"
-      }
-    >
-      <source 
-        src={
-          isMobile
-            ? "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
-            : "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
-        } 
-        type="video/webm" 
+      {/* SEO Meta Tags */}
+      <SEO
+        title="About Business and Data Solutions | About BDS"
+        description="Learn about Business and Data Solutions - our mission, values, growth journey, and commitment to delivering innovative business transformation services since 2022."
+        keywords="about BDS, business solutions company, our mission, company values, growth journey, business transformation, data services, digital innovation"
+        url="https://www.businessanddatasolutions.com/about"
+        image="https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_60,w_1200/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png"
       />
-      <source 
-        src={
-          isMobile
-            ? "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_640,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
-            : "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_30,w_1280,ac_none/v1753041808/Google_Gemini_n4h8by.mp4"
-        } 
-        type="video/mp4" 
-      />
-    </video>
-  </div>
 
-  {/* Overlay */}
-  <div className={cn(
-    "absolute inset-0 z-10",
-    theme === "dark" ? "bg-black/40" : "bg-white/20"
-  )} />
+      {/* New Redesigned Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
+        {/* Dynamic Background video layer */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <OptimizedVideo
+            sources={BACKGROUND_VIDEO}
+            isMobile={isMobile}
+            className="h-full w-full object-cover opacity-30 dark:opacity-20"
+          />
+          <div className={cn(
+            "absolute inset-0 z-10 bg-gradient-to-b",
+            theme === "dark"
+              ? "from-black/80 via-black/50 to-black"
+              : "from-white/90 via-white/60 to-white"
+          )} />
+        </div>
 
-        {/* Hero Content */}
-        <div className="max-w-7xl mx-auto pt-24">
-          <div className="text-center py-4 mb-6 ">
-            <span className={cn(
-              "inline-block px-4 py-2 text-sm font-semibold rounded-full tracking-wide mb-6",
-              theme === "dark"
-                ? "bg-blue-900/30 text-blue-300 border border-blue-800/50"
-                : "bg-blue-100 text-blue-700 border border-blue-200"
-            )}>
-              About BDS
-            </span>
+        <div className="container relative z-20 px-4 mx-auto">
+          <div className="flex flex-col items-center text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-500 backdrop-blur-md mb-6"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-xs font-bold uppercase tracking-widest">Global Transformation Partner</span>
+            </motion.div>
 
-            <h1 className={cn(
-              "text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-8",
-              theme === "dark" ? "text-white" : "text"
-            )}>
-              <span className={cn(
-                "bg-clip-text text-transparent bg-gradient-to-r",
-                theme === "dark"
-                  ? "from-blue-400 via-purple-400 to-indigo-400"
-                  : "from-blue-600 via-purple-600 to-indigo-600"
-              )}>
-                Who We Are
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className={cn(
+                "text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-tight",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}
+            >
+              We Are <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-blue-400 to-purple-500">
+                BDS
               </span>
-            </h1>
+            </motion.h1>
 
-            <div className="mx-auto max-w-3xl">
-              <ScrollableText maxHeight="200px" className="mx-auto">
-                <p className={cn(
-                  "text-lg md:text-xl lg:text-2xl leading-relaxed",
-                  theme === "dark" ? "text-gray-200" : "text-gray-800"
-                )}>
-                  <strong className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Business & Data Solutions (BDS) </strong>
-                  is a forward-thinking transformation partner. We combine data intelligence, digital technology, and strategic consulting to help organizations unlock growth and build resilience.
-                </p>
-              </ScrollableText>
-            </div>
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-left">
-              {/* Left Card */}
-              <div className={cn(
-                "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className={cn(
+                "max-w-3xl mx-auto text-lg md:text-xl md:leading-relaxed",
+                theme === "dark" ? "text-gray-300" : "text-gray-600"
+              )}
+            >
+              Business & Data Solutions (BDS) helps organizations unlock growth and build resilience through intelligence, digital technology, and strategic consulting.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12 max-w-6xl mx-auto">
+            {/* Left Card: Core Value Prop */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className={cn(
+                "relative overflow-hidden rounded-[2rem] p-8 md:p-12 border backdrop-blur-xl group",
                 theme === "dark"
-                  ? "bg-gray-900/80 border-gray-800 hover:border-blue-500/30 backdrop-blur-sm"
-                  : "bg-white/90 border-gray-200 hover:border-blue-200 backdrop-blur-sm"
-              )}>
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
-                  <div className={cn(
-                    "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
-                    theme === "dark" ? "bg-blue-900/20 text-blue-400 group-hover:bg-blue-900/30" : "bg-blue-50 text-blue-600 group-hover:bg-blue-100"
-                  )}>
-                    <ChartBarIcon className="h-5 w-5 md:h-6 md:w-6" />
-                  </div>
-                  <div className="text-center md:text-left">
-                    <span className={cn(
-                      "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
-                      theme === "dark"
-                        ? "bg-blue-950 text-blue-300"
-                        : "bg-blue-50 text-blue-700"
-                    )}>
-                      What We Do
-                    </span>
-                    <h3 className={cn(
-                      "text-xl font-bold",
-                      theme === "dark" ? "text-white" : "text-gray-900"
-                    )}>
-                      Empowering Businesses Through Data, Technology & Intelligent Innovation
-                    </h3>
-                  </div>
+                  ? "bg-gray-900/40 border-white/10 hover:bg-gray-900/60"
+                  : "bg-white/60 border-white/40 hover:bg-white/80 shadow-xl shadow-blue-900/5"
+              )}
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <ChartBarIcon className="w-32 h-32" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-500/30">
+                  <Zap className="w-7 h-7" />
                 </div>
-
-                <p className={cn(
-                  "text-base leading-relaxed text-center md:text-left",
-                  theme === "dark" ? "text-gray-300" : "text-gray-600"
+                <h3 className={cn(
+                  "text-2xl font-bold mb-4",
+                  theme === "dark" ? "text-white" : "text-gray-900"
                 )}>
-                  We provide end-to-end solutions that enable smarter decisions and seamless digital experiences. From data analytics and AI to cloud solutions and market research, we deliver impact that lasts.
+                  Empowering Innovation
+                </h3>
+                <p className={cn(
+                  "leading-relaxed",
+                  theme === "dark" ? "text-gray-400" : "text-gray-600"
+                )}>
+                  We provide end-to-end solutions enabling smarter decisions and seamless digital experiences. From data analytics and AI to cloud solutions, we deliver impact that lasts.
                 </p>
               </div>
+            </motion.div>
 
-              {/* Right Card */}
-              <div className={cn(
-                "rounded-2xl border p-8 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+            {/* Right Card: Strategic Partnership */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className={cn(
+                "relative overflow-hidden rounded-[2rem] p-8 md:p-12 border backdrop-blur-xl group",
                 theme === "dark"
-                  ? "bg-gray-900/80 border-gray-800 hover:border-purple-500/30 backdrop-blur-sm"
-                  : "bg-white/90 border-gray-200 hover:border-purple-200 backdrop-blur-sm"
-              )}>
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
-                  <div className={cn(
-                    "h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors",
-                    theme === "dark" ? "bg-purple-900/20 text-purple-400 group-hover:bg-purple-900/30" : "bg-purple-50 text-purple-600 group-hover:bg-purple-100"
-                  )}>
-                    <HandshakeIcon className="h-7 w-7" />
-                  </div>
-                  <div className="text-center md:text-left">
-                    <span className={cn(
-                      "inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full mb-3",
-                      theme === "dark"
-                        ? "bg-purple-950 text-purple-300"
-                        : "bg-purple-50 text-purple-700"
-                    )}>
-                      Our Identity
-                    </span>
-                    <h3 className={cn(
-                      "text-xl font-bold",
-                      theme === "dark" ? "text-white" : "text-gray-900"
-                    )}>
-                      Strategic Partnership
-                    </h3>
-                  </div>
+                  ? "bg-gray-900/40 border-white/10 hover:bg-gray-900/60"
+                  : "bg-white/60 border-white/40 hover:bg-white/80 shadow-xl shadow-purple-900/5"
+              )}
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <HandshakeIcon className="w-32 h-32" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500 flex items-center justify-center text-white mb-6 shadow-lg shadow-purple-500/30">
+                  <Users className="w-7 h-7" />
                 </div>
-
-                <p className={cn(
-                  "text-base leading-relaxed text-center md:text-left",
-                  theme === "dark" ? "text-gray-300" : "text-gray-600"
+                <h3 className={cn(
+                  "text-2xl font-bold mb-4",
+                  theme === "dark" ? "text-white" : "text-gray-900"
                 )}>
-                  We are innovators and problem-solvers. Our identity is shaped by agility, transparency, and results. We don't just implement technology; we help your business evolve with confidence.
+                  Strategic Partnership
+                </h3>
+                <p className={cn(
+                  "leading-relaxed",
+                  theme === "dark" ? "text-gray-400" : "text-gray-600"
+                )}>
+                  Our identity is shaped by agility, transparency, and results. We don't just implement technology; we help your business evolve with confidence through a true partnership model.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -830,7 +636,6 @@ function About() {
                     src={isMobile ? DIRECTOR_IMAGE.mobile : DIRECTOR_IMAGE.desktop}
                     alt="Bhargav Allu - Director & Co-Founder"
                     className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                    isMobile={isMobile}
                   />
                 </div>
                 <h3 className="text-lg md:text-xl font-bold mb-1">Bhargav Allu</h3>
@@ -872,29 +677,23 @@ function About() {
                   <OptimizedVideo
                     sources={STORY_VIDEO}
                     isMobile={isMobile}
-                    controls={true}
-                    autoPlay={true}
-                    muted={true}
-                    loop={true}
-                    className="w-full h-full object-cover rounded-lg"
-                    title="Our Story - Business & Data Solutions Journey"
+                    title="Our Story"
                   />
                 </div>
               </div>
             </ThemedCard>
           </div>
 
-          <div className="w-full md:w-1/2 relative rounded-xl md:rounded-2xl overflow-hidden">
+          <div className="w-full md:w-1/2 relative rounded-xl md:rounded-2xl overflow-hidden min-h-[400px] flex items-center">
             <div className="absolute inset-0">
               <OptimizedImage
                 src={isMobile ? UNSPLASH_IMAGES.journey.mobile : UNSPLASH_IMAGES.journey.desktop}
                 alt="Our Startup Journey"
                 className="w-full h-full object-cover"
-                isMobile={isMobile}
               />
               <div className={cn(
                 "absolute inset-0",
-                theme === "dark" ? "bg-black/60" : "bg-white/80"
+                theme === "dark" ? "bg-black/75" : "bg-white/90"
               )} />
             </div>
 
@@ -916,7 +715,7 @@ function About() {
               <ScrollableText maxHeight="250px">
                 <p className={cn(
                   "text-sm md:text-base lg:text-lg leading-relaxed pr-2",
-                  theme === "dark" ? "text-gray-200" : "text-gray-700"
+                  theme === "dark" ? "text-gray-100" : "text-gray-800"
                 )}>
                   <br />
                   We began in 2022 with a simple belief: every business deserves clarity, not complexity.
@@ -934,117 +733,160 @@ function About() {
         </div>
       </section>
 
-      {/* Roadmap Timeline Section - Mobile Optimized */}
-      <section className="mb-16 md:mb-20 px-4">
-        <div className="mb-12 md:mb-20">
-          <h2 className={cn(
-            "text-xl md:text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12",
-            theme === "dark" ? "gradient-text" : "text-primary"
-          )}>
-            Our Growth Journey
-          </h2>
+      {/* Roadmap Timeline Section - High Impact Growth Journey */}
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-blue-500/[0.02] dark:bg-blue-400/[0.02] blur-[100px] -z-10" />
 
-          {/* Mobile Timeline */}
-          <MobileTimeline timeline={timeline} theme={theme} />
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 md:mb-24">
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-blue-500 font-bold uppercase tracking-widest text-xs"
+            >
+              The Evolution of BDS
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={cn(
+                "text-3xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6 tracking-tight",
+                theme === "dark" ? "text-white" : "text-gray-900"
+              )}
+            >
+              Our Growth Journey
+            </motion.h2>
+            <div className="w-20 h-1.5 bg-blue-600 mx-auto rounded-full" />
+          </div>
 
-          {/* Desktop Timeline (Hidden on mobile) */}
+          {/* Desktop Vertical Alternate Timeline */}
           <div className="hidden md:block relative">
+            {/* Center Line with Gradient */}
             <div className={cn(
-              "absolute left-1/2 transform -translate-x-1/2 h-full w-px",
-              theme === "dark" ? "bg-blue-400/30" : "bg-primary/30"
+              "absolute left-1/2 transform -translate-x-1/2 h-full w-0.5",
+              theme === "dark" ? "bg-gradient-to-b from-blue-500/0 via-blue-500/40 to-blue-500/0" : "bg-gradient-to-b from-blue-600/0 via-blue-600/20 to-blue-600/0"
             )} />
 
-            <div className="space-y-16">
+            <div className="space-y-32">
               {timeline.map((event, index) => {
                 const isLeft = index % 2 === 0;
                 const Icon = event.icon;
 
                 return (
-                  <div
-                    key={index}
-                    className={`relative flex ${isLeft ? "justify-start" : "justify-end"}`}
-                  >
-                    <div className={`w-full md:w-1/2 ${isLeft ? "md:pr-8" : "md:pl-8"}`}>
-                      {theme === 'dark' ? (
-                        <HolographicCard className="p-6 relative group hover:scale-[1.02] transition-transform">
-                          {event.badge && (
-                            <span className={cn(
-                              "absolute -top-3 -right-3 text-xs font-semibold px-2 py-1 rounded-full z-10",
-                              event.badge === "NOW"
-                                ? "bg-green-600 text-white animate-pulse"
-                                : "bg-yellow-500 text-white"
-                            )}>
-                              {event.badge}
-                            </span>
-                          )}
-                          <div className="flex items-center mb-3">
-                            <Icon className={cn(
-                              "h-5 w-5 mr-2",
-                              theme === "dark" ? "text-blue-400" : "text-primary"
-                            )} />
-                            <span className={cn(
-                              "text-lg font-semibold",
-                              theme === "dark" ? "text-blue-400" : "text-primary"
-                            )}>
-                              {event.year}
-                            </span>
-                          </div>
-                          <h3 className={cn(
-                            "text-xl font-bold mb-2",
-                            theme === "dark" ? "text-white" : "text-gray-800"
-                          )}>
-                            {event.title}
-                          </h3>
-                          <ScrollableText maxHeight="100px" showScrollHint={false}>
-                            <p className={cn(
-                              "pr-2",
-                              theme === "dark" ? "text-gray-300" : "text-gray-600"
-                            )}>
-                              {event.description}
-                            </p>
-                          </ScrollableText>
-                        </HolographicCard>
-                      ) : (
-                        <div className={cn(
-                          "p-6 rounded-xl border bg-card shadow-sm hover:shadow-md transition-all relative",
-                          theme === 'light' ? 'border-gray-200' : 'border-gray-800'
-                        )}>
-                          {event.badge && (
-                            <span className={cn(
-                              "absolute -top-3 -right-3 text-xs font-semibold px-2 py-1 rounded-full",
-                              event.badge === "NOW"
-                                ? "bg-green-600 text-white"
-                                : "bg-yellow-500 text-white"
-                            )}>
-                              {event.badge}
-                            </span>
-                          )}
-                          <div className="flex items-center mb-3">
-                            <Icon className="h-5 w-5 mr-2 text-primary" />
-                            <span className="text-lg font-semibold text-primary">
-                              {event.year}
-                            </span>
-                          </div>
-                          <h3 className="text-xl font-bold mb-2 text-gray-800">
-                            {event.title}
-                          </h3>
-                          <ScrollableText maxHeight="100px" showScrollHint={false}>
-                            <p className="text-gray-600 pr-2">
-                              {event.description}
-                            </p>
-                          </ScrollableText>
-                        </div>
-                      )}
+                  <div key={index} className="relative flex items-center justify-center">
+                    {/* Centered Year Marker */}
+                    <div className={cn(
+                      "absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center z-10",
+                    )}>
+                      <div className={cn(
+                        "w-12 h-12 rounded-full border-4 flex items-center justify-center shadow-xl transition-all duration-500",
+                        theme === "dark"
+                          ? "bg-gray-900 border-gray-800 text-blue-400"
+                          : "bg-white border-blue-50 text-blue-600"
+                      )}>
+                        <Icon size={20} />
+                      </div>
                     </div>
 
                     <div className={cn(
-                      "hidden md:flex absolute top-6 left-1/2 transform -translate-x-1/2 h-4 w-4 rounded-full z-10",
-                      theme === "dark" ? "bg-blue-400" : "bg-primary"
-                    )}></div>
+                      "w-full flex items-center gap-20",
+                      isLeft ? "flex-row" : "flex-row-reverse"
+                    )}>
+                      {/* Content Side */}
+                      <div className="w-1/2">
+                        <motion.div
+                          initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, margin: "-100px" }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                          className={cn(
+                            "relative p-8 rounded-[2.5rem] border group hover:shadow-2xl transition-all duration-500",
+                            theme === 'dark'
+                              ? "bg-gray-900/40 border-gray-800 hover:border-blue-500/30"
+                              : "bg-white border-gray-100 hover:border-blue-100 shadow-xl shadow-blue-500/5"
+                          )}
+                        >
+                          {event.badge && (
+                            <span className={cn(
+                              "absolute -top-3 left-8 px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase text-white shadow-lg",
+                              event.badge === "NOW" ? "bg-green-600 animate-pulse" : "bg-blue-600"
+                            )}>
+                              {event.badge}
+                            </span>
+                          )}
+
+                          <div className="flex items-center justify-between mb-4">
+                            <span className="text-4xl font-black text-blue-500/20">{event.year}</span>
+                            <div className={cn("px-4 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500")}>
+                              {event.title}
+                            </div>
+                          </div>
+
+                          <p className={cn(
+                            "text-lg leading-relaxed mb-6",
+                            theme === "dark" ? "text-gray-100" : "text-gray-800"
+                          )}>
+                            {event.description}
+                          </p>
+
+                          <div className="h-48 w-full rounded-2xl overflow-hidden relative group-hover:scale-[1.02] transition-transform duration-500">
+                            <OptimizedImage
+                              src={event.image}
+                              alt={event.title}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
+                        </motion.div>
+                      </div>
+
+                      {/* Ghost Side (Empty space or decorative element) */}
+                      <div className="w-1/2 pointer-events-none">
+                        <div className="opacity-10 dark:opacity-5 flex justify-center">
+                          <Icon size={120} className="scale-150 rotate-12" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
             </div>
+          </div>
+
+          {/* Mobile High-Impact Slider */}
+          <div className="md:hidden space-y-8">
+            {timeline.map((event, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className={cn(
+                  "p-6 rounded-[2rem] border relative",
+                  theme === 'dark' ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-100 shadow-xl shadow-blue-500/5"
+                )}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500">
+                    <event.icon size={24} />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-blue-500 uppercase tracking-widest">{event.year}</span>
+                    <h3 className={cn("font-bold text-xl", theme === 'dark' ? "text-white" : "text-gray-900")}>{event.title}</h3>
+                  </div>
+                </div>
+
+                <p className={cn("text-base mb-6 leading-relaxed", theme === 'dark' ? "text-gray-200" : "text-gray-700")}>
+                  {event.description}
+                </p>
+
+                <div className="h-40 rounded-2xl overflow-hidden">
+                  <OptimizedImage src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -1058,7 +900,7 @@ function About() {
           )}>Our Startup Values</h2>
           <p className={cn(
             "text-sm md:text-base max-w-2xl mx-auto",
-            theme === "dark" ? "text-gray-300" : "text-gray-600"
+            theme === "dark" ? "text-gray-200" : "text-gray-700"
           )}>
             These principles guide our approach and define how we work with every partner.
           </p>
@@ -1083,7 +925,7 @@ function About() {
                   <ScrollableText maxHeight="120px" showScrollHint={false}>
                     <p className={cn(
                       "text-sm md:text-base",
-                      theme === "dark" ? "text-gray-300" : "text-gray-600"
+                      theme === "dark" ? "text-gray-200" : "text-gray-700"
                     )}>{value.description}</p>
                   </ScrollableText>
                 </ThemedCard>
@@ -1108,7 +950,7 @@ function About() {
               )}>{value.title}</h3>
               <p className={cn(
                 "text-sm md:text-base",
-                theme === "dark" ? "text-gray-300" : "text-gray-600"
+                theme === "dark" ? "text-gray-200" : "text-gray-700"
               )}>{value.description}</p>
             </ThemedCard>
           ))}
@@ -1149,7 +991,7 @@ function About() {
                         </div>
                         <span className={cn(
                           "ml-2 md:ml-3 text-sm md:text-base",
-                          theme === "dark" ? "text-gray-300" : "text-gray-600"
+                          theme === "dark" ? "text-gray-200" : "text-gray-700"
                         )}>{item}</span>
                       </div>
                     ))}
@@ -1163,68 +1005,8 @@ function About() {
 
 
       {/* CTA Section - Mobile Optimized */}
-      <section className="mb-16 md:mb-20 px-4">
-        <div className={cn(
-          "rounded-xl md:rounded-2xl p-6 md:p-12 overflow-hidden relative",
-          theme === "dark"
-            ? "bg-gradient-to-br from-blue-900/80 via-purple-800/80 to-indigo-900/80"
-            : "bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50"
-        )}>
-          <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
-          <div className="relative z-10 max-w-4xl mx-auto text-center">
-            <h2 className={cn(
-              "text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6",
-              theme === "dark" ? "text-white" : "text-gray-800"
-            )}>
-              Ready to Build Something Amazing Together?
-            </h2>
-            <ScrollableText maxHeight="100px" showScrollHint={false}>
-              <p className={cn(
-                "text-sm md:text-lg mb-6 md:mb-8 max-w-3xl mx-auto px-2",
-                theme === "dark" ? "text-gray-300" : "text-gray-600"
-              )}>
-                Join us on our journey. Whether you're looking for innovative solutions or want to help shape the future with us.
-              </p>
-            </ScrollableText>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
-              <ConsultationButton
-                className={cn(
-                  "w-full sm:w-auto h-auto whitespace-normal px-4 py-3 md:px-8 md:py-3 text-sm md:text-base rounded-lg font-medium transition-all",
-                  theme === "dark"
-                    ? "bg-white text-blue-900 hover:bg-gray-100 hover:shadow-lg"
-                    : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
-                )}
-              />
-              <TeamsButton
-                className={cn(
-                  "w-full sm:w-auto h-auto px-6 py-3 md:px-8 md:py-3 text-sm md:text-base rounded-lg font-medium transition-all",
-                  theme === "dark"
-                    ? "bg-transparent border border-white text-white hover:bg-white/10"
-                    : "bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-50"
-                )}
-              />
-            </div>
-
-            <div className={cn(
-              "flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm mt-6 md:mt-8",
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}>
-              {['Innovative projects', 'Growth opportunities', 'Make real impact', 'Flexible environment'].map((benefit, index) => (
-                <div key={index} className="flex items-center">
-                  <Check className={cn(
-                    "h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2",
-                    theme === "dark" ? "text-blue-400" : "text-blue-600"
-                  )} />
-                  <span>{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
+      <CallToAction pageType="about" />
+    </>
   );
 }
 
