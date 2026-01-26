@@ -1,26 +1,26 @@
-import { 
-  Database, 
-  Cloud, 
-  Laptop, 
-  Lock, 
-  Globe, 
+import {
+  Database,
+  Cloud,
+  Laptop,
+  Lock,
+  Globe,
   Bot as BotIcon,
-  Building2, 
-  BookUser, 
-  LineChart, 
-  TrendingUp, 
-  PencilRuler, 
+  Building2,
+  BookUser,
+  LineChart,
+  TrendingUp,
+  PencilRuler,
   HeartPulse,
-  BookOpen, 
-  Truck, 
-  Wrench, 
+  BookOpen,
+  Truck,
+  Wrench,
   ShoppingBag,
-  Utensils, 
-  Home, 
-  ArrowUpRight, 
-  Zap, 
+  Utensils,
+  Home,
+  ArrowUpRight,
+  Zap,
   Users,
-  Network, 
+  Network,
   LandPlot,
   BarChart3,
   MessageSquare,
@@ -35,72 +35,87 @@ import {
 } from 'lucide-react';
 import { DropdownItem } from '@/types/navigation';
 
+// Helper function to create optimized Cloudinary URLs
+const optimizedImage = (imageId: string) => 
+  `https://res.cloudinary.com/dsf4d41i8/image/upload/f_auto,q_auto,w_auto,dpr_auto,c_scale/${imageId}`;
+
 export const servicesDropdown: DropdownItem[] = [
-    // Active Services (Fully launched and available)
+  // Active Services (Fully launched and available)
   {
-    title: 'Core Data and Cloud Services',
+    title: 'Cloud & Data Engineering',
     path: '/service-detail/core-data-cloud',
     description: 'Comprehensive data management and cloud solutions for modern enterprises.',
+    description2: "End-to-end data management, migration, cleansing, ETL pipelines, and scalable cloud infrastructure for secure and efficient operations.",
     icon: Cloud,
     stage: 'active',
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058193/cloud1_flgxbn.jpg",
-    
+    image: optimizedImage("v1753058193/cloud1_flgxbn.jpg"),
+    homepageContent: "Enterprise data management & cloud infrastructure solutions for scalable growth.",
+    servicePageContent: "Comprehensive data management and cloud migration services that transform your data into a strategic asset. We handle data warehousing, ETL pipelines, and cloud infrastructure setup.",
+    detailPageContent: "Transform your raw data into a powerful strategic asset with our comprehensive data management and cloud infrastructure solutions. We provide end-to-end services from data migration and cleansing to scalable cloud deployment, ensuring your data ecosystem drives business intelligence and operational efficiency."
   },
-  
+
   {
     title: 'Business Intelligence',
     path: '/service-detail/business-intelligence',
     description: 'Transforming raw data into actionable intelligence, BI dashboards, apps, and digital strategies.',
+    description2: "Transforming raw data into actionable intelligence, Power BI dashboards, KPI tools, data modeling, and real-time analytics that empower better business decisions through actionable insights.",
     icon: BarChart3,
     stage: 'active',
-  
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png",
-     
+    image: optimizedImage("v1753058194/bi1_resvzt.png"),
+    homepageContent: "Actionable insights and BI dashboards for data-driven decision making.",
+    servicePageContent: "Transform raw data into strategic insights with custom BI dashboards, KPI tracking, and data visualization tools that empower smarter business decisions.",
+    detailPageContent: "Unlock the full potential of your business data with our comprehensive Business Intelligence solutions. We specialize in creating intuitive dashboards, real-time analytics, and data visualization tools that transform complex information into clear, actionable insights for strategic decision-making."
   },
 
-{
+  {
     title: 'Digital Transformation',
     path: '/service-detail/digital-transformation',
     description: 'Reimagine your business in the digital age with our transformation services and custom software solutions.',
+    description2: "Reimagine your business in the digital age with our transformation services and custom software solutions. From modern websites to integrated CRM/ERP systems, we help digitize your business journey for improved efficiency and growth.",
     icon: Code,
     stage: 'active',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/digital5_sq9kim.jpg",
-    
+    image: optimizedImage("v1753058194/digital5_sq9kim.jpg"),
+    homepageContent: "Modernize operations with end-to-end digital transformation strategies.",
+    servicePageContent: "Guide your business through complete digital evolution with custom software solutions, process automation, and technology integration services.",
+    detailPageContent: "Navigate the digital landscape with confidence through our comprehensive Digital Transformation services. We help businesses modernize operations, implement custom software solutions, and integrate new technologies to drive efficiency, innovation, and sustainable growth in today's competitive market."
   },
 
-   {
+  {
     title: 'Business Consulting',
     path: '/service-detail/business-consulting',
     description: 'Strategic business advice and planning',
     icon: Building2,
     stage: 'active',
-   
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business1_har4mw.jpg",
-    
+    image: optimizedImage("v1753058238/business1_har4mw.jpg"),
+    homepageContent: "Strategic guidance and growth planning for business optimization.",
+    servicePageContent: "Expert business consulting services that provide strategic guidance, operational improvements, and growth planning to optimize your business performance.",
+    detailPageContent: "Navigate complex business challenges with our expert Business Consulting services. We provide strategic guidance, operational optimization, and growth planning to help your organization achieve its full potential in today's dynamic market environment."
   },
+
   {
     title: 'Market Research and Trends',
     path: '/service-detail/market-research',
     description: 'Informed decisions through competitor analysis and market insights.',
     icon: Search,
     stage: 'active',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058237/ai2_xzyvd1.jpg",
-   
+    image: optimizedImage("v1753058237/ai2_xzyvd1.jpg"),
+    homepageContent: "Data-driven market insights and competitive intelligence analysis.",
+    servicePageContent: "Gain competitive advantage with comprehensive market research, trend analysis, and consumer behavior insights that inform strategic decisions.",
+    detailPageContent: "Stay ahead of market trends with our in-depth Market Research and Analysis services. We provide comprehensive competitor intelligence, consumer behavior insights, and trend forecasting to inform your strategic decisions and identify new growth opportunities."
   },
-   
+
   {
     title: 'Consumer Voice Services',
     path: '/service-detail/consumer-voice',
     description: 'Customer feedback and sentiment analysis to understand and improve customer experience',
     icon: MessageSquare,
     stage: 'active',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058238/business3_ptwbct.jpg",
-    
-    
+    image: optimizedImage("v1753058238/business3_ptwbct.jpg"),
+    homepageContent: "Customer feedback analysis and sentiment tracking for experience optimization.",
+    servicePageContent: "Understand and improve customer experience through comprehensive feedback analysis, sentiment tracking, and voice of customer programs.",
+    detailPageContent: "Transform customer feedback into actionable improvements with our Consumer Voice Services. We specialize in sentiment analysis, feedback collection systems, and customer experience optimization to help you build stronger relationships and drive loyalty."
   },
+
   {
     title: 'Workforce Solutions',
     path: '/service-detail/workforce-solutions',
@@ -108,36 +123,38 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Users,
     stage: 'active',
     pilotDetails: 'Piloting with 2 retail organizations',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058291/stock_vyj7lb.jpg",
-    
+    image: optimizedImage("v1753058291/stock_vyj7lb.jpg"),
+    homepageContent: "Data-driven HR solutions for workforce optimization and talent management.",
+    servicePageContent: "Optimize your workforce with data-driven HR solutions including talent management, workforce planning, and performance optimization strategies.",
+    detailPageContent: "Build and optimize your workforce with our comprehensive Workforce Solutions. We provide data-driven HR strategies, talent management systems, and workforce planning services to help you attract, develop, and retain top talent while maximizing operational efficiency."
   },
 
- // Pilot Services (developed and in testing with clients)
-  
-   {
+  // Pilot Services (developed and in testing with clients)
+  {
     title: 'AI & Machine Learning',
     path: '/service-detail/aI-&-machine-Learning',
     description: 'Intelligent solutions for business problems',
     icon: BrainCircuit,
     stage: 'pilot',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/help_uubtjx.jpg",
-   
+    image: optimizedImage("v1753058289/help_uubtjx.jpg"),
+    homepageContent: "Intelligent AI/ML solutions for automation and predictive analytics.",
+    servicePageContent: "Implement cutting-edge AI and Machine Learning solutions for process automation, predictive analytics, and intelligent decision-making systems.",
+    detailPageContent: "Harness the power of artificial intelligence with our advanced AI and Machine Learning services. We develop intelligent solutions for process automation, predictive analytics, and data-driven decision-making that transform how your business operates and competes."
   },
-{
+
+  {
     title: 'DevOps & Cloud Automation',
     path: '/service-detail/devops',
     description: 'Seamless CI/CD pipelines and infrastructure automation for tech agility.',
     icon: Lock,
     stage: 'pilot',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058289/dev1_pda1jf.jpg",
-    
+    image: optimizedImage("v1753058289/dev1_pda1jf.jpg"),
+    homepageContent: "CI/CD automation and cloud infrastructure optimization for development agility.",
+    servicePageContent: "Accelerate development cycles with DevOps automation, CI/CD pipelines, and cloud infrastructure optimization services for faster deployment.",
+    detailPageContent: "Streamline your development and deployment processes with our DevOps and Cloud Automation services. We implement robust CI/CD pipelines, infrastructure as code, and automation frameworks that accelerate delivery cycles and enhance operational reliability."
   },
 
- // Under Development (In development, not yet released)
-   
+  // Under Development (In development, not yet released)
   {
     title: 'AI Automation',
     path: '/service-detail/ai-automation',
@@ -146,11 +163,13 @@ export const servicesDropdown: DropdownItem[] = [
     stage: 'development',
     developmentPhase: 'Prototype phase',
     estimatedLaunch: 'Q4 2025',
-     image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058629/ai3_mvzwgu.jpg"
+    image: optimizedImage("v1753058629/ai3_mvzwgu.jpg"),
+    homepageContent: "Advanced AI-driven automation for business process optimization.",
+    servicePageContent: "Revolutionize operations with AI-powered automation solutions that streamline workflows, reduce manual tasks, and enhance productivity.",
+    detailPageContent: "Transform your business operations with our cutting-edge AI Automation services. We develop intelligent automation solutions that streamline workflows, reduce manual intervention, and enhance productivity through advanced artificial intelligence technologies."
   },
-   // Upcoming Services (Planned future offerings)
-  
-  
+
+  // Upcoming Services (Planned future offerings)
   {
     title: 'Cybersecurity',
     path: '/service-detail/cybersecurity',
@@ -158,11 +177,12 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Lock,
     stage: 'upcoming',
     releaseDate: 'Q2 2026',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/cyber3_nq6sfk.jpg",
-   
+    image: optimizedImage("v1753058324/cyber3_nq6sfk.jpg"),
+    homepageContent: "Comprehensive cybersecurity solutions for digital threat protection.",
+    servicePageContent: "Secure your digital assets with enterprise-grade cybersecurity solutions including threat detection, risk assessment, and security frameworks.",
+    detailPageContent: "Protect your digital ecosystem with our comprehensive Cybersecurity services. We provide enterprise-grade security solutions, threat detection systems, and risk management frameworks to safeguard your business from evolving digital threats and ensure regulatory compliance."
   },
-   
+
   {
     title: 'IoT Solutions',
     path: '/service-detail/iot-solutions',
@@ -170,8 +190,12 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Zap,
     stage: 'upcoming',
     releaseDate: 'Q3 2026',
-     image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753059296/iot_emcuvk.jpg"
+    image: optimizedImage("v1753059296/iot_emcuvk.jpg"),
+    homepageContent: "Connected IoT ecosystems and smart device integration solutions.",
+    servicePageContent: "Build and manage connected device ecosystems with IoT solutions for data collection, device management, and smart system integration.",
+    detailPageContent: "Connect and optimize your physical assets with our comprehensive IoT Solutions. We design and implement connected device ecosystems that enable real-time data collection, remote management, and intelligent automation across your operations."
   },
+
   {
     title: 'Bookkeeping and Taxation',
     path: '/service-detail/bookkeeping',
@@ -179,9 +203,10 @@ export const servicesDropdown: DropdownItem[] = [
     icon: Calculator,
     stage: 'upcoming',
     releaseDate: 'Q4 2026',
-    
-    image:"https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058324/business2_tjqeqr.jpg",
-   
+    image: optimizedImage("v1753058324/business2_tjqeqr.jpg"),
+    homepageContent: "Accurate financial management and tax compliance services.",
+    servicePageContent: "Ensure financial accuracy and compliance with professional bookkeeping, accounting, and taxation services for businesses of all sizes.",
+    detailPageContent: "Maintain financial integrity and compliance with our professional Bookkeeping and Taxation services. We provide accurate accounting, financial reporting, and tax preparation services to help your business manage finances efficiently while meeting all regulatory requirements."
   }
 ];
 
@@ -190,79 +215,105 @@ export const industriesDropdown: DropdownItem[] = [
     title: 'IT & Cloud Services',
     path: '/industries/it-cloud',
     description: 'Digital infrastructure and cloud services',
-    icon: Cloud
+    icon: Cloud,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Financial Services',
     path: '/industries/finance',
     description: 'Solutions for banking and finance',
-    icon: LineChart
+    icon: LineChart,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Healthcare',
     path: '/industries/healthcare',
     description: 'Digital healthcare transformation',
-    icon: HeartPulse
+    icon: HeartPulse,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Education',
     path: '/industries/education',
     description: 'Edtech and learning platforms',
-    icon: BookOpen
+    icon: BookOpen,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Manufacturing',
     path: '/industries/manufacturing',
     description: 'Smart factory and industry 4.0',
-    icon: Wrench
+    icon: Wrench,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Retail & E-Commerce',
     path: '/industries/retail',
     description: 'Online shopping and retail systems',
-    icon: ShoppingBag
+    icon: ShoppingBag,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Restaurants & Hospitality',
     path: '/industries/restaurants',
     description: 'Food service and customer experience',
-    icon: Utensils
+    icon: Utensils,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Real Estate',
     path: '/industries/real-estate',
     description: 'Property management solutions',
-    icon: Home
+    icon: Home,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Transport & Logistics',
     path: '/industries/transport',
     description: 'Supply chain and logistics solutions',
-    icon: Truck
+    icon: Truck,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Agriculture',
     path: '/industries/agriculture',
     description: 'Smart farming and agricultural tech',
-    icon: LandPlot
+    icon: LandPlot,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Professional Services',
     path: '/industries/legal',
     description: 'Legal, consulting and business services',
-    icon: BookUser
+    icon: BookUser,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Marketing & Creative',
     path: '/industries/marketing',
     description: 'Brand building and creative tools',
-    icon: PencilRuler
+    icon: PencilRuler,
+    servicePageContent: '',
+    detailPageContent: ''
   },
   {
     title: 'Startups & Growth',
     path: '/industries/startups',
     description: 'Scaling and growth solutions',
-    icon: TrendingUp
+    icon: TrendingUp,
+    servicePageContent: '',
+    detailPageContent: ''
   }
 ];
 
@@ -288,15 +339,15 @@ export const serviceIndustries = {
   'core-data-cloud': ['it-cloud', 'finance', 'retail'],
   'business-consulting': ['finance', 'healthcare', 'manufacturing'],
   'market-research': ['retail', 'finance', 'healthcare'],
-  
+
   // Pilot services
   'consumer-voice': ['retail', 'restaurants', 'healthcare'],
   'workforce-solutions': ['manufacturing', 'healthcare', 'it-cloud'],
-  
+
   // Under development
   'digital-twin': ['manufacturing', 'smart-cities'],
   'ai-automation': ['finance', 'healthcare'],
-  
+
   // Upcoming services
   'cybersecurity': ['healthcare', 'finance', 'it-cloud'],
   'software-development': ['it-cloud', 'finance', 'healthcare'],
@@ -555,15 +606,15 @@ export const serviceNamesToIds = {
   'Core Data and Cloud Services': 'core-data-cloud',
   'Business Consulting': 'business-consulting',
   'Market Research': 'market-research',
-  
+
   // Pilot
   'Consumer Voice Services': 'consumer-voice',
   'Workforce Solutions': 'workforce-solutions',
-  
+
   // Under Development
   'Digital Twin Consulting': 'digital-twin',
   'AI Automation': 'ai-automation',
-  
+
   // Upcoming
   'Cybersecurity': 'cybersecurity',
   'Software Development': 'software-development',
