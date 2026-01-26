@@ -1,14 +1,17 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from '@/providers/ThemeProvider';
+import { useIsMobile } from '@/hooks/useWindowSize';
 
 const FloatingShapes: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Disable on mobile for performance
-    if (window.innerWidth < 768) return;
+    if (isMobile) return;
+    if (typeof window === 'undefined') return;
 
     const container = containerRef.current;
     if (!container) return;
@@ -76,7 +79,7 @@ const FloatingShapes: React.FC = () => {
       clearInterval(interval);
       shapes.forEach(shape => shape.remove());
     };
-  }, [theme]);
+  }, [theme, isMobile]);
 
   return (
     <div
