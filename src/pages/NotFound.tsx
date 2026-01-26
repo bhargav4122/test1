@@ -1,10 +1,8 @@
-
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
-
+import Layout from "@/components/layout/Layout";
 
 const NotFound = () => {
   const location = useLocation();
@@ -17,10 +15,8 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-    
-      
-      <main className="flex-grow flex items-center justify-center py-16">
+    <>
+      <main className="flex-grow flex items-center justify-center py-24 min-h-[70vh]">
         <div className="text-center max-w-md px-4">
           <h1 className="text-5xl font-bold mb-4">404</h1>
           <p className="text-xl text-muted-foreground mb-6">Page not found</p>
@@ -47,9 +43,7 @@ const NotFound = () => {
           </div>
         </div>
       </main>
-      
-      
-    </div>
+    </>
   );
 };
 
