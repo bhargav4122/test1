@@ -49,6 +49,14 @@ import BookingConfirmation from './pages/BookingConfirmation';
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 
+const Adminpage = React.lazy(() => import('./pages/Adminpage'));
+const TestimonialsPage = React.lazy(() => import("./pages/TestimonialsPage"));
+const UseCasesPage = React.lazy(() => import("./pages/UseCasesPage"));
+
+
+
+
+
 const queryClient = new QueryClient();
 const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   const [hasError, setHasError] = useState(false);
@@ -124,6 +132,11 @@ const AppContent = () => {
                 } />
                 <Route path="/about" element={<About />} />
                 <Route path="/teamandcareerspage" element={<TeamAndCareersPage />} />
+
+                 <Route path="/testimonials" element={<TestimonialsPage />} />
+                 <Route path="/use-cases" element={<UseCasesPage />} />
+
+                
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/consultation" element={<Consultation />} />
                 <Route path="/blog" element={<BlogPage />} />
@@ -140,7 +153,9 @@ const AppContent = () => {
                  <Route path="/email-test" element={<EmailTestPage />} />
                  <Route path="/care" element={<Care />} />
                  <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
-                  
+                 <Route path="/adminpage" element={<Adminpage />} />
+
+                
               </Routes>
               <Footer />
               <CookieConsent />
