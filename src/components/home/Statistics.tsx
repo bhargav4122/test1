@@ -36,7 +36,7 @@ const STATISTICS_DATA = [
   },
   {
     icon: "TrendingUp",
-    value: 35,
+    value: 40,
     label: "Performance Increase",
     suffix: "%",
     duration: 1900

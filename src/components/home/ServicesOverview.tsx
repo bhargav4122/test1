@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { serviceDetails } from "@/data/serviceDetails";
 
 // Memoized icon components
 const MemoizedIcons = {
@@ -35,39 +36,40 @@ const SERVICES_DATA = [
   {
     id: "core-data-cloud",
     icon: "Cloud",
-    title: "Data & Cloud Services",
-    description: "End-to-end data management, migration, cleansing, ETL pipelines, and scalable cloud infrastructure for secure and efficient operations."
+    title: "Cloud & Data Engineering",
+    description: "We design, build, and manage your data and cloud infrastructure so your teams can focus on using data, not fixing it. Our services cover data pipelines, migration, optimization, and scalable cloud setups for reliable, secure operations."
   },
   {
     id: "business-intelligence",
     icon: "BarChart3",
     title: "Business Intelligence (BI)",
-    description: "Power BI dashboards, KPI tools, data modeling, and real-time analytics that empower better business decisions through actionable insights."
+    description: "Turn raw data into business-driving intelligence. Our BI solutions deliver interactive dashboards, advanced analytics, and data models that empower faster, smarter decision-making."
   },
   {
     id: "digital-transformation",
     icon: "MonitorSmartphone",
     title: "Digital Transformation",
-    description: "From modern websites to integrated CRM/ERP systems, we help digitize your business journey for improved efficiency and growth."
+    description: "Accelerate growth with technology that evolves with your business. From modern websites to connected CRM and ERP systems, we help you reimagine your operations through automation, cloud adoption, and data-driven strategies."
   },
   {
     id: "business-consulting",
     icon: "Briefcase",
     title: "Business Consulting",
-    description: "Strategic planning, financial modeling, operational efficiency, and digital alignment to drive business scaling and innovation."
+    description: "Align your strategy, technology, and operations for lasting success. Our experts help you streamline workflows, improve financial performance, and create digital strategies that scale with your business."
   },
   {
     id: "market-research",
     icon: "LineChart",
     title: "Market Research & Analytics",
-    description: "In-depth competitor studies, consumer behavior insights, and trend forecasting to help position your brand ahead of the curve."
+    description: "Stay ahead with intelligence that drives market advantage. We deliver comprehensive competitor analysis, consumer insights, and trend forecasting to refine positioning and identify new opportunities."
   },
   {
     id: "consumer-voice",
     icon: "Mic2",
     title: "Consumer Voice Analytics",
-    description: "AI-driven sentiment analysis, feedback mining, and brand perception tools to understand your customers across every channel."
-  },
+    description: "Understand what your audience truly thinks. Using advanced AI and NLP, we analyze sentiment, feedback, and brand perception across multiple channels—helping you inspire loyalty and improve engagement."
+  }
+  /*,
   {
     id: "ai-automation",
     icon: "Bot",
@@ -85,7 +87,7 @@ const SERVICES_DATA = [
     icon: "ShieldCheck",
     title: "Cybersecurity & Compliance",
     description: "Protect your business with enterprise-grade security—from threat detection and IAM to GDPR and ISO compliance solutions."
-  }
+  }*/
 ] as const;
 
 // Animation variants
@@ -112,21 +114,21 @@ const itemVariants = {
 };
 
 // Memoized Service Card component
-const ServiceCard = memo(({ 
-  service, 
-  onClick 
-}: { 
+const ServiceCard = memo(({
+  service,
+  onClick
+}: {
   service: typeof SERVICES_DATA[0];
   onClick: (id: string) => void;
 }) => {
   const IconComponent = MemoizedIcons[service.icon as keyof typeof MemoizedIcons];
-  
+
   return (
     <motion.div
       variants={itemVariants}
       className="group bg-white/80 dark:bg-black/80 border border-gray-200 dark:border-gray-800 hover:border-primary/50 rounded-xl p-5 shadow-sm hover:shadow-md backdrop-blur-sm transition-all cursor-pointer"
       onClick={() => onClick(service.id)}
-      whileHover={{ 
+      whileHover={{
         y: -4,
         transition: { duration: 0.2 }
       }}
@@ -140,9 +142,37 @@ const ServiceCard = memo(({
       <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3">
         {service.description}
       </p>
+
+      {/* Technology Logos Strip */}
+      {(() => {
+        const details = serviceDetails[service.id as keyof typeof serviceDetails];
+        const technologies = details?.technologies?.slice(0, 5);
+
+        if (!technologies || technologies.length === 0) return null;
+
+        return (
+          <div className="flex items-center gap-3 mt-5 mb-1 px-1">
+            {technologies.map((tech, idx) => (
+              tech.logo && (
+                <div key={idx} className="relative group/tech">
+                  <img
+                    src={tech.logo}
+                    alt={tech.name}
+                    className="w-5 h-5 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-125"
+                  />
+                  {/* Tooltip on hover */}
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover/tech:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                    {tech.name}
+                  </span>
+                </div>
+              )
+            ))}
+          </div>
+        );
+      })()}
       <div className="mt-3">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="p-0 h-auto flex items-center text-primary hover:text-primary/80 hover:bg-transparent text-sm"
           asChild
         >
@@ -158,12 +188,12 @@ const ServiceCard = memo(({
 ServiceCard.displayName = 'ServiceCard';
 
 function ServicesSection() {
-  const { ref, inView } = useInView({ 
-    triggerOnce: true, 
+  const { ref, inView } = useInView({
+    triggerOnce: true,
     threshold: 0.05, // Lower threshold for earlier trigger
     rootMargin: '50px 0px' // Trigger earlier
   });
-  
+
   const navigate = useNavigate();
 
   // Memoized click handler
@@ -177,7 +207,7 @@ function ServicesSection() {
 
   // Memoized services grid
   const servicesGrid = useMemo(() => (
-    <motion.div 
+    <motion.div
       ref={ref}
       variants={containerVariants}
       initial="hidden"
@@ -185,7 +215,7 @@ function ServicesSection() {
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" // Reduced gap
     >
       {SERVICES_DATA.map((service) => (
-        <ServiceCard 
+        <ServiceCard
           key={service.id}
           service={service}
           onClick={handleServiceClick}
@@ -200,7 +230,7 @@ function ServicesSection() {
       className="py-12" // Reduced padding
     >
       {/* Removed fixed glass overlay - causes performance issues */}
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12"> {/* Reduced margin */}
           <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary mb-3">
@@ -215,14 +245,14 @@ function ServicesSection() {
         </div>
 
         {servicesGrid}
-        
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.3, duration: 0.4 }} // Reduced delay and duration
           className="mt-12 text-center" // Reduced margin
         >
-          <Button 
+          <Button
             onClick={handleViewAllClick}
             className="rounded-full px-6 py-4 text-sm bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary shadow-md shadow-primary/20 transition-all duration-200 text-white"
           >

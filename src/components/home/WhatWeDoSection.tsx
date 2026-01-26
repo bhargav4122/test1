@@ -3,7 +3,7 @@ import React, { memo, useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart, BrainCog } from "lucide-react";
+import { ArrowRight, Calendar, Cloud, BarChart3, Megaphone, Users, Briefcase, Cpu, CheckCircle, LineChart, BrainCog, Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -116,7 +116,7 @@ function WhatWeDoSection() {
     rootMargin: '200px',
     onChange: (inView) => setStoryVideoInView(inView)
   });
-  
+
   const isMobile = useMobileDetection();
   const navigate = useNavigate();
 
@@ -125,7 +125,7 @@ function WhatWeDoSection() {
   const [storyVideoLoaded, setStoryVideoLoaded] = useState(false);
 
   const handleServicesClick = () => navigate("/services");
-  const handleConsultClick = () => navigate("/consultation");
+  const handleConsultClick = () => navigate("/about");
 
   const bgVid = isMobile ? BACKGROUND_VIDEO_SOURCES.mobile : BACKGROUND_VIDEO_SOURCES.desktop;
   const bgPoster = isMobile ? BACKGROUND_VIDEO_SOURCES.poster.mobile : BACKGROUND_VIDEO_SOURCES.poster.desktop;
@@ -139,7 +139,7 @@ function WhatWeDoSection() {
   const FEATURES = [
     {
       icon: "Cloud",
-      title: "Data & Cloud Services",
+      title: "Cloud & Data Engineering",
       text: "Deploy scalable, secure cloud solutions.",
       serviceId: "core-data-cloud",
       id: "core-data-cloud",
@@ -151,17 +151,18 @@ function WhatWeDoSection() {
       serviceId: "business-consulting"
     },
     {
-      icon: "BarChart3",
-      title: "Business Intelligence",
-      text: "Turn data into smart business decisions.",
-      serviceId: "business-intelligence"
-    },
-    {
       icon: "Megaphone",
       title: "Digital Transformation & Marketing",
       text: "Grow visibility & acquire more customers.",
       serviceId: "digital-transformation"
     },
+    {
+      icon: "BarChart3",
+      title: "Business Intelligence",
+      text: "Turn data into smart business decisions.",
+      serviceId: "business-intelligence"
+    },
+
     {
       icon: "Users",
       title: "Consumer Voice Insights",
@@ -178,39 +179,60 @@ function WhatWeDoSection() {
 
   return (
     <section className="py-16 relative overflow-hidden">
-      {/* ✅ OPTIMIZED: Background video with lazy loading */}
-      {inView && (
-        <video
-          ref={backgroundVideoRef}
-          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${bgLoaded ? "opacity-20" : "opacity-0"}`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none" // Changed from "metadata" to "none"
-          loading="lazy"
-          poster={bgPoster}
-          onLoadedData={handleBG}
-        >
-          <source src={bgVid.webm} type="video/webm" />
-          <source src={bgVid.mp4} type="video/mp4" />
-        </video>
-      )}
+      {/* ✅ FIXED: Background with image-first strategy */}
+      <div className="absolute top-0 left-0 w-full h-full">
+
+
+        {/* Video loads after delay */}
+        {inView && (
+          <video
+            ref={backgroundVideoRef}
+            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${bgLoaded ? "opacity-20" : "opacity-0"}`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            loading="lazy"
+            onLoadedData={handleBG}
+            style={{ display: bgLoaded ? 'block' : 'none' }}
+          >
+            <source src={bgVid.webm} type="video/webm" />
+            <source src={bgVid.mp4} type="video/mp4" />
+          </video>
+        )}
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10 pt-10">
+
         {/* Badge - SEO Optimized */}
-        <motion.div className="mb-4">
+        <motion.div className="mb-4 pt-10">
           <div className="rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary inline-flex items-center">
             <span className="h-2 w-2 bg-primary rounded-full mr-2 animate-pulse" />
             Your End-to-End Tech Partner for the Digital World
           </div>
         </motion.div>
-        
-        {/* SEO Optimized Main Heading */}
-        <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
-          Everything a Modern Business Needs<br /> — Delivered Under One Roof.
-        </h1>
-        
+
+        {/* SEO Optimized Main Heading - Gradient Mask Reveal */}
+        <div className="relative">
+          <h1 className="text-4xl lg:text-5xl font-bold mb-8 text-gray-900 dark:text-white leading-tight text-primary pb-4">
+            Powering the Future of Business with Intelligent Technology
+          </h1>
+
+          <motion.div
+            initial={{ width: "100%" }}
+            animate={inView ? { width: "0%" } : {}}
+            transition={{
+              duration: 1,
+              ease: "easeInOut"
+            }}
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-white dark:from-black via-transparent to-transparent"
+            style={{
+              mixBlendMode: "difference"
+            }}
+          />
+        </div>
+
         {/* Main Layout */}
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           {/* Content - Left side on desktop */}
@@ -218,13 +240,16 @@ function WhatWeDoSection() {
             <motion.div ref={ref} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}>
               {/* Updated Content with Consumer Insights */}
               <div className="mb-6">
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  <strong> We partner with businesses of all sizes and industries to solve real-world challenges and drive sustainable growth.</strong><br /><br />
-                  By combining business consulting, data intelligence, digital innovation, and market insights, we design practical,
-                  scalable solutions tailored to your goals, industry, and stage of growth — not one-size-fits-all services.<br /><br />
-                  <strong> Whether you're a startup, SME, or growing enterprise, we adapt our approach to help you operate smarter, connect better with customers, and make confident, data-driven decisions.
-                  </strong>,
-                </p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  style={{ willChange: "transform" }}
+
+                  className="text-gray-900 dark:text-gray-300 leading-relaxed"
+                >
+                  We help businesses design smarter operations, turn data into clear insights, and build scalable digital systems for confident decisions and sustainable growth.
+                </motion.p>
               </div>
 
               {/* Bullet Features - Clean without borders/background */}
@@ -249,7 +274,6 @@ function WhatWeDoSection() {
                     >
                       <div className="relative">
                         <Icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                        <div className="absolute inset-0 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"></div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors duration-200 flex items-center justify-between">
@@ -267,9 +291,8 @@ function WhatWeDoSection() {
                 variants={itemVariants}
                 className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8"
               >
-                {INDUSTRIES.map((industry, index) => (
-                  <IndustryItem key={index} icon={industry.icon} text={industry.text} />
-                ))}
+                Trusted by businesses across industries and growth stages
+
               </motion.div>
             </motion.div>
           </div>
@@ -288,9 +311,8 @@ function WhatWeDoSection() {
                 {storyVideoInView && (
                   <>
                     <video
-                      className={`w-full h-full object-cover rounded-lg transition-opacity duration-500 ${
-                        storyVideoLoaded ? 'opacity-100' : 'opacity-0'
-                      }`}
+                      className={`w-full h-full object-cover rounded-lg transition-opacity duration-500 ${storyVideoLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
                       controls
                       autoPlay
                       muted
@@ -306,7 +328,7 @@ function WhatWeDoSection() {
                       <source src={storyVid.mp4} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    
+
                     {/* Loading skeleton */}
                     {!storyVideoLoaded && (
                       <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-900 animate-pulse rounded-lg flex items-center justify-center">
@@ -315,20 +337,34 @@ function WhatWeDoSection() {
                     )}
                   </>
                 )}
-                
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none"></div>
+
+
               </div>
             </motion.div>
 
             {/* CTAs positioned under the video */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full justify-center">
-              <Button onClick={handleServicesClick} className="rounded-full px-8 py-3 bg-primary text-white w-full sm:w-auto text-lg font-semibold">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 mt-8 w-full max-w-2xl mx-auto px-4 sm:px-0">
+              <Button
+                onClick={handleServicesClick}
+                className="rounded-full px-6 py-3 flex-1 text-sm sm:text-base font-semibold whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+              >
                 Explore Services <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
-              <Button onClick={handleConsultClick} variant="outline" className="rounded-full px-8 py-3 border-primary text-primary w-full sm:w-auto text-lg font-semibold">
-                <Calendar className="mr-2 h-4 w-4" /> Book Free Consultation
+              <Button
+                onClick={() => navigate('/use-cases')}
+                variant="outline"
+                className="rounded-full px-6 py-3 flex-1 text-sm sm:text-base font-semibold whitespace-nowrap bg-blue-50/50 dark:bg-blue-900/20 backdrop-blur-sm border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:border-blue-400 dark:hover:border-blue-600 shadow-md transition-all duration-300"
+              >
+                View Use Cases <Rocket className="ml-2 h-4 w-4" />
+              </Button>
+
+              <Button
+                onClick={handleConsultClick}
+                variant="outline"
+                className="rounded-full px-6 py-3 flex-1 text-sm sm:text-base font-semibold whitespace-nowrap bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 border-2 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:border-purple-400 dark:hover:border-purple-600 shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                Learn About Us <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>

@@ -46,18 +46,6 @@ const FLOATING_CARDS = [
   { top: "top-10", right: "-right-4", icon: "Zap", value: "82%", label: "Efficient", color: "text-purple-500", delay: 1.4 },
 ];
 
-// Video sources with optimized quality settings
-const VIDEO_SOURCES = {
-  desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:good,w_1920/v1753041808/Google_Gemini_n4h8by.mp4"
-  },
-  mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_auto:eco,w_640/v1753041808/Google_Gemini_n4h8by.mp4"
-  },
-  fallback: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4"
-};
 
 // Animation variants - defined outside component
 const containerVariants = {
@@ -185,8 +173,7 @@ const ProgressBar = memo(({
 function Hero(): JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+ 
 
   // Memoized mobile detection
   const checkMobile = useCallback(() => {
@@ -201,10 +188,7 @@ function Hero(): JSX.Element {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Optimized video loading
-    if (videoRef.current) {
-      videoRef.current.preload = "metadata";
-    }
+   
 
     return () => {
       clearTimeout(timer);
@@ -212,15 +196,7 @@ function Hero(): JSX.Element {
     };
   }, [checkMobile]);
 
-  const handleVideoLoad = useCallback(() => {
-    setVideoLoaded(true);
-  }, []);
-
-  // Memoized video sources based on device
-  const currentVideoSources = useMemo(() => 
-    isMobile ? VIDEO_SOURCES.mobile : VIDEO_SOURCES.desktop,
-    [isMobile]
-  );
+ 
 
   const progressBars = useMemo(() => [
     { label: "Revenue Growth", value: "+64%", color: "text-green-500", initial: "30%", animate: "100%", delay: 0.5 },
@@ -230,29 +206,9 @@ function Hero(): JSX.Element {
   ], []);
 
   return (
-    <div className="relative overflow-hidden pt-20">
-      {/* Optimized Background Video with reduced effects */}
-      <video
-        ref={videoRef}
-        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${
-          videoLoaded ? 'opacity-20' : 'opacity-0'
-        }`}
-        style={{
-          filter: 'brightness(1.1) contrast(1.1)', // Reduced saturate for performance
-          transform: 'translateZ(0)'
-        }}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="https://res.cloudinary.com/dsf4d41i8/image/upload/w_50,q_auto,f_auto/v1753041808/Google_Gemini_n4h8by.jpg"
-        onLoadedData={handleVideoLoad}
-      >
-        <source src={currentVideoSources.webm} type="video/webm" />
-        <source src={currentVideoSources.mp4} type="video/mp4" />
-        <source src={VIDEO_SOURCES.fallback} type="video/mp4" />
-      </video>
+    <div className="relative overflow-hidden">
+     
+     
 
       {/* Simplified background effects */}
       <div
@@ -263,7 +219,7 @@ function Hero(): JSX.Element {
       {/* Reduced blur radius for better performance */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/3 blur-[60px] -z-10" />
       
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-20 md:pt-24 md:pb-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 md:pt-1 md:pb-32">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Left content section */}
           <motion.div 
@@ -294,18 +250,14 @@ function Hero(): JSX.Element {
             </motion.p>
             
             <motion.div variants={itemVariants} className="pt-4">
-              <div className="grid grid-cols-2 gap-3 text-sm"> {/* Reduced gap */}
+              <div className="grid grid-cols-2 gap-3 text-sm"> 
                 {FEATURES.map((feature, index) => (
                   <FeatureGridItem key={index} icon={feature.icon} text={feature.text} />
                 ))}
               </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex items-center space-x-4 text-sm text-muted-foreground">
-              {INDUSTRIES.map((industry, index) => (
-                <IndustryItem key={index} icon={industry.icon} text={industry.text} />
-              ))}
-            </motion.div>
+          
 
           </motion.div>
           
