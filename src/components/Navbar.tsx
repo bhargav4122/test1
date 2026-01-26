@@ -158,7 +158,7 @@ const Navbar = () => {
                     : "text-gray-900 hover:text-primary hover:bg-primary/5"
                 )}
               />
-
+              {/*
               <Link
                 to="/teamandcareerspage"
                 className={cn(
@@ -173,7 +173,7 @@ const Navbar = () => {
                 )}
               >
                 Team & Careers
-              </Link>
+              </Link>*/}
 
               <Link
                 to="/contact"
@@ -208,7 +208,7 @@ const Navbar = () => {
               </Link>
 
 
-
+              {/*
               <Link
                 to="/care"
                 className={cn(
@@ -260,7 +260,7 @@ const Navbar = () => {
                 Care
               </Link>
 
-
+*/}
 
 
 
