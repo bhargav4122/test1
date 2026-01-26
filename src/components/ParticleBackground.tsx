@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from '@/providers/ThemeProvider';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 interface Particle {
   x: number;
@@ -14,6 +15,7 @@ interface Particle {
 const ParticleBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -26,18 +28,18 @@ const ParticleBackground: React.FC = () => {
     let particles: Particle[] = [];
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
       initParticles();
     };
 
     const initParticles = () => {
       particles = [];
       // Reduce particle count significantly for mobile
-      const isMobile = window.innerWidth < 768;
-      const density = isMobile ? 25 : 10;
-      const limit = isMobile ? 30 : 100;
-      const particleCount = Math.min(Math.floor(window.innerWidth / density), limit);
+      const isMobile = width < 768;
+      const density = isMobile ? 35 : 10;
+      const limit = isMobile ? 25 : 100;
+      const particleCount = Math.min(Math.floor(width / density), limit);
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -95,15 +97,13 @@ const ParticleBackground: React.FC = () => {
       animationFrameId = requestAnimationFrame(drawParticles);
     };
 
-    window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
     drawParticles();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [theme]);
+  }, [theme, width, height]);
 
   return (
     <canvas
