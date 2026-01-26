@@ -97,7 +97,7 @@ const values = [
 
 const timeline = [
   {
-    year: "2022",
+    year: "2023",
     title: "The Vision",
     description: "Business & Data Solutions was born from a simple belief: every enterprise deserves clarity, not complexity. We set out to bridge the gap between traditional processes and digital intelligence.",
     icon: Lightbulb,
@@ -105,7 +105,7 @@ const timeline = [
     color: "from-blue-500 to-cyan-500"
   },
   {
-    year: "2023",
+    year: "2024",
     title: "Global Foundations",
     description: "We established our core service frameworks, working with early adopters in the tech and finance sectors to refine our AI-driven approach to data transformation.",
     icon: Globe,
@@ -113,7 +113,7 @@ const timeline = [
     color: "from-indigo-500 to-blue-500"
   },
   {
-    year: "2024 Q1",
+    year: "2025 Q1",
     title: "Official Scale",
     description: "Transitioning from a specialized consultancy to a full-service digital transformation house. We doubled our engineering team and launched our proprietary implementation methodology.",
     icon: Rocket,
@@ -121,7 +121,7 @@ const timeline = [
     color: "from-purple-500 to-indigo-500"
   },
   {
-    year: "2024 Q4",
+    year: "2025 Q4",
     title: "UK Market Entry",
     description: "Successfully laid the groundwork for our London-based operations, specializing in cross-border data compliance and international cloud migrations.",
     icon: MapPin,
@@ -130,7 +130,7 @@ const timeline = [
     badge: "NOW"
   },
   {
-    year: "2025 Q2",
+    year: "2026 Q2",
     title: "India Tech Hub",
     description: "Expanding our delivery capabilities with a dedicated center of excellence in India, focusing on AI research and 24/7 global support operations.",
     icon: Users,
@@ -139,7 +139,7 @@ const timeline = [
     badge: "PLANNED"
   },
   {
-    year: "2026",
+    year: "2027",
     title: "North America Expansion",
     description: "Bringing our unique blend of strategic consulting and technological excellence to the US market, completing our vision of a truly global transformation partner.",
     icon: Compass,
