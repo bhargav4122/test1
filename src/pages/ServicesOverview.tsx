@@ -1,19 +1,38 @@
+//fix the code and make it work for small and large screens text content was hidding for small screen at what we offer section make it device friendly
+
 import React, { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/common/SEO';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ChevronDown } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle,
+  ChevronDown,
+  ArrowUpRight,
+  type LucideIcon
+} from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { servicesDropdown } from "@/data/navigationData";
+import { serviceDetails } from "@/data/serviceDetails";
+import OptimizedImage from "@/components/core/OptimizedImage";
 import { useTheme } from '@/providers/ThemeProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DropdownItem } from '@/types/navigation';
+import Layout from "@/components/layout/Layout";
+import { cn } from "@/lib/utils";
+import ConsistentPageHeader from '@/components/layout/ConsistentPageHeader';
+import {
+  FadeUp,
+  SlideInLeft,
+  SlideInRight,
+  StaggerContainer,
+  StaggerItem
+} from '@/components/motion/MotionWrapper';
 
 // Lazy load heavy components
 const CallToAction = lazy(() => import("@/components/home/CallToAction"));
 
 type ServiceStatus = 'all' | 'active' | 'pilot' | 'development' | 'upcoming';
 
-// Memoize static data
 const statusColors = {
   all: "bg-gray-500",
   active: "bg-green-500",
@@ -30,237 +49,169 @@ const statusLabels = {
   upcoming: "Upcoming"
 };
 
-// Optimized image component with intersection observer
-const OptimizedImage = React.memo(({ 
-  src, 
-  alt, 
-  className = "",
-  fallback = null 
-}: { 
-  src?: string; 
-  alt: string; 
-  className?: string;
-  fallback?: React.ReactNode;
+
+// Detailed Service Section (BDS Style)
+const DetailedServiceSection = React.memo(({
+  service,
+  index,
+  theme
+}: {
+  service: DropdownItem;
+  index: number;
+  theme: string;
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const serviceId = service.path.split('/').pop() || '';
+  const detailedData = (serviceDetails as any)[serviceId];
 
-  const imageRef = React.useRef<HTMLImageElement>(null);
-
-  // Optimize Cloudinary images with responsive parameters
-  const optimizedSrc = useMemo(() => {
-    if (!src) return null;
-    
-    if (src.includes('cloudinary.com')) {
-      // Add Cloudinary optimization parameters - more aggressive optimization
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      const width = isMobile ? 300 : 500; // Reduced from 400/600
-      const quality = 'q_auto:eco'; // Always use eco for better performance
-      
-      if (src.includes('/upload/')) {
-        return src.replace('/upload/', `/upload/${quality},w_${width},f_auto,dpr_auto/`);
-      }
+  const getIconComponent = useCallback((icon: any) => {
+    if (!icon) return Icons.Activity;
+    // If it's a string (icon name), look it up in the Icons object
+    if (typeof icon === 'string') {
+      const iconName = icon.charAt(0).toUpperCase() + icon.slice(1);
+      return (Icons as any)[iconName] || Icons.Activity;
     }
-    
-    // Optimize Unsplash images
-    if (src.includes('unsplash.com')) {
-      const url = new URL(src);
-      url.searchParams.set('q', '60'); // Reduced quality
-      url.searchParams.set('fit', 'crop');
-      url.searchParams.set('w', '500'); // Reduced size
-      return url.toString();
+    // If it's already a component/function/object, return it directly
+    return icon;
+  }, []);
+
+  const IconComponent = getIconComponent(service.icon);
+  const isEven = index % 2 === 0;
+
+  // Features from detailed data subservices or benefits
+  const features = useMemo(() => {
+    if (detailedData?.subServices) {
+      return detailedData.subServices
+        .map((ss: any) => ss?.title?.replace(/^[0-9️⃣\s]+/, '') || '')
+        .filter(Boolean);
     }
-    
-    return src;
-  }, [src]);
-
-  // Intersection Observer for lazy loading
-  useEffect(() => {
-    if (!imageRef.current || !optimizedSrc) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { 
-        rootMargin: '50px', // Start loading 50px before element comes into view
-        threshold: 0.1 
-      }
-    );
-
-    observer.observe(imageRef.current);
-    return () => observer.disconnect();
-  }, [optimizedSrc]);
-
-  if (!optimizedSrc || imageError) {
-    return fallback || (
-      <div 
-        className={`w-full h-full bg-gradient-to-br from-bds-purple to-bds-accent flex items-center justify-center ${className}`}
-        ref={imageRef}
-      >
-        <span className="text-white text-sm font-medium">No Image</span>
-      </div>
-    );
-  }
+    if (detailedData?.benefits) {
+      return detailedData.benefits
+        .slice(0, 6)
+        .map((b: any) =>
+          typeof b === 'string'
+            ? b.replace(/^[\w\s🚀📈🛠️🔐⚡🤖💰🔒🌐📊🔍🔄📱🔗🛡️📉]+/, '').trim()
+            : String(b || '')
+        )
+        .filter(Boolean);
+    }
+    return [service.description2 || service.description || ''];
+  }, [detailedData, service]);
 
   return (
-    <div className="relative w-full h-full" ref={imageRef}>
-      {!imageLoaded && (
-        <div 
-          className={`absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse ${className}`}
-        />
-      )}
-      {isInView && (
-        <img
-          src={optimizedSrc}
-          alt={alt}
-          className={`w-full h-full object-cover transition-transform duration-300 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
-          } ${className}`}
-          loading="lazy"
-          decoding="async"
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
-        />
-      )}
+    <div className="py-12 md:py-20 lg:py-28 border-b border-gray-100 dark:border-gray-800 last:border-0">
+      <div className={`flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+
+        {/* Content Side */}
+        <div className={`w-full ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+          {isEven ? (
+            <SlideInLeft className="space-y-4 md:space-y-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-blue-500/10 dark:bg-blue-400/10 flex items-center justify-center mb-4 md:mb-6">
+                <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 text-white ${statusColors[service.stage] || 'bg-gray-500'}`}>
+                  {statusLabels[service.stage] || service.stage}
+                </span>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 leading-tight">
+                  {service.title}
+                </h2>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed">
+                {detailedData?.subtitle || service.description}
+              </p>
+              <p className="text-gray-500 dark:text-gray-500 text-sm md:text-base leading-relaxed line-clamp-3 md:line-clamp-4">
+                {service.servicePageContent || service.description2}
+              </p>
+              <div className="pt-4">
+                <Link to={`/service-detail/${serviceId}`}>
+                  <motion.button
+                    whileHover={{ x: 5 }}
+                    className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold group"
+                  >
+                    <span>Explore Service</span>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </motion.button>
+                </Link>
+              </div>
+            </SlideInLeft>
+          ) : (
+            <SlideInRight className="space-y-4 md:space-y-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-blue-500/10 dark:bg-blue-400/10 flex items-center justify-center mb-4 md:mb-6">
+                <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 text-white ${statusColors[service.stage] || 'bg-gray-500'}`}>
+                  {statusLabels[service.stage] || service.stage}
+                </span>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 leading-tight">
+                  {service.title}
+                </h2>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed">
+                {detailedData?.subtitle || service.description}
+              </p>
+              <p className="text-gray-500 dark:text-gray-500 text-sm md:text-base leading-relaxed line-clamp-3 md:line-clamp-4">
+                {service.servicePageContent || service.description2}
+              </p>
+              <div className="pt-4">
+                <Link to={`/service-detail/${serviceId}`}>
+                  <motion.button
+                    whileHover={{ x: 5 }}
+                    className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold group"
+                  >
+                    <span>Explore Service</span>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </motion.button>
+                </Link>
+              </div>
+            </SlideInRight>
+          )}
+        </div>
+
+        {/* Features/Image Side */}
+        <div className={`w-full ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+          <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-lg md:shadow-2xl group border border-gray-100 dark:border-gray-800">
+            <div className="aspect-[4/3]">
+              <OptimizedImage
+                src={service.image}
+                alt={service.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent" />
+
+            {/* What We Offer Section - Fixed for Mobile */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8 bg-gradient-to-t from-gray-900/95 via-gray-900/80 to-transparent backdrop-blur-sm">
+              <h4 className="text-white font-bold mb-3 md:mb-4 flex items-center gap-2 text-base md:text-lg">
+                <CheckCircle className="text-blue-400" size={18} />
+                What We Offer
+              </h4>
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 md:gap-3">
+                {features.map((feature, fIndex) => (
+                  <div key={fIndex} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
+                    <span className="text-white/90 text-xs xs:text-sm font-medium leading-tight md:leading-normal line-clamp-2">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 });
 
-OptimizedImage.displayName = 'OptimizedImage';
-
-// Memoized service card component to prevent unnecessary re-renders
-const ServiceCard = React.memo(({ 
-  service, 
-  isMobile,
-  theme 
-}: { 
-  service: DropdownItem; 
-  isMobile: boolean;
-  theme: string;
-}) => {
-  const serviceId = service.path.split('/').pop() || '';
-  
-  const getIconComponent = useCallback((icon: string | LucideIcon | undefined) => {
-    if (!icon) return null;
-    if (typeof icon === 'function') return icon;
-    if (typeof icon === 'string') {
-      const iconName = icon.charAt(0).toUpperCase() + icon.slice(1);
-      return Icons[iconName as keyof typeof Icons] || null;
-    }
-    return null;
-  }, []);
-
-  const IconComponent = getIconComponent(service.icon);
-  
-  const floatAnimation = {
-    y: [0, -5, 0],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut" as const
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      whileHover={{ y: -2 }}
-      className="group flex flex-col h-full"
-    >
-      <div className={`relative rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm dark:shadow-md dark:shadow-gray-700/50 border border-gray-200 dark:border-gray-700 transition-all duration-300 flex flex-col h-full hover:shadow-md`}>
-        {/* Image Section */}
-        <Link 
-          to={`/service-detail/${serviceId}`} 
-          className="block flex-shrink-0"
-          onClick={(e) => e.stopPropagation()}
-          prefetch="intent" // Add prefetch for better navigation performance
-        >
-          <motion.div 
-            animate={floatAnimation} 
-            className="relative aspect-[4/3] overflow-hidden cursor-pointer"
-          >
-            <OptimizedImage
-              src={service.image}
-              alt={service.title}
-              className="group-hover:scale-105 transition-transform duration-300"
-              fallback={
-                <div className="w-full h-full bg-gradient-to-br from-bds-purple to-bds-accent flex items-center justify-center">
-                  {IconComponent && React.createElement(IconComponent, { 
-                    size: 32, 
-                    className: "text-white opacity-80" 
-                  })}
-                </div>
-              }
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 dark:to-gray-900/80" />
-          </motion.div>
-        </Link>
-
-        {/* Content Section */}
-        <div className="p-4 md:p-5 flex flex-col flex-grow">
-          <div className="flex justify-between items-start mb-3">
-            <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
-              {IconComponent && (
-                <motion.div 
-                  whileHover={{ scale: 1.1 }}
-                  className="flex-shrink-0 p-1.5 md:p-2 rounded-lg bg-gradient-to-br from-bds-purple to-bds-accent text-white"
-                >
-                  {React.createElement(IconComponent, { size: isMobile ? 16 : 20 })}
-                </motion.div>
-              )}
-              <h3 className="text-base md:text-lg font-bold text-gray-800 dark:text-white truncate">
-                {service.title}
-              </h3>
-            </div>
-            {service.stage && (
-              <span className={`text-xs px-2 py-1 rounded-full text-white flex-shrink-0 ${
-                statusColors[service.stage] || 'bg-gray-500'
-              }`}>
-                {isMobile ? statusLabels[service.stage]?.charAt(0) : statusLabels[service.stage] || service.stage}
-              </span>
-            )}
-          </div>
-
-          <div className="flex-grow mb-3 md:mb-4">
-            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm line-clamp-3 mb-3 md:mb-4 leading-relaxed">
-              {service.description2 ? service.description2 : service.description}
-            </p>
-          </div>
-
-          <div className="mt-auto pt-2 border-gray-200 dark:border-gray-700">
-            <Link
-              to={`/service-detail/${serviceId}`}
-              className="flex items-center gap-1 md:gap-2 text-bds-purple hover:text-bds-accent transition-colors text-xs md:text-sm justify-end font-medium"
-              onClick={(e) => e.stopPropagation()}
-              prefetch="intent"
-            >
-              <span>Learn more</span>
-              <ArrowUpRight size={isMobile ? 14 : 16} />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-});
-
-ServiceCard.displayName = 'ServiceCard';
-
 // Mobile dropdown component
-const MobileDropdown = React.memo(({ 
-  tabs, 
-  activeTab, 
-  setActiveTab, 
-  showMobileMenu, 
-  setShowMobileMenu, 
-  theme 
+const MobileDropdown = React.memo(({
+  tabs,
+  activeTab,
+  setActiveTab,
+  showMobileMenu,
+  setShowMobileMenu,
+  theme
 }: {
   tabs: Array<{ id: string; label: string; shortLabel: string }>;
   activeTab: ServiceStatus;
@@ -269,21 +220,22 @@ const MobileDropdown = React.memo(({
   setShowMobileMenu: (show: boolean) => void;
   theme: string;
 }) => (
-  <div className="md:hidden relative">
+  <div className="md:hidden relative px-4 mt-8">
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={(e) => {
         e.stopPropagation();
         setShowMobileMenu(!showMobileMenu);
       }}
-      className={`w-full flex justify-between items-center px-4 py-3 rounded-lg text-sm font-medium ${
-        theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-700'
-      } border border-gray-200 dark:border-gray-700 shadow-sm`}
+      className={`w-full flex justify-between items-center px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl text-sm font-bold ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-700'
+        } border-2 border-gray-100 dark:border-gray-700 shadow-lg`}
     >
-      <span>{tabs.find(t => t.id === activeTab)?.shortLabel}</span>
-      <ChevronDown className={`transition-transform duration-200 ${showMobileMenu ? 'rotate-180' : ''}`} size={16} />
+      <span className="flex items-center gap-2">
+        {tabs.find(t => t.id === activeTab)?.shortLabel}
+      </span>
+      <ChevronDown className={`transition-transform duration-300 ${showMobileMenu ? 'rotate-180' : ''}`} size={18} />
     </motion.button>
-    
+
     <AnimatePresence>
       {showMobileMenu && (
         <motion.div
@@ -291,11 +243,9 @@ const MobileDropdown = React.memo(({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="absolute z-50 w-full mt-1 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"
+          className="absolute z-50 w-full left-0 mt-2 rounded-xl md:rounded-2xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700"
         >
-          <div className={`${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-          } rounded-lg py-1`}>
+          <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} py-1 md:py-2`}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -303,13 +253,12 @@ const MobileDropdown = React.memo(({
                   setActiveTab(tab.id as ServiceStatus);
                   setShowMobileMenu(false);
                 }}
-                className={`w-full text-left px-4 py-3 transition-colors text-sm ${
-                  activeTab === tab.id
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
-                    : theme === 'dark'
-                      ? 'hover:bg-gray-700 text-gray-300'
-                      : 'hover:bg-gray-50 text-gray-700'
-                }`}
+                className={`w-full text-left px-4 py-3 md:px-6 md:py-4 transition-colors text-sm font-medium ${activeTab === tab.id
+                  ? 'bg-blue-500 text-white'
+                  : theme === 'dark'
+                    ? 'hover:bg-gray-700 text-gray-300'
+                    : 'hover:bg-blue-50 text-gray-700'
+                  }`}
               >
                 {tab.label}
               </button>
@@ -321,36 +270,32 @@ const MobileDropdown = React.memo(({
   </div>
 ));
 
-MobileDropdown.displayName = 'MobileDropdown';
-
 // Desktop tabs component
-const DesktopTabs = React.memo(({ 
-  tabs, 
-  activeTab, 
-  setActiveTab, 
-  theme 
+const DesktopTabs = React.memo(({
+  tabs,
+  activeTab,
+  setActiveTab,
+  theme
 }: {
   tabs: Array<{ id: string; label: string; shortLabel: string }>;
   activeTab: ServiceStatus;
   setActiveTab: (tab: ServiceStatus) => void;
   theme: string;
 }) => (
-  <div className="hidden md:flex flex-wrap gap-2 justify-center">
+  <div className="hidden md:flex flex-wrap gap-2 md:gap-3 justify-center mt-8 md:mt-12 mb-6 md:mb-8 px-4">
     {tabs.map((tab) => (
       <motion.button
         key={tab.id}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setActiveTab(tab.id as ServiceStatus)}
-        className={`px-3 py-2 rounded-lg transition-all text-sm font-medium ${
-          activeTab === tab.id
-            ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 shadow-md'
-            : `${
-                theme === 'dark' 
-                  ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              } border border-gray-200 dark:border-gray-700`
-        }`}
+        className={`px-4 py-2 md:px-6 md:py-3 rounded-full transition-all text-xs md:text-sm font-bold border ${activeTab === tab.id
+          ? 'bg-blue-600 border-blue-600 text-white shadow-lg md:shadow-xl shadow-blue-500/20'
+          : `${theme === 'dark'
+            ? 'bg-gray-800 border-gray-700 text-gray-300 hover:border-blue-500'
+            : 'bg-white border-gray-100 text-gray-700 hover:border-blue-500 shadow-sm md:shadow-md'
+          }`
+          }`}
       >
         {tab.label}
       </motion.button>
@@ -358,181 +303,163 @@ const DesktopTabs = React.memo(({
   </div>
 ));
 
-DesktopTabs.displayName = 'DesktopTabs';
-
-const getFilteredServices = (status: ServiceStatus) => {
-  if (status === 'all') return servicesDropdown;
-  return servicesDropdown.filter(service => service.stage === status);
-};
-
 const ServicesOverview: React.FC = () => {
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<ServiceStatus>('all');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Throttled resize handler
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    const handleResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(checkMobile, 100); // Throttle resize events
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(timeoutId);
-    };
-  }, []);
 
-  // Memoize filtered services to prevent unnecessary recalculations
-  const filteredServices = useMemo(() => 
-    getFilteredServices(activeTab), 
-    [activeTab]
-  );
+  const filteredServices = useMemo(() => {
+    if (activeTab === 'all') return servicesDropdown;
+    return servicesDropdown.filter(service => service.stage === activeTab);
+  }, [activeTab]);
 
-  // Memoize tabs configuration
   const tabs = useMemo(() => [
     { id: 'all', label: '🌟 All Services', shortLabel: '🌟 All' },
-    { id: 'active', label: '✅ Active Services', shortLabel: '✅ Active' },
-    { id: 'pilot', label: '🚀 Pilot Services', shortLabel: '🚀 Pilot' },
-    { id: 'development', label: '🧪 In Development', shortLabel: '🧪 Dev' },
-    { id: 'upcoming', label: '🔜 Upcoming Services', shortLabel: '🔜 Upcoming' },
+    { id: 'active', label: '✅ Active', shortLabel: '✅ Active' },
+    { id: 'pilot', label: '🚀 Pilots', shortLabel: '🚀 Pilots' },
+    { id: 'development', label: '🧪 In Dev', shortLabel: '🧪 Dev' },
+    { id: 'upcoming', label: '🔜 Upcoming', shortLabel: '🔜 Upcoming' },
   ], []);
 
-  // Close mobile menu when clicking outside - optimized with useCallback
   useEffect(() => {
     const handleClickOutside = () => {
-      if (showMobileMenu) {
-        setShowMobileMenu(false);
-      }
+      if (showMobileMenu) setShowMobileMenu(false);
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, [showMobileMenu]);
 
   return (
-    <div className="min-h-screen py-8 md:py-10">
-      {/* SEO Meta Tags */}
-      <Helmet>
-        <title>Our Services | Business and Data Solutions - Complete Service Portfolio</title>
-        <meta 
-          name="description" 
-          content="Explore our comprehensive business services: Data & Cloud solutions, BI & Digital Transformation, Business Consulting, Market Research, and Workforce Development services." 
-        />
-        <meta 
-          name="keywords" 
-          content="business services, data solutions, cloud services, BI solutions, digital transformation, business consulting, market research, workforce development, data analytics, digital marketing" 
-        />
-        <link rel="canonical" href="https://www.businessanddatasolutions.com/services" />
-        <meta property="og:title" content="Our Services | Business and Data Solutions - Complete Service Portfolio" />
-        <meta 
-          property="og:description" 
-          content="Explore our comprehensive business services: Data & Cloud solutions, BI & Digital Transformation, Business Consulting, and more." 
-        />
-        <meta property="og:url" content="https://www.businessanddatasolutions.com/services" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png" />
-      </Helmet>
+    <>
+      <SEO
+        title="Our Services"
+        description="Explore our high-performance business and data services."
+      />
 
-      <main className="container mx-auto px-4 sm:px-6 py-6 md:py-8 max-w-6xl">
-        <section className="text-center pt-10 mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-4xl font-bold gradient-text mb-3 md:mb-4 dark:text-white text-gray-900">
-            Explore Our Services
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-sm md:text-lg max-w-2xl mx-auto">
-            Empowering your business with cutting-edge solutions tailored to your needs.
-          </p>
-        </section>
+      <ConsistentPageHeader
+        title="Solutions for the Modern Enterprise"
+        description="We combine deep industry expertise with cutting-edge technology to deliver measurable business outcomes."
+        categoryLabel="Our Services"
+        backgroundImage="https://res.cloudinary.com/dsf4d41i8/image/upload/v1753058194/bi1_resvzt.png"
+      />
 
-        {/* Service Tabs */}
-        <div className="mb-4 md:mb-6">
-          <DesktopTabs 
-            tabs={tabs} 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-            theme={theme} 
-          />
-          
-          <MobileDropdown 
-            tabs={tabs} 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-            showMobileMenu={showMobileMenu} 
-            setShowMobileMenu={setShowMobileMenu} 
-            theme={theme} 
-          />
-        </div>
-        
-        {/* Services Grid */}
-        <div className="mb-6 md:mb-8">
+      <main className="max-w-7xl mx-auto px-4 xs:px-6 lg:px-8">
+
+        {/* Centered Navigation */}
+        <DesktopTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} theme={theme} />
+        <MobileDropdown
+          tabs={tabs}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          showMobileMenu={showMobileMenu}
+          setShowMobileMenu={setShowMobileMenu}
+          theme={theme}
+        />
+
+        {/* Alternating Services List */}
+        <div className="mt-8 md:mt-12 mb-16 md:mb-24">
           <AnimatePresence mode="wait">
             {filteredServices.length === 0 ? (
               <motion.div
-                key="empty-state"
+                key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-center py-12 md:py-16"
+                className="text-center py-16 md:py-32"
               >
-                <h3 className="text-lg md:text-xl font-medium text-gray-500 dark:text-gray-400 mb-2">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                  <Icons.Search className="text-gray-400" size={24} />
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-gray-500 dark:text-gray-400 mb-2">
                   No services found in this category
                 </h3>
-                <p className="text-gray-400 dark:text-gray-500 text-sm">
-                  Check back later for new services
-                </p>
+                <p className="text-gray-400 text-sm md:text-base">Please explore our other categories or check back later.</p>
               </motion.div>
             ) : (
-              <motion.div
-                key={`services-${activeTab}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-              >
-                {filteredServices.map((service: DropdownItem) => (
-                  <ServiceCard 
-                    key={service.path} 
-                    service={service} 
-                    isMobile={isMobile} 
-                    theme={theme} 
+              <div key={activeTab}>
+                {filteredServices.map((service, index) => (
+                  <DetailedServiceSection
+                    key={service.path}
+                    service={service}
+                    index={index}
+                    theme={theme}
                   />
                 ))}
-              </motion.div>
+              </div>
             )}
           </AnimatePresence>
         </div>
-        
-        {/* Lazy loaded CTA with suspense fallback */}
-        <Suspense fallback={<div className="h-32 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse" />}>
-          <CallToAction />
-        </Suspense>
-        
-        <div className="text-center mt-6 md:mt-8">
-          <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">
-            Can't find what you're looking for?{' '}
-            <Link 
-              to="/contact" 
-              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-              prefetch="intent"
+
+        {/* Use Cases Callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className={cn(
+            "mb-16 md:mb-24 p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-[2rem] border relative overflow-hidden group",
+            theme === 'dark'
+              ? "bg-gray-900/40 border-gray-800"
+              : "bg-blue-50/50 border-blue-100"
+          )}
+        >
+          <div className="absolute top-0 right-0 p-4 md:p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Icons.Monitor size={120} className="hidden xs:block" />
+          </div>
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+            <div className="max-w-2xl">
+              <h3 className={cn(
+                "text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4",
+                theme === 'dark' ? "text-white" : "text-gray-900"
+              )}>
+                Strategic Implementation
+              </h3>
+              <p className={cn(
+                "text-base md:text-lg mb-4 md:mb-6",
+                theme === 'dark' ? "text-gray-200" : "text-gray-800"
+              )}>
+                Don't just take our word for it. See how we've applied these services to solve high-stakes challenges for global enterprises, startups, and public sector organizations.
+              </p>
+              <div className="flex flex-wrap gap-3 md:gap-4">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="text-blue-500" size={16} />
+                  <span className="text-xs md:text-sm font-medium">Proven Results</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="text-blue-500" size={16} />
+                  <span className="text-xs md:text-sm font-medium">Cross-Industry Expertise</span>
+                </div>
+              </div>
+            </div>
+            <Link
+              to="/use-cases"
+              className="px-6 py-3 md:px-8 md:py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/25 whitespace-nowrap text-sm md:text-base"
             >
-              Contact us
-            </Link>{' '}
-            for custom solutions.
+              Explore Use Cases
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* CTA Section */}
+        <FadeUp className="mb-16 md:mb-24">
+          <Suspense fallback={<div className="h-48 md:h-64 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-2xl md:rounded-3xl" />}>
+            <CallToAction
+              title="Ready to Transform Your Business?"
+              description="Join hundreds of organizations that trust us with their critical data and digital strategies. Get started with a free consultation today."
+            />
+          </Suspense>
+        </FadeUp>
+
+        {/* Help Link */}
+        <div className="text-center mb-16 md:mb-24">
+          <p className="text-gray-500 dark:text-gray-400 text-base md:text-lg">
+            Looking for something specific?{' '}
+            <Link to="/contact" className="text-blue-600 dark:text-blue-400 hover:underline font-bold">
+              Let's talk custom solutions
+            </Link>
           </p>
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
