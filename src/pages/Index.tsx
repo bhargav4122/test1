@@ -1,5 +1,6 @@
+import { motion } from 'framer-motion';
 import React, { useEffect, useCallback, lazy, Suspense } from "react";
-import { Helmet } from 'react-helmet-async';
+import SEO from '@/components/common/SEO';
 
 // Lazy load heavy components
 const Statistics = lazy(() => import("@/components/home/Statistics"));
@@ -8,116 +9,65 @@ const CallToAction = lazy(() => import("@/components/home/CallToAction"));
 const ServicesOverview = lazy(() => import('@/components/home/ServicesOverview'));
 const IndustrySection = lazy(() => import('@/components/home/IndustrySection'));
 const Why = lazy(() => import('@/components/home/Why'));
+const TestimonialSection = lazy(() => import('@/components/home/TestimonialSection'));
+import { Rocket } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import WhatWeDoSection from '@/components/home/WhatWeDoSection';
 const About = lazy(() => import('@/components/home/About'));
+import Layout from "@/components/layout/Layout";
+import { useIsDesktop } from "@/hooks/useWindowSize";
+import { cn } from "@/lib/utils";
 
-// Custom hook for media queries
-const useMediaQuery = (query: string): boolean => {
-  const [matches, setMatches] = React.useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
-
-    const listener = () => setMatches(media.matches);
-    media.addEventListener('change', listener);
-
-    return () => media.removeEventListener('change', listener);
-  }, [matches, query]);
-
-  return matches;
-};
-
-const useIsMobile = () => useMediaQuery('(max-width: 768px)');
-const useIsDesktop = () => useMediaQuery('(min-width: 769px)');
-
-// Loading fallback component
+// Premium Loading fallback component
 const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-    <div className="animate-pulse text-lg">Loading...</div>
+  <div className="min-h-[400px] w-full flex flex-col items-center justify-center space-y-4">
+    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+    <motion.p
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="text-gray-500 dark:text-gray-400 font-medium animate-pulse"
+    >
+      Loading experience...
+    </motion.p>
   </div>
 );
 
 const Index = () => {
-  const isMobile = useIsMobile();
   const isDesktop = useIsDesktop();
-
-  // Optimized scroll animation with throttling
-  const animateOnScroll = useCallback(() => {
-    if (typeof window === 'undefined') return;
-
-    const elements = document.querySelectorAll('.animate-on-scroll');
-    const windowHeight = window.innerHeight;
-
-    elements.forEach(element => {
-      const position = element.getBoundingClientRect();
-      if (position.top < windowHeight * 0.85 && position.bottom >= 0) {
-        element.classList.add('animate-fade-in');
-      }
-    });
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Throttle scroll events for better performance
-    let ticking = false;
-    const throttledScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          animateOnScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
+    const observerOption = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
     };
 
-    // Initial animation check
-    animateOnScroll();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOption);
 
-    window.addEventListener('scroll', throttledScroll, { passive: true });
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    elements.forEach(el => observer.observe(el));
 
-    return () => {
-      window.removeEventListener('scroll', throttledScroll);
-    };
-  }, [animateOnScroll]);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
-      {/* SEO Meta Tags - Preload critical resources */}
-      <Helmet>
-        <title>Business and Data Solutions | Complete Business Services Partner</title>
-        <meta
-          name="description"
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Workforce Solutions, and Training & Development."
-        />
-        <meta
-          name="keywords"
-          content="business solutions, data services, cloud infrastructure, BI solutions, digital transformation, business consulting, market research, workforce solutions, training development, data analytics, digital marketing"
-        />
-        <link rel="canonical" href="https://www.businessanddatasolutions.com/" />
-        <meta property="og:title" content="Business and Data Solutions | BDS | Complete Business Services Partner" />
-        <meta
-          property="og:description"
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Consumer voice, Digital Marketing and more."
-        />
-        <meta property="og:url" content="https://www.businessanddatasolutions.com/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Business and Data Solutions | BDS | Complete Business Services Partner" />
-        <meta
-          name="twitter:description"
-          content="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, and more."
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="twitter:image" content="https://res.cloudinary.com/dsf4d41i8/image/upload/v1755995499/BDS_Logo_-_Original_with_Transparent_Background_-_5000x5000_vb9jll.png" />
 
-        {/* Structured Data (JSON-LD) */}
+    <>
+      <SEO
+        title="Business and Data Solutions"
+        description="Comprehensive business solutions: Data & Cloud services, BI & Digital Transformation, Business Consulting, Market Research, Workforce Solutions, and Training & Development."
+        keywords="business solutions, data services, cloud infrastructure, BI solutions, digital transformation, business consulting, market research, workforce solutions, training development, data analytics, digital marketing"
+      >
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -141,11 +91,9 @@ const Index = () => {
             }
           })}
         </script>
-
-        {/* Preload critical resources */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-      </Helmet>
+      </SEO>
 
       {/* Full-page glass overlay */}
       <div
@@ -158,22 +106,39 @@ const Index = () => {
           <WhatWeDoSection />
           <Statistics />
 
+          {/* Core sections - responsive layout managed within components */}
+          <ServicesOverview />
+          <IndustrySection />
           <Why />
+          {/* Use Cases Feature Banner */}
+          <section className="py-12 px-4">
+            <div className={cn(
+              "max-w-6xl mx-auto rounded-[2rem] p-8 md:p-12 border overflow-hidden relative group",
+              "bg-gradient-to-r from-blue-600 to-indigo-700 text-white"
+            )}>
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <Rocket size={200} />
+              </div>
+              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="max-w-xl">
+                  <h3 className="text-2xl md:text-4xl font-bold mb-4">See how we solve complex challenges</h3>
+                  <p className="text-blue-100 text-lg">From AI automation to global cloud migrations, explore our strategic implementation success stories.</p>
+                </div>
+                <Link
+                  to="/use-cases"
+                  className="px-8 py-4 bg-white text-blue-600 font-bold rounded-full hover:shadow-2xl transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+                >
+                  View Case Studies
+                </Link>
+              </div>
+            </div>
+          </section>
 
-          {/* Show these sections only on desktop */}
-          {isDesktop && (
-            <>
-              <About />
-              <ServicesOverview />
-              <IndustrySection />
-              <HowItWorks />
-            </>
-          )}
-
-          <CallToAction />
+          <TestimonialSection />
+          <CallToAction pageType="home" />
         </main>
       </Suspense>
-    </div>
+    </>
   );
 };
 
