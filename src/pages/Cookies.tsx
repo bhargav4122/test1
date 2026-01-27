@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import SEO from '@/components/common/SEO';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,7 +19,7 @@ const Cookies = () => {
 
     // Animate sections as they come into view
     const sections = containerRef.current.querySelectorAll('section');
-    
+
     sections.forEach((section) => {
       gsap.from(section, {
         opacity: 0,
@@ -54,8 +55,13 @@ const Cookies = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted/10">
-    
-      
+      <SEO
+        title="Cookie Policy"
+        description="Understand how Business and Data Solutions uses cookies to improve your experience and how you can manage your cookie preferences."
+        keywords="cookie policy, cookies usage, cookie preferences, web tracking"
+      />
+
+
       <main className="flex-1 py-20" ref={containerRef}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero Section */}
@@ -78,7 +84,7 @@ const Cookies = () => {
             <h2 className="text-3xl font-bold mb-6 text-primary">What Are Cookies</h2>
             <div className="space-y-4 text-lg leading-relaxed">
               <p className="p-4 bg-muted/10 rounded-lg border border-muted/20">
-                Cookies are small text files that are placed on your computer or mobile device when you visit our website. 
+                Cookies are small text files that are placed on your computer or mobile device when you visit our website.
                 They help us provide you with a better experience by remembering your preferences and improving our services.
               </p>
             </div>
@@ -87,7 +93,7 @@ const Cookies = () => {
           {/* Types of Cookies */}
           <section className="mb-16 p-8 bg-background rounded-xl border border-muted shadow-sm hover:shadow-md transition-shadow">
             <h2 className="text-3xl font-bold mb-6 text-primary">Types of Cookies We Use</h2>
-            
+
             <div className="grid md:grid-cols-3 gap-6">
               <div className="p-6 rounded-xl border border-muted bg-gradient-to-b from-background to-muted/5 hover:border-primary transition-all hover:shadow-lg">
                 <div className="h-12 w-12 mb-4 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -134,7 +140,7 @@ const Cookies = () => {
             <p className="mb-6 text-lg p-4 bg-muted/10 rounded-lg border border-muted/20">
               You can manage your cookie preferences below. Note that disabling certain cookies may affect your experience on our website.
             </p>
-            
+
             <div className="settings-panel p-8 rounded-xl border border-primary/20 bg-gradient-to-br from-background via-background to-primary/5 shadow-lg">
               <h3 className="text-2xl font-semibold mb-6 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -156,7 +162,7 @@ const Cookies = () => {
                     Always Active
                   </span>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-lg bg-background border border-muted/30 hover:border-primary/50 transition-colors">
                   <div className="mb-3 sm:mb-0">
                     <p className="font-medium text-lg">Analytics Cookies</p>
@@ -171,7 +177,7 @@ const Cookies = () => {
                     {preferences.analytics ? "Enabled" : "Disabled"}
                   </Button>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-lg bg-background border border-muted/30 hover:border-primary/50 transition-colors">
                   <div className="mb-3 sm:mb-0">
                     <p className="font-medium text-lg">Marketing Cookies</p>
@@ -197,7 +203,7 @@ const Cookies = () => {
               <p className="p-4 bg-muted/10 rounded-lg border border-muted/20">
                 You can control and/or delete cookies as you wish. You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed.
               </p>
-             
+
             </div>
           </section>
 
@@ -217,7 +223,7 @@ const Cookies = () => {
                   </span>
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-muted-foreground">info@businessanddatasolutions.com</p>
+                    <p className="text-muted-foreground">privacy@datasphere.com</p>
                   </div>
                 </li>
                 <li className="flex items-start p-4 bg-muted/10 rounded-lg border border-muted/20">
@@ -228,7 +234,7 @@ const Cookies = () => {
                   </span>
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-muted-foreground">+44 748 787 1919</p>
+                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
                   </div>
                 </li>
               </ul>
@@ -236,7 +242,7 @@ const Cookies = () => {
           </section>
         </div>
       </main>
-      
+
     </div>
   );
 };
