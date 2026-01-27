@@ -28,6 +28,9 @@ import FloatingShapes from "./components/FloatingShapes";
 import CookieConsent from "@/components/CookieConsent";
 import Layout from "@/components/layout/Layout";
 
+import UnsubscribePage from "./pages/UnsubscribePage";
+import AdminSubscribers from "./pages/AdminSubscribers";
+
 const Index = React.lazy(() => import("./pages/Index"));
 const ServicesOverview = React.lazy(() => import("./pages/ServicesOverview"));
 const ServiceDetail = React.lazy(() => import("./pages/ServiceDetail"));
@@ -122,10 +125,10 @@ const AppContent = () => {
                       <Route path="*" element={<NotFound />} />
                       <Route path="/bdscanvas" element={<BDSCanvas />} />
                       <Route path="/care" element={<Care />} />
-
+                      <Route path="/unsubscribe" element={<UnsubscribePage />} />
                       <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
-
                       <Route path="/adminpage" element={<Adminpage />} />
+                      <Route path="/adminsubscribers" element={<AdminSubscribers />} />
                     </Routes>
                   </React.Suspense>
                 </Layout>
