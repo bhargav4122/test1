@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Clock, Users, LineChart, AlertCircle, Loader2, Check, Sparkles } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/common/SEO";
 import { useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { PersonalInfo } from "@/components/consultation/PersonalInfo";
@@ -13,6 +13,7 @@ import { useTheme } from "@/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { submitConsultationForm } from "@/firebase";
 import { useNavigate } from 'react-router-dom';
+import CallToAction from "@/components/home/CallToAction";
 
 const industries = [
   "Retail", "Healthcare", "Finance", "Technology", "Manufacturing",
@@ -137,75 +138,75 @@ const Consultation = () => {
 
 
   const handleSubmitAndSchedule = useCallback(async () => {
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  setIsSubmitting(true);
-  
-  try {
-    // First, save the form data to Firebase
-    const { success, message } = await submitConsultationForm(formData);
+    setIsSubmitting(true);
 
-    if (success) {
-      toast({
-        title: "Form submitted!",
-        description: "Now please select your preferred date and time.",
-      });
-      
-      // Create Cal.com URL with pre-filled data
-      const calUrl = new URL('https://cal.com/bhargav4122/free-consultation');
-      
-      // Add pre-filled data as URL parameters
-      calUrl.searchParams.set('name', `${formData.firstName} ${formData.lastName}`);
-      calUrl.searchParams.set('email', formData.email);
-      calUrl.searchParams.set('phone', formData.phone);
-      calUrl.searchParams.set('location', 'In-person');
-      
-      // Put structured info in description (info field), leave notes empty
-const info = [
-  `Company: ${formData.company}`,
-  `Phone: ${formData.phone}`,
-  `Industry: ${formData.industry.join(', ')}`,
-  `Services: ${formData.services.join(', ')}`
-].join('\n');
+    try {
+      // First, save the form data to Firebase
+      const { success, message } = await submitConsultationForm(formData);
 
-// This is a hidden field Cal.com supports
-calUrl.searchParams.set('notes', ""); // leave empty for user input
-calUrl.searchParams.set('metadata[info]', info); // store your structured info
+      if (success) {
+        toast({
+          title: "Form submitted!",
+          description: "Now please select your preferred date and time.",
+        });
 
-      
-      // Open Cal.com scheduler in a new tab with pre-filled data
-      //window.open(calUrl.toString(), '_blank');
+        // Create Cal.com URL with pre-filled data
+        const calUrl = new URL('https://cal.com/bhargav4122/free-consultation');
 
-      window.location.href = calUrl.toString();
-      
-      // Reset form after successful submission
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        company: "",
-        industry: [],
-        services: [],
-        additionalInfo: ""
-      });
-    } else {
+        // Add pre-filled data as URL parameters
+        calUrl.searchParams.set('name', `${formData.firstName} ${formData.lastName}`);
+        calUrl.searchParams.set('email', formData.email);
+        calUrl.searchParams.set('phone', formData.phone);
+        calUrl.searchParams.set('location', 'In-person');
+
+        // Put structured info in description (info field), leave notes empty
+        const info = [
+          `Company: ${formData.company}`,
+          `Phone: ${formData.phone}`,
+          `Industry: ${formData.industry.join(', ')}`,
+          `Services: ${formData.services.join(', ')}`
+        ].join('\n');
+
+        // This is a hidden field Cal.com supports
+        calUrl.searchParams.set('notes', ""); // leave empty for user input
+        calUrl.searchParams.set('metadata[info]', info); // store your structured info
+
+
+        // Open Cal.com scheduler in a new tab with pre-filled data
+        //window.open(calUrl.toString(), '_blank');
+
+        window.location.href = calUrl.toString();
+
+        // Reset form after successful submission
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          company: "",
+          industry: [],
+          services: [],
+          additionalInfo: ""
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: message || "Please check your information and try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
       toast({
         title: "Error",
-        description: message || "Please check your information and try again.",
+        description: "An unexpected error occurred. Please try again later.",
         variant: "destructive"
       });
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    toast({
-      title: "Error",
-      description: "An unexpected error occurred. Please try again later.",
-      variant: "destructive"
-    });
-  } finally {
-    setIsSubmitting(false);
-  }
-}, [formData, toast, validateForm]);
+  }, [formData, toast, validateForm]);
 
 
 
@@ -215,29 +216,16 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
       "min-h-screen pt-16 relative overflow-hidden",
       theme === "dark" ? "bg-black-900" : "bg-gray-50"
     )}>
-       {/* SEO Meta Tags */}
-      <Helmet>
-        <title>Free Consultation | Business and Data Solutions - Book Your Session</title>
-        <meta 
-          name="description" 
-          content="Book a free 30-minute consultation with our business and data solutions experts. Get personalized advice on data services, digital transformation, and business growth strategies." 
-        />
-        <meta 
-          name="keywords" 
-          content="free consultation, business consultation, data solutions consultation, digital transformation advice, business growth strategy, expert consultation" 
-        />
-        <link rel="canonical" href="https://businessanddatasolutions.com/consultation" />
-        <meta property="og:title" content="Free Consultation | Business and Data Solutions - Book Your Session" />
-        <meta 
-          property="og:description" 
-          content="Book a free 30-minute consultation with our business and data solutions experts. Get personalized advice for your business growth." 
-        />
-        <meta property="og:url" content="https://businessanddatasolutions.com/consultation" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://yourcompany.com/og-image-consultation.png" />
-      </Helmet>
+      {/* SEO Meta Tags */}
+      <SEO
+        title="Free Consultation - Book Your Session"
+        description="Book a free 30-minute consultation with our business and data solutions experts. Get personalized advice on data services, digital transformation, and business growth strategies."
+        keywords="free consultation, business consultation, data solutions consultation, digital transformation advice, business growth strategy, expert consultation"
+        url="https://businessanddatasolutions.com/consultation"
+        image="https://yourcompany.com/og-image-consultation.png"
+      />
 
-      
+
       <section className="py-20 relative">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -257,7 +245,7 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
                 Free 30-Minute Consultation
               </Badge>
             </motion.div>
-            
+
             <h1 className={cn(
               "text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r",
               theme === "dark" ? "from-blue-400 to-purple-500" : "from-primary to-blue-600",
@@ -265,8 +253,8 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
             )}>
               Unlock Your <br />Business Potential
             </h1>
-            
-            <motion.p 
+
+            <motion.p
               className={cn(
                 "text-xl max-w-2xl mx-auto",
                 theme === "dark" ? "text-gray-300" : "text-gray-600"
@@ -287,8 +275,8 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
           >
             <div className={cn(
               "max-w-4xl mx-auto rounded-2xl shadow-2xl p-8 mb-12 border relative overflow-hidden",
-              theme === "dark" 
-                ? "bg-gray-800/50 border-gray-700 backdrop-blur-md" 
+              theme === "dark"
+                ? "bg-gray-800/50 border-gray-700 backdrop-blur-md"
                 : "bg-white/90 backdrop-blur-md",
               "transition-all duration-300 group"
             )}>
@@ -310,14 +298,14 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
                     Consultation Request Form
                   </h2>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <PersonalInfo 
-                    formData={formData} 
-                    handleInputChange={handleInputChange} 
+                  <PersonalInfo
+                    formData={formData}
+                    handleInputChange={handleInputChange}
                     theme={theme}
                   />
-                  <CompanyInfo 
+                  <CompanyInfo
                     formData={formData}
                     handleInputChange={handleInputChange}
                     industries={industries}
@@ -337,8 +325,8 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
                     48-hour notice required for all bookings
                   </Badge>
 
-                  <Button 
-                    className="w-full hover:scale-[1.02] transition-transform shadow-lg hover:shadow-primary/30" 
+                  <Button
+                    className="w-full hover:scale-[1.02] transition-transform shadow-lg hover:shadow-primary/30"
                     size="lg"
                     onClick={handleSubmitAndSchedule}
                     disabled={isSubmitting}
@@ -370,66 +358,71 @@ calUrl.searchParams.set('metadata[info]', info); // store your structured info
           {/* Benefits section remains the same */}
 
           {/* Benefits Section */}
-<section className="mt-20">
-  <h2
-    className={cn(
-      "text-3xl md:text-4xl font-bold text-center mb-12",
-      theme === "dark" ? "text-white" : "text-gray-900"
-    )}
-  >
-    Why Book a Consultation?
-  </h2>
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {benefits.map((benefit, idx) => (
-      <Card
-        key={idx}
-        className={cn(
-          "rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border backdrop-blur-sm",
-          theme === "dark"
-            ? "bg-gray-800/50 border-gray-700"
-            : "bg-white border-gray-200"
-        )}
-      >
-        <CardHeader>
-          <div
-            className={cn(
-              "h-12 w-12 flex items-center justify-center rounded-full mb-4",
-              theme === "dark" ? "bg-primary/20" : "bg-primary/10"
-            )}
-          >
-            <benefit.icon
+          <section className="mt-20">
+            <h2
               className={cn(
-                "h-6 w-6",
-                theme === "dark" ? "text-primary" : "text-primary"
+                "text-3xl md:text-4xl font-bold text-center mb-12",
+                theme === "dark" ? "text-white" : "text-gray-900"
               )}
-            />
-          </div>
-          <CardTitle
-            className={cn(
-              "text-xl font-semibold",
-              theme === "dark" ? "text-white" : "text-gray-900"
-            )}
-          >
-            {benefit.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription
-            className={cn(
-              "text-base",
-              theme === "dark" ? "text-gray-300" : "text-gray-600"
-            )}
-          >
-            {benefit.description}
-          </CardDescription>
-        </CardContent>
-      </Card>
-    ))}
-  </div>
-</section>
+            >
+              Why Book a Consultation?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {benefits.map((benefit, idx) => (
+                <Card
+                  key={idx}
+                  className={cn(
+                    "rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border backdrop-blur-sm",
+                    theme === "dark"
+                      ? "bg-gray-800/50 border-gray-700"
+                      : "bg-white border-gray-200"
+                  )}
+                >
+                  <CardHeader>
+                    <div
+                      className={cn(
+                        "h-12 w-12 flex items-center justify-center rounded-full mb-4",
+                        theme === "dark" ? "bg-primary/20" : "bg-primary/10"
+                      )}
+                    >
+                      <benefit.icon
+                        className={cn(
+                          "h-6 w-6",
+                          theme === "dark" ? "text-primary" : "text-primary"
+                        )}
+                      />
+                    </div>
+                    <CardTitle
+                      className={cn(
+                        "text-xl font-semibold",
+                        theme === "dark" ? "text-white" : "text-gray-900"
+                      )}
+                    >
+                      {benefit.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription
+                      className={cn(
+                        "text-base",
+                        theme === "dark" ? "text-gray-300" : "text-gray-600"
+                      )}
+                    >
+                      {benefit.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
 
         </div>
       </section>
+      <CallToAction
+        pageType="contact"
+        title="Still have questions?"
+        description="Read our success stories or explore our services in more detail if you're not ready to book yet."
+      />
     </div>
   );
 };
