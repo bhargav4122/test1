@@ -1,88 +1,76 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   BrowserRouter,
-  Routes, 
-  Route, 
-  useLocation, 
+  Routes,
+  Route,
+  useLocation,
   Navigate,
-  useParams
+  unstable_HistoryRouter as HistoryRouter
 } from 'react-router-dom';
+import { Search, Menu, X, Building2, Mail, Phone, MapPin, ChevronRight, Wrench, Zap, Brain, Shield, Cloud, Database, Cpu, Home } from 'lucide-react';
+import { servicesDropdown, industriesDropdown } from './data/navigationData';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import ChatBot from "@/components/ChatBot";
-import Index from "./pages/Index";
-import Industries from "./pages/Industries";
-import IndustryPage from './pages/IndustryPage';
-import NotFound from "./pages/NotFound";
-import ParticleBackground from "./components/ParticleBackground";
-import FloatingShapes from "./components/FloatingShapes";
-import About from "./pages/About";
-import TeamAndCareersPage from "./pages/TeamAndCareersPage";
-import Contact from "./pages/Contact";
-import Consultation from "./pages/Consultation";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import serviceCategories from "@/data/serviceCategories";
+import { serviceDetails } from "@/data/serviceDetails";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { HelmetProvider } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
-import Preloader from "@/components/Preloader/Preloader";
-import BDSCanvas from "./pages/BDSCanvas";
 import SparklesPreview from '@/components/sparkles-demo';
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import Cookies from "./pages/Cookies";
+import ParticleBackground from "./components/ParticleBackground";
+import FloatingShapes from "./components/FloatingShapes";
 import CookieConsent from "@/components/CookieConsent";
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from "./pages/BlogPostPage";
-import './index.css'
-import { servicesDropdown, industriesDropdown } from './data/navigationData';
-import ServicesOverview from "./pages/ServicesOverview";
-import ServiceDetail from "./pages/ServiceDetail";
-import serviceCategories from "@/data/serviceCategories";
-import { serviceDetails } from "@/data/serviceDetails";
-import EmailTestPage from './pages/EmailTest';
-import Care from "@/pages/Care.tsx";
-import BookingConfirmation from './pages/BookingConfirmation';
+import Layout from "@/components/layout/Layout";
 
-import WhatsAppButton from "@/components/WhatsAppButton";
-
-
+const Index = React.lazy(() => import("./pages/Index"));
+const ServicesOverview = React.lazy(() => import("./pages/ServicesOverview"));
+const ServiceDetail = React.lazy(() => import("./pages/ServiceDetail"));
+const Industries = React.lazy(() => import("./pages/Industries"));
+const IndustryPage = React.lazy(() => import('./pages/IndustryPage'));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+const About = React.lazy(() => import("./pages/About"));
+const TeamAndCareersPage = React.lazy(() => import("./pages/TeamAndCareersPage"));
+const Contact = React.lazy(() => import("./pages/Contact"));
+const Consultation = React.lazy(() => import("./pages/Consultation"));
+const BlogPage = React.lazy(() => import('./pages/BlogPage.jsx'));
+const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
+const Terms = React.lazy(() => import("./pages/Terms"));
+const Privacy = React.lazy(() => import("./pages/Privacy"));
+const Cookies = React.lazy(() => import("./pages/Cookies"));
+const BDSCanvas = React.lazy(() => import("./pages/BDSCanvas"));
+const Care = React.lazy(() => import("@/pages/Care.tsx"));
+const BookingConfirmation = React.lazy(() => import('./pages/BookingConfirmation'));
 const Adminpage = React.lazy(() => import('./pages/Adminpage'));
 const TestimonialsPage = React.lazy(() => import("./pages/TestimonialsPage"));
 const UseCasesPage = React.lazy(() => import("./pages/UseCasesPage"));
 
 
-
-
-
 const queryClient = new QueryClient();
-const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const errorHandler = (error: ErrorEvent) => {
-      console.error('Error caught by boundary:', error.error);
-      setHasError(true);
-    };
-    window.addEventListener('error', errorHandler);
-    return () => window.removeEventListener('error', errorHandler);
-  }, []);
-
-  if (hasError) {
-    return <div className="p-4 text-center">Failed to load this page. Please try navigating from the homepage.</div>;
-  }
-
-  return <>{children}</>;
+const CustomRouter = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <BrowserRouter
+      window={window}
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
+      {children}
+    </BrowserRouter>
+  );
 };
-
 const ServiceRedirect = () => {
   const location = useLocation();
   const path = location.pathname;
   const serviceId = path.split('/service/')[1];
   console.log(`Redirecting from old URL pattern: ${path} to new URL pattern: /service-detail/${serviceId}`);
-  return <Navigate to={`/services/service-detail/${serviceId}`} replace />;
+  return <Navigate to={`/service-detail/${serviceId}`} replace />;
 };
 
 const getAllServiceIds = () => {
@@ -92,16 +80,11 @@ const getAllServiceIds = () => {
 };
 
 const AppContent = () => {
-  const location = useLocation();
   const allServiceIds = getAllServiceIds();
-
-  useEffect(() => {
-    console.log('Route changed to:', location.pathname);
-  }, [location]);
+  // console.log("All available service IDs:", allServiceIds);
 
   return (
     <HelmetProvider>
-    
       <div className="min-h-screen flex flex-col overflow-x-hidden bg-white dark:bg-black">
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
@@ -110,54 +93,44 @@ const AppContent = () => {
               <FloatingShapes />
               <Toaster />
               <Sonner />
-              <ChatBot />
-              <WhatsAppButton/>
-              <Navbar />
-              <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<Index />} />
-                <Route path="/services" element={<ServicesOverview />} />
-                 <Route path="/services/:serviceId" element={<ServiceDetail />} />
-                <Route path="/services/:serviceId" element={<ServiceRedirect />} />
-                 <Route path="/service-detail/:serviceId" element={<ServiceDetail />} />
-                <Route path="/service-detail/:serviceId" element={
-                  <ErrorBoundary>
-                    <ServiceDetail />
-                  </ErrorBoundary>
-                } />
-                <Route path="/industries" element={<Industries />} />
-                <Route path="/industries/:industryId" element={
-                  <ErrorBoundary>
-                    <IndustryPage />
-                  </ErrorBoundary>
-                } />
-                <Route path="/about" element={<About />} />
-                <Route path="/teamandcareerspage" element={<TeamAndCareersPage />} />
+              <CustomRouter>
+                <Navbar />
+                <ChatBot />
+                <WhatsAppButton />
+                <Layout>
+                  <React.Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SparklesPreview /></div>}>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/services" element={<ServicesOverview />} />
+                      <Route path="/service" element={<ServicesOverview />} />
+                      <Route path="/service/:serviceId" element={<ServiceRedirect />} />
+                      <Route path="/service-detail/:serviceId" element={<ServiceDetail />} />
+                      <Route path="/industries" element={<Industries />} />
+                      <Route path="/industries/:industryId" element={<IndustryPage />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/teamandcareerspage" element={<TeamAndCareersPage />} />
+                      <Route path="/testimonials" element={<TestimonialsPage />} />
+                      <Route path="/use-cases" element={<UseCasesPage />} />
 
-                 <Route path="/testimonials" element={<TestimonialsPage />} />
-                 <Route path="/use-cases" element={<UseCasesPage />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/consultation" element={<Consultation />} />
+                      <Route path="/blog" element={<BlogPage />} />
+                      <Route path="/blog/:id" element={<BlogPostPage />} />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/cookies" element={<Cookies />} />
+                      <Route path="*" element={<NotFound />} />
+                      <Route path="/bdscanvas" element={<BDSCanvas />} />
+                      <Route path="/care" element={<Care />} />
 
-                
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/consultation" element={<Consultation />} />
-                <Route path="/blog" element={<BlogPage />} />
-                <Route path="/blog/:id" element={
-                  <ErrorBoundary>
-                    <BlogPostPage />
-                  </ErrorBoundary>
-                } />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/cookies" element={<Cookies />} />
-                <Route path="/canvas" element={<BDSCanvas />} />
-                <Route path="*" element={<NotFound />} />
-                 <Route path="/email-test" element={<EmailTestPage />} />
-                 <Route path="/care" element={<Care />} />
-                 <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
-                 <Route path="/adminpage" element={<Adminpage />} />
+                      <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
 
-                
-              </Routes>
-              <Footer />
+                      <Route path="/adminpage" element={<Adminpage />} />
+                    </Routes>
+                  </React.Suspense>
+                </Layout>
+                <Footer />
+              </CustomRouter>
               <CookieConsent />
             </TooltipProvider>
           </ThemeProvider>
@@ -176,7 +149,7 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <>
       <AnimatePresence mode='wait'>
         {isLoading ? (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
@@ -186,6 +159,6 @@ export default function App() {
           <AppContent />
         )}
       </AnimatePresence>
-    </BrowserRouter>
+    </>
   );
 }
