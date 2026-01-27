@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, Star, ArrowRight, Sparkles, Target, Zap, Award } from 'lucide-react';
+import { Quote, ChevronLeft, ChevronRight, Star, ArrowRight, ExternalLink, Check, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/providers/ThemeProvider';
 import OptimizedImage from '@/components/core/OptimizedImage';
@@ -8,263 +8,372 @@ import { Link } from 'react-router-dom';
 
 const testimonials = [
     {
-        name: "Thomas R.",
-        role: "CEO, NexaCorp Systems",
-        content: "BDS transformed our data infrastructure. Their AI-driven insights helped us increase operational efficiency by 35%.",
+        name: "Nexmin",
+        role: "Online Grocery Store",
+        content: "Business and Data Solutions helped us automate our operations end-to-end, reducing manual work and improving order accuracy across our platform.",
         stars: 5,
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&auto=format&fit=crop"
+        logo: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445144/58e265cd-9fea-44a8-9b87-10aa277477a9.png",
+        website: "https://www.nexmin.co.uk/",
+        industry: "Retail",
+        results: ["80% faster operations", "95% order accuracy", "40% cost reduction"]
     },
     {
-        name: "Sarah Jenkins",
-        role: "Director of Operations",
-        content: "The digital transformation roadmap provided by BDS was clear, actionable, and delivered exactly what was promised.",
+        name: "Validation Networks",
+        role: "Pharmaceutical Validation Services",
+        content: "Business and Data Solutions delivered clear, actionable dashboards that changed how we monitor performance and make decisions.",
         stars: 5,
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&auto=format&fit=crop"
+        logo: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445214/058ac7dc-2649-4aa7-aae3-0caec6c22091.png",
+        website: "https://www.validationnetwork.com/",
+        industry: "Healthcare",
+        results: ["Real-time analytics", "Improved compliance", "Faster reporting"]
     },
     {
-        name: "Michael Chen",
-        role: "CTO, FinTech Innovation",
-        content: "Working with BDS on our cloud migration was seamless. They understood our security concerns perfectly.",
+        name: "Nam Solicitors",
+        role: "Legal Practice",
+        content: "The branding services from Business and Data Solutions gave our firm a strong, professional identity that resonates with our clients.",
         stars: 5,
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&h=300&auto=format&fit=crop"
+        logo: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445314/Logo_Transperant_Background_grfdou.png",
+        website: "", // No website link
+        industry: "Legal",
+        results: ["Strong brand identity", "Client engagement +60%", "Modern visual system"]
+    },
+    {
+        name: "Gloucester Shawarma",
+        role: "Takeaway Restaurant",
+        content: "Business and Data Solutions boosted our digital presence, helping us reach new customers and grow our online orders significantly.",
+        stars: 5,
+        logo: "", // No logo - will show initials
+        website: "https://gloucestershawarma.co.uk/",
+        industry: "Food & Beverage",
+        results: ["Online orders +150%", "Social media growth", "Brand recognition"]
+    },
+    {
+        name: "Super E Twin Bikes",
+        role: "E-Moped Rentals",
+        content: "Their business growth consulting helped us refine operations and unlock new revenue streams in the e-mobility space.",
+        stars: 5,
+        logo: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445414/6f037f86-6db7-42df-a6db-373ef27fbf35.png",
+        website: "https://superetwins.co.uk/",
+        industry: "Transportation",
+        results: ["New revenue streams", "Operational efficiency", "Market expansion"]
     }
 ];
 
 const TestimonialSection = () => {
     const { theme } = useTheme();
     const [current, setCurrent] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+    const [imageError, setImageError] = useState<boolean[]>(
+        testimonials.map(testimonial => !testimonial.logo)
+    );
 
-    const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
-    const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    const next = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        setCurrent((prev) => (prev + 1) % testimonials.length);
+        setTimeout(() => setIsAnimating(false), 500);
+    };
+
+    const prev = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        setTimeout(() => setIsAnimating(false), 500);
+    };
+
+    // Generate initials from company name
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    };
+
+    // Generate gradient based on name
+    const getGradient = (name: string) => {
+        const colors = [
+            'from-blue-500 to-purple-600',
+            'from-emerald-500 to-cyan-600',
+            'from-amber-500 to-orange-600',
+            'from-rose-500 to-pink-600',
+            'from-indigo-500 to-blue-600',
+            'from-teal-500 to-emerald-600',
+            'from-violet-500 to-purple-600',
+            'from-sky-500 to-blue-600'
+        ];
+        const index = name.length % colors.length;
+        return colors[index];
+    };
+
+    const handleImageError = (index: number) => {
+        const newErrors = [...imageError];
+        newErrors[index] = true;
+        setImageError(newErrors);
+    };
+
+    useEffect(() => {
+        // Reset image errors when testimonial changes
+        setImageError(testimonials.map(testimonial => !testimonial.logo));
+    }, [current]);
+
+    const shouldShowInitials = !testimonials[current].logo || imageError[current];
+    const hasWebsite = testimonials[current].website &&
+        testimonials[current].website.trim() !== '' &&
+        testimonials[current].website.startsWith('http');
 
     return (
-        <section className="py-12 sm:py-16 md:py-1 px-2 sm:px-6 relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] bg-blue-500/5 dark:bg-blue-400/5 blur-[60px] sm:blur-[80px] rounded-full -z-10" />
+        <section className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 overflow-hidden">
+            {/* Premium background elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/4 -left-20 w-72 h-72 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-gradient-to-l from-purple-500/5 to-pink-500/5 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/3 to-purple-500/3 rounded-full blur-3xl" />
 
-            {/* Left side decorative elements */}
-            <div className="hidden lg:block absolute left-4 top-1/4 -translate-y-1/2 opacity-30">
-                <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="p-4 rounded-full bg-blue-500/10 backdrop-blur-sm"
-                >
-                    <Target className="w-8 h-8 text-blue-500" />
-                </motion.div>
+                {/* Grid pattern */}
+                <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
             </div>
 
-            <div className="hidden xl:block absolute left-10 bottom-1/3 opacity-20">
-                <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="p-3 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10"
-                >
-                    <Sparkles className="w-6 h-6 text-purple-500" />
-                </motion.div>
-            </div>
-
-            {/* Right side decorative elements */}
-            <div className="hidden lg:block absolute right-4 top-1/3 -translate-y-1/2 opacity-30">
-                <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="p-4 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 backdrop-blur-sm"
-                >
-                    <Zap className="w-8 h-8 text-cyan-500" />
-                </motion.div>
-            </div>
-
-            <div className="hidden xl:block absolute right-10 bottom-1/4 opacity-20">
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                    className="p-3 rounded-lg bg-gradient-to-tr from-blue-500/10 to-pink-500/10"
-                >
-                    <Award className="w-6 h-6 text-pink-500" />
-                </motion.div>
-            </div>
-
-            <div className="max-w-6xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="text-center mb-10 sm:mb-12 md:mb-16">
-                    <motion.span
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-blue-500 font-bold uppercase tracking-widest text-xs"
-                    >
-                        Client Impressions
-                    </motion.span>
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className={cn(
-                            "text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-2 sm:mt-3 mb-3 sm:mb-4",
-                            theme === 'dark' ? "text-white" : "text-gray-900"
-                        )}
-                    >
-                        What Leaders Say About Us
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className={cn(
-                            "max-w-2xl mx-auto text-sm sm:text-base md:text-lg",
-                            theme === 'dark' ? "text-gray-400" : "text-gray-600"
-                        )}
-                    >
-                        We pride ourselves on building lasting partnerships based on trust and exceptional results.
-                    </motion.p>
+                <div className="text-center mb-12 sm:mb-16 md:mb-20">
+                    <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 backdrop-blur-sm border border-blue-500/20">
+                        <Sparkles className="w-4 h-4 text-blue-500" />
+                        <span className="text-sm font-semibold text-blue-500">TRUSTED BY INDUSTRY LEADERS</span>
+                    </div>
+
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent">
+                        Client Success Stories
+                    </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        Discover how businesses transformed their operations with our solutions
+                    </p>
                 </div>
 
-                {/* Testimonial Content */}
+                {/* Main Content */}
                 <div className="relative">
-                    <div className="flex flex-col lg:flex-row items-center gap-8 sm:gap-10 md:gap-1">
-                        {/* Visual Part */}
-                        <div className="w-full lg:w-1/2 relative order-2 lg:order-1">
-                            <div className="flex items-center justify-center">
-                                <div className="relative">
-                                    {/* Decorative background circles */}
-                                    <div className="absolute -inset-4 sm:-inset-6 -z-10">
-                                        <div className="absolute inset-0 border-2 border-blue-500/5 dark:border-blue-400/5 rounded-[3rem] sm:rounded-[4rem] animate-pulse" />
-                                        <div className="absolute inset-4 border-2 border-blue-500/10 dark:border-blue-400/10 rounded-[3rem] sm:rounded-[4rem] animate-[spin_8s_linear_infinite]" />
-                                    </div>
-
-                                    {/* Main image container */}
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={current}
-                                            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                                            exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
-                                            className="relative z-10"
-                                        >
-                                            <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-xl sm:shadow-2xl border-4 border-white dark:border-gray-800">
-                                                <OptimizedImage
-                                                    src={testimonials[current].image}
-                                                    alt={testimonials[current].name}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            </div>
-
-                                            {/* Quote icon */}
-                                            <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-blue-600 text-white p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl z-20">
-                                                <Quote className="w-5 h-5 sm:w-6 sm:h-6" />
-                                            </div>
-                                        </motion.div>
-                                    </AnimatePresence>
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                        {/* Logo/Visual Side - Premium Design */}
+                        <div className="order-2 lg:order-1">
+                            <div className="relative">
+                                {/* Decorative border */}
+                                <div className="absolute -inset-4 lg:-inset-6 -z-10">
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5" />
+                                    <div className="absolute inset-0 rounded-3xl border border-gray-200/50 dark:border-gray-700/50" />
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* Content Part */}
-                        <div className="w-full lg:w-1/2 order-1 lg:order-2">
-                            <div className="flex flex-col justify-center">
+                                {/* Main logo container */}
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={current}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -20 }}
-                                        className="space-y-4 sm:space-y-5 md:space-y-6"
+                                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                                        transition={{ duration: 0.5 }}
+                                        className="relative bg-gradient-to-br from-white/90 to-gray-50/90 dark:from-gray-900/90 dark:to-gray-800/90 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-2xl border border-gray-100/50 dark:border-gray-700/50"
                                     >
-                                        {/* Stars */}
-                                        <div className="flex gap-1">
-                                            {[...Array(testimonials[current].stars)].map((_, i) => (
-                                                <Star
-                                                    key={i}
-                                                    className="w-5 h-5 sm:w-6 sm:h-6 fill-yellow-500 text-yellow-500"
-                                                />
-                                            ))}
+                                        {/* Logo display area */}
+                                        <div className="relative">
+                                            {/* Logo or Initials */}
+                                            <div className="flex flex-col items-center justify-center p-6 lg:p-8">
+                                                {!shouldShowInitials ? (
+                                                    // Display Logo
+                                                    <div className="relative w-full max-w-xs h-32">
+                                                        <OptimizedImage
+                                                            src={testimonials[current].logo}
+                                                            alt={`${testimonials[current].name} logo`}
+                                                            className="object-contain object-center w-full h-full p-4"
+                                                            fill
+                                                            onError={() => handleImageError(current)}
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    // Display Initials
+                                                    <div className={cn(
+                                                        "w-48 h-48 rounded-2xl flex items-center justify-center bg-gradient-to-br shadow-xl",
+                                                        getGradient(testimonials[current].name)
+                                                    )}>
+                                                        <span className="text-5xl lg:text-6xl font-bold text-white">
+                                                            {getInitials(testimonials[current].name)}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* Industry badge */}
+                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                                                <div className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-semibold rounded-full shadow-lg">
+                                                    {testimonials[current].industry}
+                                                </div>
+                                            </div>
+
+                                            {/* Website link - Only show if there's a valid URL */}
+                                            {hasWebsite && (
+                                                <motion.a
+                                                    href={testimonials[current].website}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="absolute -bottom-3 right-4 inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 border border-gray-200 dark:border-gray-700"
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    <span>Visit Site</span>
+                                                    <ExternalLink className="w-3 h-3" />
+                                                </motion.a>
+                                            )}
                                         </div>
 
-                                        {/* Quote text */}
-                                        <p className={cn(
-                                            "text-lg sm:text-xl md:text-2xl leading-relaxed font-medium italic",
-                                            theme === 'dark' ? "text-gray-200" : "text-gray-800"
-                                        )}>
-                                            "{testimonials[current].content}"
-                                        </p>
-
-                                        {/* Author info */}
-                                        <div className="space-y-1">
-                                            <h4 className={cn(
-                                                "text-xl sm:text-2xl font-bold",
-                                                theme === 'dark' ? "text-white" : "text-gray-900"
-                                            )}>
-                                                {testimonials[current].name}
+                                        {/* Key results */}
+                                        <div className="mt-8 lg:mt-10 space-y-3">
+                                            <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                                Key Results
                                             </h4>
-                                            <p className="text-blue-500 font-medium text-base sm:text-lg">
-                                                {testimonials[current].role}
-                                            </p>
+                                            <div className="space-y-2">
+                                                {testimonials[current].results?.map((result, index) => (
+                                                    <div key={index} className="flex items-center gap-2">
+                                                        <Check className="w-4 h-4 text-green-500" />
+                                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                            {result}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </motion.div>
                                 </AnimatePresence>
 
-                                {/* Navigation */}
-                                <div className="flex items-center justify-between mt-8 sm:mt-5">
-                                    <div className="flex gap-3">
-                                        <button
-                                            onClick={prev}
-                                            className={cn(
-                                                "p-3 rounded-full border transition-all hover:scale-110 active:scale-95",
-                                                theme === 'dark' ? "border-gray-700 hover:bg-gray-800 text-white" : "border-gray-200 hover:bg-gray-100 text-gray-900"
-                                            )}
-                                            aria-label="Previous testimonial"
-                                        >
-                                            <ChevronLeft className="w-6 h-6" />
-                                        </button>
-                                        <button
-                                            onClick={next}
-                                            className={cn(
-                                                "p-3 rounded-full border transition-all hover:scale-110 active:scale-95",
-                                                theme === 'dark' ? "border-gray-700 hover:bg-gray-800 text-white" : "border-gray-200 hover:bg-gray-100 text-gray-900"
-                                            )}
-                                            aria-label="Next testimonial"
-                                        >
-                                            <ChevronRight className="w-6 h-6" />
-                                        </button>
-                                    </div>
-
-                                    {/* Pagination dots */}
-                                    <div className="flex gap-1.5">
-                                        {testimonials.map((_, i) => (
-                                            <button
-                                                key={i}
-                                                onClick={() => setCurrent(i)}
-                                                className={cn(
-                                                    "h-1.5 transition-all rounded-full",
-                                                    i === current ? "w-8 bg-blue-500" : "w-2 bg-blue-500/20 hover:bg-blue-500/40"
-                                                )}
-                                                aria-label={`Go to testimonial ${i + 1}`}
-                                            />
-                                        ))}
+                                {/* Quote icon */}
+                                <div className="absolute -top-4 -right-4 z-20">
+                                    <div className="p-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-full shadow-xl">
+                                        <Quote className="w-6 h-6" />
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Content Side */}
+                        <div className="order-1 lg:order-2">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={current}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="space-y-6 lg:space-y-8"
+                                >
+                                    {/* Stars */}
+                                    <div className="flex gap-1">
+                                        {[...Array(testimonials[current].stars)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                className="w-6 h-6 lg:w-7 lg:h-7 fill-amber-400 text-amber-400 drop-shadow-sm"
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {/* Quote */}
+                                    <blockquote className="relative">
+                                        <div className="absolute -left-6 top-0 text-8xl font-serif text-gray-200 dark:text-gray-800 select-none">
+                                            "
+                                        </div>
+                                        <p className={cn(
+                                            "text-xl lg:text-2xl xl:text-3xl leading-relaxed lg:leading-relaxed font-medium relative z-10 pl-6",
+                                            theme === 'dark' ? "text-gray-100" : "text-gray-800"
+                                        )}>
+                                            {testimonials[current].content}
+                                        </p>
+                                    </blockquote>
+
+                                    {/* Author info */}
+                                    <div className="space-y-2">
+                                        <h3 className={cn(
+                                            "text-2xl lg:text-3xl font-bold",
+                                            theme === 'dark' ? "text-white" : "text-gray-900"
+                                        )}>
+                                            {testimonials[current].name}
+                                        </h3>
+                                        <p className="text-lg font-medium bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                                            {testimonials[current].role}
+                                        </p>
+                                    </div>
+
+                                    {/* Navigation */}
+                                    <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-800">
+                                        <div className="flex items-center gap-4">
+                                            <button
+                                                onClick={prev}
+                                                disabled={isAnimating}
+                                                className={cn(
+                                                    "p-3 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-50",
+                                                    theme === 'dark'
+                                                        ? "bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
+                                                        : "bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 shadow-sm"
+                                                )}
+                                                aria-label="Previous testimonial"
+                                            >
+                                                <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                                            </button>
+                                            <button
+                                                onClick={next}
+                                                disabled={isAnimating}
+                                                className={cn(
+                                                    "p-3 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-50",
+                                                    theme === 'dark'
+                                                        ? "bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
+                                                        : "bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 shadow-sm"
+                                                )}
+                                                aria-label="Next testimonial"
+                                            >
+                                                <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                                            </button>
+                                        </div>
+
+                                        {/* Pagination */}
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                {String(current + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
+                                            </span>
+                                            <div className="flex gap-1.5">
+                                                {testimonials.map((_, i) => (
+                                                    <button
+                                                        key={i}
+                                                        onClick={() => !isAnimating && setCurrent(i)}
+                                                        disabled={isAnimating}
+                                                        className={cn(
+                                                            "h-1.5 transition-all duration-300 rounded-full",
+                                                            i === current
+                                                                ? "w-8 bg-gradient-to-r from-blue-600 to-cyan-600"
+                                                                : "w-2 bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
+                                                        )}
+                                                        aria-label={`Go to testimonial ${i + 1}`}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </div>
 
-                {/* View all link */}
-                <div className="mt-12 sm:mt-16 text-center">
+                {/* View All Link */}
+                <div className="mt-16 lg:mt-20 text-center">
                     <Link
                         to="/testimonials"
                         className={cn(
-                            "inline-flex items-center gap-2 font-bold transition-all group px-4 py-2 rounded-lg hover:shadow-lg",
+                            "group inline-flex items-center gap-3 px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:shadow-xl",
                             theme === 'dark'
-                                ? "text-gray-300 hover:text-white bg-gray-800/30 hover:bg-gray-800/50"
-                                : "text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200"
+                                ? "bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border border-gray-700"
+                                : "bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 text-gray-900 border border-gray-200 shadow-md"
                         )}
                     >
-                        <span className="text-base sm:text-lg">View all success stories</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <span className="text-base lg:text-lg">Explore All Case Studies</span>
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
                     </Link>
                 </div>
-
-
             </div>
         </section>
     );
