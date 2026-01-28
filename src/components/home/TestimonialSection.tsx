@@ -171,12 +171,12 @@ const TestimonialSection = () => {
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                                         transition={{ duration: 0.5 }}
-                                        className="relative bg-gradient-to-br from-white/90 to-gray-50/90 dark:from-gray-900/90 dark:to-gray-800/90 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-2xl border border-gray-100/50 dark:border-gray-700/50"
+                                        className="relative bg-gradient-to-br from-white/90 to-gray-50/90 dark:from-black/90 dark:to-black/90 backdrop-blur-xl rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-2xl border border-gray-100/50 dark:border-gray-700/50"
                                     >
                                         {/* Logo display area */}
                                         <div className="relative">
                                             {/* Logo or Initials */}
-                                            <div className="flex flex-col items-center justify-center p-6 lg:p-8">
+                                            <div className="flex flex-col items-center justify-center p-1 lg:p-1">
                                                 {!shouldShowInitials ? (
                                                     // Display Logo
                                                     <div className="relative w-full max-w-xs h-32">
@@ -191,7 +191,7 @@ const TestimonialSection = () => {
                                                 ) : (
                                                     // Display Initials
                                                     <div className={cn(
-                                                        "w-48 h-48 rounded-2xl flex items-center justify-center bg-gradient-to-br shadow-xl",
+                                                        "w-40 h-40 rounded-2xl flex items-center justify-center bg-gradient-to-br shadow-xl",
                                                         getGradient(testimonials[current].name)
                                                     )}>
                                                         <span className="text-5xl lg:text-6xl font-bold text-white">
@@ -279,7 +279,7 @@ const TestimonialSection = () => {
                                             "
                                         </div>
                                         <p className={cn(
-                                            "text-xl lg:text-2xl xl:text-3xl leading-relaxed lg:leading-relaxed font-medium relative z-10 pl-6",
+                                            "text-xl lg:text-xl xl:text-2xl leading-relaxed lg:leading-relaxed font-medium relative z-10 pl-6",
                                             theme === 'dark' ? "text-gray-100" : "text-gray-800"
                                         )}>
                                             {testimonials[current].content}
