@@ -346,7 +346,7 @@ export default function Footer() {
               </div>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Get AI insights and updates
+                Dive into the latest trends, service updates, and proven business use cases from our blog.
               </p>
 
               <button
