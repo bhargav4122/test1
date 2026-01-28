@@ -14,7 +14,7 @@ const useCases = [
         category: "Automation",
         icon: Cpu,
         description: "Reducing response times by 80% using intelligent LLM-based agents integrated with existing CRM systems.",
-        image: "https://images.unsplash.com/photo-1531746790731-6c087fecd05a?w=400&h=300&fit=crop&q=80",
+        image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769603365/Copilot_20260128_122627_tj8qpp.webp",
         impact: ["80% faster response", "24/7 availability", "40% cost reduction"]
     },
     {
@@ -58,10 +58,9 @@ const UseCasesPage = () => {
                 title="Solutions in Action"
                 description="Explore how we apply our core services to solve real-world business challenges across different industries."
                 categoryLabel="Use Cases"
-                backgroundImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
             />
 
-            <div className="max-w-7xl mx-auto px-4 py-20">
+            <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
                     {useCases.map((useCase, index) => (
                         <motion.div
@@ -141,17 +140,28 @@ const UseCasesPage = () => {
                             theme === 'dark' ? "bg-black border-gray-700" : "bg-white border-gray-200 shadow-xl"
                         )}>
                             <div className="flex -space-x-4">
-                                {[1, 2, 3, 4].map(i => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-900 bg-gray-200 overflow-hidden">
-                                        <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="user" />
+                                {[
+                                    "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445214/058ac7dc-2649-4aa7-aae3-0caec6c22091.webp",
+                                    "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445144/58e265cd-9fea-44a8-9b87-10aa277477a9.webp",
+                                    "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445414/6f037f86-6db7-42df-a6db-373ef27fbf35.webp",
+                                    "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769445314/Logo_Transperant_Background_grfdou.webp"
+                                ].map((logoUrl, index) => (
+                                    <div key={index} className="w-10 h-10 rounded-full border-2 border-black dark:border-gray-900 bg-white flex items-center justify-center overflow-hidden">
+                                        <img
+                                            src={logoUrl}
+                                            alt={`Client ${index + 1}`}
+                                            className="w-8 h-8 object-contain"
+                                            loading="lazy"
+                                        />
                                     </div>
                                 ))}
                             </div>
+
                             <div className="text-left">
                                 <p className={cn("text-sm font-bold", theme === 'dark' ? "text-white" : "text-gray-900")}>
                                     Trusted by industry leaders
                                 </p>
-                                <p className="text-xs text-gray-500">More than 50+ successful implementations</p>
+                                <p className="text-xs text-gray-500">More than 10+ successful implementations</p>
                             </div>
                             <div className="h-8 w-px bg-gray-200 dark:bg-gray-800 hidden md:block mx-4" />
                             <a href="/testimonials" className="text-blue-500 font-bold hover:underline flex items-center gap-1">
