@@ -370,7 +370,7 @@ const TestimonialSection = () => {
                                 : "bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 text-gray-900 border border-gray-200 shadow-md"
                         )}
                     >
-                        <span className="text-base lg:text-lg">Explore All Case Studies</span>
+                        <span className="text-base lg:text-lg">Client Success Stories</span>
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
                     </Link>
                 </div>
