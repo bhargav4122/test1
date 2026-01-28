@@ -397,7 +397,7 @@ export default function Footer() {
                 &copy; 2024 Business and Data Solutions Ltd.
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                Registered in England & Wales | Company No. 16065548
+                Registered in England & Wales
               </p>
             </div>
 
