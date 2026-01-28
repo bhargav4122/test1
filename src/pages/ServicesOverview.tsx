@@ -98,7 +98,7 @@ const DetailedServiceSection = React.memo(({
   }, [detailedData, service]);
 
   return (
-    <div className="py-12 md:py-20 lg:py-28 border-b border-gray-100 dark:border-gray-800 last:border-0">
+    <div className="py-5 md:py-10 lg:py-15 border-b border-gray-100 dark:border-gray-800 last:border-0">
       <div className={`flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
 
         {/* Content Side */}
@@ -220,7 +220,7 @@ const MobileDropdown = React.memo(({
   setShowMobileMenu: (show: boolean) => void;
   theme: string;
 }) => (
-  <div className="md:hidden relative px-4 mt-8">
+  <div className="md:hidden relative px-4">
     <motion.button
       whileTap={{ scale: 0.98 }}
       onClick={(e) => {
@@ -282,7 +282,7 @@ const DesktopTabs = React.memo(({
   setActiveTab: (tab: ServiceStatus) => void;
   theme: string;
 }) => (
-  <div className="hidden md:flex flex-wrap gap-2 md:gap-3 justify-center mt-8 md:mt-12 mb-6 md:mb-8 px-4">
+  <div className="hidden md:flex flex-wrap gap-2 md:gap-3 justify-center mt-2 md:mt-1 mb-6 md:mb-1 px-2">
     {tabs.map((tab) => (
       <motion.button
         key={tab.id}
@@ -357,7 +357,7 @@ const ServicesOverview: React.FC = () => {
         />
 
         {/* Alternating Services List */}
-        <div className="mt-8 md:mt-12 mb-16 md:mb-24">
+        <div className="mt-2 md:mt-2 mb-2 md:mb-2">
           <AnimatePresence mode="wait">
             {filteredServices.length === 0 ? (
               <motion.div
@@ -396,7 +396,7 @@ const ServicesOverview: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className={cn(
-            "mb-16 md:mb-24 p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-[2rem] border relative overflow-hidden group",
+            "mb-16 md:mb-4 p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-[2rem] border relative overflow-hidden group",
             theme === 'dark'
               ? "bg-gray-900/40 border-gray-800"
               : "bg-blue-50/50 border-blue-100"
@@ -434,13 +434,13 @@ const ServicesOverview: React.FC = () => {
               to="/use-cases"
               className="px-6 py-3 md:px-8 md:py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/25 whitespace-nowrap text-sm md:text-base"
             >
-              Explore Use Cases
+              Explore Solutions
             </Link>
           </div>
         </motion.div>
 
         {/* CTA Section */}
-        <FadeUp className="mb-16 md:mb-24">
+        <FadeUp className="mb-10 md:mb-12">
           <Suspense fallback={<div className="h-48 md:h-64 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-2xl md:rounded-3xl" />}>
             <CallToAction
               title="Ready to Transform Your Business?"
@@ -450,7 +450,7 @@ const ServicesOverview: React.FC = () => {
         </FadeUp>
 
         {/* Help Link */}
-        <div className="text-center mb-16 md:mb-24">
+        <div className="text-center mb-12 md:mb-15">
           <p className="text-gray-500 dark:text-gray-400 text-base md:text-lg">
             Looking for something specific?{' '}
             <Link to="/contact" className="text-blue-600 dark:text-blue-400 hover:underline font-bold">
