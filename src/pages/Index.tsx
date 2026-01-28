@@ -122,14 +122,14 @@ const Index = () => {
               </div>
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="max-w-xl">
-                  <h3 className="text-2xl md:text-4xl font-bold mb-4">See how we solve complex challenges</h3>
+                  <h3 className="text-2xl md:text-4xl font-bold mb-4">Solution Spotlights</h3>
                   <p className="text-blue-100 text-lg">From AI automation to global cloud migrations, explore how we solve complex challenges for your business.</p>
                 </div>
                 <Link
                   to="/use-cases"
                   className="px-8 py-4 bg-white text-blue-600 font-bold rounded-full hover:shadow-2xl transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
                 >
-                  Solution Spotlights
+                  Explore Solutions
                 </Link>
               </div>
             </div>
