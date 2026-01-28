@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowLeft, Sparkles, ChevronDown } from "lucide-react"; // Changed from ChevronRight to ChevronDown
+import { ArrowLeft, Sparkles, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/providers/ThemeProvider";
 
@@ -18,8 +18,14 @@ interface ConsistentPageHeaderProps {
     titleSize?: "sm" | "md" | "lg" | "xl";
     animatedLetters?: boolean;
     showDivider?: boolean;
-    showScrollButton?: boolean; // New prop for scroll button
-    scrollTargetId?: string; // ID of element to scroll to
+    showScrollButton?: boolean;
+    scrollTargetId?: string;
+
+    // NEW: Font customization props
+    titleFont?: "sans" | "serif" | "mono" | "display";
+    descriptionFont?: "sans" | "serif" | "mono";
+    titleWeight?: "light" | "normal" | "medium" | "semibold" | "bold" | "extrabold";
+    letterSpacing?: "tight" | "normal" | "wide";
 }
 
 const ConsistentPageHeader = ({
@@ -35,8 +41,14 @@ const ConsistentPageHeader = ({
     titleSize = "lg",
     animatedLetters = true,
     showDivider = true,
-    showScrollButton = false, // Default false, set to true when you want it
-    scrollTargetId = "content", // Default target ID
+    showScrollButton = false,
+    scrollTargetId = "content",
+
+    // Font customization defaults
+    titleFont = "sans",
+    descriptionFont = "sans",
+    titleWeight = "bold",
+    letterSpacing = "normal",
 }: ConsistentPageHeaderProps) => {
     const { theme } = useTheme();
     const headerRef = React.useRef<HTMLElement>(null);
@@ -49,18 +61,63 @@ const ConsistentPageHeader = ({
     const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-    // REDUCED: Space between navbar and back link
+    // Height classes
     const heightClasses = {
-        small: "min-h-[45vh] pt-24 pb-8",
-        medium: "min-h-[55vh] pt-28 pb-10",
-        large: "min-h-[65vh] pt-32 pb-12",
+        small: "min-h-[45vh] pt-20 pb-4",
+        medium: "min-h-[55vh] pt-24 pb-6",
+        large: "min-h-[65vh] pt-28 pb-8",
     };
 
+    // Title size classes with different font styles
     const titleSizeClasses = {
-        sm: "text-4xl md:text-5xl lg:text-6xl",
-        md: "text-5xl md:text-6xl lg:text-7xl",
-        lg: "text-6xl md:text-7xl lg:text-8xl",
-        xl: "text-7xl md:text-8xl lg:text-9xl",
+        sm: {
+            sans: "text-4xl md:text-5xl lg:text-6xl",
+            serif: "text-4xl md:text-5xl lg:text-6xl font-serif",
+            mono: "text-4xl md:text-5xl lg:text-6xl font-mono",
+            display: "text-4xl md:text-5xl lg:text-6xl font-display", // You need to set up this font
+        },
+        md: {
+            sans: "text-5xl md:text-6xl lg:text-7xl",
+            serif: "text-5xl md:text-6xl lg:text-7xl font-serif",
+            mono: "text-5xl md:text-6xl lg:text-7xl font-mono",
+            display: "text-5xl md:text-6xl lg:text-7xl font-display",
+        },
+        lg: {
+            sans: "text-6xl md:text-7xl lg:text-8xl",
+            serif: "text-6xl md:text-7xl lg:text-8xl font-serif",
+            mono: "text-6xl md:text-7xl lg:text-8xl font-mono",
+            display: "text-6xl md:text-7xl lg:text-8xl font-display",
+        },
+        xl: {
+            sans: "text-7xl md:text-8xl lg:text-9xl",
+            serif: "text-7xl md:text-8xl lg:text-9xl font-serif",
+            mono: "text-7xl md:text-8xl lg:text-9xl font-mono",
+            display: "text-7xl md:text-8xl lg:text-9xl font-display",
+        },
+    };
+
+    // Font weight classes
+    const fontWeightClasses = {
+        light: "font-light",
+        normal: "font-normal",
+        medium: "font-medium",
+        semibold: "font-semibold",
+        bold: "font-bold",
+        extrabold: "font-extrabold",
+    };
+
+    // Letter spacing classes
+    const letterSpacingClasses = {
+        tight: "tracking-tight",
+        normal: "tracking-normal",
+        wide: "tracking-wide",
+    };
+
+    // Description font classes
+    const descriptionFontClasses = {
+        sans: "font-sans",
+        serif: "font-serif",
+        mono: "font-mono",
     };
 
     const contentAlignment = {
@@ -80,10 +137,31 @@ const ConsistentPageHeader = ({
             if (element) {
                 element.scrollIntoView({ behavior: "smooth" });
             } else {
-                // Fallback: scroll down by viewport height
                 window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" });
             }
         }
+    };
+
+    // Get title classes based on font choice
+    const getTitleClasses = () => {
+        const sizeClass = titleSizeClasses[titleSize][titleFont];
+        const weightClass = fontWeightClasses[titleWeight];
+        const spacingClass = letterSpacingClasses[letterSpacing];
+
+        return cn(
+            sizeClass,
+            weightClass,
+            spacingClass,
+            "leading-tight"
+        );
+    };
+
+    // Get description classes
+    const getDescriptionClasses = () => {
+        return cn(
+            descriptionFontClasses[descriptionFont],
+            "font-light leading-relaxed"
+        );
     };
 
     return (
@@ -125,7 +203,25 @@ const ConsistentPageHeader = ({
                     ))}
                 </div>
 
-
+                {/* Animated grid lines */}
+                <div className="absolute inset-0">
+                    <motion.div
+                        className={cn(
+                            "absolute inset-0",
+                            theme === 'dark'
+                                ? "bg-gradient-to-b from-transparent via-gray-900/5 to-transparent"
+                                : "bg-gradient-to-b from-transparent via-gray-100/5 to-transparent"
+                        )}
+                        animate={{
+                            opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    />
+                </div>
             </div>
 
             {/* Main Content */}
@@ -144,14 +240,14 @@ const ConsistentPageHeader = ({
                         contentPosition === "left" && "flex flex-col items-start text-left",
                         contentPosition === "right" && "flex flex-col items-end text-right"
                     )}>
-                        {/* Back Link - REDUCED margin and simplified styling */}
+                        {/* Back Link */}
                         {backLink && (
                             <motion.div
                                 initial={{ opacity: 0, x: contentPosition === "center" ? 0 : contentPosition === "left" ? -20 : 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.6, ease: "easeOut" }}
                                 className={cn(
-                                    "mb-6", // Reduced from mb-8
+                                    "mb-6",
                                     contentPosition === "center" && "mx-auto",
                                     contentPosition === "left" && "mr-auto",
                                     contentPosition === "right" && "ml-auto"
@@ -159,7 +255,7 @@ const ConsistentPageHeader = ({
                             >
                                 <Link to={backLink}>
                                     <div className={cn(
-                                        "group inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 p-2",
+                                        "group inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300",
                                         theme === 'dark'
                                             ? "text-gray-400 hover:text-white hover:bg-white/5 border border-white/10"
                                             : "text-gray-600 hover:text-gray-900 hover:bg-black/5 border border-gray-200"
@@ -176,40 +272,39 @@ const ConsistentPageHeader = ({
                             </motion.div>
                         )}
 
-                        {/* Category Label - REDUCED margin */}
+                        {/* Category Label */}
                         {categoryLabel && (
                             <motion.div
                                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
                                 className={cn(
-                                    "mb-4", // Reduced from mb-6
+                                    "mb-4",
                                     contentPosition === "center" && "mx-auto",
                                     contentPosition === "left" && "mr-auto",
                                     contentPosition === "right" && "ml-auto"
                                 )}
                             >
                                 <span className={cn(
-                                    "inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full", // Reduced padding
+                                    "inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full",
                                     "transition-all duration-300 backdrop-blur-md border",
                                     theme === 'dark'
                                         ? "bg-white/5 text-blue-300 border-white/10 hover:bg-white/10"
                                         : "bg-black/5 text-blue-600 border-gray-200 hover:bg-black/10"
                                 )}>
                                     {showCategoryIcon && (
-                                        <Sparkles size={12} className="animate-pulse" /> // Smaller icon
+                                        <Sparkles size={12} className="animate-pulse" />
                                     )}
                                     {categoryLabel}
                                 </span>
                             </motion.div>
                         )}
 
-                        {/* Main Title with Letter Animation - REDUCED margin */}
-                        <div className="mb-6"> {/* Reduced from mb-8 */}
+                        {/* Main Title with Letter Animation - UPDATED FONT STYLE */}
+                        <div className="mb-6">
                             <h1 className={cn(
-                                "font-bold leading-tight tracking-tight",
-                                titleSizeClasses[titleSize],
-                                theme === 'dark' ? "text-white" : "text-gray-900"
+                                getTitleClasses(),
+                                theme === 'dark' ? "text-white" : "text-primary"
                             )}>
                                 {animatedLetters ? (
                                     <span className="flex flex-wrap justify-center gap-x-2">
@@ -240,7 +335,7 @@ const ConsistentPageHeader = ({
                             </h1>
                         </div>
 
-                        {/* Description with Word-by-Word Animation - REDUCED margin */}
+                        {/* Description with Word-by-Word Animation - UPDATED FONT STYLE */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -253,7 +348,8 @@ const ConsistentPageHeader = ({
                             )}
                         >
                             <p className={cn(
-                                "text-lg md:text-xl lg:text-2xl leading-relaxed font-light", // Slightly smaller text
+                                getDescriptionClasses(),
+                                "text-lg md:text-xl lg:text-2xl",
                                 "max-w-3xl",
                                 theme === 'dark' ? "text-gray-300" : "text-gray-700",
                                 contentPosition === "center" && "mx-auto text-center",
@@ -284,17 +380,17 @@ const ConsistentPageHeader = ({
                             </p>
                         </motion.div>
 
-                        {/* Animated Divider Line - REDUCED margin */}
+                        {/* Animated Divider Line */}
                         {showDivider && (
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "100%" }}
                                 transition={{ delay: 0.8, duration: 1.5, ease: "easeOut" }}
                                 className={cn(
-                                    "h-px mt-1",
+                                    "h-px mt-6",
                                     theme === 'dark'
-                                        ? "bg-gradient-to-r from-transparent via-blue-600/30 via-30% to-transparent"
-                                        : "bg-gradient-to-r from-transparent via-blue-500/40 via-30% to-transparent",
+                                        ? "bg-gradient-to-r from-transparent via-blue-500/30 via-30% to-transparent"
+                                        : "bg-gradient-to-r from-transparent via-blue-400/40 via-30% to-transparent",
                                     contentPosition === "center" && "w-full max-w-2xl",
                                     contentPosition === "left" && "w-full max-w-2xl",
                                     contentPosition === "right" && "w-full max-w-2xl ml-auto"
@@ -306,7 +402,6 @@ const ConsistentPageHeader = ({
                     </div>
                 </div>
             </motion.div>
-
 
 
         </section>
