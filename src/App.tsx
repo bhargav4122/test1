@@ -98,7 +98,7 @@ const AppContent = () => {
               <Sonner />
               <CustomRouter>
                 <Navbar />
-                <ChatBot />
+              
                 <WhatsAppButton />
                 <Layout>
                   <React.Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SparklesPreview /></div>}>
