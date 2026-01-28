@@ -3,29 +3,32 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   CalendarDays,
   Clock,
-  User,
   ArrowLeft,
   Share2,
   MessageSquare,
   Bookmark,
   Heart,
-  Send,
-  Mail,
-  Bell,
-  Tag,
-  Users,
-  TrendingUp,
-  Eye,
   ChevronRight,
   Check,
   Building,
   Target,
   Lightbulb,
-  FileText,
   Shield,
   Lock,
   CheckCircle,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  Eye,
+  Clock4,
+  Tag,
+  BarChart3,
+  Users,
+  Zap,
+  Globe,
+  Cpu,
+  Layers,
+  FileCode,
+  FileText
 } from "lucide-react";
 import { Card } from "../components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -142,7 +145,6 @@ const BlogPostPage = () => {
       // 1. Sign in with Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log('Google user signed in:', user.email, user.uid);
 
       // 2. Check if already subscribed by email
       const subscribersRef = ref(db, 'newsletterSubscribers');
@@ -180,7 +182,6 @@ const BlogPostPage = () => {
       const newSubscriberRef = push(subscribersRef);
       await set(newSubscriberRef, subscriberData);
 
-      console.log('Subscribed successfully with ID:', newSubscriberRef.key);
       setGoogleSubscribed(true);
       setGoogleError('');
 
@@ -206,8 +207,6 @@ const BlogPostPage = () => {
       }
 
     } catch (error) {
-      console.error('Google Sign-In Error:', error.code, error.message);
-
       if (error.code === 'auth/popup-closed-by-user') {
         setGoogleError('Google sign-in was cancelled.');
       } else if (error.code === 'auth/account-exists-with-different-credential') {
@@ -293,29 +292,29 @@ const BlogPostPage = () => {
         type="article"
       />
 
-      {/* Main container with proper spacing */}
+      {/* Main container */}
       <div className="min-h-screen bg-background overflow-x-hidden pt-16">
         
-        {/* Back Navigation - Centered */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8">
+        {/* Back Navigation */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-6">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center justify-between mb-8"
+            className="flex items-center justify-between"
           >
             <button
               onClick={() => navigate('/blog')}
-              className="group inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-lg text-foreground hover:bg-accent transition-colors font-medium"
+              className="group inline-flex items-center gap-2 px-4 py-2.5 bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl text-foreground hover:bg-accent/50 transition-all duration-300 font-medium hover:border-primary/30"
             >
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
               Back to Blog
             </button>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowSubscribeModal(true)}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+                className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium hover:scale-105"
               >
                 <Shield className="h-4 w-4" />
                 Get Secure Updates
@@ -324,238 +323,323 @@ const BlogPostPage = () => {
           </motion.div>
         </div>
 
-        {/* --- Hero Section - Centered --- */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl mb-12">
-          
-          {/* Category & Tags */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-wrap items-center justify-center gap-2 mb-6"
-          >
-            <Badge className="bg-primary text-primary-foreground px-3 py-1">
-              {post.category}
-            </Badge>
-            {post.tags?.slice(0, 3).map((tag, index) => (
-              <Badge key={tag} variant="outline" className="px-3 py-1">
-                #{tag}
-              </Badge>
-            ))}
-          </motion.div>
-
-          {/* Title - Centered */}
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-bold text-center mb-6 leading-tight"
-          >
-            {post.title}
-          </motion.h1>
-
-          {/* Subtitle if exists */}
-          {post.subtitle && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-muted-foreground text-center mb-8"
-            >
-              {post.subtitle}
-            </motion.p>
-          )}
-
-          {/* Author & Meta Info - Centered */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col items-center gap-6 mb-8"
-          >
-            <div className="flex items-center gap-4">
-              <Avatar className="h-12 w-12 border-2 border-primary/20">
-                <AvatarImage src={post.authorAvatar} />
-                <AvatarFallback className="bg-primary/10 text-primary">
-                  {post.author?.[0]}
-                </AvatarFallback>
-              </Avatar>
-              <div className="text-center sm:text-left">
-                <p className="font-semibold">{post.author}</p>
-                <p className="text-sm text-muted-foreground">Company Team</p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CalendarDays className="h-4 w-4" />
-                <span>{post.date}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{post.readTime} read</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                <span>{post.views || "1.2k"} views</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Featured Image - Centered with proper aspect ratio */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4 }}
-            className="relative rounded-xl overflow-hidden bg-muted mb-8"
-          >
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-auto object-cover"
-              onLoad={() => setImageLoaded(true)}
-            />
-            {!imageLoaded && (
-              <div className="absolute inset-0 bg-muted animate-pulse"></div>
-            )}
-          </motion.div>
-
-          {/* Key Takeaways */}
-          {post.keyTakeaways && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="h-5 w-5 text-primary" />
-                <h3 className="font-bold text-lg">Key Takeaways</h3>
-              </div>
-              <ul className="space-y-2">
-                {post.keyTakeaways.slice(0, 3).map((takeaway, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                    <span>{takeaway}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </div>
-
-        {/* --- Main Content Layout - Centered Grid --- */}
+        {/* Main Content Grid */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Main Content - Centered and takes most space */}
-            <main className="lg:col-span-8 xl:col-span-9">
+            {/* Main Content Area - Takes 8 columns on desktop */}
+            <main className="lg:col-span-8">
               <div className="max-w-3xl mx-auto">
-                {/* Article Content */}
+                
+                {/* Article Header */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-8"
+                >
+                  {/* Category & Industry Badges */}
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                    <Badge 
+                      variant="default" 
+                      className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Cpu className="h-4 w-4" />
+                        <span className="font-medium">{post.category}</span>
+                      </div>
+                    </Badge>
+                    
+                    {/* Industry/Technology Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags?.slice(0, 3).map((tag, index) => (
+                        <Badge 
+                          key={tag} 
+                          variant="outline" 
+                          className="px-3 py-1.5 rounded-lg border-border/50 hover:border-primary/50 transition-colors"
+                        >
+                          <Tag className="h-3 w-3 mr-1.5" />
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight"
+                  >
+                    {post.title}
+                  </motion.h1>
+
+                  {/* Subtitle */}
+                  {post.subtitle && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="text-lg sm:text-xl text-muted-foreground mb-6"
+                    >
+                      {post.subtitle}
+                    </motion.p>
+                  )}
+
+                  {/* Meta Information Grid */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8"
+                  >
+                    {/* Publish Date */}
+                    <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-xs font-medium text-muted-foreground">Published</span>
+                      </div>
+                      <p className="font-semibold">{post.date}</p>
+                    </div>
+
+                    {/* Read Time */}
+                    <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Clock4 className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-xs font-medium text-muted-foreground">Read Time</span>
+                      </div>
+                      <p className="font-semibold">{post.readTime}</p>
+                    </div>
+
+                    
+                  </motion.div>
+                </motion.div>
+
+                {/* Featured Image - Optimized */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-card to-muted/50 mb-8"
+                >
+                  <div className="aspect-video w-full relative">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-contain"
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                    {!imageLoaded && (
+                      <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-muted/50 animate-pulse"></div>
+                    )}
+                  </div>
+                  {/* Image Caption */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                    <p className="text-sm text-white/90 text-center">
+                      {post.imageCaption || post.title}
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Key Takeaways - Premium Design */}
+                {post.keyTakeaways && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="bg-gradient-to-r from-blue-500/10 via-purple-500/5 to-pink-500/5 border-l-4 border-primary rounded-r-xl p-6 mb-8"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Lightbulb className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg">Executive Summary</h3>
+                        <p className="text-sm text-muted-foreground">Key insights at a glance</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {post.keyTakeaways.slice(0, 4).map((takeaway, index) => (
+                        <div key={index} className="flex items-start gap-3 group">
+                          <div className="mt-0.5 p-1 rounded-full bg-primary/20 group-hover:bg-primary/30 transition-colors">
+                            <Check className="h-3 w-3 text-primary" />
+                          </div>
+                          <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                            {takeaway}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Premium Article Content */}
                 <motion.article
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="prose prose-lg dark:prose-invert max-w-none 
-                    prose-headings:font-bold prose-headings:text-foreground
-                    prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                    prose-img:rounded-lg prose-img:shadow-md
-                    prose-blockquote:border-l-4 prose-blockquote:border-primary
-                    prose-blockquote:bg-primary/5 prose-blockquote:py-4 prose-blockquote:px-6
-                    prose-blockquote:not-italic
-                    prose-code:bg-muted prose-code:px-2 prose-code:py-1 prose-code:rounded
-                    mb-12"
+                  className="relative mb-12"
                 >
-                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                  {/* Content Decorative Background */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent -z-10 rounded-3xl" />
+                  
+                  {/* Premium Content Container */}
+                  <div className="relative space-y-8">
+                    {/* Introduction Section */}
+                    {(post.introduction || post.excerpt) && (
+                      <div className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border-l-4 border-primary rounded-r-2xl p-6 lg:p-8">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="p-2 rounded-xl bg-primary/20">
+                            <Sparkles className="h-5 w-5 text-primary" />
+                          </div>
+                          <h3 className="text-xl font-bold text-foreground">Overview</h3>
+                        </div>
+                        <p className="text-lg leading-relaxed text-foreground/90">
+                          {post.introduction || post.excerpt}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Main Content */}
+                    <div className="prose prose-lg dark:prose-invert max-w-none 
+                      prose-headings:scroll-mt-24 prose-headings:font-bold
+                      prose-h1:text-4xl prose-h1:mt-10 prose-h1:mb-6
+                      prose-h2:text-3xl prose-h2:mt-8 prose-h2:mb-5 prose-h2:border-b prose-h2:border-border/50 prose-h2:pb-3
+                      prose-h3:text-2xl prose-h3:mt-7 prose-h3:mb-4
+                      prose-p:text-lg prose-p:leading-relaxed prose-p:my-5
+                      prose-a:text-primary hover:prose-a:underline
+                      prose-img:rounded-2xl prose-img:shadow-xl prose-img:my-8
+                      prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-4 prose-blockquote:px-6
+                      prose-code:bg-muted prose-code:px-2 prose-code:py-1 prose-code:rounded
+                      prose-pre:bg-muted prose-pre:rounded-xl prose-pre:p-4
+                      mb-12">
+                      
+                      <div className="space-y-8">
+                        {post.content ? (
+                          <div 
+                            className="content-wrapper"
+                            dangerouslySetInnerHTML={{ __html: post.content }}
+                          />
+                        ) : (
+                          <div className="space-y-6">
+                            <p className="text-lg leading-relaxed">
+                              In today's rapidly evolving technological landscape, organizations are increasingly seeking innovative solutions to drive growth and maintain competitive advantage.
+                            </p>
+                            
+                            <h2>Strategic Implementation Framework</h2>
+                            <p className="text-lg leading-relaxed">
+                              Successful implementation requires a structured approach that balances innovation with operational stability.
+                            </p>
+                            
+                            <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 my-8">
+                              <div className="flex items-center gap-3 mb-4">
+                                <Lightbulb className="h-5 w-5 text-primary" />
+                                <h3 className="font-bold text-lg">Industry Insight</h3>
+                              </div>
+                              <p className="text-foreground/90">
+                                The integration of artificial intelligence, automation, and data analytics will become increasingly critical for sustainable growth.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Callout Boxes */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="bg-blue-500/5 border border-blue-500/20 rounded-2xl p-6">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Zap className="h-5 w-5 text-blue-500" />
+                          <h4 className="font-bold">Quick Take</h4>
+                        </div>
+                        <p className="text-sm text-foreground/90">
+                          Actionable insights based on current industry trends.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-purple-500/5 border border-purple-500/20 rounded-2xl p-6">
+                        <div className="flex items-center gap-3 mb-3">
+                          <BarChart3 className="h-5 w-5 text-purple-500" />
+                          <h4 className="font-bold">Data-Driven</h4>
+                        </div>
+                        <p className="text-sm text-foreground/90">
+                          Insights backed by verified data from authoritative sources.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Conclusion */}
+                    <div className="bg-card/50 border border-border rounded-2xl p-6 mt-8">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Target className="h-5 w-5 text-primary" />
+                        <h3 className="text-xl font-bold">Key Conclusion</h3>
+                      </div>
+                      <p className="text-foreground/90">
+                        Organizations must prioritize strategic alignment and continuous adaptation to maintain relevance in dynamic market conditions.
+                      </p>
+                    </div>
+                  </div>
                 </motion.article>
 
-                {/* Interaction Bar */}
+                {/* Interaction Bar - Premium */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
-                  className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-border mb-8"
+                  className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-4 mb-8"
                 >
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={handleLike}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-lg transition-colors",
-                        isLiked
-                          ? "text-red-500 bg-red-500/10"
-                          : "text-muted-foreground hover:text-red-500 hover:bg-red-500/5"
-                      )}
-                    >
-                      <Heart className={cn("h-5 w-5", isLiked && "fill-current")} />
-                      <span className="font-medium">{likes}</span>
-                    </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-muted-foreground">Was this helpful?</span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={handleLike}
+                          className={cn(
+                            "flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300",
+                            isLiked
+                              ? "text-red-500 bg-red-500/10 border border-red-500/20"
+                              : "text-muted-foreground hover:text-red-500 hover:bg-red-500/5 hover:border hover:border-red-500/10"
+                          )}
+                        >
+                          <Heart className={cn("h-5 w-5", isLiked && "fill-current animate-pulse")} />
+                          <span className="font-semibold">{likes}</span>
+                        </button>
 
-                    <button
-                      onClick={handleBookmark}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-lg transition-colors",
-                        isBookmarked
-                          ? "text-blue-500 bg-blue-500/10"
-                          : "text-muted-foreground hover:text-blue-500 hover:bg-blue-500/5"
-                      )}
-                    >
-                      <Bookmark className={cn("h-5 w-5", isBookmarked && "fill-current")} />
-                      <span className="font-medium">{isBookmarked ? "Saved" : "Save"}</span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setShowCommentForm(true);
-                        document.getElementById('comments-section')?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
-                    >
-                      <MessageSquare className="h-5 w-5" />
-                      <span className="font-medium">{comments.length}</span>
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm text-muted-foreground">Share this article:</span>
-                    <div className="flex gap-2">
-                      <button className="p-2 rounded-lg border border-border hover:bg-accent transition-colors">
-                        <Share2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Author Bio */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="bg-card border border-border rounded-xl p-6 mb-12"
-                >
-                  <div className="flex flex-col sm:flex-row items-start gap-6">
-                    <Avatar className="h-20 w-20 border-2 border-primary/20">
-                      <AvatarImage src={post.authorAvatar} />
-                      <AvatarFallback className="text-lg bg-primary/10 text-primary">
-                        {post.author?.[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-bold text-xl">{post.author}</h3>
-                        <Badge variant="outline" className="text-xs">
-                          <Building className="h-3 w-3 mr-1" />
-                          Team Member
-                        </Badge>
+                        <button
+                          onClick={handleBookmark}
+                          className={cn(
+                            "flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all duration-300",
+                            isBookmarked
+                              ? "text-blue-500 bg-blue-500/10 border border-blue-500/20"
+                              : "text-muted-foreground hover:text-blue-500 hover:bg-blue-500/5 hover:border hover:border-blue-500/10"
+                          )}
+                        >
+                          <Bookmark className={cn("h-5 w-5", isBookmarked && "fill-current")} />
+                          <span className="font-semibold">{isBookmarked ? "Saved" : "Save"}</span>
+                        </button>
                       </div>
-                      <p className="text-muted-foreground mb-4">
-                        {post.authorBio || `${post.author} is part of our team, sharing insights and expertise in ${post.category.toLowerCase()} and related fields.`}
-                      </p>
-                      <div className="flex gap-3">
-                        <Button variant="outline" size="sm">
-                          View Profile
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          More Articles
-                        </Button>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => {
+                          setShowCommentForm(true);
+                          document.getElementById('comments-section')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5 hover:border hover:border-primary/10 transition-all duration-300"
+                      >
+                        <MessageSquare className="h-5 w-5" />
+                        <span className="font-semibold">{comments.length}</span>
+                        <span className="hidden sm:inline">Comments</span>
+                      </button>
+
+                      <Separator orientation="vertical" className="h-6" />
+
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Share:</span>
+                        <button className="p-2.5 rounded-xl border border-border/50 hover:bg-accent hover:border-primary/30 transition-all duration-300">
+                          <Share2 className="h-4 w-4" />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -566,48 +650,51 @@ const BlogPostPage = () => {
                   id="comments-section"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 }}
+                  transition={{ delay: 0.8 }}
                   className="mb-16"
                 >
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-2xl font-bold">Discussion</h3>
-                    <Badge variant="secondary" className="text-sm">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-1">Community Discussion</h3>
+                      <p className="text-muted-foreground">Join the conversation with verified professionals</p>
+                    </div>
+                    <Badge variant="secondary" className="px-3 py-1.5 text-sm">
                       {comments.length} {comments.length === 1 ? 'Comment' : 'Comments'}
                     </Badge>
                   </div>
 
                   {/* Comment Input */}
-                  <div className="bg-card border border-border rounded-xl p-6 mb-8">
+                  <div className="bg-card border border-border/50 rounded-2xl p-6 mb-8">
                     {user ? (
                       <div className="space-y-4">
                         <div className="flex items-center gap-3">
-                          <Avatar>
+                          <Avatar className="h-12 w-12 border-2 border-primary/20">
                             <AvatarImage src={user.photoURL} />
-                            <AvatarFallback>
+                            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                               {user.displayName?.[0] || "U"}
                             </AvatarFallback>
                           </Avatar>
                           <div>
                             <p className="font-semibold">{user.displayName}</p>
-                            <p className="text-xs text-muted-foreground">Share your thoughts</p>
+                            <p className="text-sm text-muted-foreground">Share your professional insights</p>
                           </div>
                         </div>
                         <form onSubmit={handleCommentSubmit}>
-                          <textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            className="w-full bg-background border border-border rounded-lg p-4 min-h-[100px] resize-none text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            placeholder="Join the discussion..."
-                            required
-                          />
-                          <div className="flex justify-between items-center mt-4">
+                         <textarea
+  value={newComment}
+  onChange={(e) => setNewComment(e.target.value)}
+  className="w-full bg-background dark:bg-gray-900 border border-border dark:border-gray-700 rounded-xl p-4 min-h-[120px] resize-none text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-muted-foreground/70"
+  placeholder="Share your thoughts, ask questions, or provide feedback..."
+  required
+/>
+                          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
                             <p className="text-xs text-muted-foreground">
-                              Be respectful and constructive
+                              💡 Be constructive • 🤝 Stay professional • 🔒 Verified community
                             </p>
                             <Button
                               type="submit"
                               disabled={!newComment.trim()}
-                              className="px-6"
+                              className="px-6 py-2.5 rounded-xl"
                             >
                               Post Comment
                             </Button>
@@ -615,15 +702,17 @@ const BlogPostPage = () => {
                         </form>
                       </div>
                     ) : (
-                      <div className="text-center py-6">
-                        <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                        <h4 className="font-bold text-lg mb-2">Join the Conversation</h4>
-                        <p className="text-muted-foreground mb-6">
-                          Sign in to share your thoughts and connect with others
+                      <div className="text-center py-8">
+                        <div className="inline-flex p-4 rounded-2xl bg-primary/10 mb-4">
+                          <MessageSquare className="h-10 w-10 text-primary" />
+                        </div>
+                        <h4 className="font-bold text-lg mb-2">Join the Professional Discussion</h4>
+                        <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                          Sign in with Google to share your insights and connect with other professionals in the industry
                         </p>
                         <Button
                           onClick={signInWithGoogle}
-                          className="px-8"
+                          className="px-8 py-2.5 rounded-xl"
                         >
                           Sign in to Comment
                         </Button>
@@ -632,26 +721,30 @@ const BlogPostPage = () => {
                   </div>
 
                   {/* Comments List */}
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {comments.map((comment, idx) => (
-                      <div key={idx} className="bg-card border border-border rounded-xl p-6">
+                      <div key={idx} className="bg-card/50 border border-border/30 rounded-2xl p-5 hover:border-primary/20 transition-colors">
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-3">
                             <Avatar className="h-10 w-10">
-                              <AvatarFallback className="bg-primary/10 text-primary">
+                              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                                 {comment.author?.[0]}
                               </AvatarFallback>
                             </Avatar>
                             <div>
                               <p className="font-semibold">{comment.author}</p>
                               <p className="text-xs text-muted-foreground">
-                                {new Date(comment.date).toLocaleDateString()}
+                                {new Date(comment.date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
+                                })}
                               </p>
                             </div>
                           </div>
                         </div>
-                        <p className="text-foreground/90">{comment.text}</p>
-                        <div className="flex gap-4 mt-4">
+                        <p className="text-foreground/90 mb-4">{comment.text}</p>
+                        <div className="flex items-center gap-4">
                           <button className="text-sm text-muted-foreground hover:text-primary transition-colors">
                             Like
                           </button>
@@ -667,32 +760,61 @@ const BlogPostPage = () => {
             </main>
 
             {/* Sidebar - Right side */}
-            <aside className="lg:col-span-4 xl:col-span-3">
+            <aside className="lg:col-span-4">
               <div className="sticky top-24 space-y-6">
                 
-                {/* Google-Only Newsletter Subscription Card */}
-                <Card className="border border-blue-300/30 dark:border-blue-700/30 bg-gradient-to-r from-blue-500/5 to-purple-500/5 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500">
-                      <Shield className="h-4 w-4 text-white" />
+                {/* Content Source Info - Professional */}
+                <Card className="border border-border/50 rounded-2xl p-5">
+                  <div className="flex items-start gap-4">
+                    <Avatar className="h-14 w-14 border-2 border-primary/20">
+                      <div className="flex items-center justify-center w-full h-full">
+                        <FileText className="h-7 w-7 text-primary" />
+                      </div>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-bold mb-1">Industry Insights</h4>
+                      <p className="font-semibold mb-2">Expert Analysis</p>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Curated from leading industry sources and technology publications
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          <Globe className="h-3 w-3 mr-1.5" />
+                          Global Sources
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          <Shield className="h-3 w-3 mr-1.5" />
+                          Verified Content
+                        </Badge>
+                        {post.industry && (
+                          <Badge variant="outline" className="text-xs">
+                            <Building className="h-3 w-3 mr-1.5" />
+                            {post.industry}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Google Subscription Card */}
+                <Card className="border border-blue-300/30 dark:border-blue-700/30 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg">
+                      <Shield className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">Secure Newsletter Access</h3>
+                      <h3 className="font-bold text-lg">Secure Newsletter</h3>
                       <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
                         Google-authenticated only
                       </p>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    To prevent spam and ensure security, newsletter subscription requires Google Sign-In. 
-                    Your email will be verified and managed securely.
-                  </p>
                   
-                  {/* Google Sign-In Button */}
                   <button
                     onClick={handleGoogleSubscribe}
                     disabled={loadingGoogle || googleSubscribed}
-                    className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3.5 rounded-xl bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group hover:shadow-lg"
                   >
                     {loadingGoogle ? (
                       <>
@@ -702,7 +824,7 @@ const BlogPostPage = () => {
                     ) : googleSubscribed ? (
                       <>
                         <CheckCircle className="w-5 h-5 text-green-500" />
-                        <span className="font-medium">Subscribed Successfully!</span>
+                        <span className="font-medium">Subscribed!</span>
                       </>
                     ) : (
                       <>
@@ -717,111 +839,94 @@ const BlogPostPage = () => {
                     )}
                   </button>
 
-                  {/* Error Message */}
                   {googleError && (
-                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-xl">
                       <p className="text-sm text-red-600 dark:text-red-400">{googleError}</p>
                     </div>
                   )}
 
-                  {/* Security Features */}
-                  <div className="mt-4 space-y-2">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <CheckCircle className="h-3 w-3 text-green-500" />
-                      <span>Cannot be subscribed by others</span>
+                  <div className="mt-4 space-y-3">
+                    <div className="flex items-center gap-3 text-sm">
+                      <div className="p-1.5 rounded-lg bg-blue-500/10">
+                        <Shield className="h-3.5 w-3.5 text-blue-500" />
+                      </div>
+                      <span className="text-foreground/80">Google-verified professionals only</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Shield className="h-3 w-3 text-blue-500" />
-                      <span>Google-verified email only</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Lock className="h-3 w-3 text-purple-500" />
-                      <span>One-click unsubscribe anytime</span>
+                    <div className="flex items-center gap-3 text-sm">
+                      <div className="p-1.5 rounded-lg bg-purple-500/10">
+                        <Lock className="h-3.5 w-3.5 text-purple-500" />
+                      </div>
+                      <span className="text-foreground/80">One-click unsubscribe anytime</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-muted-foreground text-center mt-4">
+                  <p className="text-xs text-muted-foreground text-center mt-4 pt-4 border-t border-border/30">
                     By subscribing, you agree to our{" "}
-                    <Link to="/privacy" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">
+                    <Link to="/privacy" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
                       Privacy Policy
                     </Link>
-                    .
                   </p>
                 </Card>
 
                 {/* Related Articles */}
-                <Card className="p-6">
-                  <h3 className="font-bold text-lg mb-4">Related Articles</h3>
+                <Card className="border border-border/50 rounded-2xl p-5">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Target className="h-4 w-4 text-primary" />
+                    </div>
+                    <h3 className="font-bold text-lg">Related Reads</h3>
+                  </div>
                   <div className="space-y-4">
                     {[
-                      { title: "How We Built Our Platform", category: "Technology", date: "2 days ago" },
-                      { title: "Company Culture in 2024", category: "Culture", date: "1 week ago" },
-                      { title: "Latest Industry Trends", category: "Industry", date: "2 weeks ago" }
+                      { title: "Advanced Cloud Architecture Patterns", category: "Technology", readTime: "6 min" },
+                      { title: "Digital Transformation Strategies 2024", category: "Strategy", readTime: "8 min" },
+                      { title: "AI Integration Best Practices", category: "Innovation", readTime: "5 min" }
                     ].map((article, idx) => (
-                      <a
+                      <Link
                         key={idx}
-                        href="#"
-                        className="group block p-3 rounded-lg hover:bg-accent transition-colors"
+                        to="#"
+                        className="group block p-4 rounded-xl border border-border/30 hover:border-primary/30 hover:bg-accent/50 transition-all duration-300"
                       >
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <p className="text-xs text-primary font-medium mb-1">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1">
+                            <Badge variant="outline" className="text-xs mb-2">
                               {article.category}
-                            </p>
-                            <p className="font-medium group-hover:text-primary transition-colors line-clamp-2">
+                            </Badge>
+                            <p className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
                               {article.title}
                             </p>
+                            <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Clock className="h-3 w-3" />
+                                {article.readTime}
+                              </span>
+                            </div>
                           </div>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                         </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          {article.date}
-                        </p>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </Card>
 
-                {/* Popular Tags */}
-                <Card className="p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Tag className="h-5 w-5 text-muted-foreground" />
-                    <h3 className="font-bold text-lg">Popular Topics</h3>
+                {/* Popular Topics */}
+                <Card className="border border-border/50 rounded-2xl p-5">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <TrendingUp className="h-4 w-4 text-primary" />
+                    </div>
+                    <h3 className="font-bold text-lg">Trending Topics</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {["Technology", "Culture", "Innovation", "Leadership", "Development", "Strategy", "Teamwork", "Growth"].map((tag) => (
+                    {["Cloud Computing", "AI/ML", "DevOps", "Cybersecurity", "Data Analytics", "IoT", "Blockchain", "UX/UI"].map((topic) => (
                       <Badge
-                        key={tag}
+                        key={topic}
                         variant="outline"
-                        className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+                        className="px-3 py-1.5 rounded-lg cursor-pointer hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
                       >
-                        {tag}
+                        {topic}
                       </Badge>
                     ))}
-                  </div>
-                </Card>
-
-                {/* Community Stats */}
-                <Card className="p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <TrendingUp className="h-5 w-5 text-muted-foreground" />
-                    <h3 className="font-bold text-lg">Community Stats</h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Monthly Readers</span>
-                      <span className="font-semibold">45.2K</span>
-                    </div>
-                    <Separator />
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Articles Published</span>
-                      <span className="font-semibold">128</span>
-                    </div>
-                    <Separator />
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Community Members</span>
-                      <span className="font-semibold">8.4K</span>
-                    </div>
                   </div>
                 </Card>
               </div>
@@ -829,24 +934,26 @@ const BlogPostPage = () => {
           </div>
         </div>
 
-        {/* CTA Section - Google Only */}
-        <div className="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 py-16 mt-16">
+        {/* Bottom CTA */}
+        <div className="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border-t border-border/50 mt-16 py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Join Our Secure Community</h2>
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 mb-6">
+                <Shield className="h-10 w-10 text-primary" />
+              </div>
+              <h2 className="text-3xl font-bold mb-4">Stay Ahead in Your Industry</h2>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Access exclusive insights with Google-authenticated subscription for enhanced security
+                Join our exclusive community of verified professionals for premium insights
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={handleGoogleSubscribe}
                   disabled={loadingGoogle || googleSubscribed}
-                  className="flex items-center justify-center gap-3 px-8 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group"
+                  className="flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 group hover:shadow-lg"
                 >
                   {loadingGoogle ? (
                     <>
@@ -874,8 +981,8 @@ const BlogPostPage = () => {
                   variant="outline"
                   size="lg"
                   onClick={() => navigate('/blog')}
+                  className="px-8 py-3.5 rounded-xl"
                 >
-                  <Target className="h-5 w-5 mr-2" />
                   Explore More Articles
                 </Button>
               </div>
@@ -902,7 +1009,7 @@ const BlogPostPage = () => {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header with Gradient */}
-              <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-6 text-center">
+              <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-2 text-center">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-2xl"></div>
                 <div className="relative">
                   <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm inline-flex items-center justify-center mb-4">
@@ -919,14 +1026,7 @@ const BlogPostPage = () => {
               
               {/* Modal Body */}
               <div className="p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-                <div className="text-center mb-6">
-                  <Sparkles className="h-10 w-10 text-blue-500 mx-auto mb-3" />
-                  <h4 className="font-bold text-lg mb-2">Why Google Sign-In?</h4>
-                  <p className="text-sm text-muted-foreground">
-                    We use Google Sign-In to prevent spam, ensure email verification, 
-                    and protect your privacy. Only verified professionals can subscribe.
-                  </p>
-                </div>
+             
                 
                 {/* Google Sign-In Button */}
                 <button
@@ -965,10 +1065,7 @@ const BlogPostPage = () => {
 
                 {/* Security Features */}
                 <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm">Prevents spam subscriptions</span>
-                  </div>
+                 
                   <div className="flex items-center gap-3">
                     <Shield className="h-4 w-4 text-blue-500 flex-shrink-0" />
                     <span className="text-sm">Google-verified email only</span>
@@ -995,12 +1092,12 @@ const BlogPostPage = () => {
                   </a>.
                 </p>
 
-                <div className="mt-6 pt-6 border-t border-border/50 text-center">
+                <div className="mt-1 pt-1 border-t border-border/50 text-center">
                   <button
                     onClick={() => setShowSubscribeModal(false)}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Close this window
+                    X Close this window
                   </button>
                 </div>
               </div>
