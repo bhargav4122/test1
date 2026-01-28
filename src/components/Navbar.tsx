@@ -64,7 +64,7 @@ const Navbar = () => {
         )}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-25 md:h-25 items-center justify-between">
+          <div className="flex h-20 md:h-20 items-center justify-between">
             {/* Logo - Non-clickable version */}
             <div className="flex items-center space-x-3">
               <div className="h-16 w-32 md:h-20 md:w-40 lg:h-24 lg:w-48 xl:h-28 xl:w-56 relative">
