@@ -14,7 +14,6 @@ export type PageType =
   | 'industries'
   | 'contact'
   | 'solutions'
-
   | 'careers'
   | 'testimonials'
   | 'default';
@@ -264,7 +263,7 @@ function SimpleCTA({
             "bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl",
             "border border-white/20 dark:border-white/10",
             "shadow-2xl shadow-blue-900/10 dark:shadow-black/50",
-            compact ? "p-8 md:p-12" : "p-10 md:p-20 text-center"
+            compact ? "p-8 md:p-12" : "p-10 md:p-5 text-center"
           )}
         >
           {/* Inner Glow */}
@@ -291,7 +290,7 @@ function SimpleCTA({
               </motion.div>
 
               <motion.h2
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 dark:from-white dark:via-blue-200 dark:to-white"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 dark:from-white dark:via-blue-200 dark:to-white"
                 initial={{ opacity: 0, y: 10 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.3 }}
