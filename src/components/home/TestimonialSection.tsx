@@ -124,7 +124,7 @@ const TestimonialSection = () => {
         testimonials[current].website.startsWith('http');
 
     return (
-        <section className="relative py-1 sm:py-2 md:py-2 px-4 sm:px-6 overflow-hidden">
+        <section className="relative py-10 sm:py-12 md:py-16 px-14 sm:px-6 overflow-hidden">
             {/* Premium background elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-1/4 -left-20 w-72 h-72 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-3xl" />
