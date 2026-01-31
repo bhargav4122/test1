@@ -596,20 +596,7 @@ const Privacy = () => {
                     <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                       You have the following rights regarding your personal data under applicable data protection laws:
                       To exercise any of these rights, please contact us using the details provided below. We respond within 30 days as required by law.
-                      <br />
-                      Access: View your personal information
-                      <br />
-                      Correction: Correct inaccurate data
-                      <br />
-                      Deletion: Delete your personal information
-                      <br />
-                      Objection: Object to processing
-                      <br />
-                      Portability: Receive your data in a portable format
-                      <br />
-                      Restriction: Restrict processing
-                      <br />
-                      Withdrawal: Withdraw consent at any time
+
                     </p>
                   </motion.div>
 
