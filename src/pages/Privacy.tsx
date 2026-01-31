@@ -193,6 +193,7 @@ const Privacy = () => {
                 <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl leading-relaxed mb-8">
                   Welcome to the Privacy Policy of Business and Data Solutions LTD. This document explains how we collect, use, disclose,
                   and safeguard your information when you use our services. Your privacy is critically important to us.
+                  This policy applies in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.
                 </p>
 
                 <div className="flex flex-wrap gap-4">
@@ -293,6 +294,11 @@ const Privacy = () => {
                           <span className="mr-2 text-green-500">•</span>
                           <span className="text-gray-600 dark:text-gray-400">Name, email address, phone number</span>
                         </li>
+                        <li>  <span className="mr-2 text-green-500">•</span> IP address </li>
+                        <li>  <span className="mr-2 text-green-500">•</span> Log files</li>
+                        <li>  <span className="mr-2 text-green-500">•</span> Referral URLs </li>
+                        <li>  <span className="mr-2 text-green-500">•</span> Timestamp of access </li>
+
                         <li className="flex items-start">
                           <span className="mr-2 text-green-500">•</span>
                           <span className="text-gray-600 dark:text-gray-400">Business information (company, industry, role)</span>
@@ -368,7 +374,11 @@ const Privacy = () => {
                       We use the information we collect to provide, maintain, and improve our services, process transactions, send technical notices and support messages, and communicate about products and services.
                     </p>
                   </motion.div>
+                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-900/30">
 
+                    Legal Basis for Processing (UK GDPR)
+                    We process personal data based on consent, contractual necessity, legal obligations, and legitimate business interests.
+                  </div>
                   <div className="grid md:grid-cols-2 gap-6">
                     <motion.div
                       className="p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300"
@@ -479,6 +489,10 @@ const Privacy = () => {
                       <div>
                         <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                           We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.
+                          <br />
+                          We may share information with trusted third-party service providers who assist us in operating our website, conducting our business, or servicing you, as long as those parties agree to keep this information confidential.
+                          <br />
+                          We may also disclose your information when we believe release is appropriate to comply with the law, enforce our site policies, or protect our or others' rights, property, or safety.
                         </p>
                       </div>
                     </div>
@@ -534,8 +548,7 @@ const Privacy = () => {
                         <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-900/30">
                           <p className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">Compliance Approach</p>
                           <p className="text-yellow-700 dark:text-yellow-400 text-sm">
-                            We follow GDPR principles and privacy-by-design practices. While we are not currently ISO 27001 or SOC 2 certified, we are actively planning formal compliance as our services scale.
-                          </p>
+                            We apply GDPR-aligned security and privacy-by-design practices. Formal certifications such as ISO 27001 and SOC 2 are planned as our organisation scales. </p>
                         </div>
                       </div>
                     </div>
@@ -582,6 +595,21 @@ const Privacy = () => {
                   >
                     <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                       You have the following rights regarding your personal data under applicable data protection laws:
+                      To exercise any of these rights, please contact us using the details provided below. We respond within 30 days as required by law.
+                      <br />
+                      Access: View your personal information
+                      <br />
+                      Correction: Correct inaccurate data
+                      <br />
+                      Deletion: Delete your personal information
+                      <br />
+                      Objection: Object to processing
+                      <br />
+                      Portability: Receive your data in a portable format
+                      <br />
+                      Restriction: Restrict processing
+                      <br />
+                      Withdrawal: Withdraw consent at any time
                     </p>
                   </motion.div>
 
@@ -658,6 +686,8 @@ const Privacy = () => {
                       <div>
                         <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                           We use cookies and similar technologies to enhance your experience. You can control cookie preferences through our cookie settings.
+                          Non-essential cookies are only activated after explicit user consent.
+
                         </p>
                         <motion.a
                           whileHover={{ scale: 1.05 }}
@@ -699,7 +729,7 @@ const Privacy = () => {
                     </h2>
                     <div className="flex items-center space-x-4 mb-6">
                       <span className="px-3 py-1 bg-pink-500/10 text-pink-500 text-sm font-semibold rounded-full">
-                        Data Protection Officer
+                        Privacy & Data Protection Contact
                       </span>
                     </div>
                   </div>
