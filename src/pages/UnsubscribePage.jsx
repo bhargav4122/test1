@@ -13,6 +13,7 @@ import {
     orderByChild,
     equalTo
 } from "@/firebase";
+import SEO from '@/components/common/SEO';
 import {
     BellOff,
     CheckCircle,
@@ -51,27 +52,6 @@ export default function PremiumUnsubscribePage() {
         "Privacy concerns",
         "Not what I expected",
         "Other (please specify)"
-    ];
-
-    const alternativeOptions = [
-        {
-            icon: Zap,
-            title: "Reduce Frequency",
-            description: "Receive weekly digests instead of daily updates",
-            action: "Switch to weekly"
-        },
-        {
-            icon: Users,
-            title: "Change Topics",
-            description: "Customize which topics you're interested in",
-            action: "Update preferences"
-        },
-        {
-            icon: Calendar,
-            title: "Pause Temporarily",
-            description: "Take a break and resume later",
-            action: "Pause for 30 days"
-        }
     ];
 
     useEffect(() => {
@@ -113,6 +93,7 @@ export default function PremiumUnsubscribePage() {
             }
 
             const subscriptionId = Object.keys(snapshot.val())[0];
+            const subscriptionData = snapshot.val()[subscriptionId];
 
             // Store unsubscribe reason if provided
             if (selectedReasons.length > 0) {
@@ -131,34 +112,42 @@ export default function PremiumUnsubscribePage() {
                 });
             }
 
-            // 3. Remove subscription
+            // Remove subscription
             await remove(ref(db, `newsletterSubscribers/${subscriptionId}`));
 
+            // Send unsubscribe email via n8n
             const sendUnsubscribeEmail = async (email, name) => {
                 try {
-                    const res = await fetch("/api/send-unsubscribe", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, name })
-                    });
+                    const res = await fetch(
+                        "https://bdssocialmedia.app.n8n.cloud/webhook-test/unsubscribe",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ 
+                                email: email,
+                                name: name || "Subscriber"
+                            })
+                        }
+                    );
 
                     if (!res.ok) {
-                        throw new Error("Failed to send email");
+                        const errorText = await res.text();
+                        console.error("n8n error response:", errorText);
+                        throw new Error(`Failed to send unsubscribe email: ${res.status}`);
                     }
 
-                    console.log("Unsubscribe email sent successfully!");
+                    const result = await res.json();
+                    console.log("n8n success response:", result);
+                    return result;
                 } catch (err) {
-                    console.error(err);
+                    console.error("Error calling n8n webhook:", err);
+                    return { success: false, error: err.message };
                 }
             };
 
-            // Example usage after removing from Firebase DB:
             await sendUnsubscribeEmail(user.email, subscriptionData?.name);
 
-
-
             // Add to do-not-contact list
-            const doNotContactRef = ref(db, "doNotContact");
             await fetch("/api/do-not-contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -170,9 +159,7 @@ export default function PremiumUnsubscribePage() {
             });
 
             setStatus("success");
-            setMessage(
-                "You've been successfully unsubscribed. We're sorry to see you go!"
-            );
+            setMessage("You've been successfully unsubscribed. We're sorry to see you go!");
 
             // Reset reasons modal
             setShowReasonModal(false);
@@ -188,20 +175,11 @@ export default function PremiumUnsubscribePage() {
             } else if (error.code === "auth/account-exists-with-different-credential") {
                 setMessage("Please use the original sign-in method for this email.");
             } else {
-                setMessage("An unexpected error occurred. Please try again or contact support.");
+                setMessage("An unexpected error occurred or you haven't subscribed to our newsletter. Please try again or contact support.");
             }
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleAlternativeOption = (option) => {
-        // In a real app, this would trigger the specific action
-        setMessage(`Redirecting to ${option.title.toLowerCase()}...`);
-        setTimeout(() => {
-            // Navigate to preferences page or update via API
-            navigate("/preferences");
-        }, 1000);
     };
 
     const toggleReason = (reason) => {
@@ -238,291 +216,288 @@ export default function PremiumUnsubscribePage() {
         </div>
     );
 
+    const cardVariants = {
+        hidden: { opacity: 0, scale: 0.95 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.4,
+                ease: "easeOut"
+            }
+        },
+        hover: {
+            scale: 1.02,
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            transition: {
+                duration: 0.3
+            }
+        }
+    };
+
     return (
         <>
-            <div className="min-h-screen relative bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-blue-950/20">
-                {/* Animated background elements */}
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
-                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+            <SEO
+                title="Unsubscribe | Business and Data Solutions LTD"
+                description="Manage your subscription preferences with Business and Data Solutions LTD"
+                keywords="unsubscribe, email preferences, communication management, newsletter unsubscribe"
+            />
+
+            <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 via-white to-gray-50/50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden">
+                {/* Animated Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
                 </div>
 
-                <div className="relative flex items-center justify-center min-h-screen px-4 py-12">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="w-full max-w-2xl"
-                    >
-                        {/* Header with brand */}
-                        <div className="text-center mb-10">
+                <main className="flex-1 py-20 relative z-10">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        {/* Hero Section */}
+                        <div className="mb-16">
                             <motion.div
-                                initial={{ y: -20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="flex items-center justify-center gap-2 mb-4"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent dark:from-primary/20 dark:via-primary/10 p-8 md:p-12"
                             >
-                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                                    <Sparkles className="w-5 h-5 text-white" />
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full -translate-y-32 translate-x-32 blur-3xl" />
+
+                                <div className="relative">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-900/20 flex items-center justify-center">
+                                                <BellOff className="w-6 h-6 text-red-500 dark:text-red-400" />
+                                            </div>
+                                            <div>
+                                                <span className="text-sm font-semibold text-red-500 uppercase tracking-wider">Unsubscribe Portal</span>
+                                                <p className="text-sm text-gray-600 dark:text-gray-400">Secure • Instant • Privacy-Focused</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h1 className="text-5xl md:text-6xl font-bold mb-6">
+                                        <span className="block text-gray-900 dark:text-white">Manage Your</span>
+                                        <span className="block bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-orange-500 to-red-600">
+                                            Subscription
+                                        </span>
+                                    </h1>
+
+                                    <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl leading-relaxed mb-8">
+                                        Take control of your communication preferences with Business and Data Solutions LTD.
+                                        We value your inbox space and privacy.
+                                    </p>
                                 </div>
-                                <span className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                    Business & Data Solutions
-                                </span>
                             </motion.div>
-
-                            <motion.h1
-                                initial={{ y: -20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                                className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3"
-                            >
-                                Manage Your Subscription
-                            </motion.h1>
-
-                            <motion.p
-                                initial={{ y: -20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.4 }}
-                                className="text-gray-600 dark:text-gray-400 max-w-md mx-auto"
-                            >
-                                We value your inbox space. Choose how you'd like to proceed.
-                            </motion.p>
                         </div>
 
                         {/* Main Card */}
                         <motion.div
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className="relative rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 backdrop-blur-sm shadow-2xl overflow-hidden"
+                            variants={cardVariants}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover="hover"
+                            className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-shadow duration-500 overflow-hidden mb-16"
                         >
-                            {/* Card header */}
-                            <div className="p-8 border-b border-gray-100 dark:border-gray-800">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center">
-                                        <BellOff className="w-6 h-6 text-white" />
+                            <div className="p-8 md:p-12">
+                                {/* Card header */}
+                                <div className="flex items-start mb-8">
+                                    <div className="mr-6">
+                                        <div className="w-14 h-14 rounded-xl bg-red-500/10 dark:bg-red-900/20 flex items-center justify-center text-red-500 dark:text-red-400 font-bold text-2xl">
+                                            1
+                                        </div>
                                     </div>
                                     <div>
-                                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Unsubscribe Options
+                                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                                            Subscription Management
                                         </h2>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            Secure & privacy-focused management
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-                                        <Shield className="w-4 h-4" />
-                                        <span>Secure</span>
+                                        <div className="flex items-center space-x-4 mb-6">
+                                            <span className="px-3 py-1 bg-red-500/10 text-red-500 dark:text-red-400 text-sm font-semibold rounded-full">
+                                                Secure Verification Required
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Email preview if available */}
-                                {userEmail && (
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800">
-                                        <Mail className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            {userEmail}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-8">
-                                {status === "success" ? (
-                                    <motion.div
-                                        initial={{ scale: 0.9, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        className="text-center space-y-6"
-                                    >
-                                        {animationComplete && <ConfettiEffect />}
-                                        <div className="relative w-20 h-20 mx-auto">
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                transition={{ type: "spring", delay: 0.2 }}
-                                                className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"
-                                            />
-                                            <CheckCircle className="w-20 h-20 text-green-500 relative z-10" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                                                Unsubscription Complete
-                                            </h3>
-                                            <p className="text-gray-600 dark:text-gray-400">
-                                                {message}
-                                            </p>
-                                        </div>
-
-                                        <div className="pt-6 border-t border-gray-100 dark:border-gray-800">
-                                            <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
-                                                What's next?
-                                            </p>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                <button
-                                                    onClick={() => navigate("/")}
-                                                    className="px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                                                >
-                                                    <div className="flex items-center justify-center gap-2">
-                                                        <ArrowLeft className="w-4 h-4" />
-                                                        <span>Back to Home</span>
-                                                    </div>
-                                                </button>
-                                                <button
-                                                    onClick={() => navigate("/feedback")}
-                                                    className="px-4 py-3 rounded-lg bg-gray-900 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
-                                                >
-                                                    <div className="flex items-center justify-center gap-2">
-                                                        <span>Share Feedback</span>
-                                                    </div>
-                                                </button>
+                                <div className="space-y-8">
+                                    {status === "success" ? (
+                                        <motion.div
+                                            initial={{ scale: 0.9, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            className="text-center space-y-8"
+                                        >
+                                            {animationComplete && <ConfettiEffect />}
+                                            <div className="relative w-24 h-24 mx-auto">
+                                                <motion.div
+                                                    initial={{ scale: 0 }}
+                                                    animate={{ scale: 1 }}
+                                                    transition={{ type: "spring", delay: 0.2 }}
+                                                    className="absolute inset-0 bg-green-500/20 dark:bg-green-500/10 rounded-full blur-xl"
+                                                />
+                                                <CheckCircle className="w-24 h-24 text-green-500 dark:text-green-400 relative z-10" />
                                             </div>
-                                        </div>
-                                    </motion.div>
-                                ) : (
-                                    <>
-                                        {/* Alternative options */}
-                                        <div className="mb-8">
-                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                                                Consider These Alternatives First
-                                            </h3>
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                                {alternativeOptions.map((option, index) => (
-                                                    <motion.button
-                                                        key={index}
-                                                        whileHover={{ y: -2 }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        onClick={() => handleAlternativeOption(option)}
-                                                        className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-500 dark:hover:border-blue-500 transition-all text-left group hover:shadow-lg"
-                                                    >
-                                                        <div className="flex items-start gap-3">
-                                                            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-                                                                <option.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                                            </div>
-                                                            <div>
-                                                                <h4 className="font-medium text-gray-900 dark:text-white">
-                                                                    {option.title}
-                                                                </h4>
-                                                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                                                                    {option.description}
-                                                                </p>
-                                                                <div className="mt-3 text-sm text-blue-600 dark:text-blue-400 font-medium">
-                                                                    {option.action} →
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </motion.button>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Divider */}
-                                        <div className="relative my-8">
-                                            <div className="absolute inset-0 flex items-center">
-                                                <div className="w-full border-t border-gray-200 dark:border-gray-800" />
-                                            </div>
-                                            <div className="relative flex justify-center text-sm">
-                                                <span className="px-4 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                                                    Or proceed to unsubscribe
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {/* Unsubscribe section */}
-                                        <div className="space-y-6">
                                             <div>
-                                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                                                    Unsubscribe Completely
+                                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                                                    Unsubscription Complete
                                                 </h3>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                    This will permanently remove you from all mailing lists.
-                                                    You'll need to sign in to verify your identity.
+                                                <p className="text-lg text-gray-600 dark:text-gray-400">
+                                                    {message}
                                                 </p>
                                             </div>
 
-                                            {/* Security badge */}
-                                            <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-                                                <Lock className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                                                <div>
-                                                    <p className="text-sm font-medium text-gray-900 dark:text-white">
-                                                        Secure Verification Required
-                                                    </p>
-                                                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                                                        We use Google Sign-In to protect your account
-                                                    </p>
+                                            <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
+                                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                                                    What would you like to do next?
+                                                </p>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        onClick={() => navigate("/")}
+                                                        className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-colors shadow-lg"
+                                                    >
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <ArrowLeft className="w-5 h-5" />
+                                                            <span>Back to Home</span>
+                                                        </div>
+                                                    </motion.button>
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        onClick={() => navigate("/feedback")}
+                                                        className="px-6 py-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-xl font-semibold border border-gray-300 dark:border-gray-700 hover:border-primary transition-colors"
+                                                    >
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <span>Share Feedback</span>
+                                                        </div>
+                                                    </motion.button>
                                                 </div>
                                             </div>
-
-                                            {/* Action buttons */}
-                                            <div className="flex flex-col sm:flex-row gap-3">
-                                                <motion.button
-                                                    whileTap={{ scale: 0.97 }}
-                                                    disabled={loading}
-                                                    onClick={() => handleUnsubscribe(false)}
-                                                    className="flex-1 flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 text-white py-4 font-semibold hover:shadow-lg hover:shadow-red-500/20 transition-all disabled:opacity-50"
+                                        </motion.div>
+                                    ) : (
+                                        <>
+                                            {/* Email preview if available */}
+                                            {userEmail && (
+                                                <motion.div
+                                                    className="p-6 bg-gradient-to-r from-primary/5 to-transparent dark:from-primary/10 rounded-xl border border-primary/20"
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
                                                 >
-                                                    {loading ? (
-                                                        <>
-                                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                            Processing...
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <Mail className="w-5 h-5" />
-                                                            Unsubscribe Securely
-                                                        </>
-                                                    )}
-                                                </motion.button>
+                                                    <div className="flex items-center">
+                                                        <Mail className="w-6 h-6 text-primary mr-3" />
+                                                        <div>
+                                                            <p className="text-sm font-medium text-gray-900 dark:text-white">Email Address</p>
+                                                            <p className="text-lg text-gray-700 dark:text-gray-300">{userEmail}</p>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            )}
 
-                                                <button
-                                                    onClick={() => navigate(-1)}
-                                                    className="px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {status === "error" && (
+                                            {/* Security badge */}
                                             <motion.div
-                                                initial={{ opacity: 0, y: -10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                className="mt-6"
+                                                className="p-6 bg-gradient-to-r from-blue-500/5 to-transparent dark:from-blue-500/10 rounded-xl border border-blue-500/20"
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.2 }}
                                             >
-                                                <div className="flex items-start gap-3 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4">
-                                                    <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-                                                    <div className="flex-1">
-                                                        <p className="text-sm font-medium text-red-700 dark:text-red-300">
-                                                            {message}
+                                                <div className="flex items-start">
+                                                    <Shield className="w-8 h-8 text-blue-500 dark:text-blue-400 mr-4 mt-1 flex-shrink-0" />
+                                                    <div>
+                                                        <p className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Secure Identity Verification</p>
+                                                        <p className="text-gray-600 dark:text-gray-400">
+                                                            We use Google Sign-In to ensure only you can manage your subscription. 
+                                                            This protects your account and maintains your privacy.
                                                         </p>
-                                                        <button
-                                                            onClick={() => setStatus("idle")}
-                                                            className="mt-2 text-sm text-red-600 dark:text-red-400 hover:underline"
-                                                        >
-                                                            Try again
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </motion.div>
-                                        )}
-                                    </>
-                                )}
+
+                                            {/* Unsubscribe action */}
+                                            <div className="space-y-6">
+                                                <div>
+                                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                                                        Complete Unsubscription
+                                                    </h3>
+                                                    <p className="text-gray-600 dark:text-gray-400">
+                                                        This will permanently remove you from all mailing lists and communications.
+                                                        You'll need to sign in with Google to verify your identity.
+                                                    </p>
+                                                </div>
+
+                                                <div className="flex flex-col sm:flex-row gap-4">
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        disabled={loading}
+                                                        onClick={() => handleUnsubscribe(false)}
+                                                        className="flex-1 flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 dark:from-red-600 dark:to-orange-600 py-4 font-semibold hover:shadow-lg hover:shadow-red-500/20 dark:hover:shadow-red-500/10 transition-all disabled:opacity-50"
+                                                    >
+                                                        {loading ? (
+                                                            <>
+                                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                                Processing...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Mail className="w-5 h-5" />
+                                                                Click here to Unsubscribe Securely with Google
+                                                            </>
+                                                        )}
+                                                    </motion.button>
+
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        onClick={() => navigate(-1)}
+                                                        className="px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                                                    >
+                                                        Cancel
+                                                    </motion.button>
+                                                </div>
+                                            </div>
+
+                                            {status === "error" && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                >
+                                                    <div className="p-6 bg-gradient-to-r from-red-500/5 to-transparent dark:from-red-500/10 rounded-xl border border-red-500/20">
+                                                        <div className="flex items-start">
+                                                            <AlertTriangle className="w-6 h-6 text-red-500 dark:text-red-400 mr-3 mt-1 flex-shrink-0" />
+                                                            <div>
+                                                                <p className="font-semibold text-red-700 dark:text-red-300 mb-2">Error Occurred</p>
+                                                                <p className="text-red-600 dark:text-red-400">
+                                                                    {message}
+                                                                </p>
+                                                                <button
+                                                                    onClick={() => setStatus("idle")}
+                                                                    className="mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:underline"
+                                                                >
+                                                                    Try again
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Footer */}
-                            <div className="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30">
+                            <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
                                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                                    <div className="text-xs text-gray-500 dark:text-gray-500">
-                                        <p className="flex items-center gap-1">
-                                            <Shield className="w-3 h-3" />
+                                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                                        <p className="flex items-center gap-2">
+                                            <Shield className="w-4 h-4" />
                                             Your data is processed securely and never shared
                                         </p>
                                     </div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                                    <div className="text-sm text-gray-600 dark:text-gray-400">
                                         Need help?{" "}
                                         <a
-                                            href="mailto:support@businessanddatasolutions.com"
-                                            className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                                            href="mailto:hr@businessanddatasolutions.com"
+                                            className="text-primary hover:text-primary/80 dark:text-primary dark:hover:text-primary/90 hover:underline font-medium"
                                         >
                                             Contact our support team
                                         </a>
@@ -531,17 +506,17 @@ export default function PremiumUnsubscribePage() {
                             </div>
                         </motion.div>
 
-                        {/* Stats/Info footer */}
+                        {/* Additional Information */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.8 }}
-                            className="mt-8 text-center text-sm text-gray-500 dark:text-gray-500"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="text-center text-sm text-gray-600 dark:text-gray-400"
                         >
-                            <p>Over 10,000 subscribers manage their preferences monthly</p>
+                            <p>Subscribers manage their preferences securely with Google verification</p>
                         </motion.div>
-                    </motion.div>
-                </div>
+                    </div>
+                </main>
             </div>
 
             {/* Reason Selection Modal */}
@@ -559,18 +534,18 @@ export default function PremiumUnsubscribePage() {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 shadow-2xl overflow-hidden"
+                            className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden"
                         >
-                            <div className="p-6 border-b border-gray-100 dark:border-gray-800">
+                            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                         Help us improve
                                     </h3>
                                     <button
                                         onClick={() => setShowReasonModal(false)}
-                                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+                                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                                     >
-                                        <X className="w-5 h-5" />
+                                        <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                                     </button>
                                 </div>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -585,15 +560,15 @@ export default function PremiumUnsubscribePage() {
                                             key={index}
                                             whileTap={{ scale: 0.98 }}
                                             className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${selectedReasons.includes(reason)
-                                                ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                                                : "border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800"
+                                                ? "border-primary bg-primary/5 dark:bg-primary/10"
+                                                : "border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                                                 }`}
                                         >
                                             <input
                                                 type="checkbox"
                                                 checked={selectedReasons.includes(reason)}
                                                 onChange={() => toggleReason(reason)}
-                                                className="w-4 h-4 text-blue-600 rounded"
+                                                className="w-4 h-4 text-primary rounded focus:ring-primary"
                                             />
                                             <span className="text-sm text-gray-700 dark:text-gray-300">
                                                 {reason}
@@ -612,16 +587,18 @@ export default function PremiumUnsubscribePage() {
                                             value={otherReason}
                                             onChange={(e) => setOtherReason(e.target.value)}
                                             placeholder="Please specify your reason..."
-                                            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-sm placeholder-gray-500"
+                                            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-sm placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white"
                                             rows="3"
                                         />
                                     </motion.div>
                                 )}
                             </div>
 
-                            <div className="p-6 border-t border-gray-100 dark:border-gray-800">
+                            <div className="p-6 border-t border-gray-200 dark:border-gray-700">
                                 <div className="flex gap-3">
-                                    <button
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                         onClick={() => {
                                             setShowReasonModal(false);
                                             handleUnsubscribe(true);
@@ -629,16 +606,18 @@ export default function PremiumUnsubscribePage() {
                                         className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                                     >
                                         Skip
-                                    </button>
-                                    <button
+                                    </motion.button>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                         onClick={() => {
                                             setShowReasonModal(false);
                                             handleUnsubscribe(true);
                                         }}
-                                        className="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:shadow-lg transition-shadow"
+                                        className="flex-1 px-4 py-3 rounded-lg bg-gradient-to-r from-primary to-purple-600 text-white font-semibold hover:shadow-lg transition-shadow"
                                     >
                                         Continue
-                                    </button>
+                                    </motion.button>
                                 </div>
                             </div>
                         </motion.div>
