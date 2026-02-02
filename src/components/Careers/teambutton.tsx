@@ -22,7 +22,7 @@ export function TeamsButton({
         className
       )}
       //onClick={() => navigate('/teamAndCareersPage')}
-      onClick={() => navigate('/care')}
+      onClick={() => navigate('/teamandcareerspage')}
     >
     
     Explore Team
