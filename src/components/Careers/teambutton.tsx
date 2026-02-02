@@ -25,7 +25,7 @@ export function TeamsButton({
       onClick={() => navigate('/care')}
     >
     
-      Join Our Team
+    Explore Team
       <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
     </Button>
   );
