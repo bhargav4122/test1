@@ -663,7 +663,7 @@ function About() {
             <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm mb-8">
               <Sparkle className="w-5 h-5 text-blue-500" />
               <span className="text-sm font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
-                Premium Digital Excellence
+                Building the Intelligent Business
               </span>
             </div>
 
