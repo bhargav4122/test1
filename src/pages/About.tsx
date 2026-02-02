@@ -111,14 +111,17 @@ export const milestones = [
 // Use a reliable video URL - let's use a placeholder or different approach
 const INTRO_VIDEO = {
   desktop: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4",
-    poster: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_35,w_960/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_35,w_960/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
   },
   mobile: {
-    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4",
-    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/v1753041808/Google_Gemini_n4h8by.mp4",
-    poster: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80"
+    webm: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_webm:chromasubsampling:420,q_25,w_480/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4",
+    mp4: "https://res.cloudinary.com/dsf4d41i8/video/upload/f_mp4,q_25,w_480/v1764231049/Untitled_Video_-_Made_With_Clipchamp_1_uwghpv.mp4"
+  },
+  // ✅ FIXED: Changed from f_auto to f_webp for better compression
+  poster: {
+    desktop: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_30,w_600/v1763800003/Final1_fusbec.jpg",
+    mobile: "https://res.cloudinary.com/dsf4d41i8/image/upload/f_webp,q_25,w_300/v1763800003/Final1_fusbec.jpg"
   }
 };
 // Premium Assets
@@ -1149,7 +1152,7 @@ function About() {
             </motion.div>
 
             {/* Column 3: Introductory Video */}
-            {/* Column 3: Introductory Video */}
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
