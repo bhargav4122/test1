@@ -109,76 +109,6 @@ const TeamAndCareersPage = () => {
         </motion.div>
 
         {/* Team stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className={cn(
-            "rounded-2xl p-8 mb-16",
-            theme === "dark"
-              ? "bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700/50"
-              : "bg-gradient-to-br from-gray-50 to-white shadow-xl border border-gray-100"
-          )}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
-                theme === "dark" ? "text-blue-300" : "text-primary"
-              )}>
-                {teamMembers.length}
-              </div>
-              <div className={cn(
-                "text-sm uppercase tracking-wider",
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              )}>
-                Experts
-              </div>
-            </div>
-            <div>
-              <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
-                theme === "dark" ? "text-purple-300" : "text-purple-600"
-              )}>
-                5+
-              </div>
-              <div className={cn(
-                "text-sm uppercase tracking-wider",
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              )}>
-                Departments
-              </div>
-            </div>
-            <div>
-              <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
-                theme === "dark" ? "text-green-300" : "text-green-600"
-              )}>
-                50+
-              </div>
-              <div className={cn(
-                "text-sm uppercase tracking-wider",
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              )}>
-                Projects
-              </div>
-            </div>
-            <div>
-              <div className={cn(
-                "text-3xl md:text-4xl font-bold mb-2",
-                theme === "dark" ? "text-yellow-300" : "text-yellow-600"
-              )}>
-                10+
-              </div>
-              <div className={cn(
-                "text-sm uppercase tracking-wider",
-                theme === "dark" ? "text-gray-400" : "text-gray-500"
-              )}>
-                Industries
-              </div>
-            </div>
-          </div>
-        </motion.div>
 
         {/* Leadership Section - CEO First */}
         <motion.div
@@ -211,8 +141,8 @@ const TeamAndCareersPage = () => {
                     transition={{ duration: 0.5 }}
                     className={cn(
                       "relative rounded-3xl overflow-hidden group",
-                      "",
-                      "",
+                      "bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-gray-900/50 dark:to-gray-800/50",
+                      "border border-blue-200/30 dark:border-blue-500/20",
                       "shadow-2xl"
                     )}
                   >
