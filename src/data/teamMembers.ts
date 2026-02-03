@@ -6,7 +6,7 @@ export const teamMembers: TeamMemberProps[] = [
   {
     name: "Bhargav Allu",
     role: "Director",
-    bio: "Founder & Director with experience across business consulting, cloud platforms, and data engineering. Has led the design and delivery of scalable data solutions on Azure and AWS, enabling organisations to make informed, data-driven decisions and progress through digital transformation with confidence.",
+    bio: "Bhargav Allu is the Founder and CEO of Business & Data Solutions (BDS), where he leads the company’s mission to help organizations scale through the intelligent use of data, cloud platforms, and strategic consulting. He brings a strong blend of technical expertise and business leadership, with hands-on experience across cloud technologies, data engineering, and analytics. Bhargav focuses on building scalable, secure, and outcome-driven solutions that enable long-term, sustainable value creation for clients and partners.",
     image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769871838/ChatGPT_Image_Jan_31_2026_03_03_02_PM_p5oq6l.webp",
     expertise: [
       "Business Consulting",
