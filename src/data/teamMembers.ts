@@ -84,19 +84,7 @@ export const teamMembers: TeamMemberProps[] = [
   },
 
   // 4️⃣ Design, Marketing & Digital Growth
-  {
-    name: "Sadik",
-    role: "UI/UX Designer & Brand Manager",
-    bio: "UI/UX Designer and Brand Manager with experience delivering user-centric digital experiences and cohesive brand systems. Supports digital transformation initiatives through thoughtful design, usability, and consistent visual identity across platforms.",
-    image: "https://res.cloudinary.com/dsf4d41i8/image/upload/v1769869718/creativefabrica-ai-image-editor-0-bot_2_hksqhp.webp",
-    expertise: [
-      "Digital Transformation",
-      "UI/UX Design",
-      "Brand Strategy",
-      "Web & App Design"
-    ],
-    socialLinks: {}
-  },
+  
   {
     name: "Siva",
     role: "Junior Digital Marketer & Content Writer",
