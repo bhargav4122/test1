@@ -454,7 +454,7 @@ export default function Footer() {
                 {[
                   { icon: <Linkedin size={16} />, href: "https://www.linkedin.com/company/business-and-data-solutions", label: "LinkedIn" },
                   { icon: <Facebook size={16} />, href: "https://www.facebook.com/businessanddatasolutions", label: "Facebook" },
-                  { icon: <Instagram size={16} />, href: "https://www.instagram.com/bds_businessanddatasolutions", label: "Instagram" },
+                  { icon: <Instagram size={16} />, href: "https://www.instagram.com/business_and_data_solutions/", label: "Instagram" },
                 ].map((social, idx) => (
                   <a
                     key={idx}
