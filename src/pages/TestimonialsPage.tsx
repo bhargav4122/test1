@@ -115,7 +115,7 @@ const TestimonialsPage = () => {
     const stats = [
         { value: "100%", label: "Client Satisfaction", icon: Star },
         { value: "5.0", label: "Average Rating", icon: Award },
-        { value: "50+", label: "Projects Delivered", icon: Target },
+        { value: "15+", label: "Projects Delivered", icon: Target },
         { value: "95%", label: "Retention Rate", icon: TrendingUp }
     ];
 
@@ -440,3 +440,4 @@ const TestimonialsPage = () => {
 
 TestimonialsPage.layout = Layout;
 export default TestimonialsPage;
+
