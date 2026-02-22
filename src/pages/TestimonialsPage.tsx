@@ -135,7 +135,7 @@ const TestimonialsPage = () => {
             />
 
             {/* Stats Section */}
-            <div className="relative overflow-hidden py-12">
+            <div className="relative overflow-hidden py-2">
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {stats.map((stat, index) => (
