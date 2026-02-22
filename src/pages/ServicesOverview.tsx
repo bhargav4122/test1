@@ -129,7 +129,7 @@ const DetailedServiceSection = React.memo(({
                     className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold group"
                   >
                    
-                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  
                   </motion.button>
                 </Link>
               </div>
