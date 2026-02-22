@@ -128,7 +128,7 @@ const DetailedServiceSection = React.memo(({
                     whileHover={{ x: 5 }}
                     className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold group"
                   >
-                    <span>Explore Service</span>
+                    //<span>Explore Service</span>
                     <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                   </motion.button>
                 </Link>
