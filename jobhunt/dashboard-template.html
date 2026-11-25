@@ -387,7 +387,20 @@ function renderJobs() {
       cell.append(score);
       row.append(cell);
     }
-    for (const [,value] of fieldsFor(job).slice(0,5)) row.append(el("td",value || "Not stated",value ? "" : "table-unknown"));
+    for (const [label,value] of fieldsFor(job).slice(0,5)) {
+      const cell = el("td");
+      const places = label === "Location" && value ? value.split(/,\s+/) : [];
+      if (places.length >= 6) {
+        const region = job.region && !remoteReview(job) ? job.region : places[0] + " and others";
+        cell.append(el("span",region,"table-requirement"),el("span",places.length + " locations","more"));
+        cell.title = value;
+      } else {
+        const text = el("span",value || "Not stated",value ? "table-requirement" : "table-unknown");
+        if (value) text.title = value;
+        cell.append(text);
+      }
+      row.append(cell);
+    }
     const required = el("td");
     if (job.mandatory?.length) {
       required.append(el("span",job.mandatory[0],"table-requirement"));
