@@ -17,6 +17,6 @@ The existing GitHub integration handles Vercel deployments. Configure these valu
 | `JOBHUNT_OWNER_PASSWORD_HASH` | The owner's locally generated `scrypt$` hash |
 | `JOBHUNT_SESSION_SECRET` | Independent random 32-byte value encoded as Base64URL |
 | `JOBHUNT_PUBLISH_TOKEN` | Independent random 32-byte value encoded as Base64URL |
-| `JOBHUNT_BLOB_TOKEN` | Read/write token for a dedicated **Private** Blob store |
+| `JOBHUNT_STORE_ID` | Set by connecting the dedicated **Private** Blob with the `JOBHUNT` prefix |
 
-Confirm that a signed-out browser can only load the sign-in form and that wrong passwords cannot retrieve the report. Use the local collector's `publish_dashboard.py` to send the first report after the private route has been verified. Keep credentials, report snapshots and CVs outside GitHub.
+Vercel authenticates the server function to the dedicated Blob store with OIDC. A static store token is optional legacy configuration when the store ID is absent. Confirm that a signed-out browser can only load the sign-in form and that wrong passwords cannot retrieve the report. Use the local collector's `publish_dashboard.py` to send the first report after the private route has been verified. Keep credentials, report snapshots and CVs outside GitHub.

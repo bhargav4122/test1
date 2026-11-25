@@ -30,7 +30,7 @@ const snapshot = z.array(report).max(30);
 const sessionSeconds = 8 * 60 * 60;
 
 function equal(supplied, expected) {
-  if (typeof supplied !== 'string') return false;
+  if (typeof supplied !== 'string' || typeof expected !== 'string') return false;
   const digest = value => createHash('sha256').update(value).digest();
   return timingSafeEqual(digest(supplied), digest(expected));
 }
@@ -99,7 +99,7 @@ export function createPortal({ secure, getHash, sessionSecret, setupHash, readSn
     try {
       const type = req.headers['content-type']?.split(';')[0];
       if (req.method === 'POST' && type === 'application/json') {
-        if (!publish || !secretPattern.test(publishToken ?? '') ||
+        if (!publish || !secretPattern.test(publishToken ?? '') || !secretPattern.test(sessionSecret ?? '') ||
             equal(publishToken, sessionSecret) || !equal(req.headers.authorization, 'Bearer ' + publishToken)) {
           return res.status(401).end();
         }
