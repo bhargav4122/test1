@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Job Hunt</title>
+<style>
+:root{color-scheme:light;--paper:#f5f3ec;--ink:#15282b;--muted:#526564;--line:#d6dfd7;--dark:#163431;--accent:#176653;--mint:#cee9db;--white:#fffefa}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,sans-serif}button,input,select{font:inherit;color:inherit}button,select{cursor:pointer}a{color:var(--accent);text-underline-offset:3px}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #459c82;outline-offset:3px}
+header{background:var(--dark);color:white;padding:29px max(25px,calc((100vw - 1170px)/2)) 35px}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#d1e9de}.brand{font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.brand svg{vertical-align:-4px;margin-right:8px}header h1{font:500 clamp(40px,7vw,69px)/1 Georgia,serif;letter-spacing:-.045em;margin:28px 0 12px}header p{margin:0;color:#d1e9de}.run{font-size:13px;text-align:right}.run select{background:#244641;color:white;border:1px solid #597c70;border-radius:6px;padding:6px 9px;margin-left:8px}
+main{max-width:1220px;margin:auto;padding:0 25px 55px}.views{display:flex;gap:5px;border-bottom:1px solid var(--line);margin-bottom:22px;overflow:auto}.views button{white-space:nowrap;border:0;border-bottom:3px solid transparent;background:none;padding:15px 13px;color:var(--muted)}.views button[aria-pressed=true]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.filters{display:grid;grid-template-columns:minmax(210px,2fr) repeat(3,minmax(120px,1fr));gap:12px}.filters label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700;color:var(--muted)}.filters input,.filters select{width:100%;padding:10px 11px;border:1px solid #bbc9c0;border-radius:7px;background:var(--white);font-size:14px;font-weight:500;color:var(--ink);min-height:43px}
+.list-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:19px 0 10px;color:var(--muted);font-size:13px}.quiet{background:none;border:0;color:var(--accent);text-decoration:underline;text-underline-offset:3px;padding:4px}.results{display:grid;grid-template-columns:minmax(300px,1fr) minmax(340px,.8fr);gap:20px;align-items:start}.list{display:grid;gap:8px}.job{background:var(--white);border:1px solid var(--line);border-radius:9px;text-align:left;width:100%;padding:12px 15px;display:block}.job:hover{border-color:var(--accent)}.job[aria-pressed=true]{background:#e9f2ea;border-color:#5b927d;box-shadow:inset 4px 0 0 var(--accent)}.job-title{display:block;font-weight:700;font-size:16px}.job-sub{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.panel,.sheet{background:var(--white);border:1px solid var(--line);border-radius:9px;padding:24px}.panel{position:sticky;top:16px}.sheet{margin:0 0 14px}.panel h2,.sheet h2{font:500 28px/1.16 Georgia,serif;letter-spacing:-.018em;margin:0 0 8px}.company{color:var(--muted);margin:0 0 16px}.tag{display:inline-block;background:var(--mint);color:#164d3e;border-radius:999px;padding:2px 9px;font-size:12px;margin:0 4px 7px 0}.tag.review{background:#f5e7cb;color:#604a22}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:19px 0}.fields div{border-top:1px solid var(--line);padding-top:7px}.fields dt{font-size:12px;color:var(--muted)}.fields dd{margin:1px 0 0;overflow-wrap:anywhere}.panel h3{font-size:14px;margin:17px 0 4px}.panel p{margin-top:0;overflow-wrap:anywhere}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.action{display:inline-block;background:var(--accent);color:white;border:1px solid var(--accent);border-radius:6px;padding:7px 11px;text-decoration:none}.action.secondary{background:transparent;color:var(--accent)}.source{font-size:13px}.empty{padding:25px;color:var(--muted);background:var(--white);border:1px dashed #bcc9bf;border-radius:9px}.sheet ul{padding-left:20px}.sheet li+li{margin-top:14px}.sheet li{overflow-wrap:anywhere}.sheet p{margin:5px 0}.coverage{display:grid;grid-template-columns:1fr 1fr;gap:10px}.coverage div{padding:10px 12px;background:var(--white);border:1px solid var(--line);border-radius:7px}.coverage strong,.coverage span{display:block}.coverage span{color:var(--muted);font-size:13px}
+[hidden]{display:none!important}@media(max-width:760px){.results{grid-template-columns:1fr}.panel{position:static;grid-row:1}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filters label:first-child{grid-column:span 2}.coverage{grid-template-columns:1fr}.run label{display:block}.run select{margin:2px 0 0}.panel,.sheet{padding:17px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="topline"><span class="brand"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v3h4v-3"/></svg>Job Hunt</span>
+ <div class="run"><label for="run">Report date</label><select id="run"></select></div></div>
+ <h1>Remote opportunities</h1>
+ <p>Search your matches, check the details and open the original vacancy.</p>
+</header>
+<main>
+ <nav class="views" aria-label="Dashboard views">
+  <button type="button" data-view="jobs" aria-pressed="true">Job matches</button>
+  <button type="button" data-view="research" aria-pressed="false">Employer &amp; recruiter checks</button>
+  <button type="button" data-view="coverage" aria-pressed="false">Source coverage</button>
+ </nav>
+ <section id="jobs" aria-label="Job matches">
+  <div class="filters">
+   <label>Search jobs<input id="query" type="search" placeholder="Title, company or skill"></label>
+   <label>Remote region<select id="region"><option value="">All regions</option><option>UK</option><option>Worldwide</option><option>USA</option><option>India</option><option>Review needed</option></select></label>
+   <label>Role family<select id="family"></select></label>
+   <label>Listing status<select id="status"><option value="">All matches</option><option value="New">New in this run</option><option>Previously found</option><option>Saved</option></select></label>
+  </div>
+  <div class="list-meta"><span id="count" aria-live="polite"></span><button class="quiet" type="button" id="reset">Clear filters</button></div>
+  <div class="results"><div class="list" id="list"></div><article class="panel" id="details" aria-label="Job details" hidden></article></div>
+ </section>
+ <section id="research" aria-label="Employer and recruiter checks" hidden></section>
+ <section id="coverage" aria-label="Source coverage" hidden></section>
+</main>
+<script type="application/json" id="data">__DASHBOARD_DATA__</script>
+<script>
+"use strict";
+const runs = JSON.parse(document.getElementById("data").textContent);
+const get = id => document.getElementById(id);
+const runPicker = get("run");
+const region = get("region");
+const query = get("query");
+const family = get("family");
+const status = get("status");
+const dateFormat = new Intl.DateTimeFormat("en-GB", {dateStyle:"medium", timeZone:"UTC"});
+const formatDate = value => value ? dateFormat.format(new Date(value + "T00:00:00Z")) : "Not stated";
+let current = runs[0] || {date:"",jobs:[],supplement:[],health:[]};
+let selected = null;
+let saved = new Set();
+try {
+  saved = new Set(JSON.parse(localStorage.getItem("job-hunt-saved") || "[]"));
+} catch { /* Saving is session-only when storage is unavailable. */ }
+
+function el(tag, value, className) {
+  const node = document.createElement(tag);
+  if (value) node.textContent = value;
+  if (className) node.className = className;
+  return node;
+}
+function link(label, href, className, local = false) {
+  const node = el("a", label, className);
+  if (local || /^https:\/\//i.test(href)) node.href = href;
+  if (!local) { node.target = "_blank"; node.rel = "noopener noreferrer"; }
+  return node;
+}
+function isReview(job) {
+  return /review|unclear/i.test(job.region) || /fully remote arrangement/i.test(job.eligibility_check);
+}
+function allFamilies() {
+  return [...new Set(current.jobs.flatMap(job => job.role_family.split(" / ")).filter(Boolean))].sort();
+}
+function showDetails(job) {
+  const pane = get("details");
+  pane.hidden = !job;
+  if (!job) { pane.replaceChildren(); return; }
+  const title = el("h2",job.title);
+  const flags = el("div");
+  flags.append(el("span",job.region || "Geography unclear", "tag"),el("span",job.status,"tag"));
+  if (isReview(job)) flags.append(el("span","Review needed","tag review"));
+  const fields = el("dl", "", "fields");
+  for (const [label,value] of [["Advertised location",job.location],["Employment",job.employment],
+      ["Advertised pay",job.salary],["Listed date",job.posted && formatDate(job.posted)],
+      ["Role family",job.role_family],["Source",job.source]]) {
+    const field = el("div"); field.append(el("dt",label),el("dd",value || "Not stated")); fields.append(field);
+  }
+  const save = el("button", saved.has(job.url) ? "Saved ✓" : "Save job","action secondary");
+  save.type = "button";
+  save.setAttribute("aria-pressed",String(saved.has(job.url)));
+  save.onclick = () => {
+    if (saved.has(job.url)) saved.delete(job.url); else saved.add(job.url);
+    try { localStorage.setItem("job-hunt-saved",JSON.stringify([...saved])); } catch { /* Session-only. */ }
+    if (status.value === "Saved" && !saved.has(job.url)) renderJobs(false);
+    else {
+      save.textContent = saved.has(job.url) ? "Saved ✓" : "Save job";
+      save.setAttribute("aria-pressed",String(saved.has(job.url)));
+    }
+  };
+  const actions = el("div","","actions");
+  actions.append(link("Open original listing ↗",job.url,"action"),save);
+  if (job.source_url && job.source_url !== job.url) actions.append(link("Source page ↗",job.source_url,"action secondary"));
+  pane.replaceChildren(flags,title,el("p",job.company,"company"),fields,
+    el("h3","Matched skills"),el("p",job.skills || "Title match", "source"),
+    el("h3","Before applying"),el("p",[job.eligibility_check,job.timezones && "Advertised timezones " + job.timezones].filter(Boolean).join(" · "),"source"),actions);
+}
+function renderJobs(selectFirst = true) {
+  const tokens = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const jobs = current.jobs.filter(job => {
+    const searchable = [job.title,job.company,job.skills,job.role_family,job.location].join(" ").toLowerCase();
+    return tokens.every(word => searchable.includes(word)) &&
+      (!region.value || (region.value === "Review needed" ? isReview(job) : job.region.split(" / ").includes(region.value))) &&
+      (!family.value || job.role_family.split(" / ").includes(family.value)) &&
+      (!status.value || (status.value === "Saved" ? saved.has(job.url) : job.status === status.value));
+  });
+  if (!jobs.some(job => job.url === selected)) selected = selectFirst && jobs.length && innerWidth > 760 ? jobs[0].url : null;
+  const list = get("list");
+  list.replaceChildren();
+  for (const job of jobs) {
+    const card = el("button","","job");
+    card.type = "button";
+    card.setAttribute("aria-pressed",String(job.url === selected));
+    card.append(el("span",job.title,"job-title"),el("span",[job.company,job.region,job.employment].filter(Boolean).join(" · "),"job-sub"));
+    card.onclick = () => {
+      selected = job.url;
+      for (const item of list.children) item.setAttribute("aria-pressed",String(item === card));
+      showDetails(job);
+      if (innerWidth <= 760) get("details").scrollIntoView({block:"start"});
+    };
+    list.append(card);
+  }
+  if (!jobs.length) list.append(el("div","No jobs match these filters.","empty"));
+  get("count").textContent = jobs.length + (jobs.length === 1 ? " job" : " jobs") + " shown" +
+    (jobs.length !== current.jobs.length ? " of " + current.jobs.length : "");
+  showDetails(jobs.find(job => job.url === selected));
+}
+function renderReports() {
+  const research = get("research");
+  research.replaceChildren();
+  for (const section of current.supplement) {
+    const panel = el("article","","sheet");
+    panel.append(el("h2",section.title));
+    const list = el("ul");
+    for (const item of section.items) {
+      const row = el("li");
+      if (item.title) row.append(el("strong",item.title));
+      row.append(el("p",item.text));
+      for (const [index,ref] of item.links.entries()) {
+        if (index) row.append(" · ");
+        row.append(link(ref.label,ref.url));
+      }
+      list.append(row);
+    }
+    panel.append(list);
+    research.append(panel);
+  }
+  if (!research.children.length) research.append(el("p","There are no employer or recruiter checks for this report yet.","empty"));
+  const coverage = get("coverage");
+  coverage.replaceChildren();
+  const grid = el("div","","coverage");
+  for (const source of current.health) {
+    const card = el("div");
+    card.append(el("strong",source.source),el("span",source.status));
+    grid.append(card);
+  }
+  coverage.append(grid);
+}
+function loadRun() {
+  const previousFamily = family.value;
+  selected = null;
+  family.replaceChildren(new Option("All role families",""), ...allFamilies().map(name => new Option(name)));
+  if (allFamilies().includes(previousFamily)) family.value = previousFamily;
+  renderJobs();
+  renderReports();
+}
+for (const run of runs) runPicker.add(new Option(formatDate(run.date),run.date));
+runPicker.disabled = runs.length < 2;
+runPicker.onchange = () => { current = runs.find(run => run.date === runPicker.value); loadRun(); };
+query.oninput = () => renderJobs();
+for (const select of [region,family,status]) select.onchange = () => renderJobs();
+get("reset").onclick = () => { query.value = region.value = family.value = status.value = ""; renderJobs(); query.focus(); };
+for (const button of document.querySelectorAll("[data-view]")) button.onclick = () => {
+  for (const tab of document.querySelectorAll("[data-view]")) {
+    tab.setAttribute("aria-pressed",String(tab === button));
+    get(tab.dataset.view).hidden = tab !== button;
+  }
+};
+loadRun();
+</script>
+</body>
+</html>

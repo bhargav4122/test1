@@ -7,13 +7,18 @@
       "config": {
         "distDir": "dist",
         "installCommand": "npm install --legacy-peer-deps",
-        "buildCommand": "npm run build:seo",
+        "buildCommand": "npm run build",
         "includeFiles": ["public/videos/**"]
       }
     },
     {
       "src": "api/send-email.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/jobhunt.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["jobhunt/dashboard-template.html"] }
     }
   ],
   "routes": [
@@ -48,6 +53,14 @@
       "src": "/api/send-email",
       "dest": "/api/send-email.js",
       "methods": ["POST"]
+    },
+    {
+      "src": "/jobhunt/?",
+      "dest": "/api/jobhunt.js"
+    },
+    {
+      "src": "/api/jobhunt/?",
+      "dest": "/api/jobhunt.js"
     },
     {
       "src": "/(.*)",
