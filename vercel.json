@@ -18,7 +18,7 @@
     {
       "src": "api/jobhunt.js",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["jobhunt/dashboard-template.html"] }
+      "config": { "includeFiles": ["jobhunt/dashboard-template.html", "jobhunt/sign-in.html"] }
     }
   ],
   "routes": [

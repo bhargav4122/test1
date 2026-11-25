@@ -1,12 +1,22 @@
-# Private Job Hunt deployment
+# Private Job Hunt
 
-The main website uses the existing Vercel project. The special route `/jobhunt` calls a server function before the site's public SPA fallback. Both `/jobhunt` and `/api/jobhunt` require the same owner credential to read. Browser responses are private and uncached.
+## Local review
 
-## Production configuration
+Run `node jobhunt/local.mjs` from this worktree and open `http://127.0.0.1:8787/jobhunt`. On the first visit, create a password of at least 14 characters. The username is `owner`. The preview stores a password hash in the collector's local `state/local-owner.hash` file. The file stays outside the website workspace and Git. The service listens on the loopback address only. Restarting the preview signs out existing sessions.
 
-1. Attach a dedicated **Private** Vercel Blob store. Set its read/write token as `JOBHUNT_BLOB_TOKEN` in the Vercel project.
-2. Generate two independent long random secrets (at least 32 random bytes each, Base64URL encoded). Set `JOBHUNT_OWNER_PASSWORD` and `JOBHUNT_PUBLISH_TOKEN` in Vercel. Use the owner secret with username `owner` in the browser's HTTPS sign-in prompt. Keep it in your password manager. Keep the publisher token on the collector machine.
-3. Deploy through the GitHub-connected project. Check that unauthenticated requests to both paths return 401 before uploading the first report. Verify that an authenticated owner can see the report and that public pages still load.
-4. Use the local collector's `publish_dashboard.py` to send the report snapshot. Publisher credentials cannot read the dashboard. The publisher accepts report JSON only. Preserve the local collector at 08:00 UK time.
+After sign-in, the dashboard reads the current local collector report. The **Sign out** button expires the browser session. Job links open the original listing or employer application page.
 
-GitHub holds the site source. The private Blob holds the latest snapshot from the collector, including up to 30 report dates. Job application links open the original vacancy. The site accepts no CV uploads, applicant information or share links.
+## GitHub and Vercel
+
+The `/jobhunt` route calls a server function before the public site's SPA fallback. The function checks a signed, HTTP-only session before reading the report from private storage. The same function serves `/api/jobhunt`. A separately authenticated publisher can update the snapshot.
+
+The existing GitHub integration handles Vercel deployments. Configure these values securely before enabling the route in production:
+
+| Project variable | Purpose |
+| --- | --- |
+| `JOBHUNT_OWNER_PASSWORD_HASH` | The owner's locally generated `scrypt$` hash |
+| `JOBHUNT_SESSION_SECRET` | Independent random 32-byte value encoded as Base64URL |
+| `JOBHUNT_PUBLISH_TOKEN` | Independent random 32-byte value encoded as Base64URL |
+| `JOBHUNT_BLOB_TOKEN` | Read/write token for a dedicated **Private** Blob store |
+
+Confirm that a signed-out browser can only load the sign-in form and that wrong passwords cannot retrieve the report. Use the local collector's `publish_dashboard.py` to send the first report after the private route has been verified. Keep credentials, report snapshots and CVs outside GitHub.
