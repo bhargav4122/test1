@@ -13,12 +13,44 @@ main{max-width:1450px;margin:auto;padding:26px 28px 55px}.intro{display:flex;ali
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:19px}.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:flex;align-items:center;gap:10px;min-width:0}.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.15}.stat span{font-size:13px;color:var(--muted)}
 .views{display:flex;gap:18px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow:auto;scrollbar-width:thin}.views button{white-space:nowrap;border:0;border-bottom:3px solid transparent;background:none;padding:9px 1px;color:var(--muted);font-weight:600}.views button[aria-pressed=true]{border-color:var(--accent);color:var(--accent-dark)}
 .filters{display:grid;grid-template-columns:minmax(210px,1.6fr) repeat(4,minmax(116px,1fr));gap:10px;padding:13px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}.filter-field,.field-label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:650;color:var(--muted)}.filters input,.filters select,textarea{width:100%;padding:8px 9px;border:1px solid #c9d4e4;border-radius:7px;background:#fff;font-size:14px;font-weight:400;color:var(--ink);min-height:37px}
-.list-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:11px 0 8px;color:var(--muted);font-size:13px}.quiet{background:none;border:0;color:var(--accent);text-decoration:underline;text-underline-offset:3px;padding:4px}.results{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,1fr);gap:14px;align-items:start}.list{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;min-width:0}.job-row{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:1px solid var(--line);align-items:center;gap:2px;padding-right:12px}.job-row:last-child{border-bottom:0}.job-row.selected{background:var(--selected);box-shadow:inset 3px 0 var(--accent)}.job-row:hover{background:#f5f8ff}.job{background:none;border:0;text-align:left;min-width:0;width:100%;min-height:70px;padding:10px 8px 10px 14px;display:block}.job-title{display:block;font-weight:700;font-size:15px;overflow-wrap:anywhere}.job-sub{display:block;color:var(--muted);font-size:12px;margin-top:3px;overflow-wrap:anywhere}.row-side{display:flex;align-items:flex-end;flex-direction:column;gap:3px}.row-side a{font-size:12px;font-weight:650}.badge{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:650;white-space:nowrap;background:#eaf0fa;color:#385071}.badge.strong{background:var(--green-bg);color:var(--green)}.badge.potential{background:#edf3fd;color:#244e92}.badge.review{background:var(--amber-bg);color:var(--amber)}.badge.neutral{background:#edf0f5;color:#515e71}.badge.new{margin-left:5px;vertical-align:2px}
-.panel,.sheet{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:19px;min-width:0}.panel{position:sticky;top:12px}.sheet{margin:0 0 12px}.panel h2,.sheet h2{font-size:21px;line-height:1.2;letter-spacing:-.018em;margin:0 0 6px;overflow-wrap:anywhere}.company{color:var(--muted);margin:0 0 13px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}.action{display:inline-flex;align-items:center;justify-content:center;min-height:35px;border-radius:7px;padding:6px 11px;text-decoration:none;background:var(--accent);color:white;border:1px solid var(--accent);font-weight:650;font-size:13px}.action:hover{background:var(--accent-dark)}.action.secondary{background:#fff;color:#234777;border-color:#cad7e9}.action.secondary:hover{background:var(--selected)}.action.danger{background:#fff;color:#872630;border-color:#e6c7cc}
+.list-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:11px 0 8px;color:var(--muted);font-size:13px}.quiet{background:none;border:0;color:var(--accent);text-decoration:underline;text-underline-offset:3px;padding:4px}.badge{display:inline-block;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:650;white-space:nowrap;background:#eaf0fa;color:#385071}.badge.strong{background:var(--green-bg);color:var(--green)}.badge.potential{background:#edf3fd;color:#244e92}.badge.review{background:var(--amber-bg);color:var(--amber)}.badge.neutral{background:#edf0f5;color:#515e71}.badge.new{margin-left:5px;vertical-align:2px}
+.sheet{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:19px;min-width:0}.sheet{margin:0 0 12px}.sheet h2{font-size:21px;line-height:1.2;letter-spacing:-.018em;margin:0 0 6px;overflow-wrap:anywhere}.company{color:var(--muted);margin:0 0 13px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}.action{display:inline-flex;align-items:center;justify-content:center;min-height:35px;border-radius:7px;padding:6px 11px;text-decoration:none;background:var(--accent);color:white;border:1px solid var(--accent);font-weight:650;font-size:13px}.action:hover{background:var(--accent-dark)}.action.secondary{background:#fff;color:#234777;border-color:#cad7e9}.action.secondary:hover{background:var(--selected)}.action.danger{background:#fff;color:#872630;border-color:#e6c7cc}
 .fit-box{padding:11px 12px;border:1px solid #d8e4f4;border-radius:8px;background:#f6f9fe;margin-bottom:12px}.fit-box h3,.checks h3{font-size:13px;font-weight:700;margin:0 0 4px}.fit-box p,.checks p{margin:0;font-size:13px;color:#3f526c;overflow-wrap:anywhere}.fit-box .badge{margin-left:5px}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.chip{border-radius:5px;background:#e8edf7;color:#2e4668;padding:2px 6px;font-size:12px}
 .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 15px;margin:0 0 12px}.fields div{border-bottom:1px solid #e7edf5;padding:1px 0 6px}.fields dt{font-size:12px;color:var(--muted)}.fields dd{margin:0;overflow-wrap:anywhere}.checks{border-left:3px solid #e0ae67;background:#fff9ed;padding:8px 10px;border-radius:0 6px 6px 0}.checks h3{color:#714707}.foot{margin:10px 0 0;color:var(--muted);font-size:12px}.empty{padding:16px;color:var(--muted);margin:0}.sheet ul{padding-left:20px}.sheet li+li{margin-top:12px}.sheet p{margin:5px 0}.coverage{display:grid;grid-template-columns:1fr 1fr;gap:10px}.coverage div{padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:7px}.coverage strong,.coverage span{display:block}.coverage span{color:var(--muted);font-size:13px}
-.profile-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.profile-layout .sheet{margin:0}.profile-layout p{color:var(--muted);margin-bottom:12px}.cv-box{padding:13px;border:1px dashed #aebfd7;border-radius:8px;background:#f7faff;margin:10px 0}.cv-box input{max-width:100%;font-size:13px}.cv-box input::file-selector-button{cursor:pointer;background:#fff;border:1px solid #c2d0e5;border-radius:6px;color:#234777;font-weight:650;padding:6px;margin:0 7px 0 0}.cv-name{overflow-wrap:anywhere}.cv-actions{margin:9px 0 0}.cv-status{min-height:19px;margin:6px 0!important;font-size:13px}.field-label textarea{min-height:110px;resize:vertical}
-[hidden]{display:none!important}@media(max-width:850px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filter-field:first-child{grid-column:span 2}}@media(max-width:760px){main{padding:18px 13px 40px}.top-inner{padding:0 13px}.intro{align-items:flex-start;flex-direction:column;gap:10px}.stats{gap:6px}.stat{gap:4px;padding:7px;display:block}.stat b,.stat span{display:block}.stat span{font-size:11px}.results,.coverage,.profile-layout{grid-template-columns:minmax(0,1fr)}.panel{position:static;grid-row:1}.panel,.sheet{padding:14px}.views{gap:15px}.job{padding-left:11px}.row-side .badge{white-space:normal;text-align:right}.row-side{max-width:93px}}
+.profile-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.profile-layout .sheet{margin:0}.profile-layout p{color:var(--muted);margin-bottom:12px}.cv-actions{margin:9px 0 0}.cv-status{min-height:19px;margin:6px 0!important;font-size:13px}.field-label textarea{min-height:110px;resize:vertical}
+[hidden]{display:none!important}@media(max-width:850px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filter-field:first-child{grid-column:span 2}}@media(max-width:760px){main{padding:18px 13px 40px}.top-inner{padding:0 13px}.intro{align-items:flex-start;flex-direction:column;gap:10px}.stats{gap:6px}.stat{gap:4px;padding:7px;display:block}.stat b,.stat span{display:block}.stat span{font-size:11px}.coverage,.profile-layout{grid-template-columns:minmax(0,1fr)}.sheet{padding:14px}.views{gap:15px}}
+main,.top-inner{max-width:1560px}
+.table-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.table-actions select,.dialog-body select,.dialog-body input:not([type=file]){min-height:34px;padding:5px 8px;border:1px solid #c9d4e4;border-radius:7px;background:#fff;color:var(--ink)}
+.job-table-frame{overflow:auto;border:1px solid var(--line);border-radius:10px;background:#fff;max-width:100%}
+.job-table{border-collapse:collapse;width:100%;min-width:1120px;table-layout:fixed;text-align:left;font-size:13px}
+.job-table th{padding:11px 10px;background:#f8fafd;color:#475871;font-size:11px;font-weight:700;line-height:1.35;vertical-align:bottom}
+.job-table th:nth-child(1){width:20.5%}.job-table th:nth-child(2),.job-table th:nth-child(3){width:6.5%}
+.job-table th:nth-child(4){width:9.5%}.job-table th:nth-child(5){width:9%}.job-table th:nth-child(6){width:9.5%}
+.job-table th:nth-child(7){width:10%}.job-table th:nth-child(8){width:10.5%}.job-table th:nth-child(9){width:15.5%}
+.job-table td,.job-table tbody th{border-top:1px solid #e4eaf2;padding:12px 10px;vertical-align:top;overflow-wrap:anywhere}
+.job-table tbody th{background:transparent}
+.job-table tbody tr[data-job]{cursor:pointer}
+.job-table tbody tr[data-job]:hover,.job-table tbody tr[data-job]:focus-within{background:#f3f7ff}
+.table-job{border:0;background:transparent;text-align:left;padding:0;color:#1c468e;font-weight:700;font-size:14px;line-height:1.3}
+.table-job:hover{text-decoration:underline;text-underline-offset:2px}.table-company{display:block;margin-top:4px;color:var(--muted);font-weight:400;font-size:12px}
+.table-unknown,.table-note,.micro{color:var(--muted);font-size:12px}.table-note{margin:8px 1px}.table-requirement{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.more{display:block;color:#315a9c;font-size:11px;margin-top:3px}
+.score{font-size:12px;font-weight:750;font-variant-numeric:tabular-nums;display:inline-block;padding:3px 7px;border-radius:5px;background:#eef2f7;color:#45566d;white-space:nowrap}
+.score.strong{background:#e7f5ee;color:#12604a}.score.potential{background:#eaf1ff;color:#224d91}.score.low{background:#fff3df;color:#74490a}
+.job-dialog{width:min(720px,calc(100% - 28px));max-height:calc(100dvh - 35px);padding:0;border:1px solid #c5d1e3;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 18px 70px #101d3150}
+.job-dialog::backdrop{background:#0a1931aa}.dialog-top{display:flex;justify-content:space-between;align-items:center;padding:9px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2;background:#f8fafd;color:#3d516f;font-weight:700}
+.dialog-top h2{font-size:16px;margin:0}.close-button{border:0;border-radius:6px;font-size:25px;line-height:1.2;background:transparent;padding:1px 7px;color:#415676}.close-button:hover{background:#e8eef8}
+.dialog-body{padding:19px 20px}.dialog-body h2{margin:0 0 5px;font-size:25px;line-height:1.18;letter-spacing:-.025em;overflow-wrap:anywhere}
+.dialog-body .fields{margin:15px 0}.dialog-body select{max-width:100%;font-size:13px}.dialog-body .field-label span{font-weight:400}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.score-grid .fit-box{margin:0}.score-grid p{margin:6px 0}.score-grid label{margin-top:7px}
+.requirements{padding:0 0 0 19px;margin:5px 0 13px}.requirements li{margin:4px 0}.details-heading{font-size:14px;margin:12px 0 5px}.dialog-body .foot{margin:12px 0 0}
+.profile-layout{grid-template-columns:minmax(0,2.15fr) minmax(0,1fr);align-items:start}.sheet-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.sheet-heading p{margin:0 0 12px}.sheet-heading .action{white-space:nowrap}.cv-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.cv-entry h3{font-size:14px;margin:0 0 2px;overflow-wrap:anywhere}.cv-entry p{margin:0;font-size:12px;overflow-wrap:anywhere}.cv-entry .chips{margin:3px 0}.cv-entry .actions{margin:0;justify-content:flex-end}
+.cv-entry .action{min-height:30px;font-size:12px;padding:4px 8px}.cv-feedback{margin:7px 0;padding:7px 9px;background:#eef4ff;border-radius:5px;color:#244e92;font-size:13px}
+.cv-dialog{max-width:455px}.cv-dialog .field-label{margin-bottom:12px}.cv-dialog textarea{min-height:70px}.cv-dialog input[type=file]{max-width:100%;padding:4px 0}.cv-dialog .action{margin-top:5px}
+@media(max-width:900px){.profile-layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:620px){.dialog-body{padding:14px}.score-grid{grid-template-columns:1fr}.cv-entry{grid-template-columns:minmax(0,1fr)}.cv-entry .actions{justify-content:flex-start}.job-table-frame{scrollbar-width:auto}.table-actions label{display:none}}
 </style>
 </head>
 <body>
@@ -31,15 +63,15 @@ main{max-width:1450px;margin:auto;padding:26px 28px 55px}.intro{display:flex;ali
 </header>
 <main id="main">
  <section class="intro" aria-labelledby="page-title">
-  <div><h1 id="page-title">Job opportunities</h1><p>Compare remote roles against your profile and open the original listing.</p></div>
+  <div><h1 id="page-title">Job opportunities</h1><p>Compare vacancies, review your fit and open the application page.</p></div>
   <div class="intro-controls">
    <div class="run"><label for="run">Report</label><select id="run"></select></div>
-   <button class="action secondary" type="button" id="open-profile">Manage CV</button>
+   <button class="action secondary" type="button" id="open-profile">CV library</button>
   </div>
  </section>
  <div class="stats" aria-label="Report summary">
   <div class="stat"><b id="total-count">0</b><span>Listings</span></div>
-  <div class="stat"><b id="strong-count">0</b><span>Strong skill overlap</span></div>
+  <div class="stat"><b id="strong-count">0</b><span>Strong profile match</span></div>
   <div class="stat"><b id="priority-count">0</b><span>UK or worldwide listed</span></div>
  </div>
  <nav class="views" aria-label="Dashboard views">
@@ -51,33 +83,41 @@ main{max-width:1450px;margin:auto;padding:26px 28px 55px}.intro{display:flex;ali
  </nav>
  <section id="jobs" aria-label="Job listing results">
   <div class="filters">
-   <div class="filter-field"><label for="query">Search</label><input id="query" type="search" placeholder="Job title, company or skill"></div>
+   <div class="filter-field"><label for="query">Search</label><input id="query" type="search" placeholder="Job title, company or keyword"></div>
    <div class="filter-field"><label for="region">Location</label><select id="region"><option value="">All locations</option><option>UK</option><option>Worldwide</option><option>USA</option><option>India</option><option>Review needed</option></select></div>
    <div class="filter-field"><label for="family">Role family</label><select id="family"></select></div>
-   <div class="filter-field"><label for="fit">Suitability</label><select id="fit"><option value="">Any suitability</option><option value="strong">Strong overlap</option><option value="potential">Some overlap</option><option value="neutral">Limited evidence</option></select></div>
+   <div class="filter-field"><label for="fit">Suitability</label><select id="fit"><option value="">Any profile match</option><option value="strong">75% and above</option><option value="potential">50–74%</option><option value="low">Below 50%</option><option value="unknown">Score unavailable</option></select></div>
    <div class="filter-field"><label for="status">Listing status</label><select id="status"><option value="">Any status</option><option value="New">New this run</option><option>Previously found</option></select></div>
   </div>
-  <div class="list-meta"><span id="count" aria-live="polite"></span><button class="quiet" type="button" id="reset">Clear filters</button></div>
-  <div class="results"><div class="list" id="list"></div><article class="panel" id="details" aria-label="Job details" tabindex="-1" hidden></article></div>
+  <div class="list-meta">
+   <span id="count" aria-live="polite"></span>
+   <div class="table-actions"><label for="order">Sort by</label><select id="order"><option value="">Report order</option><option value="profile">Profile match</option><option value="ats">ATS estimate</option><option value="posted">Date posted</option></select><button class="quiet" type="button" id="reset">Clear filters</button></div>
+  </div>
+  <div class="job-table-frame" tabindex="0" role="region" aria-label="Job comparison table">
+   <table class="job-table">
+    <thead><tr><th scope="col">Job title</th><th scope="col">Profile match</th><th scope="col">ATS est.</th><th scope="col">Location</th><th scope="col">Work model</th><th scope="col">Job type</th><th scope="col">Pay</th><th scope="col">Visa / right to work</th><th scope="col">Mandatory requirements</th></tr></thead>
+    <tbody id="list"></tbody>
+   </table>
+  </div>
+  <p class="table-note">Profile match uses your skills and target roles. ATS estimates compare advertised technical keywords with the suggested CV.</p>
  </section>
+ <dialog id="details" class="job-dialog" aria-labelledby="detail-title">
+  <div class="dialog-top"><span>Job details</span><form method="dialog"><button class="close-button" type="submit" aria-label="Close job details">×</button></form></div>
+  <article id="detail-content" class="dialog-body"></article>
+ </dialog>
  <section id="profile" aria-label="Profile and CV" hidden>
   <div class="profile-layout">
-   <article class="sheet">
-    <h2>Your CV</h2>
-    <p>Keep a copy ready to attach on an employer’s application form. PDF, Word (.docx) and plain text (.txt) are supported.</p>
-    <div class="cv-box"><label class="field-label" for="cv-file">Upload CV</label><input id="cv-file" type="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"></div>
-    <p id="cv-status" class="cv-status" aria-live="polite"></p>
-    <p id="cv-name" class="cv-name" hidden></p>
-    <div id="cv-actions" class="actions cv-actions" hidden>
-     <button id="download-cv" type="button" class="action">Download CV</button>
-     <button id="remove-cv" type="button" class="action danger">Remove CV</button>
-    </div>
-    <p class="foot">The file is stored in this browser. The employer receives it only when you attach it to their form.</p>
+   <article class="sheet cv-library">
+    <div class="sheet-heading"><div><h2>CV library</h2><p>Choose which CV to use for each role.</p></div><button class="action" id="add-cv" type="button">Add role &amp; CV</button></div>
+    <p id="cv-status" class="cv-feedback" role="status" hidden></p>
+    <div id="cv-library"></div>
+    <p class="foot">Intake originals are on your PC. Files added here stay in this browser.</p>
+    <input id="cv-file" type="file" accept=".pdf,.docx,.txt" hidden>
    </article>
    <article class="sheet">
     <h2>Skills used for matching</h2>
-    <p>These start with your existing CV profile. Update them when your target skills change. A plain-text CV can suggest skills already covered by the report.</p>
-    <label class="field-label" for="profile-skills">Your skills<textarea id="profile-skills" rows="5" maxlength="1500" spellcheck="false"></textarea></label>
+    <p>These skills are used for profile match. Each CV has its own keywords for the ATS estimate.</p>
+    <label class="field-label" for="profile-skills">Your skills<textarea id="profile-skills" rows="5" maxlength="3000" spellcheck="false"></textarea></label>
     <div class="actions cv-actions">
      <button id="save-skills" type="button" class="action">Save skills</button>
      <button id="reset-skills" type="button" class="action secondary">Use original profile</button>
@@ -86,6 +126,16 @@ main{max-width:1450px;margin:auto;padding:26px 28px 55px}.intro{display:flex;ali
    </article>
   </div>
  </section>
+ <dialog id="cv-editor" class="job-dialog cv-dialog" aria-labelledby="cv-editor-title">
+  <div class="dialog-top"><h2 id="cv-editor-title">Add role &amp; CV</h2><form method="dialog"><button class="close-button" type="submit" aria-label="Close CV editor">×</button></form></div>
+  <form class="dialog-body" id="cv-form">
+   <label class="field-label" for="cv-roles">Target job roles <span>Separate roles with commas.</span><input id="cv-roles" required maxlength="240" placeholder="e.g. Power BI Developer, BI Engineer"></label>
+   <label class="field-label" for="cv-new-file">CV file <span>PDF, DOCX or TXT, up to 10 MB.</span><input id="cv-new-file" type="file" accept=".pdf,.docx,.txt"></label>
+   <label class="field-label" for="cv-keywords">ATS keywords <span>Optional. Extracted from a readable file when left blank.</span><textarea id="cv-keywords" rows="3" maxlength="3000" placeholder="e.g. Power BI, DAX, SQL"></textarea></label>
+   <p id="cv-editor-status" class="cv-feedback" role="status" hidden></p>
+   <button class="action" type="submit" id="cv-submit">Save CV role</button>
+  </form>
+ </dialog>
  <section id="research" aria-label="Employer and recruiter checks" hidden></section>
  <section id="coverage" aria-label="Source coverage" hidden></section>
 </main>
@@ -96,18 +146,20 @@ const get = id => document.getElementById(id);
 const runs = JSON.parse(get("data").textContent);
 const filters = ["query", "region", "family", "fit", "status"].map(get);
 const [query, region, family, fit, status] = filters;
-const labels = {strong:"Strong overlap",potential:"Some overlap",neutral:"Limited evidence"};
 const dateFormat = new Intl.DateTimeFormat("en-GB",{dateStyle:"medium",timeZone:"UTC"});
 const formatDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? dateFormat.format(new Date(value + "T00:00:00Z")) : "Not stated";
-const normalized = value => value.toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+const normalized = value => value.toLowerCase().replace(/[^a-z0-9]+/g," ").trim().replace(/\bmodeling\b/g,"modelling").replace(/\bapis\b/g,"api");
 const split = value => [...new Set(value.split(/[,\n]/).map(s => s.trim()).filter(Boolean))];
-const originalSkills = [...new Set(runs.flatMap(run => run.jobs.flatMap(job => split(job.skills))))];
+const originalSkills = runs.find(run => run.profile_skills)?.profile_skills ||
+  [...new Set(runs.flatMap(run => run.jobs.flatMap(job => split(job.skills))))];
+const intake = runs.find(run => run.cv_library)?.cv_library || [];
+const vocabulary = runs.find(run => run.vocabulary)?.vocabulary || originalSkills;
 const isOffline = location.protocol === "file:";
 let current = runs[0] || {date:"",jobs:[],supplement:[],health:[]};
 let view = "jobs";
-let selected = null;
-let localCV = null;
-let cvPersisted = false;
+const overrides = new Map();
+let editingCV = null;
+let uploadTarget = null;
 
 function readStored(key, fallback) {
   try { const data = JSON.parse(localStorage.getItem(key)); return Array.isArray(data) ? data.filter(v => typeof v === "string") : fallback; }
@@ -137,23 +189,72 @@ function outbound(label, url, className) {
 function remoteReview(job) {
   return /review|unclear/.test(job.region.toLowerCase()) || /fully remote arrangement/i.test(job.eligibility_check);
 }
-function evidence(job) {
-  const advertised = split(job.skills);
-  const matched = advertised.filter(skill => profileTerms.has(normalized(skill)));
-  const level = matched.length >= 4 ? "strong" : matched.length >= 2 ? "potential" : "neutral";
-  return { advertised, matched, level };
+const fieldsFor = job => [
+  ["Location", job.location || job.region], ["Work model", job.work_model],
+  ["Job type", job.engagement || job.employment], ["Advertised pay", job.salary],
+  ["Visa / right to work", job.visa], ["Posted", formatDate(job.posted)],
+  ["Role family", job.role_family], ["Source", job.source],
+];
+
+const rolePatterns = new Map([
+  ["Azure and data engineering", /\b(?:data engineer|etl developer|ssis developer|data warehouse)\b/i],
+  ["Power BI and reporting", /\b(?:power bi|bi engineer|bi developer|reporting|business intelligence)\b/i],
+  ["SQL and databases", /\b(?:sql developer|database developer|database engineer)\b/i],
+  ["Automation and integration", /\b(?:automation|integration|n8n)\b/i],
+  ["Adjacent data roles", /\b(?:analytics engineer|data quality|fabric)\b/i],
+]);
+
+function roleAlignment(job, roles) {
+  const title = " " + normalized(job.title) + " ";
+  if (roles.some(role => title.includes(" " + normalized(role) + " "))) return 30;
+  const families = job.role_family.split(" / ");
+  return roles.some(role => families.some(family => rolePatterns.get(family)?.test(role))) ? 24 : 0;
 }
+
+function evidence(job) {
+  const advertised = job.keywords || [];
+  const matched = advertised.filter(skill => profileTerms.has(normalized(skill)));
+  const roles = library().flatMap(cv => cv.roles);
+  const rolePoints = roles.length ? roleAlignment(job,roles) : 0;
+  const profile = advertised.length ? Math.round(70 * matched.length / advertised.length + rolePoints) : null;
+  return { advertised, matched, profile, level: profile === null ? "unknown" : profile >= 75 ? "strong" : profile >= 50 ? "potential" : "low" };
+}
+
+function ats(job, cv) {
+  if (!job.keywords?.length || !cv?.skills?.length) return {score:null, matched:[], missing:[]};
+  const terms = new Set(cv.skills.map(normalized));
+  const matched = job.keywords.filter(skill => terms.has(normalized(skill)));
+  const missing = job.keywords.filter(skill => !terms.has(normalized(skill)));
+  return {score:Math.round(100 * matched.length / job.keywords.length),matched,missing};
+}
+
+function suggestedCV(job) {
+  const ranked = library().filter(cv => cv.skills.length).map(cv => ({
+    cv, score:ats(job,cv).score ?? -1, alignment:roleAlignment(job,cv.roles),
+  }));
+  ranked.sort((a,b) => Number(b.alignment > 0) - Number(a.alignment > 0) || b.score - a.score || b.alignment - a.alignment);
+  return ranked[0]?.cv;
+}
+
+function scoreChip(value, title) {
+  const level = value === null ? "" : value >= 75 ? " strong" : value >= 50 ? " potential" : " low";
+  const chip = el("span",value === null ? "—" : value + "%","score" + level);
+  chip.title = title;
+  if (value === null) chip.setAttribute("aria-label","Score unavailable");
+  return chip;
+}
+
 function addChips(parent, skills) {
   if (!skills.length) return;
   const chips = el("div","","chips");
   for (const skill of skills) chips.append(el("span",skill,"chip"));
   parent.append(chips);
 }
-function displayDetails(job) {
-  const pane = get("details");
-  pane.hidden = !job;
-  if (!job) { pane.replaceChildren(); return; }
-  const { advertised, matched, level } = evidence(job);
+
+function showDetails(job, anchor) {
+  const pane = get("detail-content");
+  const dialog = get("details");
+  const {advertised, matched, profile} = evidence(job);
   const actions = el("div","","actions");
   const save = el("button",bookmarks.has(job.url) ? "Saved ✓" : "Save job","action secondary");
   save.type = "button";
@@ -161,98 +262,149 @@ function displayDetails(job) {
   save.onclick = () => {
     if (bookmarks.has(job.url)) bookmarks.delete(job.url); else bookmarks.add(job.url);
     remember("job-hunt-saved",[...bookmarks]);
-    if (view === "saved" && !bookmarks.has(job.url)) renderJobs();
-    else {
-      save.textContent = bookmarks.has(job.url) ? "Saved ✓" : "Save job";
-      save.setAttribute("aria-pressed",String(bookmarks.has(job.url)));
-    }
+    save.textContent = bookmarks.has(job.url) ? "Saved ✓" : "Save job";
+    save.setAttribute("aria-pressed",String(bookmarks.has(job.url)));
+    if (view === "saved") renderJobs();
   };
-  actions.append(outbound("Open job listing ↗",job.url,"action"),save);
-  if (localCV) {
-    const download = el("button","Download my CV","action secondary");
-    download.type = "button";
-    download.onclick = downloadCV;
-    actions.append(download);
-  }
-  const fitBox = el("section","","fit-box");
-  const fitHeading = el("h3","Suitability");
-  fitHeading.append(el("span",labels[level],"badge "+level));
-  const summary = !advertised.length ? "The listing matched a target title. No profile skills were identified in the available report." :
-    matched.length + " profile skill" + (matched.length === 1 ? "" : "s") + " matched in the listing. Check the employer’s full requirements.";
-  fitBox.append(fitHeading,el("p",summary));
-  addChips(fitBox,matched);
+  actions.append(outbound(job.official_url ? "Official application ↗" : "Open original listing ↗",job.official_url || job.url,"action"),save);
+  const cvDownload = el("button","Download selected CV","action secondary");
+  actions.append(cvDownload);
 
-  const fields = el("dl","","fields");
-  for (const [label,value] of [
-    ["Advertised location",job.location || job.region],["Employment type",job.employment],
-    ["Advertised pay",job.salary],["Listing date",formatDate(job.posted)],
-    ["Role family",job.role_family],["Found on",job.source],
-  ]) {
+  const scores = el("div","","score-grid");
+  const profileBox = el("section","","fit-box");
+  const profileHeading = el("h3","Profile match ");
+  profileHeading.append(scoreChip(profile,"Advertised keyword coverage and target role alignment"));
+  profileBox.append(profileHeading,el("p",advertised.length ?
+    matched.length + " of " + advertised.length + " technical keywords matched. Role alignment contributes to this score." :
+    "The report has insufficient keyword evidence to score this listing."));
+  addChips(profileBox,matched);
+
+  const cvBox = el("section","","fit-box");
+  const available = library();
+  const picker = el("select");
+  picker.id = "job-cv";
+  const label = el("label","CV for this estimate","field-label");
+  label.htmlFor = picker.id;
+  picker.add(new Option("Select a CV",""));
+  for (const cv of available) picker.add(new Option(cv.name || cv.roles.join(", "),cv.id));
+  picker.value = suggestedCV(job)?.id || "";
+  picker.disabled = !available.length;
+  label.append(picker);
+  const cvScore = el("div");
+  const updateATS = () => {
+    const cv = available.find(item => item.id === picker.value);
+    const {score,matched,missing} = ats(job,cv);
+    const heading = el("h3","ATS estimate ");
+    heading.append(scoreChip(score,"Advertised technical keywords covered by this CV"));
+    const description = score === null ? (!advertised.length ? "The listing has insufficient keyword evidence." :
+      !cv ? "Choose a CV to compare." : "Add keywords to this CV in your library.") :
+      matched.length + " of " + advertised.length + " keywords covered by this CV.";
+    cvScore.replaceChildren(heading,el("p",description));
+    if (missing.length) cvScore.append(el("p","Missing keywords: " + missing.join(", "),"micro"));
+    cvDownload.hidden = !cv?.file;
+    cvDownload.onclick = () => downloadCV(cv?.file);
+  };
+  picker.onchange = updateATS;
+  cvBox.append(cvScore,label);
+  updateATS();
+  scores.append(profileBox,cvBox);
+
+  const facts = el("dl","","fields");
+  for (const [label,value] of fieldsFor(job)) {
     const field = el("div");
     field.append(el("dt",label),el("dd",value || "Not stated"));
-    fields.append(field);
+    facts.append(field);
   }
+  const requirements = el("section");
+  requirements.append(el("h3","Mandatory requirements","details-heading"));
+  if (job.mandatory?.length) {
+    const list = el("ul","","requirements");
+    for (const item of job.mandatory) list.append(el("li",item));
+    requirements.append(list);
+  } else requirements.append(el("p","None captured in the report. Review the original advert.","foot"));
   const checks = el("section","","checks");
-  const checkText = [job.eligibility_check, job.timezones && "Advertised time zones: " + job.timezones].filter(Boolean);
+  const checkText = [job.eligibility_check,job.timezones && "Advertised time zones: " + job.timezones].filter(Boolean);
   if (remoteReview(job)) checkText.unshift("Check remote eligibility and location restrictions.");
-  checks.append(el("h3","Before applying"),el("p",checkText.join(" · ") || "Check work authorisation and the full listing requirements."));
-  pane.replaceChildren(el("h2",job.title),el("p",job.company + (job.region ? " · " + job.region : ""),"company"),actions,fitBox,fields,checks);
-  if (job.source_url && job.source_url !== job.url) {
+  checks.append(el("h3","Before applying"),el("p",checkText.join(" · ") || "Check work authorisation and the original advert."));
+  if (!job.official_url) checks.append(el("p","The source only supplied a job-board URL. Follow the apply instructions on that page."));
+  const title = el("h2",job.title);
+  title.id = "detail-title";
+  pane.replaceChildren(title,el("p",job.company || "Employer not stated","company"),actions,scores,facts,requirements,checks);
+  if (job.source_url && job.source_url !== (job.official_url || job.url)) {
     const source = el("p","","foot");
-    source.append(outbound("View source page ↗",job.source_url));
+    source.append(outbound("View source listing ↗",job.source_url));
     pane.append(source);
   }
+  dialog.onclose = () => { if (anchor.isConnected) anchor.focus({preventScroll:true}); };
+  dialog.showModal();
+  dialog.scrollTop = 0;
 }
+
 function renderStats() {
   get("total-count").textContent = current.jobs.length;
   get("strong-count").textContent = current.jobs.filter(job => evidence(job).level === "strong").length;
   get("priority-count").textContent = current.jobs.filter(job => ["UK","Worldwide"].some(place => job.region.split(" / ").includes(place))).length;
 }
+
 function renderJobs() {
   const tokens = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  const jobs = current.jobs.filter(job => {
-    const words = [job.title,job.company,job.skills,job.role_family,job.location].join(" ").toLowerCase();
-    return (view !== "saved" || bookmarks.has(job.url)) && tokens.every(token => words.includes(token)) &&
-      (!region.value || (region.value === "Review needed" ? remoteReview(job) : job.region.split(" / ").includes(region.value))) &&
-      (!family.value || job.role_family.split(" / ").includes(family.value)) &&
-      (!fit.value || evidence(job).level === fit.value) && (!status.value || job.status === status.value);
+  const jobs = current.jobs.flatMap(job => {
+    const words = [job.title,job.company,job.skills,job.role_family,job.location,job.visa,job.work_model,job.engagement,job.salary,...(job.keywords || []),...(job.mandatory || [])].join(" ").toLowerCase();
+    const result = evidence(job);
+    if ((view === "saved" && !bookmarks.has(job.url)) || !tokens.every(token => words.includes(token)) ||
+      (region.value && !(region.value === "Review needed" ? remoteReview(job) : job.region.split(" / ").includes(region.value))) ||
+      (family.value && !job.role_family.split(" / ").includes(family.value)) ||
+      (fit.value && result.level !== fit.value) || (status.value && job.status !== status.value)) return [];
+    const cv = suggestedCV(job);
+    return [{job,result,cv,atsScore:ats(job,cv).score}];
   });
 
-  if (!jobs.some(job => job.url === selected)) selected = jobs.length && innerWidth > 760 ? jobs[0].url : null;
+  const sort = get("order").value;
+  if (sort === "profile") jobs.sort((a,b) => (b.result.profile ?? -1) - (a.result.profile ?? -1));
+  if (sort === "ats") jobs.sort((a,b) => (b.atsScore ?? -1) - (a.atsScore ?? -1));
+  if (sort === "posted") jobs.sort((a,b) => b.job.posted.localeCompare(a.job.posted));
+
   const list = get("list");
   list.replaceChildren();
-  for (const job of jobs) {
-    const row = el("div","","job-row");
-    const card = el("button","","job");
-    const chosen = job.url === selected;
-    const result = evidence(job);
-    card.type = "button";
-    card.setAttribute("aria-pressed",String(chosen));
-    card.setAttribute("aria-controls","details");
-    row.classList.toggle("selected",chosen);
-    const title = el("span",job.title,"job-title");
-    if (job.status === "New") title.append(el("span","New","badge new"));
-    card.append(title,el("span",[job.company,job.region,job.employment,job.salary].filter(Boolean).join(" · "),"job-sub"));
-    const side = el("span","","row-side");
-    side.append(el("span",labels[result.level],"badge "+result.level),outbound("Listing ↗",job.url));
-    row.append(card,side);
-    card.onclick = () => {
-      selected = job.url;
-      for (const item of list.children) {
-        item.classList.toggle("selected",item === row);
-        item.querySelector("button").setAttribute("aria-pressed",String(item === row));
-      }
-      displayDetails(job);
-      if (innerWidth <= 760) {
-        get("details").focus({preventScroll:true});
-        get("details").scrollIntoView({block:"start"});
-      }
-    };
+  for (const {job,result,cv,atsScore} of jobs) {
+    const row = el("tr");
+    row.dataset.job = "";
+    const titleCell = el("th");
+    titleCell.scope = "row";
+    const title = el("button",job.title,"table-job");
+    title.type = "button";
+    title.setAttribute("aria-haspopup","dialog");
+    titleCell.append(title);
+    const company = el("span",job.company || "Employer not stated","table-company");
+    if (job.status === "New") company.append(el("span","New","badge new"));
+    titleCell.append(company);
+    row.append(titleCell);
+    for (const score of [
+      scoreChip(result.profile,result.advertised.length + " advertised technical keywords"),
+      scoreChip(atsScore,cv?.name || "No scored CV available"),
+    ]) {
+      const cell = el("td");
+      cell.append(score);
+      row.append(cell);
+    }
+    for (const [,value] of fieldsFor(job).slice(0,5)) row.append(el("td",value || "Not stated",value ? "" : "table-unknown"));
+    const required = el("td");
+    if (job.mandatory?.length) {
+      required.append(el("span",job.mandatory[0],"table-requirement"));
+      if (job.mandatory.length > 1) required.append(el("span","+" + (job.mandatory.length - 1) + " more","more"));
+    } else required.append(el("span","Not captured","table-unknown"));
+    row.append(required);
+    row.onclick = () => showDetails(job,title);
     list.append(row);
   }
-  if (!jobs.length) list.append(el("p",view === "saved" ? "No saved jobs match this report and these filters." : "No opportunities match these filters.","empty"));
+  if (!jobs.length) {
+    const row = el("tr");
+    const cell = el("td",view === "saved" ? "No saved jobs match this report and these filters." : "No opportunities match these filters.","empty");
+    cell.colSpan = 9;
+    row.append(cell);
+    list.append(row);
+  }
   get("count").textContent = jobs.length + (jobs.length === 1 ? " listing" : " listings");
-  displayDetails(jobs.find(job => job.url === selected));
 }
 function renderReports() {
   const research = get("research");
@@ -301,7 +453,6 @@ function loadRun() {
   const families = [...new Set(current.jobs.flatMap(job => job.role_family.split(" / ")).filter(Boolean))].sort();
   family.replaceChildren(new Option("All roles",""),...families.map(name => new Option(name)));
   if (families.includes(priorFamily)) family.value = priorFamily;
-  selected = null;
   renderStats();
   renderJobs();
   renderReports();
@@ -344,81 +495,185 @@ async function cvOperation(mode, action) {
     });
   } finally { db.close(); }
 }
-function showCV(message) {
-  get("cv-status").textContent = message;
-  get("cv-name").hidden = !localCV;
-  get("cv-actions").hidden = !localCV;
-  get("cv-name").textContent = localCV ? localCV.name + " · " + Math.max(1,Math.round(localCV.size / 1024)).toLocaleString("en-GB") + " KB" : "";
+function library() {
+  const records = new Map(intake.map(item => [item.id,item]));
+  for (const [id,item] of overrides) records.set(id,item);
+  return [...records.values()].sort((a,b) => a.roles[0].localeCompare(b.roles[0]) || a.name.localeCompare(b.name));
 }
-function downloadCV() {
-  if (!localCV) return;
-  const fileURL = URL.createObjectURL(localCV);
+
+function downloadCV(file) {
+  if (!file) return;
+  const fileURL = URL.createObjectURL(file);
   const download = el("a");
   download.href = fileURL;
-  download.download = localCV.name;
+  download.download = file.name;
   document.body.append(download);
   download.click();
   download.remove();
   setTimeout(() => URL.revokeObjectURL(fileURL),2000);
 }
+
+function cvFeedback(id, message) {
+  const status = get(id);
+  status.textContent = message;
+  status.hidden = !message;
+}
+
+function showCVs() {
+  const list = get("cv-library");
+  const records = library();
+  list.replaceChildren();
+  for (const cv of records) {
+    const row = el("article","","cv-entry");
+    const column = el("div");
+    column.append(el("h3",cv.roles.join(" · ")),el("p",cv.name || "No file attached"));
+    const state = cv.file ? "In this browser" : intake.some(item => item.id === cv.id) ? "Intake folder on your PC" : "No file attached";
+    const keywords = cv.skills.length ? cv.skills.length + " ATS keywords" : "Add ATS keywords";
+    column.append(el("p",state + " · " + keywords));
+    const controls = el("div","","actions");
+    const edit = el("button","Edit role / keywords","action secondary");
+    edit.type = "button";
+    edit.onclick = () => editCV(cv);
+    const upload = el("button",cv.file ? "Replace CV" : "Upload CV","action secondary");
+    upload.type = "button";
+    upload.onclick = () => { uploadTarget = cv; get("cv-file").click(); };
+    controls.append(edit,upload);
+    if (cv.file) {
+      const download = el("button","Download","action secondary");
+      download.type = "button";
+      download.onclick = () => downloadCV(cv.file);
+      controls.append(download);
+    }
+    if (overrides.has(cv.id)) {
+      const undo = el("button",intake.some(item => item.id === cv.id) ? "Restore Intake" : "Remove","quiet");
+      undo.type = "button";
+      undo.onclick = async () => {
+        if (!window.confirm("Remove the browser copy and its role edits?")) return;
+        try {
+          await cvOperation("readwrite",store => store.delete(cv.id));
+          overrides.delete(cv.id);
+          showCVs();
+          renderStats();
+          renderJobs();
+          cvFeedback("cv-status","Browser copy removed.");
+        } catch { cvFeedback("cv-status","The CV could not be removed. Try again."); }
+      };
+      controls.append(undo);
+    }
+    row.append(column,controls);
+    list.append(row);
+  }
+  if (!records.length) list.append(el("p","Add a role and upload a CV to start comparing keywords.","empty"));
+}
+
 async function loadCV() {
   try {
-    const saved = await cvOperation("readonly",store => store.get("owner"));
-    if (!localCV && saved instanceof File) {
-      localCV = saved;
-      cvPersisted = true;
-      showCV("CV saved on this browser.");
-      renderJobs();
-    }
-  } catch { /* The upload can still be used during this session. */ }
-}
-get("cv-file").onchange = async event => {
-  const input = event.target;
-  const file = input.files[0];
-  if (!file) return;
-  if (!/\.(pdf|docx|txt)$/i.test(file.name) || file.size > 10 * 1024 * 1024 || !file.size) {
-    showCV("Choose a non-empty PDF, DOCX or TXT file up to 10 MB.");
-    input.value = "";
-    return;
-  }
-  input.disabled = true;
-  try {
-    await cvOperation("readwrite",store => store.put(file,"owner"));
-    cvPersisted = true;
-  } catch {
-    if (cvPersisted) {
-      showCV("The new CV could not be saved. Your previous CV is still available.");
-      input.value = "";
-      input.disabled = false;
-      return;
-    }
-  }
-  localCV = file;
-  showCV(cvPersisted ? "CV saved on this browser." : "CV ready for this session only.");
-  if (/\.txt$/i.test(file.name)) {
-    try {
-      const terms = " " + normalized(await file.text()) + " ";
-      const suggested = originalSkills.filter(skill => terms.includes(" " + normalized(skill) + " "));
-      if (suggested.length) {
-        get("profile-skills").value = suggested.join(", ");
-        get("skills-status").textContent = "Suggested skills from your CV. Review them and select Save skills.";
+    const saved = await cvOperation("readonly",store => store.getAll());
+    for (const record of saved) {
+      if (record instanceof File) {
+        if (!overrides.has("owner")) overrides.set("owner",{id:"owner",name:record.name,roles:["General"],skills:[],file:record});
+      } else if (record?.id && Array.isArray(record.roles) && Array.isArray(record.skills) && !overrides.has(record.id)) {
+        overrides.set(record.id,record);
       }
-    } catch { get("skills-status").textContent = "The CV text could not be read. You can edit the matching skills manually."; }
-  }
-  input.value = "";
-  input.disabled = false;
+    }
+  } catch { cvFeedback("cv-status","This browser could not open its saved CV library."); }
+  showCVs();
+  renderStats();
   renderJobs();
+}
+
+function editCV(cv) {
+  editingCV = cv || null;
+  get("cv-editor-title").textContent = cv ? "Edit CV role and keywords" : "Add role & CV";
+  get("cv-roles").value = cv?.roles.join(", ") || "";
+  get("cv-keywords").value = cv?.skills.join(", ") || "";
+  get("cv-new-file").value = "";
+  cvFeedback("cv-editor-status","");
+  get("cv-editor").showModal();
+}
+
+const validCV = file => /\.(pdf|docx|txt)$/i.test(file.name) && file.size > 0 && file.size <= 10 * 1024 * 1024;
+const assetURL = name => "/jobhunt?cv-asset=" + name;
+
+async function cvText(file) {
+  if (/\.txt$/i.test(file.name)) return file.text();
+  if (isOffline) return "";
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  if (/\.docx$/i.test(file.name)) {
+    const {unzipSync,strFromU8} = await import(assetURL("zip"));
+    const zipped = unzipSync(bytes,{filter:part => part.name === "word/document.xml" && part.originalSize <= 5 * 1024 * 1024});
+    const xml = zipped["word/document.xml"];
+    if (!xml) return "";
+    const doc = new DOMParser().parseFromString(strFromU8(xml),"application/xml");
+    const ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+    return [...doc.getElementsByTagNameNS(ns,"p")].map(p =>
+      [...p.getElementsByTagNameNS(ns,"t")].map(node => node.textContent).join("")).join("\n");
+  }
+  const pdfjs = await import(assetURL("pdf"));
+  pdfjs.GlobalWorkerOptions.workerSrc = assetURL("pdf-worker");
+  const task = pdfjs.getDocument({data:bytes,isEvalSupported:false,useWasm:false,disableFontFace:true,useWorkerFetch:false});
+  try {
+    const document = await task.promise;
+    const pages = [];
+    for (let index = 1; index <= Math.min(30,document.numPages); index++) {
+      const page = await document.getPage(index);
+      const content = await page.getTextContent();
+      pages.push(content.items.map(item => item.str || "").join(" "));
+    }
+    return pages.join("\n");
+  } finally { await task.destroy(); }
+}
+
+async function fileSkills(file) {
+  try {
+    const body = " " + normalized(await cvText(file)) + " ";
+    return vocabulary.filter(skill => body.includes(" " + normalized(skill) + " "));
+  } catch { return []; }
+}
+
+async function saveCV(record, file, entered, feedback, forceReparse = false) {
+  if (file && !validCV(file)) {
+    cvFeedback(feedback,"Choose a non-empty PDF, DOCX or TXT file up to 10 MB.");
+    return false;
+  }
+  cvFeedback(feedback,file ? "Reading and saving CV…" : "Saving CV role…");
+  const skills = file && (forceReparse || !entered.length) ? await fileSkills(file) : entered;
+  const item = {...record, name:file?.name || record.name, file:file || record.file, skills};
+  try {
+    await cvOperation("readwrite",store => store.put(item,item.id));
+  } catch {
+    cvFeedback(feedback,"The CV could not be saved in this browser. Try again.");
+    return false;
+  }
+  overrides.set(item.id,item);
+  showCVs();
+  renderStats();
+  renderJobs();
+  cvFeedback("cv-status",item.skills.length ? "CV library updated." : "CV role saved. Use Edit role / keywords to add terms for ATS scoring.");
+  return true;
+}
+
+get("add-cv").onclick = () => editCV();
+get("cv-form").onsubmit = async event => {
+  event.preventDefault();
+  const roles = split(get("cv-roles").value);
+  if (!roles.length) { cvFeedback("cv-editor-status","Enter at least one target job role."); return; }
+  const file = get("cv-new-file").files[0];
+  const skills = split(get("cv-keywords").value);
+  const record = {...(editingCV || {id:crypto.randomUUID(),name:""}),roles};
+  const unchangedKeywords = editingCV && skills.join(",") === editingCV.skills.join(",");
+  const submit = get("cv-submit");
+  submit.disabled = true;
+  try {
+    if (await saveCV(record,file,skills,"cv-editor-status",Boolean(file && unchangedKeywords))) get("cv-editor").close();
+  } finally { submit.disabled = false; }
 };
-get("download-cv").onclick = downloadCV;
-get("remove-cv").onclick = async () => {
-  try { await cvOperation("readwrite",store => store.delete("owner")); }
-  catch {
-    if (cvPersisted) { showCV("The saved copy could not be removed. Please try again."); return; }
-  }
-  localCV = null;
-  cvPersisted = false;
-  showCV("CV removed.");
-  renderJobs();
+get("cv-file").onchange = async event => {
+  const target = uploadTarget;
+  const file = event.target.files[0];
+  if (!target || !file) return;
+  event.target.value = "";
+  await saveCV(target,file,[],"cv-status",true);
 };
 get("save-skills").onclick = () => {
   const terms = split(get("profile-skills").value).filter(term => normalized(term));
@@ -428,15 +683,16 @@ get("save-skills").onclick = () => {
 get("reset-skills").onclick = () => updateSkills(originalSkills,"Original matching profile restored.");
 get("profile-skills").value = profileSkills.join(", ");
 get("sign-out").hidden = isOffline;
-showCV("No CV uploaded.");
+showCVs();
 for (const run of runs) get("run").add(new Option(formatDate(run.date),run.date));
 get("run").disabled = runs.length < 2;
 get("run").onchange = () => { current = runs.find(run => run.date === get("run").value); loadRun(); };
 query.oninput = renderJobs;
 for (const filter of filters.slice(1)) filter.onchange = renderJobs;
-get("reset").onclick = () => { for (const filter of filters) filter.value = ""; renderJobs(); query.focus(); };
+get("order").onchange = renderJobs;
+get("reset").onclick = () => { for (const filter of filters) filter.value = ""; get("order").value = ""; renderJobs(); query.focus(); };
 for (const button of document.querySelectorAll("[data-view]")) button.onclick = () => setView(button.dataset.view);
-get("open-profile").onclick = () => { setView("profile"); get("cv-file").focus(); };
+get("open-profile").onclick = () => { setView("profile"); get("add-cv").focus(); };
 loadRun();
 loadCV();
 </script>

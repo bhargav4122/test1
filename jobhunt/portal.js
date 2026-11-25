@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import { createHash, createHmac, randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { promisify } from 'node:util';
@@ -6,6 +7,12 @@ import { z } from 'zod';
 const scrypt = promisify(scryptCallback);
 const dashboard = new URL('./dashboard-template.html', import.meta.url);
 const signInPage = new URL('./sign-in.html', import.meta.url);
+const require = createRequire(import.meta.url);
+const cvAssets = new Map([
+  ['pdf', () => require.resolve('pdfjs-dist/build/pdf.min.mjs')],
+  ['pdf-worker', () => require.resolve('pdfjs-dist/build/pdf.worker.min.mjs')],
+  ['zip', () => require.resolve('fflate/package.json').replace(/package\.json$/, 'esm/browser.js')],
+]);
 const maxBytes = 3 * 1024 * 1024;
 const hashPattern = /^scrypt\$([0-9a-f]{32})\$([0-9a-f]{64})$/;
 export const secretPattern = /^[A-Za-z0-9_-]{43,128}$/;
@@ -15,6 +22,9 @@ const job = z.object({
   role_family: z.string(), skills: z.string(), eligibility_check: z.string(), posted: z.string(),
   employment: z.string(), salary: z.string(), timezones: z.string(), url: httpsUrl,
   source: z.string(), source_url: httpsUrl.or(z.literal('')),
+  work_model: z.string().optional(), visa: z.string().optional(), engagement: z.string().optional(),
+  official_url: httpsUrl.or(z.literal('')).optional(),
+  mandatory: z.array(z.string()).optional(), keywords: z.array(z.string()).optional(),
 });
 const check = z.object({
   title: z.string(), text: z.string(),
@@ -23,6 +33,11 @@ const check = z.object({
 const report = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   jobs: z.array(job),
+  profile_skills: z.array(z.string()).optional(),
+  vocabulary: z.array(z.string()).optional(),
+  cv_library: z.array(z.object({
+    id: z.string(), name: z.string(), roles: z.array(z.string()), skills: z.array(z.string()),
+  })).optional(),
   health: z.array(z.object({ source: z.string(), status: z.string() })),
   supplement: z.array(z.object({ title: z.string(), items: z.array(check) })),
 });
@@ -241,10 +256,20 @@ export function createPortal({
         return redirect(res);
       }
 
-      const view = new URL(req.url || '/', 'https://www.businessanddatasolutions.com').searchParams.get('view');
+      const params = new URL(req.url || '/', 'https://www.businessanddatasolutions.com').searchParams;
+      const view = params.get('view');
+      const asset = params.get('cv-asset');
       if (recovery && ['recover', 'reset', 'reset-complete'].includes(view)) return form(res, req, 200, view);
       if (setup || !signedIn(req, secure, sessionSecret, hash)) {
+        if (asset) return res.status(401).end();
         return form(res, req, 200, setup ? 'setup' : 'login', { recovery });
+      }
+      if (asset) {
+        const path = cvAssets.get(asset);
+        if (!path) return res.status(404).end();
+        res.setHeader('Content-Type', 'text/javascript; charset=utf-8');
+        res.setHeader('Content-Security-Policy', "default-src 'none'; script-src 'self'");
+        return req.method === 'HEAD' ? res.status(200).end() : res.status(200).send(await readFile(path(), 'utf8'));
       }
       if (req.method === 'HEAD') return res.status(200).end();
 
@@ -255,7 +280,7 @@ export function createPortal({
         .replace('__DASHBOARD_DATA__', () => content);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Content-Security-Policy', "default-src 'none'; script-src 'nonce-" + nonce +
-        "'; style-src 'nonce-" + nonce + "'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
+        "' 'self'; worker-src 'self'; style-src 'nonce-" + nonce + "'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
       return res.status(200).send(html);
     } catch {
       return res.status(503).send('Job Hunt is temporarily unavailable.');

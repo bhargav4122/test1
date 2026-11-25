@@ -18,7 +18,13 @@
     {
       "src": "api/jobhunt.js",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["jobhunt/dashboard-template.html", "jobhunt/sign-in.html"] }
+      "config": {
+        "includeFiles": [
+          "jobhunt/dashboard-template.html", "jobhunt/sign-in.html",
+          "node_modules/pdfjs-dist/build/pdf.min.mjs", "node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
+          "node_modules/fflate/package.json", "node_modules/fflate/esm/browser.js"
+        ]
+      }
     }
   ],
   "routes": [
