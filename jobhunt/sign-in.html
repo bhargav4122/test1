@@ -13,7 +13,7 @@ form{padding:23px 32px 31px;display:grid;gap:13px}p{margin:0;color:#526564}label
 input,button{width:100%;font:inherit;border-radius:7px;padding:10px 12px}input{border:1px solid #a8b9ac;background:#fff;color:#17302c}
 button{background:#176653;color:white;border:1px solid #176653;font-weight:700;cursor:pointer;margin-top:3px}
 :focus-visible{outline:3px solid #48987f;outline-offset:3px}.error{padding:9px 12px;background:#f9e8e3;color:#882e23;border-radius:6px}
-.hint{margin-top:4px;font-size:13px}
+.hint{margin-top:4px;font-size:13px}a{color:#176653;text-underline-offset:3px}.return{justify-self:start}button:disabled{opacity:.55;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -23,11 +23,11 @@ button{background:#176653;color:white;border:1px solid #176653;font-weight:700;c
 <p>__DETAIL__</p>
 __ERROR__
 <input type="hidden" name="action" value="__ACTION__">
-<div><label for="username">Username</label><input id="username" name="username" value="owner" autocomplete="username" readonly></div>
-<div><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="__AUTOCOMPLETE__" maxlength="128" required>__HINT__</div>
-__CONFIRM__
-<button type="submit">__BUTTON__</button>
+__FIELDS__
+__SUBMIT__
+__LINK__
 </form>
+__SCRIPT__
 </main>
 </body>
 </html>

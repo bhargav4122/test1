@@ -20,3 +20,8 @@ The existing GitHub integration handles Vercel deployments. Configure these valu
 | `JOBHUNT_STORE_ID` | Set by connecting the dedicated **Private** Blob with the `JOBHUNT` prefix |
 
 Vercel authenticates the server function to the dedicated Blob store with OIDC. A static store token is optional legacy configuration when the store ID is absent. Confirm that a signed-out browser can only load the sign-in form and that wrong passwords cannot retrieve the report. Use the local collector's `publish_dashboard.py` to send the first report after the private route has been verified. Keep credentials, report snapshots and CVs outside GitHub.
+## Password recovery
+
+Set the Production secret `JOBHUNT_RECOVERY_EMAIL` to the verified owner's recovery address. The existing `RESEND_API_KEY` must allow sending from the BDS domain. The public form returns the same response for matching and nonmatching addresses and sends mail only to the configured address. Requests for that address are limited to one every two minutes.
+
+A reset link expires after 20 minutes. The token travels in the URL fragment until the browser submits the form, and private Blob stores its digest only. A successful reset replaces the hosted password hash and invalidates existing sessions and links. The local preview uses its own local password file.
